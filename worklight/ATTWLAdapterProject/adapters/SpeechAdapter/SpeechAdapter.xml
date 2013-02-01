@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wl:adapter xmlns:wl="http://www.worklight.com/integration" xmlns:http="http://www.worklight.com/integration/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="SpeechAdapter">
+
+	<displayName>SpeechAdapter</displayName>
+	<description>SpeechAdapter</description>
+	<connectivity>
+		<connectionPolicy xsi:type="http:HTTPConnectionPolicyType">
+			<protocol>https</protocol>
+			<domain>api.att.com</domain>
+			<port>443</port>			
+		</connectionPolicy>
+		<loadConstraints maxConcurrentConnectionsPerNode="2"/>
+	</connectivity>
+
+	<procedure name="speechToText"/>
+
+	
+</wl:adapter>

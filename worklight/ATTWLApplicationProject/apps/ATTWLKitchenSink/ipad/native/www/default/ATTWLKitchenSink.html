@@ -1,0 +1,165 @@
+<!DOCTYPE html><html>    <!--
+	#
+	# Licensed to the Apache Software Foundation (ASF) under one
+	# or more contributor license agreements.  See the NOTICE file
+	# distributed with this work for additional information
+	# regarding copyright ownership.  The ASF licenses this file
+	# to you under the Apache License, Version 2.0 (the
+	# "License"); you may not use this file except in compliance
+	# with the License.  You may obtain a copy of the License at
+	#
+	# http://www.apache.org/licenses/LICENSE-2.0
+	#
+	# Unless required by applicable law or agreed to in writing,
+	# software distributed under the License is distributed on an
+	# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+	#  KIND, either express or implied.  See the License for the
+	# specific language governing permissions and limitations
+	# under the License.
+	-->
+    <head>
+
+        <link href="wlclient/css/wlclient.css" rel="stylesheet">
+        <link href="css/reset.css" rel="stylesheet" type="text/css">
+
+        <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+        <meta content="telephone=no" name="format-detection">
+
+        <meta content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width;" name="viewport">
+
+        <link href="css/index.css" rel="stylesheet" type="text/css">
+
+        <link href="css/style.css" rel="stylesheet">
+
+        <link href="css/jquery.mobile-1.1.1.css" rel="stylesheet">
+
+        <link href="css/main.css" rel="stylesheet">
+
+
+        <title>ATT Worklight Sample App</title>
+<!-- <script type="text/javascript" src="cordova-2.0.0.js"></script>   -->
+
+
+        <script type="text/javascript">
+		// Define WL namespace.
+		var WL = WL ? WL : {};
+
+		/**
+		 * WLClient configuration variables.
+		 * Values are injected by the deployer that packs the gadget.
+		 */
+		WL.StaticAppProps = {
+   "APP_DISPLAY_NAME": "ATTWLKitchenSink",
+   "APP_SERVICES_URL": "\/apps\/services\/",
+   "APP_VERSION": "1.0",
+   "ENVIRONMENT": "ipad",
+   "LOGIN_DISPLAY_TYPE": "embedded",
+   "WORKLIGHT_ROOT_URL": "\/apps\/services\/api\/ATTWLKitchenSink\/ipad\/"
+};</script>
+		<script src="wlclient/js/cordova.js"></script>
+		<script src="common/js/wljq.js"></script>
+		<script src="common/js/base.js"></script>
+		<script src="wlclient/js/messages.js"></script>
+		<script src="common/js/wlcommon.js"></script>
+		<script src="wlclient/js/diagnosticDialog.js"></script>
+		<script src="wlclient/js/deviceAuthentication.js"></script>
+		<script src="wlclient/js/window.js"></script>
+		<script src="wlclient/js/worklight.js"></script>
+		<script src="wlclient/js/wlclient.js"></script>
+		<script src="wlclient/js/wlfragments.js"></script>
+		<script src="wlclient/js/encryptedcache.js"></script>
+		<script src="wlclient/js/jsonstore/jsonstore.js"></script>
+		<script src="wlclient/js/checksum.js"></script>
+		<script src="wlclient/js/challengeHandlers/antiXSRFChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/authenticityChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/deviceAuthAutoProvisioningChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/deviceAuthNoProvisioningChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/remoteDisableChallengeHandler.js"></script>
+		<script src="wlclient/js/json2.js"></script>
+		<script src="wlclient/js/wlgap.ios.js"></script><script src="js/ATTWLKitchenSink.js" type="text/javascript"></script>
+<script src="js/accessToken.js" type="text/javascript"></script>
+<script src="js/lib/jquery-1.8.0.js" type="text/javascript"></script>
+<script src="js/lib/jquery.json-2.3.1.js" type="text/javascript"></script>
+
+ <!-- jQuery Mobile setup -->
+        
+        
+        
+<script type="text/javascript">
+	var page="ATTWLKitchenSink.html";
+	var title="";
+	function loadHTML(pageName) {
+						delete window.localStorage.speechFilePath;
+     				 	$('#pagePort').load(pageName,'',function(){});
+    			
+	}
+	
+</script>
+
+    </head>
+    <body id="content" onload="WL.Client.init({onSuccess: generateAccessToken})">
+	
+        <div id="pagePort">
+
+            <table cellpadding="0" cellspacing="0" class="apiTable">
+
+                <TBODY>
+                    <tr class="headerRow">
+			
+                        <td class="column"><strong>AT&amp;T API Platform</strong></td>
+                    </tr>
+                
+                    <tr class="row" onclick="loadHTML('sms.html')">
+                
+                        <td class="column">SMS</td>
+                
+                    </tr>
+      <!--      <tr class="row" onclick="loadHTML('mms.html')">
+                <td class="column">MMS</td>
+                </tr>                   
+		        <tr class="row" style="padding-top:50px" onclick="loadHTML('location.html')">
+			    <td class="column">Location</td>
+		        </tr>
+                <tr class="row" onclick="loadHTML('wap.html')">
+                <td class="column">WAP Push</td>
+                </tr>
+                <tr class="row" onclick="loadHTML('mobo.html')">
+                <td class="column">In App Messaging from Mobile Number</td>
+                </tr>      -->
+                
+                    <tr class="row" onclick="loadHTML('speech.html')">
+                
+                        <td class="column">Speech</td>
+                
+                    </tr>
+				
+                    <tr class="row" onclick="loadHTML('payment.html')">
+				
+                        <td class="column">Payment</td>
+				
+                    </tr>
+				
+                    <tr class="row" onclick="loadHTML('deviceCapabilities.html')">
+                
+                        <td class="column">Device Capabilities</td>
+                
+                    </tr>
+	
+                </TBODY>
+            </table>
+	
+        </div>
+        <script src="js/messages.js"></script>
+		<script src="js/auth.js"></script>
+		<script type="text/javascript">
+		function backNav(){
+			//WL.App.close();
+		}
+		</script>
+
+
+
+
+    </body>
+</html>

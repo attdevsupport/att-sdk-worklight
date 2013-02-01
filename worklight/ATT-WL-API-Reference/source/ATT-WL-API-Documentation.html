@@ -1,0 +1,1110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>The source code</title>
+  <link href="../resources/prettify/prettify.css" type="text/css" rel="stylesheet" />
+  <script type="text/javascript" src="../resources/prettify/prettify.js"></script>
+  <style type="text/css">
+    .highlight { display: block; background-color: #ddd; }
+  </style>
+  <script type="text/javascript">
+    function highlight() {
+      document.getElementById(location.hash.replace(/#/, "")).className = "highlight";
+    }
+  </script>
+</head>
+<body onload="prettyPrint(); highlight();">
+  <pre class="prettyprint lang-js"><span id='ATT'>/**
+</span> * @class ATT
+ * &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The current release of the AT&amp;T API platform exposes the following APIs:
+ *
+ * ¥ OAUTH
+ * 
+ * ¥  SMS
+ * 
+ * ¥  Payment
+ * 
+ * ¥  Speech
+ * 
+ * ¥  DeviceCapabilities
+ * 
+ * ¥  Notary
+ */
+<span id='SMSAdapter'>/**
+</span> * @class SMSAdapter &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The Short Message Service (SMS) API enables authorized applications to send SMS messages to devices on the AT&amp;T network. The API also allows applications to query the delivery status of SMS messages sent from an application.
+ *
+ *&lt;b&gt;Description:&lt;/b&gt;
+ *
+ *The SMS API enables you to target specific customers with alerts and information. Additionally, the SMS API can give your customers the ability to respond to your messages in near real-time.
+ *
+ *&lt;b&gt;Methods:&lt;/b&gt;
+ *
+ *1) getSMS
+ *
+ *2) getSMSDeliveryStatus
+ *
+ *3) sendSMS
+ *
+ */
+<span id='SMSAdapter-method-sendSMS'>/**
+</span> * @method sendSMS
+ * Sends an SMS message to a recipient.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is SMSAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is sendSMS.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that contain following Parameters.
+ * @param {String} invocationData.parameters.params.contentType Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ *
+ *- application/x-www-form-urlencoded
+ * 
+ * @param {Object} invocationData.parameters.params.body A JSON Object that contain the following Parameters:
+ * @param {String} invocationData.parameters.params.body.Address The MSISDN of the recipient(s).
+ * @param {String} invocationData.parameters.params.body.Message The text of the message to send.
+ * @param {String} invocationData.parameters.params.accept Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ *
+ * The default value is: application/json
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object}An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ * &lt;strong&gt;Examples:&lt;/strong&gt;
+ *
+ *&lt;b&gt;1.&lt;/b&gt; The following example of the sendSMS method uses a contentType of 'application/json'.
+ *
+ *      params={
+ *                  'body' : {
+ *                      &quot;Message&quot; : &lt;message value&gt;,
+ *                      &quot;Address&quot; : &quot;tel:xxxxxxxxxx&quot;
+ *                        },
+ *                  'contentType' : 'application/json',
+ *                  'accept' : 'application/json',
+ *                  'accessToken':&lt;put accessToken here&gt;
+ *               };
+ *      invocationData= {
+ *              adapter : 'SMSAdapter' ,
+ *              procedure : 'sendSMS' ,
+ *              parameters : [params]           
+ *      };
+ *      options = {
+ *               onSuccess : function(data) {
+ *                              var smsId = data.invocationResult.Id;
+ *                              cbData(data, smsId);
+ *              } ,
+ *              onFailure : function(error) {
+ *                               console.log(error);
+ *                              cbData(error);
+ *              } 
+ *      };
+ *      
+ *      WL.Client.invokeProcedure(invocationData, options);
+ *
+ *&lt;b&gt;2.&lt;/b&gt; The following example of the sendSMS method uses a contentType of 'application/xml'.
+ *
+ *
+ *          params={
+ *              &quot;body&quot;:&quot;&lt;SmsRequest&gt;&quot;+&quot;&lt;Address&gt;&quot;+&quot;tel:xxxxxxxxxx&quot;+&quot;&lt;/Address&gt;&quot;+&quot;&lt;Message&gt;&quot;+&lt;message value&gt;+&quot;&lt;/Message&gt;&quot;+&quot;&lt;/SmsRequest&gt;&quot;,
+ *              'contentType' : 'application/xml',
+ *              'accept' : 'application/json',
+ *              'accessToken':&lt;put accessToken here&gt;
+ *                  };
+ *      invocationData= {
+ *              adapter : 'SMSAdapter' ,
+ *              procedure : 'sendSMS' ,
+ *              parameters : [params]           
+ *      };
+ *      options = {
+ *               onSuccess : function(data) {
+ *                              var smsId = data.invocationResult.Id;
+ *                              cbData(data, smsId);
+ *              } ,
+ *              onFailure : function(error) {
+ *                               console.log(error);
+ *                              cbData(error);
+ *              } 
+ *      };
+ *      
+ *      WL.Client.invokeProcedure(invocationData, options);
+ *
+ * &lt;b&gt;3.&lt;/b&gt; The following example of the sendSMS method uses a contentType of 'application/x-www-form-urlencoded'.
+ *
+ *
+ *      params={
+ *                  &quot;body&quot;:&quot;Address=&quot;+encodeURIComponent(&quot;tel:xxxxxxxxxx&quot;)+&quot;&amp;Address=&quot;+encodeURIComponent(&quot;tel:xxxxxxxxxx&quot;)+&quot;&amp;Message=&quot;+encodeURIComponent(&lt;message value&gt;),
+ *                  'contentType' : 'application/x-www-form-urlencoded',
+ *                  'accept' : 'application/json',
+ *                  'accessToken':&lt;put accessToken here&gt;
+ *               };
+ *      invocationData= {
+ *              adapter : 'SMSAdapter' ,
+ *              procedure : 'sendSMS' ,
+ *              parameters : [params]           
+ *      };
+ *      options = {
+ *               onSuccess : function(data) {
+ *                              var smsId = data.invocationResult.Id;
+ *                              cbData(data, smsId);
+ *              } ,
+ *              onFailure : function(error) {
+ *                               console.log(error);
+ *                              cbData(error);
+ *              } 
+ *      };
+ *      
+ *      WL.Client.invokeProcedure(invocationData, options);
+ *
+ * &lt;i&gt;Note: xxxxxxxxxx represents an AT&amp;T wireless number&lt;/i&gt;
+ */
+ 
+
+<span id='SMSAdapter-method-getSMSDeliveryStatus'>/**
+</span> * @method getSMSDeliveryStatus
+ * Checks the status of a sent SMS message.
+ *
+ * A final state is reached when the DeliveryStatus field of a DeliveryInfo object is set to one of the following values::
+ *
+ *- DeliveredToTerminal
+ *
+ *- DeliveryImpossible
+ *
+ *- DeliveredToNetwork
+ *
+ * A single successful delivery status query can be made for a period of thirty minutes following the time a message DeliveryInfo object has been set to a final state. Thirty minutes after a query of the DeliveryInfo object has returned a final state, the DeliveryInfo object may not be available for query.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is SMSAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getSMSDeliveryStatus.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that contain following Parameters.
+ * @param {String} invocationData.parameters.params.smsId The SMS request id that is returned by the sendSMS method as part of the response object.
+ * @param {String} invocationData.parameters.params.accept Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ *
+ * The default value is: application/json
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object}An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ * &lt;strong&gt;Example:&lt;/strong&gt;
+ *
+ * The following is an example of the getSMSDeliveryStatus method.
+ *
+ *          params={
+ *                   'smsId':&lt;put smsId here&gt;,
+ *                  'accept' : 'application/json',
+ *                  'accessToken':&lt;put accessToken here&gt;
+ *          };
+ *          invocationData= {
+ *                  adapter : 'SMSAdapter' ,
+ *                  procedure : 'getSMSDeliveryStatus' ,
+ *                  parameters : [params]           
+ *          };
+ *          options = {
+ *                  onSuccess : function(data) {
+ *                                  cbData(data);
+ *                  } ,
+ *                  onFailure : function(error) {
+ *                                  console.log('error');
+ *                                   cbData(error);
+ *                  } 
+ *          };
+ *          
+ *          WL.Client.invokeProcedure(invocationData, options);
+ */
+<span id='SMSAdapter-method-getSMS'>/**
+</span> * @method getSMS
+ * Retrieves a list of SMS messages that were sent to the application's short code.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is SMSAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getSMS.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that contain following Parameters.
+ * @param {String} invocationData.parameters.params.registrationId The ID of the application which is a short code that is obtained when you register your application with AT&amp;T.
+ * @param {String} invocationData.parameters.params.accept Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ *
+ * The default value is: application/json
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in OAuthAdapter as part of the response object.
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object}An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ * &lt;strong&gt;Example:&lt;/strong&gt;
+ *
+ * The following is an example of the getSMS method.
+ *
+ *          params={
+ *                  'accept' : 'application/json',
+ *                  'registrationId' : &lt;shortCode value&gt;,
+ *                  'accessToken':&lt;put accessToken here&gt;
+ *          };
+ *          invocationData= {
+ *                  adapter : 'SMSAdapter' ,
+ *                  procedure : 'getSMS' ,
+ *                  parameters : [params]           
+ *          };
+ *          options = {
+ *                  onSuccess : function(data) {
+ *                                  console.log('success : ' + JSON.stringify(data));
+ *                                  cbData(data);
+ *                  } ,
+ *                  onFailure : function(error) {
+ *                                  console.log('error');
+ *                                   cbData(error);
+ *                  }
+ *          };
+ *          
+ *          WL.Client.invokeProcedure(invocationData, options);
+ */
+
+
+
+
+
+<span id='OAuthAdapter'>/**
+</span> * @class OAuthAdapter &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The AT&amp;T OAuth service provides a safe and secure way for AT&amp;T subscribers to access AT&amp;T network resources through a third-party application without the risk of compromising security. The OAuth service ensures that secure, sensitive, and private AT&amp;T subscription related details are not exposed to the third-party application.
+ *
+ * OAuth authorization management is an open standard recognized as providing a strong protection to clients and applications. The OAuth service provides developers with a security model that allows them to obtain an authorization code and an access token. By acquiring an authorization code, a resource owner has authorized an application to access a protected resource on their behalf. The receipt of an access token enables an application to access a protected resource on behalf of a resource owner via the AT&amp;T network.
+ *
+ * The AT&amp;T OAuth service allows third party applications access to the private resources of subscribers without requiring the end-user to provide credentials (such as username and password) to the third party application. An application that is implemented with Oauth, provides a closer and more secure integration with the AT&amp;T API Platform.
+ *
+ * &lt;b&gt;Methods:&lt;/b&gt;
+ *
+ * 1) getAccessToken
+ * 
+ * 2) getAuthCode
+ */
+
+<span id='OAuthAdapter-method-getAccessToken'>/**
+</span> * @method getAccessToken
+ *
+ * Returns accessToken.
+ *
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is OAuthAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getAccessToken.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that contain following Parameters.
+ * @param {String} invocationData.parameters.params.accept Specifies the format of the body of the response. value must be application/json
+ * @param {String} invocationData.parameters.params.contentType value must be application/x-www-form-urlencoded.
+ * @param {String} invocationData.parameters.params.code The authCode generated from getAuthCode method of OAuthAdapter Adapter&lt;b&gt;(Required for DeviceCapabilities only)&lt;/b&gt;.
+ * @param {String} invocationData.parameters.params.refreshToken The refreshToken that is returned by the getAccessToken method in OAuthAdapter as part of the response object.
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} A JSON object containing the response.
+ *
+ *    &lt;b&gt;Example:&lt;/b&gt;
+ *
+ * The following is an example of the getAccessToken method.
+ *           var params = {
+ *                accept:'application/json'
+ *             };
+ *             invocationData= {
+ *                 adapter : 'AuthCodeAdapter' ,
+ *                 procedure : 'getAccessToken' ,
+ *                 parameters : [params]           
+ *             };
+ *            options = {
+ *                 onSuccess : function(data) {
+ *                    var accessToken  = data.invocationResult.accessToken;
+ *             } ,
+ *                 onFailure : function(error) {} 
+ *             };
+ *  
+ *      WL.Client.invokeProcedure(invocationData, options);
+ */
+
+<span id='OAuthAdapter-method-getAuthCode'>/**
+</span> * @method getAuthCode
+ * The getAuthCode method obtains an OAuth access token. The getAuthCode operation is the initial operation in the OAuth call flow. It is invoked by an application that requires subscriber authorization in order to obtain an OAuth access token. The application request for an authorization token is forwarded by redirecting the subscriber's browser (via a redirect URL) to the AT&amp;T Gateway OAuth Server. Next, the subscriber provides authorization to allow a key to be provided to the application. The application passes this key and the required authorization scope as query parameters in the redirect URL. The scope parameter enumerates the network services that the application is requesting to access on behalf of the AT&amp;T mobile subscriber.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is OAuthAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getAuthCode.
+ * @param {Array}  invocationData.parameters An empty Array. 
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the url value that application need to open in webView.
+ *
+ *    &lt;b&gt;Example:&lt;/b&gt;
+ *
+ * The following is an example of the getAccessToken method.
+ *             invocationData= {
+ *                 adapter : 'AuthCodeAdapter' ,
+ *                 procedure : 'getAuthCode' ,
+ *                 parameters : []           
+ *                 };
+ *            options = {
+ *                 onSuccess : function(data) {} ,
+ *                 onFailure : function(error) {} 
+ *            };
+ *  
+ *      WL.Client.invokeProcedure(invocationData, options);
+ */
+
+
+<span id='PaymentAdapter'>/**
+</span> * @class PaymentAdapter &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The Payment API provides developers and merchants the ability to charge digital services directly to an AT&amp;T subscriber bill for payment.
+ *
+ * &lt;b&gt;Description:&lt;/b&gt;
+ *
+ * Using the Payment API, a merchant can create new transactions and subscriptions, get the status of the transaction or subscription, and authorize refunds.
+ *
+ * The new transaction and new subscription process includes:
+ *
+ *- Authentication of the end-user as an AT&amp;T Subscriber.
+ *
+ *- Presentation of an Advice-of-Charge (AOC) page and the opportunity to cancel.
+ *
+ *  If the Subscriber chooses to accept the Charge, a Thank You message is presented.
+ *
+ * The merchant also has the option of automatically receiving notifications of refunds and subscription changes triggered through other AT&amp;T systems. Applications in the initial Sandbox state have lower limits on the quantity of transactions. All Sandbox payment transactions are refunded weekly. Further, in the Sandbox environment, a developer may set certain attributes for the application that would not be available to the developer in the Production environment. Once an application has been promoted to the Production state, however, a more secure environment is maintained where most of the attributes are read-only and can only be changed by the AT&amp;T administrator. Organizations must have a Merchant Account set up for the Payment Service to work. If your organization does not have a Merchant Account please contact your Organizational Profile Administrator to arrange for one.
+ *
+ *&lt;b&gt;Usage:&lt;/b&gt;
+ *
+ * Use the Notary API to sign the payment request.
+ *
+ * Redirect the user agent to the AT&amp;T server to obtain consent.
+ *
+ * Get the response, either an authorization code or an error, through the redirect back from the consent process.
+ *
+ * Use the getTransactionStatus or getSubscriptionStatus methods with the authorization code to get the transaction id which is needed for refunds.
+ *
+ *&lt;b&gt;Methods:&lt;/b&gt;
+ *
+ *1) deleteNotification
+ *
+ *2) getNotification
+ *
+ *3) getSubscriptionDetails
+ *
+ *4) getSubscriptionStatus
+ *
+ *5) getTransactionStatus
+ *
+ *6) newSubscription
+ *
+ *7) newTransaction
+ *
+ *8) refundTransaction
+ */
+
+<span id='PaymentAdapter-method-newTransaction'>/**
+</span> * @method newTransaction Creates a new payment transaction for a one time product purchase (i.e. transactionType = SINGLE_PURCHASE).
+ *
+ *Before this method can be invoked, the application must call Notary.signedPayload and provide a payload containing the parameters (i.e. name-value-pairs) necessary to complete the purchase process.
+ *
+ *The Notary.signedPayload method will return the result in either JSON or XML format as designed by the HTTP Header Accept included in the request to sign the document. The response will contain two name-value-pairs which will be utilized in formulating the request for this method.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is newTransaction.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.signedDocument The value of this parameter should be the value of SignedDocument that is returned by the Notary.signedPayload method.
+ * @param {String} invocationData.parameters.params.signature The value of this parameter should be the value of Signature that is returned by the Notary.signedPayload method.
+ * @param {String} [invocationData.parameters.params.aceept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the url value that application need to open in webView.
+ *
+ * &lt;b&gt;Example:&lt;/b&gt;
+ * 
+ * The following is an example of the newTransaction method.
+ *
+ *          var params = {
+ *          'signature' : &lt;signature value returned from Notary API&gt;,
+ *          'signedDocument' : &lt;signedDocument value returned from Notary API&gt;,
+ *          };
+ *         var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;newTransaction&quot;,
+ *          parameters : [ params ]
+ *          };
+ *         options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ * 
+ */
+<span id='PaymentAdapter-method-newSubscription'>/**
+</span> * @method newSubscription The newSubscription method sets up recurring charges for a specified amount, at a specified interval, for a specified number of times.
+ *
+ * The method authorizes both the merchant and the user of the subscription, and initializes the product and price data for of the transaction..
+ *
+ * Before this operation can be invoked, the application must call the Notary.signedPayload method and provide a payload containing the required parameters (i.e. name-value-pairs) necessary to complete the purchase process.
+ *
+ * The Notary.signedPayload method will return the result in either JSON or XML format, as defined in the HTTP Header &quot;Accept&quot; included in the request to sign the document. The result will contain two name-value-pairs which will be utilized in formulating the request for this method.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is newSubscription.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.signedDocument The value of this parameter should be the value of SignedDocument that is returned by the Notary.signedPayload method.
+ * @param {String} invocationData.parameters.params.signature The value of this parameter should be the value of Signature that is returned by the Notary.signedPayload method.
+ * @param {String} [invocationData.parameters.params.aceept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the url value that application need to open in webView.
+ * 
+ *  &lt;b&gt;Example:&lt;/b&gt;
+ * 
+ * The following is an example of the newSubscription method.
+ *
+ *          var params = {
+ *          'signature' : &lt;signature value returned from Notary API&gt;,
+ *          'signedDocument' : &lt;signedDocument value returned from Notary API&gt;,
+ *          };
+ *         var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;newSubscription&quot;,
+ *          parameters : [ params ]
+ *          };
+ *         options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ * 
+ */
+
+<span id='PaymentAdapter-method-getTransactionStatus'>/**
+</span> * @method getTransactionStatus Retrieves the status and all relevant information of a previously executed transaction.
+ *
+ * Three different identifiers may be used:
+ *
+ *- TransactionId returned by a previous call to Get Transaction Status
+ *
+ *- TransactionAuthCode returned at the end of the Merchant Payment Acknowledgement process
+ *
+ *- MerchantTransactionId specified in the initial call to the Notary.SignedPayload
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getTransactionStatus.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.idType  Possible values are TransactionId, MerchantTransactionId, or TransactionAuthCode
+ * @param {String} invocationData.parameters.params.id  The TransactionId, MerchantTransactionId, or TransactionAuthCode value.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object}An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ *  &lt;b&gt;Example:&lt;/b&gt;
+ * 
+ * The following is an example of the getTransactionStatus method.
+ *
+ *      var params = {
+ *          'idType':&lt;idType can be TransactionAuthCode,MerchantTransactionId, or TransactionId&gt;,
+ *          'id' : &lt;value of idType&gt;,
+ *          'accessToken' : 'Bearer ' + &lt;accessToken value&gt;,
+ *          'accept':'application/json'
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;getTransactionStatus&quot;,
+ *          parameters : [ params ]
+ *      };
+ *     options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ *
+ * Note : To get the TransactionStatus,User can  pass any of the below mentioned ID :
+ *
+ * 1)           &quot;transactionAuthCode&quot; : &quot;The value returned by AT&amp;T to the Developer‚Äôs Application Service upon successful conclusion of the Payment.newTransaction request&quot;
+ *
+ * 2)           &quot;merchantTransactionId&quot; : &quot;The MerchantTransactionId specified in the initial call to the Notary.signedPayload&quot;
+ *
+ * 3)           &quot;transactionId&quot; : &quot; The TransactionId returned by a previous call to Get Transaction Status&quot;
+ */
+
+<span id='PaymentAdapter-method-getSubscriptionStatus'>/**
+</span> * @method getSubscriptionStatus Retrieves the status of a previously executed call to the newSubscription method. The TransactionId from the previously executed newSubscription method call is used to retrieve the status of the subscription. This means that the TransactionIds from any new subscriptions must be stored in order to retrieve the status of those subscriptions. This method returns the status as well as several other fields related to the purchase.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getSubscriptionStatus.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.idType  Possible values are SubscriptionId, MerchantTransactionId, or SubscriptionAuthCode
+ * @param {String} invocationData.parameters.params.id  The SubscriptionId, MerchantTransactionId, or SubscriptionAuthCode value.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken
+ *  @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ *  &lt;b&gt;Example:&lt;/b&gt;
+ * 
+ * The following is an example of the getSubscriptionStatus method.
+ *
+ *       var params = {
+ *          'idType':&lt;idType can be TransactionAuthCode,MerchantTransactionId, or TransactionId&gt;,
+ *          'id' : &lt;value of idType&gt;,
+ *          'accessToken' : 'Bearer ' + &lt;accessToken value&gt;,
+ *          'accept':'application/json'
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;getSubscriptionStatus&quot;,
+ *          parameters : [ params ]
+ *      };
+ *     options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ *
+ * Note : To get the SubscriptionStatus,User can  pass any of the below mentioned ID :
+ *
+ * 1)           &quot;subscriptionAuthCode&quot; : &quot;The value returned by AT&amp;T to the Developer‚Äôs Application Service at upon successful conclusion of the Payment.newSubscription request&quot;
+ *
+ * 2)           &quot;merchantTransactionId&quot; : &quot;The MerchantTransactionId specified in the initial call to the Notary.signedPayload&quot;
+ *
+ * 3)          &quot;subscriptionId&quot; : &quot;The subscriptionId returned by a previous call to Get Subscription Status&quot;
+ *
+ */
+
+<span id='PaymentAdapter-method-refundTransaction'>/**
+</span> * @method refundTransaction Refunds the value of a transaction to the original consumer. The refundTransaction method can be invoked through the merchant application and will automatically pass without additional approvals.
+ *
+ * There are specific limits configured on the number of refunds within a day, week, and month. These limits are configured for a merchant account in the AT&amp;T payment system.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is refundTransaction.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {Object} invocationData.parameters.params.body A JSON object containing the following properties:
+ * @param {String} invocationData.parameters.params.body.TransactionOperationStatus The value of this parameter must be &quot;Refunded&quot;.
+ * @param {String} invocationData.parameters.params.body.RefundReasonCode A code that specifies a reason for the refund. Must be one of the values in a predefined list.
+ * @param {String} invocationData.parameters.params.body.RefundReasonText A description of the reason for the refund.
+ * @param {String} invocationData.parameters.params.transactionId The original transaction ID of the transaction for the refund request.
+ * @param {String} invocationData.parameters.params.action Specifies an action. The value of this parameter must always be set to &quot;refund&quot;.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken
+ *  @param {String} invocationData.parameters.params.contentType Specifies the type of content to be sent,Valid values are:application/json,application/xml,application/x-www-form-urlencoded
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ *  &lt;strong&gt;Examples:&lt;/strong&gt;
+ *
+ * &lt;b&gt;1.&lt;/b&gt; The following example of the refundTransaction method uses a contentType of 'application/json'.
+ * 
+ * 
+ *       var params = {
+ *          &quot;body&quot;:{
+ *                  &quot;TransactionOperationStatus&quot;:&lt;TransactionOperationStatus value&gt;,
+ *                  &quot;RefundReasonCode&quot;:&lt;value&gt;,
+ *                  &quot;RefundReasonText&quot;: &lt;RefundReasonText value&gt;
+ *
+ *          },
+ *          &quot;transactionId&quot; : &lt;transactionId value&gt;,
+ *          &quot;contentType&quot; : &lt;contentType value&gt;,
+ *          &quot;action&quot; : &lt;action value&gt;,
+ *          'accept' : 'application/json',
+ *          'accessToken' : 'Bearer ' + &lt;accessToken value&gt;
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;refundTransaction&quot;,
+ *          parameters : [ params ]
+ *      };
+ *     options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ *
+ * &lt;b&gt;2.&lt;/b&gt; The following example of the refundTransaction method uses a contentType of 'application/xml'.
+ * 
+ * 
+ *       var params = {
+ *          &quot;body&quot;:&quot;&lt;RefundTransactionRequest&gt;&lt;TransactionOperationStatus&gt;value&lt;/TransactionOperationStatus&gt;&lt;RefundReasonCode&gt;value&lt;/RefundReasonCode&gt;&lt;RefundReasonText&gt;value&lt;/RefundReasonText&gt;&lt;/RefundTransactionRequest&gt;&quot;,
+ *          &quot;transactionId&quot; : &lt;transactionId value&gt;,
+ *          &quot;contentType&quot; : &lt;contentType value&gt;,
+ *          &quot;action&quot; : &lt;action value&gt;,
+ *          'accept' : 'application/json',
+ *          'accessToken' : 'Bearer ' + &lt;accessToken value&gt;
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;refundTransaction&quot;,
+ *          parameters : [ params ]
+ *      };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ *
+ */
+
+<span id='PaymentAdapter-method-getSubscriptionDetails'>/**
+</span> * @method getSubscriptionDetails Retrieves the details for a merchant subscription to which a consumer has subscribed. Merchants who manage consumers can use this method to determine the details of a subscriptions for a particular consumer.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getSubscriptionDetails.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.consumerId Identifies the consumer that is to use the subscription. The ConsumerId is a unique user id generated in the payment system representing a unique subscriber.
+ * @param {String} invocationData.parameters.params.merchantSubscriptionId Identifies the the merchant‚Äôs subscription. This must be a unique value for each merchant subscription.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ *  &lt;b&gt;Example:&lt;/b&gt;
+ *
+ * The following is an example of the getSubscriptionDetails method.
+ *      var params = {
+ *          'consumerId' : &lt;consumerId value&gt;,
+ *          'merchantSubscriptionId' : &lt;merchantSubscriptionId value&gt;,
+ *
+ *          'accessToken' : 'Bearer ' + &lt;accessToken value&gt;
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;getSubscriptionDetails&quot;,
+ *          parameters : [ params ]
+ *        };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ *
+ */
+
+<span id='PaymentAdapter-method-getNotification'>/**
+</span> * @method getNotification Retrieves a notification object that has been received in a prior notification message as a result of having the server listening for notification messages.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getNotification.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.notificationId The ID of the notification to be retrieved.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken 
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ *  &lt;b&gt;Example:&lt;/b&gt;
+ * 
+ * The following is an example of the getNotification method.
+ *
+ *      var params = {
+ *          'notificationId' : &lt;notificationId value&gt;,
+ *          'accessToken' : 'Bearer '+&lt;accessToken value&gt;
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;getNotification&quot;,
+ *          parameters : [ params ]
+ *       };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ */
+
+<span id='PaymentAdapter-method-deleteNotification'>/**
+</span> * @method deleteNotification Deletes the receipt of a notification and requests that further notifications be stopped for a particular NotificationID.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is PaymentAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is deleteNotification.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.notificationId The ID of the notification to be retrieved.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ *  &lt;b&gt;Example:&lt;/b&gt;
+ *
+ * The following is an example of the deleteNotification method.
+ *
+ *      var params = {
+ *          'notificationId' : &lt;notificationId value&gt;,
+ *          'accessToken' : 'Bearer '+&lt;accessToken value&gt;
+ *      }
+ *      var invocationData = {
+ *          adapter : &quot;PaymentAdapter&quot;,
+ *          procedure : &quot;deleteNotification&quot;,
+ *          parameters : [ params ]
+ *       };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ */
+
+
+
+
+<span id='NotaryAdapter'>/**
+</span> * @class NotaryAdapter &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The Notary API is used to digitally sign content or data. The digital signing mechanism of the Notary API uses a token hash, a time stamp, and a nonce, to ensure that the sender of the data is who they say they are, and that the associated content indisputably came from the application that sent it and not from an imposter.
+ *
+ *&lt;b&gt;Description:&lt;/b&gt;
+ *
+ * The Notary API is used to encode and sign documents in a secure and tamper resistant manner. This operation must be used to encode and secure the payment detail information when using the New Transaction and New Subscription methods of the Payment API.
+ *
+ *&lt;b&gt;Usage:&lt;/b&gt;
+ *
+ * The signedPayload method must be used to generate the inputs for the Payment.newTransaction and Payment.newSubscription methods.
+ *
+ *&lt;b&gt;Methods:&lt;/b&gt;
+ *
+ *1) signedPayload
+ * @extends ATT
+ */
+
+<span id='NotaryAdapter-method-signedPayload'>/**
+</span> * @method signedPayload This API method treats the payload as an arbitrary set of text content. This method operation is used in conjunction with the newTransaction or newSubscription (Payment API) invocations of the AT&amp;T Payment API.
+ *
+ *When calling the signedPayload method, your application is required to identify which of the standard HTTP content types (such as XML or JSON) is used to encode the document. Upon receipt of the payload body, the AT&amp;T API Gateway will repackage the content into a standard format before encoding and signing the payload for a response. After the AT&amp;T API unpacks and validates the payload content, any parameters associated with the payload are determined and the content is repackaged. The content type of the result is independent of the original content type as provided by the application.
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is NotaryAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getSignedPayload.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {Object} invocationData.parameters.params.data A JSON Object(for contentType application/json) containing the following properties:
+ * @param {String} invocationData.parameters.params.data.Amount The amount of the transaction expressed with a maximum of two decimal places. For example: 0.99 or 2.99.
+ * @param {String} invocationData.parameters.params.data.Category The Product Category. One of the values from a predefined list.
+ * @param {String} invocationData.parameters.params.data.Channel The channel through which the payload is delivered. The only supported value is MOBILE_WEB.
+ * @param {String} invocationData.parameters.params.data.Description A short description of the entire Purchase. The maximum length of the String is 128 characters.
+ * @param {String} invocationData.parameters.params.data.MerchantTransactionId The transaction ID in the merchant‚Äôs system. The ID must be unique for every purchase request, and consist of alphanumeric text.
+ * @param {String} invocationData.parameters.params.data.MerchantProductId The product identifier, assigned by the merchant, of the product to be purchased. The maximum length of the String is 50 alphanumeric characters.
+ * @param {String} invocationData.parameters.params.data.MerchantPaymentRedirectUrl The URL where control is returned to your application by the AT&amp;T Gateway. The merchant application must listen at this URL for redirects from the subscriber‚Äôs browser.
+ * @param {String} invocationData.parameters.params.data.MerchantSubscriptionIdList A list of merchant subscription identifiers. The maximum length of the string is 12 alphanumeric characters.
+ * @param {String} invocationData.parameters.params.data.IsPurchaseOnNoActiveSubscription Indicates whether the purchase was made on a non-active subscription. For this release, the value of this property must be set to FALSE.
+ * @param {String} invocationData.parameters.params.data.SubscriptionRecurrences For this release, the value of this property must be set to 99999.
+ * @param {String} invocationData.parameters.params.data.SubscriptionPeriod The interval at which the subscription is charged. For this release, the value of this property must be set to MONTHLY.
+ * @param {String} invocationData.parameters.params.data.SubscriptionPeriodAmount The number of periods, as specified in the SubscriptionPeriod property, that pass between each renewal. For this release, the value of this property must be set to 1.
+ * @param {String} invocationData.parameters.params.contentType The content type of the request. Valid values are::
+ *
+ *- application/json
+ *
+ *- application/xml
+ *
+ *- application/x-www-form-urlencoded
+
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ * &lt;b&gt;Example:&lt;/b&gt;
+ * 
+ * &lt;b&gt;1.&lt;/b&gt;The following is an example of the signedPayload method for contentType application/json.
+ *
+ *      var notaryData = {
+ *          &quot;Amount&quot; : &lt;Amount value&gt;,
+ *          &quot;Category&quot; : &lt;Category value&gt;,
+ *          &quot;Channel&quot; : &lt;Channel value&gt;,
+ *          &quot;Description&quot; : &lt;Description value&gt;,
+ *          &quot;MerchantTransactionId&quot; : &lt;MerchantTransactionId value&gt;,
+ *          &quot;MerchantProductId&quot; : &lt;MerchantProductId value&gt;,
+ *          &quot;MerchantPaymentRedirectUrl&quot; : &lt;MerchantPaymentRedirectUrl value&gt;,
+ *          &quot;MerchantSubscriptionIdList&quot; : &lt;MerchantSubscriptionIdList value&gt;,
+ *          &quot;IsPurchaseOnNoActiveSubscription&quot; : &lt;IsPurchaseOnNoActiveSubscription value&gt;,
+ *          &quot;SubscriptionRecurrences&quot; : &lt;SubscriptionRecurrences value&gt;,
+ *          &quot;SubscriptionPeriod&quot; : &lt;SubscriptionPeriod value&gt;,
+ *          &quot;SubscriptionPeriodAmount&quot; : &lt;SubscriptionPeriodAmount value&gt;
+ *      };
+ *     var requestData = {
+ *          'contentType' : 'application/json',
+ *          'accept' : 'application/json',
+ *          'data' : notaryData
+ *       };
+ *      var invocationData = {
+ *          adapter : &quot;NotaryAdapter&quot;,
+ *          procedure : &quot;getSignedPayload&quot;,
+ *          parameters : [ requestData ]
+ *        };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ * 
+ * 
+ * &lt;b&gt;2.&lt;/b&gt;The following is an example of the signedPayload method for contentType application/xml.
+ *
+ *      var notaryData = &quot;&lt;NewTransactionRequest&gt;&lt;Amount&gt;value&lt;/Amount&gt;&lt;Category&gt;value&lt;/Category&gt;&lt;Channel&gt;value&lt;/Channel&gt;&lt;Description&gt;value&lt;/Description&gt;&lt;MerchantTransactionId&gt;value&lt;/MerchantTransactionId&gt;&lt;MerchantProductId&gt;value&lt;/MerchantProductId&gt;&lt;MerchantPaymentRedirectUrl&gt;value&lt;/MerchantPaymentRedirectUrl&gt;&lt;/NewTransactionRequest&gt;&quot;
+ *      var requestData = {
+ *          'contentType' : 'application/xml',
+ *          'accept' : 'application/json',
+ *          'data' : notaryData
+ *       };
+ *      var invocationData = {
+ *          adapter : &quot;NotaryAdapter&quot;,
+ *          procedure : &quot;getSignedPayload&quot;,
+ *          parameters : [ requestData ]
+ *        };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);
+ */
+
+
+<span id='SpeechAdapter'>/**
+</span> * @class SpeechAdapter &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The Speech API enables authorized applications to transcribe speech (audio) to text. The developer can influence the results by passing a speech context in the request.
+ *
+ * &lt;b&gt;Description:&lt;/b&gt;
+ *
+ *The Speech API is a service which accepts audio data and returns the text representation of that audio. The text output can then be processed by different speech contexts to produce text results that represent that speech context. Each speech context is tuned to produce results more suitable for a given scenario.
+ *
+ * &lt;b&gt;Methods:&lt;/b&gt;
+ *
+ *1) speechToText
+ * @extends ATT
+ */
+
+<span id='SpeechAdapter-method-speechToText'>/**
+</span> * @method speechToText
+ * Returns a text translation of the specified audio file using the specified speech context. The audio file must have one of the following sets of constraints: 16 bit PCM WAV, single channel, 8 kHz sampling, or AMR (narrowband), 12.2 kbit/s, 8 kHz sampling.
+ *
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} callbacks A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is SpeechAdapter.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is speechToText.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that has the follwing properties.
+ * @param {String} invocationData.parameters.params.fileObject base-64 encoded file data.
+ * @param {String} invocationData.parameters.params.accessToken The accessToken that is returned by the getAccessToken method in AuthCodeAdapter as part of the response object.It should be sent as 'Bearer '+accessToken
+ * @param {String} [invocationData.parameters.params.XSpeechContent] Specifies the speech context to be applied to the transcribed text. Valid values are:
+ *
+ *- Generic
+ *
+ *- UVerseEPG
+ *
+ *- BusinessSearch
+ *
+ *- Websearch
+ *
+ *- SMS
+ *
+ *- Voicemail
+ *
+ *- QuestionAndAnswer
+ *
+ * The default value is: Generic
+ * 
+ *Note: The UverseEPG value can be used in a broader range of TV applications, not just for Uverse applications.
+ * @param {String} invocationData.parameters.params.contentType The content type of the audio file. Valid values are:
+ *
+ *- audio/wav
+ *
+ *- audio/amr
+ * 
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ *
+ * @param {Number} invocationData.parameters.params.contentLength &lt;b&gt;(IOS only).&lt;/b&gt;This header parameter is only required for the &lt;b&gt;non-streaming request.&lt;/b&gt;
+ * @param {Function} callbacks.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} callbacks.onFailure The callback function that is called when the method returns an error.
+ * @return {Object} An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ * &lt;b&gt;Example:&lt;/b&gt;
+ *
+ * The following is an example of the speechToText method.
+ *
+ *      var params = {
+ *              &quot;fileObject&quot; : &lt;base-64 encoded audioData&gt;,
+ *              &quot;accessToken&quot; : &quot;Bearer &quot; + &lt;accessToken value&gt;,
+ *              &quot;contentType&quot; : &lt;audioType value&gt;,
+ *              &quot;XSpeechContent&quot; : &lt;value&gt;,
+ *              &quot;accept&quot; : &quot;application/json&quot;
+ *          };
+ *      
+ *      var invocationData = {
+ *              adapter : 'SpeechAdapter',
+ *              procedure : 'speechToText',
+ *              parameters : [params]
+ *       };
+ *      options = {
+ *                 onSuccess : function(data) {
+ *                   } ,
+ *                 onFailure : function(error) {} 
+ *      };
+ *      WL.Client.invokeProcedure(invocationData,options);   
+ */
+
+<span id='DeviceCapabilitiesAdapter'>/**
+</span> * @class DeviceCapabilitiesAdapter &lt;b&gt;Introduction:&lt;/b&gt;
+ *
+ * The AT&amp;T Device Capabilities API provides an effective way to identify the end-user's device and the capabilities of the device so that you can develop apps that provide the best possible user experience and support.
+ *
+ * &lt;b&gt;Methods:&lt;/b&gt;
+ *
+ *  getDeviceCapabilities
+ */
+
+<span id='DeviceCapabilitiesAdapter-method-getDeviceCapabilities'>/**
+</span> * @method getDeviceCapabilities
+ *
+ * @param {Object} invocationData A JSON object containing the following properties:
+ * @param {Object} options A JSON Object containing the success and Failure callbacks.
+ * @param {String} invocationData.adapter Name of the adapter,value of adapter is DeviceCapabilities.
+ * @param {String} invocationData.procedure name of the procedure,value of procedure is getDeviceCapabilities.
+ * @param {Array}  invocationData.parameters An Array that contains a JSON Object.
+ * @param {Object} invocationData.parameters.params A JSON Object that contain following Parameters.
+ * @param {String} invocationData.parameters.params.Authorization The Authorization is the access token generated from accesstoken adapter by passing oauth token as code parameter and grant-type as authorization_code in the body.
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the body of the response. Valid values are:
+ *
+ *- application/json
+ *
+ *- application/xml
+ * 
+ * The default value is: application/json
+ * @param {Function} options.onSuccess The callback function that is called when the method returns success.
+ * @param {Function} options.onFailure The callback function that is called when the method returns an error.
+ *
+ *    &lt;b&gt;Example:&lt;/b&gt;
+ *
+ * The following is an example of the getDeviceCapabilities method.
+ *
+ *             params={
+ *                  'accept' : 'application/json',
+ *                  'oAuthToken' : 'Bearer ' + &lt;accessToken value&gt;
+ *                 };
+ *             invocationData= {
+ *                 adapter : 'DeviceCapabilities' ,
+ *                 procedure : 'getDeviceCapabilities' ,
+ *                 parameters : [params]           
+ *                 };
+ *            options = {
+ *                 onSuccess : successCallback ,
+ *                 onFailure : failureCallback
+ *                 invocationContext : {}
+ *      };
+ *  
+ *      WL.Client.invokeProcedure(invocationData, options);
+ *
+ * @return {Object}  An object containing the response. The format of the response (JSON or XML) is specified by the value of the accept parameter in the request.
+ *
+ */</pre>
+</body>
+</html>

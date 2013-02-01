@@ -1,0 +1,184 @@
+
+        <script type="text/javascript" src="js/speech.js"></script>
+        <script type="text/javascript">
+        page = "speech.html";
+		title = "SPEECH";
+		var fileName = "recordedAudio.amr";
+           function backNav(){
+           	   WL.App.resetBackButton();
+               $('#pagePort').load("ATTWLKitchenSink.html #pagePort",'',function(){});
+           }
+        function openDialog(responseText, SpeechId)
+        {
+        	window.localStorage.response = JSON.stringify(responseText);
+            $('#pagePort').load("popup.html");
+            alert('ResponseText:'+ JSON.stringify(responseText));
+            }
+            
+			function getFile() {
+                $("#pagePort").load("filebrowse.html");
+            }
+			
+			$(document).ready(function() {
+                showSelectedFileName();
+            });
+           
+           function showSelectedFileName()
+           {
+               var fileSelected = window.localStorage.speechFilePath;
+               if(fileSelected!== undefined)
+               {
+                   document.getElementById('fileSelected').innerHTML = '';
+                   var lastindex = fileSelected.lastIndexOf("/");
+                   var fileName =  fileSelected.substring(lastindex+1,(fileSelected.length));
+                   document.getElementById('fileSelected').innerHTML = 'Selected File : ' +  fileName ;
+                   
+               }
+               
+           }
+			
+			function readSpeechFile(file){
+			var FileReader = cordova.require('cordova/plugin/FileReader');
+				var reader = new FileReader();
+				reader.onloadend = function(evt) {
+					busyInd.show();
+					console.log("Read as data URL");
+					console.log(evt.target.result);
+					audioData = evt.target.result;
+					var lastindex = file.lastIndexOf("/"); 
+        			var fileName =  file.substring(lastindex+1,(file.length));
+					var fileExt= "audio/" + fileName.substring(fileName.lastIndexOf('.')+1,(fileName.length));
+					speechToText(audioData,fileExt, openDialog);
+					}
+				reader.readAsDataURL(file);
+			}
+
+			function speech() {
+			 
+				if(window.localStorage.speechFilePath!==undefined)
+				{
+					if(window.localStorage.accessToken===undefined)
+					{
+						generateAccessToken(function(){
+							readSpeechFile(window.localStorage.speechFilePath);
+						});
+					}
+					else
+					{
+						readSpeechFile(window.localStorage.speechFilePath);
+					}
+				}
+			}
+			
+			function textforshortcode() {
+				$("#header").css("header");
+			}
+				function startRecording() {
+
+		var args = [ {
+			filePath : "/mnt/sdcard/"+fileName,
+			audioChannels : 1,
+			samplingRate : 8000,
+			encodingBitRate : 1220
+		} ]
+		Cordova.exec(null, null, "Recorder", "start", args);
+		$('#record').text('Recording.....').button("refresh");
+	}
+
+	function stopRecording() {
+		window.localStorage.speechFilePath = "/mnt/sdcard/"+fileName;
+		Cordova.exec(null, null, "Recorder", "stop", [ {} ]);
+		$('#record').text('Start Recording').button("refresh");
+
+		
+	}
+	function playRecording() {
+		// Play the audio file at url
+		var my_media = new Media("/mnt/sdcard/"+fileName,
+		// success callback
+		function() {
+			console.log("playAudio():Audio Success");
+		},
+		// error callback
+		function(err) {
+			console.log("playAudio():Audio Error: " + err);
+		});
+
+		// Play audio
+		my_media.play();
+	}
+		</script>
+	 	<div id="speech">
+		<div class="header">
+			<span class="backbutton"><span class="innerText" onclick="backNav();">Back</span></span>
+			<span class="headerTitle" style="margin-left:130px;">Speech</span>
+		</div>
+		<div class="body" align="center">
+            <br/>
+		 <!-- <span id="selectedFile">
+                <p id="fileSelected">Please Choose File</p>
+            </span>  
+            <br/>  -->
+			<table class="table">
+			<tr class="trow">
+
+				<td class="tcol"><button type="button" class="submitlarge"
+						id="record" onclick="startRecording();" style="margin-left: 10px;">Start
+						Recording</button></td>
+			</tr>
+			<tr class="trow">
+
+				<td class="tcol"><button type="button" class="submitlarge"
+						onclick="stopRecording();" style="margin-left: 10px;">Stop
+						Recording</button></td>
+			</tr>
+			<tr class="trow">
+
+				<td class="tcol"><button type="button" class="submitlarge"
+						onclick="playRecording();" style="margin-left: 10px;">Play
+						Audio</button></td>
+			</tr>
+				<!-- <tr class="trow">
+
+					<td class="tcol">
+					<button type="button" class="submitlarge" onclick="getFile();" style="margin-left:10px;">
+						Choose File
+					</button></td>
+				</tr>  -->
+				<tr class="trow">
+
+					<td class="tcol">
+					<button type="button" class="submitlarge" onclick="speech()" style="margin-left:10px;">
+						Speech
+					</button></td>
+				</tr>
+			</table>
+		</div>
+		</div>
+        <!--  
+       <div id="fileBrowser">
+        <div id="home" data-role="page">
+            <div data-role="header" data-position="fixed">
+               <!-- <a id="backBtn" data-rel="back" data-icon="arrow-l">Back</a>
+                              <h1>File Explorer</h1>
+                <a id="homeBtn"  onclick="show('speech','fileBrowser');" data-icon="home" >Close</a>
+            </div>
+            <div data-role="content" data-position="auto">
+                <div class="ui-grid-c" id="dirContent">
+             
+                </div>
+              <!--   <a id="menu" href="#menuOptions" data-rel="dialog">file details</a>
+            </div>
+        </div>
+        
+        <!--   
+        <div id="menuOptions" data-role="page">
+            <div data-role="header">
+                <h1>Choose</h1>
+            </div>
+            <div data-role="content">
+                <input type="button" id="openBtn" data-theme="e" value="Open">
+                                    </div>
+        </div>
+	</div>-->
+		
