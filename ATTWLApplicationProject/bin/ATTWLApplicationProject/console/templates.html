@@ -1,0 +1,48 @@
+<!-- Licensed Materials - Property of IBM
+	 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+	 US Government Users Restricted Rights - Use, duplication or
+	 disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
+             
+<script id="uploadMessagesForMultipleLanguagesTemplate" type="text/html">
+	<div id="uploadMessagesForMultipleLanguagesContainer">
+		<div id="uploadMessagesForMultipleLanguagesBackground"></div>
+		<div id="uploadMessagesForMultipleLanguagesDialog">
+			<h1 id="uploadMessagesForMultipleLanguagesDialogTitle" class="translate"></h1>
+			<dl>
+				<dt id="defaultMessageTextTitle" class="translate"></dt>
+				<dd id="defaultMessageText">{{message}}&nbsp;</dd>
+			</dl>
+			<hr />
+			<h4 id="uploadMessagesForMultipleLanguagesDialogP1" class="translate"></h4>
+			<h4 id="uploadMessagesForMultipleLanguagesDialogP2" class="translate"></h4>
+
+			<div id="uploadMessagesForMultipleLanguagesMiddleContainer">
+				<dl id="supportedLanguagesList">
+					<dt id="supportedLanguagesTitle" class="translate"></dt>
+					{{#multiLanguageMessages}}
+					<dd>
+						<a href="#" onclick="displayTranslate('{{message}}')" title="{{message}}">
+							<span class="locale">{{locale}}</span><span class="language">{{language}}</span>
+						</a>
+					</dd>
+					{{/multiLanguageMessages}}
+				</dl>
+				<div id="uploadMessagesForMultipleLanguagesButtonsContainer">
+					<form id="submitMultiLanguageMessagesFile" method="post" action="#" enctype="multipart/form-data">
+						<button id="uploadMessagesForMultipleLanguagesButton" class="translate"></button><br/><br/>
+						<button id="clearMessagesForMultipleLanguages" class="translate"></button>
+						<input type="file" id="multiLanguageMessagesFile" name="multiLanguageMessagesFile" style="display:none"/>
+					</form>
+				</div>
+			</div>
+
+			<!-- p id="uploadMessagesForMultipleLanguagesDialogP3" class="translate helpText"></p -->
+			<dl>
+				<dt id="translation" class="translate"></dt>
+				<dd id="translationText">&nbsp;</dd>
+			</dl>
+			<button id="saveUploadMessagesForMultipleLanguages" class="translate"></button>
+			<button id="cancelUploadMessagesForMultipleLanguages" class="translate"></button>
+		</div>
+	</div>
+</script>

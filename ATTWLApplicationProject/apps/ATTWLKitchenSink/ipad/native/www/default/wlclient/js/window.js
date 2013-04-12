@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/window.js in Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -64,8 +64,8 @@ WL.DialogWindow.prototype = {
 	// position the dialog in the middle of the screen
 	viewportWidth = WLJSX.getViewportWidth();
 	viewportHeight = WLJSX.getViewportHeight();
-	dialogWidth = WLJSX.width(dialog);
-	dialogHeight = WLJSX.height(dialog);
+	dialogWidth = WLJQ(dialog).outerWidth();
+	dialogHeight = WLJQ(dialog).outerHeight();
 
 	WLJSX.css(dialog, {
 	    left : viewportWidth / 2 - dialogWidth / 2 + 'px',

@@ -2,17 +2,16 @@
         <script type="text/javascript" src="js/speech.js"></script>
         <script type="text/javascript">
         page = "speech.html";
-		title = "SPEECH";
+		title = "Speech To Text";
            function backNav(){
            	   WL.App.resetBackButton();
                $('#pagePort').load("ATTWLKitchenSink.html #pagePort",'',function(){});
            }
-        function openDialog(responseText, SpeechId)
-        {
-        	window.localStorage.response = JSON.stringify(responseText);
-            $('#pagePort').load("popup.html");
-            alert('ResponseText:'+ JSON.stringify(responseText));
-            }
+			function openDialog(responseText, SpeechId)
+			{
+				window.localStorage.response = JSON.stringify(responseText, null, 3);
+			    $('#pagePort').load("popup.html");
+			}
             
 			function getFile() {
                 $("#pagePort").load("filebrowse.html");

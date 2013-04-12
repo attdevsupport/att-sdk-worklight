@@ -2,7 +2,7 @@
 /* JavaScript content from common/js/wlcommon.js in Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -582,7 +582,7 @@ WL.BrowserDetect.init();
 /* JavaScript content from common/js/wlcommon.js in iphone Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -602,56 +602,60 @@ WL.BusyIndicator = WLJSX.Class.create({
      * 
      */
     initialize : function(containerId, options) {
-	WL.Validators.validateOptions({
-	    text : 'string',
-	    bounceAnimation : 'boolean',
-	    opacity : 'number',
-	    textColor : 'string',
-	    strokeOpacity : 'number',
-	    fullScreen : 'boolean',
-	    boxLength : 'number',
-	    duration : 'number',
-	    minDuration : 'number'
-	}, options, 'new WL.BusyIndicator');
-
-	this.__options = {
-	    text : WL.ClientMessages.loading,
-	    fullScreen : false
-	};
-	this.__visible = false;
-	if (containerId && typeof containerId !== 'string') {
-	    WL.Logger.error("BusyIndicator constructor expects first argument to be typeof \'string\' instead of " + typeof containerId);
-	}
-	if (!WLJSX.Object.isUndefined(options)) {
-	    this.__options = WLJSX.Object.extend(this.__options, options);
-	}
+		WL.Validators.validateOptions({
+		    text : 'string',
+		    bounceAnimation : 'boolean',
+		    opacity : 'number',
+		    textColor : 'string',
+		    strokeOpacity : 'number',
+		    fullScreen : 'boolean',
+		    boxLength : 'number',
+		    duration : 'number',
+		    minDuration : 'number'
+		}, options, 'new WL.BusyIndicator');
+	
+		this.__visible = false;
+		
+		this.__options = {
+		    text : WL.ClientMessages.loading,
+		    fullScreen : false
+		};
+		
+		if (containerId && typeof containerId !== 'string') {
+		    WL.Logger.error("BusyIndicator constructor expects first argument to be typeof \'string\' instead of " + typeof containerId);
+		}
+		if (!WLJSX.Object.isUndefined(options)) {
+		    this.__options = WLJSX.Object.extend(this.__options, options);
+		}
     },
 
     show : function() {
-	if (this.__options.textColor && this.__options.textColor.indexOf("#") == 0) {
-	    this.__options.textColor = this.__options.textColor.substr(1);
-	}
-	this.__visible = true;
-	cordova.exec(null, null, "NotificationEx", "loadingStart", [{
-	    labelText : this.__options.text,
-	    textColor : this.__options.textColor,
-	    strokeOpacity : this.__options.strokeOpacity,
-	    backgroundOpacity : this.__options.opacity,
-	    fullScreen : this.__options.fullScreen,
-	    boxLength : this.__options.boxLength,
-	    bounceAnimation : this.__options.bounceAnimation,
-	    duration : this.__options.duration,
-	    minDuration : this.__options.minDuration
-	}]);
+    	this.__visible = true;
+    	
+		if (this.__options.textColor && this.__options.textColor.indexOf("#") == 0) {
+		    this.__options.textColor = this.__options.textColor.substr(1);
+		}
+		
+		cordova.exec(null, null, "NotificationEx", "loadingStart", [{
+		    labelText : this.__options.text,
+		    textColor : this.__options.textColor,
+		    strokeOpacity : this.__options.strokeOpacity,
+		    backgroundOpacity : this.__options.opacity,
+		    fullScreen : this.__options.fullScreen,
+		    boxLength : this.__options.boxLength,
+		    bounceAnimation : this.__options.bounceAnimation,
+		    duration : this.__options.duration,
+		    minDuration : this.__options.minDuration
+		}]);
     },
 
     hide : function() {
-	cordova.exec(null, null, "NotificationEx", "loadingStop", []);
-	this.__visible = false;
+    	this.__visible = false;
+    	cordova.exec(null, null, "NotificationEx", "loadingStop", []);
     },
 
     isVisible : function() {
-	return this.__visible;
+    	return this.__visible;
     }
 
 });

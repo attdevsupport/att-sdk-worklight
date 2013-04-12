@@ -2,12 +2,15 @@
 /* JavaScript content from wlclient/js/messages.js in Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
 
 /* Copyright (C) Worklight Ltd. 2006-2012.  All rights reserved. */
+
+// The following tag is required by the Check PII tool.
+// NLS_CHARSET=UTF-8
 
 WL.ClientMessages = {
     // a
@@ -18,7 +21,7 @@ WL.ClientMessages = {
     // b
     browserIsNotSupported : '{0} is currently not supported.',
     // c
-    challengeProcessorExists : 'Realm "{0}" has too many implmentors, please check your code',
+    challengeProcessorExists : 'Realm "{0}" has too many implementors.  Please check your code',
     close : 'Close',
     cookiesAreDisabled : 'Cookies are currently disabled in your browser. You must enable them for the application to function properly.',
     copyToClipboard : 'Copy',
@@ -34,7 +37,7 @@ WL.ClientMessages = {
     diagScreenResolution : "Screen Resolution",
     diagAirplaneMode : "Airplane Mode",
     diagUsingNetwork : "Using Network",
-    diagWifiName : "Wifi Name",
+    diagWifiName : "WiFi Name",
     diagMobileNetworkType : "Mobile Network Type",
     diagCarrierName : "Carrier Name",
     diagErrorCode : "Error Code",
@@ -90,7 +93,7 @@ WL.ClientMessages = {
     reload : 'Reload',
     restore : 'Restore',
     requestTimeout : 'The application failed connecting to the service.',
-    responseNotRecognized : 'Response cannot be parsed, please contact support',
+    responseNotRecognized : 'Unexpected response.',
     // s
     settings : 'Settings',
     serverError : 'Procedure invocation error.',

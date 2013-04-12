@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Licensed Materials - Property of IBM
-			 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
-			 US Government Users Restricted Rights - Use, duplication or
-             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
 <!-- Attribute "id" must be identical to application folder name -->
-<application xmlns="http://www.worklight.com/application-descriptor" id="ATTWLKitchenSink" platformVersion="5.0.5">
+<application xmlns="http://www.worklight.com/application-descriptor" id="ATTWLKitchenSink" platformVersion="5.0.6">
     <displayName>ATTWLKitchenSink</displayName>
     <description>This is the sample application for AT&amp;T Worklight Adapters</description>
     <author>
@@ -17,14 +13,14 @@
     <width>320</width>
     <mainFile>ATTWLKitchenSink.html</mainFile>
     <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
-    <iphone bundleId="com.ATTWLKitchenSink" version="1.0">
+    <iphone bundleId="com.ATTWLKitchenSink" version="2.3">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
         </security>
     </iphone>
-    <android version="1.0">
+    <android version="2.3">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
@@ -32,12 +28,12 @@
             <publicSigningKey>Replace this text with the public key of the certificate with which you sign the APK. For details see the Worklight Developer's Reference Guide.</publicSigningKey>
         </security>
     </android>
-    <ipad bundleId="com.ATTWLKitchenSink" version="1.0">
+    <ipad bundleId="com.ATTWLKitchenSink" version="2.3">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
         </security>
     </ipad>
-    <worklightServerRootURL>http://${local.IPAddress}:8080</worklightServerRootURL>
+    <worklightServerRootURL>http://127.0.0.1:8080</worklightServerRootURL>
 </application>

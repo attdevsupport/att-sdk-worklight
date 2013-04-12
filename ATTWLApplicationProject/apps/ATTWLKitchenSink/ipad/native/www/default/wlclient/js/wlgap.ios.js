@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/wlgap.ios.js in ipad Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
@@ -807,7 +807,7 @@ WL.App._showDirectUpdateErrorMessage = function(message) {
 
 WL.Device.getNetworkInfo = function(callback) {
     WL.Validators.validateArguments([ 'function' ], arguments, 'WL.Device.getNetworkInfo');
-    return cordova.exec(callback, callback, "NetworkDetector", "getNetworkInfo", []);
+    cordova.exec(callback, callback, "NetworkDetector", "getNetworkInfo", []);
 };
 
 WL.App.copyToClipboard = function(text) {
@@ -815,8 +815,22 @@ WL.App.copyToClipboard = function(text) {
     cordova.exec("WLApp.copyToClipboard", text);
 };
 
-WL.App.readUserPref = function(key, successCallback, failCallback) {
-    return cordova.exec(successCallback, failCallback, "WLApp", "readUserPref", [ key ]);
+//Takes: key, options OR key, successCallback, failCallback
+WL.App.readUserPref = function(key, options) {
+
+    if (typeof options === "object" &&
+        typeof options.onSuccess === "function" &&
+        typeof options.onFailure === "function") {
+
+        cordova.exec(options.onSuccess,
+           options.onFailure, "WLApp", "readUserPref", [ key ]);
+        
+        return;
+    }
+
+    var successCallback = (typeof options === 'function') ? options : function () {},
+    	failCallback = arguments[2] || function() {};
+    cordova.exec(successCallback, failCallback, "WLApp", "readUserPref", [ key ]);
 };
 
 WL.App.writeUserPref = function(key, value) {
@@ -1014,4 +1028,12 @@ WL.App.__deviceAuth = function(data, successCallback, failureCallback) {
 
 WL.App.getInitParameters = function(parameters, successCallback, failCallback) {
     return cordova.exec(successCallback, failCallback, "WLApp", "getInitParameters", [ parameters ]);
+};
+
+WL.DeviceAuth.__getDeviceUUID = function(successCallback, failureCallback) {
+	cordova.exec(function () {
+		cordova.exec(successCallback, failureCallback, "DeviceAuth", "getDeviceUUID", []);
+	}, function () {
+		WL.Logger.error("__getDeviceUUID - failed to get device UUID");
+	}, "DeviceAuth", "init", []);
 };

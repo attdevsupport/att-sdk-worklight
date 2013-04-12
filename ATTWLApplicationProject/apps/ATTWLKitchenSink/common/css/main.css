@@ -191,6 +191,7 @@
 {
 	height:auto;
 	width:100%;
+	overflow:auto;
 }
 
 .body .notificationDiv{
@@ -255,3 +256,31 @@
 
 /*End Css for Sms.html*/
 
+/*Css for advertisment.html*/
+
+/*body {
+        background-color: #eeeeee;
+}*/
+
+.body.noscroll {
+    height:auto;
+}
+
+.body select {
+    width:200px;
+    margin: 6px;
+    margin-left:-50px;
+    height:32px;
+    font-size:16px;
+    -moz-box-shadow:inset 2px 2px 5px #ccc;
+    box-shadow:inset 2px 2px 5px #ccc;
+    border:1px solid #b8b8b8;
+    -webkit-border-radius:0px;
+}
+
+.body .label {
+        font-family:arial;
+        font-size:16px;
+}
+
+/*End Css for ads.html*/

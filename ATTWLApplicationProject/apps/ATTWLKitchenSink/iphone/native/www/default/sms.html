@@ -88,9 +88,10 @@
 			}
 			else
 			{
+			    window.localStorage.sendSmsAddress = $("#number").val();
+			    window.localStorage.sendSmsMessage = $("#message").val();
 				sendSMS(AddString, message, openDialog,busyInd);
 			}
-			
 		};
 	
 		function getSmsStatus() {
@@ -129,7 +130,7 @@
 		function openDialog(responseText, smsId) {
 		
 			 $('#pagePort').load("popup.html",'',function(){});
-			window.localStorage.response = JSON.stringify(responseText);
+			window.localStorage.response = JSON.stringify(responseText, null, 3);
 			if (smsId != "" && smsId != undefined) {
 				messageId = smsId;
 				window.localStorage.messageId = JSON.stringify(messageId);

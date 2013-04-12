@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/wlclient.js in Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
@@ -39,6 +39,7 @@ __WLClient = function() {
     var REQ_PATH_GET_APP_UPDATES = "updates";
     var REQ_PATH_COMPOSITE = "composite";
     var REQ_PATH_APP_VERSION_ACCESS = "appversionaccess";
+    var REQ_PATH_BACKEND_INVOKE = "/../../invoke";
 
 
     // The div id under which application content should reside.
@@ -66,7 +67,11 @@ __WLClient = function() {
     this.__chMap = {};
 
     this.__globalHeaders = {};
-
+    
+    var __isSettingsEnabled = false;
+    var __locale;
+    var __androidScreenSize = {};
+    
     var initOptions = {
         onSuccess : function() {
         },
@@ -75,7 +80,7 @@ __WLClient = function() {
         timeout : 0,
         enableLogger : true,
         minAppWidth : 170,
-        heartBeatIntervalInSecs : 20 * 60,
+        heartBeatIntervalInSecs : 7 * 60,
         onUnsupportedVersion : onUnsupportedVersion,
         onUnsupportedBrowser : onUnsupportedBrowser,
         onDisabledCookies : onDisabledCookies,
@@ -154,6 +159,9 @@ __WLClient = function() {
     // general
     // onFailure, in this case it has to handle all exceptions.
     function onDefaultInitFailure(response) {
+    	if (response.errorCode == WL.ErrorCode.CONNECTION_IN_PROGRESS) {
+    		return;
+    	}
         WL.Logger.error("Client init failed. " + response.errorMsg);
         var errMsg = (response.errorMsg == WL.ClientMessages.authFailure ? response.errorMsg
                 : WL.ClientMessages.unexpectedError);
@@ -644,7 +652,8 @@ __WLClient = function() {
     this.__showBusy = function() {
         if (busyIndicator && !busyIndicator.isVisible()) {
             var env = WL.Client.getEnvironment();
-            if (WL.EnvProfile.isEnabled(WL.EPField.MOBILE) && env != WL.Env.WINDOWS_PHONE && env != WL.Env.BLACKBERRY) {
+            if (WL.EnvProfile.isEnabled(WL.EPField.MOBILE) &&
+                env != WL.Env.WINDOWS_PHONE && env != WL.Env.WINDOWS_PHONE_8 && env != WL.Env.BLACKBERRY) {
                 WL.Utils.addBlackDiv();
             }
             busyIndicator.show();
@@ -839,7 +848,9 @@ __WLClient = function() {
 
         busyIndicator = new WL.BusyIndicator(initOptions.busyOptions ? initOptions.busyOptions.container : null,
                 initOptions.busyOptions);
-
+		if (!isIOSEnv() && wlInitOptions.connectOnStartup) {
+        	WL.Client.__showBusy();
+        }
         WLJSX.Ajax.WLRequest.options.timeout = initOptions.timeout;
         if (WL.Client.getEnvironment() != WL.Env.MOBILE_WEB) {
             WLJSX.Ajax.WLRequest.setConnected = setConnected.bind(this);
@@ -1018,7 +1029,7 @@ __WLClient = function() {
         if (!options.timeout) {
             options.timeout = WL.AppProp.WLCLIENT_TIMEOUT_IN_MILLIS;
         }
-
+        
         // ////////////////////////////////////////////////////////////////
         // Set user's JavaScript initialization code to options.onSuccess
         // ////////////////////////////////////////////////////////////////
@@ -1069,13 +1080,13 @@ __WLClient = function() {
             }.bind(this),
             timeout : initOptions.timeout
         };
-
+        
         // All the devices which are Cordova based have to wait for the
         // 'deviceready' event
         // to make sure that the Cordova functionality is initialized.
         if (WL.EnvProfile.isEnabled(WL.EPField.USES_CORDOVA)) {
-            if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE) {
-                // Windows Phone 7 does not support custom events
+            if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE || WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE_8) {
+                // Windows Phone 7 / 8 does not support custom events
                 WLJSX.bind(document, __WL.InternalEvents.REACHABILITY_TEST_SUCCESS, this.connect.bind(this,
                         connectOptions));
                 WLJSX.bind(document, __WL.InternalEvents.REACHABILITY_TEST_FAILURE, onMobileConnectivityCheckFailure
@@ -1088,13 +1099,8 @@ __WLClient = function() {
             }
 
             var cordovaInit = function(event) {
-
                 WL.Logger.debug("ondeviceready event dispatched");
-                if (WL.Client.getEnvironment() == WL.Env.ANDROID) {
-                    // read the version pref
-                    WL.App.readUserPref("appVersionPref", cordovaInitCallback, cordovaInitCallback);
-
-                } else if ((WL.Client.getEnvironment() == WL.Env.IPHONE) || (WL.Client.getEnvironment() == WL.Env.IPAD)) {
+                if ((WL.Client.getEnvironment() == WL.Env.IPHONE) || (WL.Client.getEnvironment() == WL.Env.IPAD) || (WL.Client.getEnvironment() == WL.Env.ANDROID)) {
                     WL.App.getInitParameters("appVersionPref,wlSkinName,wlSkinLoaderChecksum", cordovaInitCallback);
                 } else {
                     cordovaInitCallback(null);
@@ -1111,10 +1117,42 @@ __WLClient = function() {
             };
 
             var cordovaInitCallback = function(returnedData) {
+        		navigator.globalization.getLocaleName(function(locale){
+        			__locale = locale.value;
+            	}, function(){});
+
+            	if (WL.Client.getEnvironment() == WL.Env.ANDROID) {
+            		cordova.exec(function(value){
+            			__isSettingsEnabled = value  == "true" ? true : false;
+            		}, 
+            		null, "Utils", "readPref", [ "enableSettings" ]);
+            		
+            		//get the size first
+            		WL.App.getScreenSize(function(data){
+        	    		__androidScreenSize = data;
+        	        });
+            		
+            		//register listener for resize
+            		window.addEventListener("resize", function() {
+            	    	WL.App.getScreenSize(function(data){
+            	    		__androidScreenSize = data;
+            	        });
+            	    });
+            	}
+            	
                 onEnvInit(options);
                 if (WL.Client.getEnvironment() == WL.Env.ANDROID) {
                     if (returnedData !== null && returnedData !== "") {
-                        WL.StaticAppProps.APP_VERSION = returnedData;
+                    	if ((typeof returnedData.appVersionPref) !== "undefined") {
+                    		WL.StaticAppProps.APP_VERSION = returnedData.appVersionPref;
+                    	}
+                    	WL.StaticAppProps.SKIN_NAME = returnedData.wlSkinName;
+                    	
+                    	if ((typeof returnedData.wlSkinLoaderChecksum) !== "undefined") {
+                    		WL.StaticAppProps.SKIN_LOADER_CHECKSUM = returnedData.wlSkinLoaderChecksum;
+                    	}
+                    	
+                    	WL.StaticAppProps.FREE_SPACE = returnedData.freeSpace;
                     }
                     // In development mode, the application has a settings
                     // widget in which the user may alter
@@ -1155,8 +1193,8 @@ __WLClient = function() {
                     || typeof PhoneGap != "undefined" && PhoneGap.available) {
                 cordovaInit();
             } else {
-                if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE) {
-                    // Windows Phone 7 does not support custom events
+                if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE || WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE_8) {
+                    // Windows Phone 7 / 8 does not support custom events
                     WLJSX.bind(document, 'deviceready', cordovaInit.bind(this));
                 } else {
                     // use setTimeout to ensure all Cordova function (especially
@@ -1167,28 +1205,30 @@ __WLClient = function() {
                     }, false);
                 }
             }
-
-        } else if (getEnv() == WL.Env.BLACKBERRY) {
-            if (typeof worklight != "undefined" && !worklight.utils.hasInternetConncetion()) {
-                onMobileConnectivityCheckFailure();
-            } else {
-                onEnvInit(options);
-                if (options.connectOnStartup) {
-                    this.connect(connectOptions);
-                } else {
-                    finalizeInit();
-                }
-            }
         } else {
-            onEnvInit(options);
-            if (options.connectOnStartup) {
-                this.connect(connectOptions);
-            } else {
-                finalizeInit();
-            }
+        	 onEnvInit(options);
+             if (options.connectOnStartup) {
+             	if (getEnv() == WL.Env.BLACKBERRY) {
+             		document.addEventListener(__WL.InternalEvents.REACHABILITY_TEST_FAILURE, onMobileConnectivityCheckFailure.bind(this), false);
+         			document.addEventListener(__WL.InternalEvents.REACHABILITY_TEST_SUCCESS, this.connect.bind(this, connectOptions), false);
+         			WL.Utils.wlCheckReachability();
+         		} else {
+         			this.connect(connectOptions);
+         		}
+             } else {
+                 finalizeInit();
+             }
         }
     };
 
+    this.isSettingsEnabled = function() {
+    	return __isSettingsEnabled;
+    };
+    
+    this.getDeviceLocale = function(){
+    	return __locale;
+    }
+    
     // establishes a session with the worklight server, receiving any
     // block/notify messages that
     // may apply to this application, and other information (i.e. checksum data
@@ -1203,7 +1243,9 @@ __WLClient = function() {
         if (isConnecting) {
             WL.Logger.error("Cannot invoke WL.Client.connect while it is already executing.");
             if (options && options.onFailure) {
-                options.onFailure();
+            	var response = new WL.Response({}, initOptions.invocationContext);
+            	response.errorCode = WL.ErrorCode.CONNECTION_IN_PROGRESS;
+                options.onFailure(response);
             }
             return;
         }
@@ -1216,10 +1258,10 @@ __WLClient = function() {
         }
 
         function onConnectSuccess(transport) {
+        	
             if (transport == null || transport.responseJSON == null) {
-                WL.SimpleDialog.show(WL.ClientMessages.error, WL.ClientMessages.responseNotRecognized, [ {
-                    text : WL.ClientMessages.ok
-                } ]);
+            	showDialog(WL.ClientMessages.error, WL.ClientMessages.responseNotRecognized, true, true, {}, 
+            			WL.ClientMessages.responseNotRecognized);
             }
             userInfo = transport.responseJSON.userInfo;
             gadgetProps = transport.responseJSON.gadgetProps;
@@ -1307,8 +1349,6 @@ __WLClient = function() {
                     } else {
                         WL.Logger.error('Cannot load skin ' + newSkinName
                                 + ' - Please check skinLoader.js file for errors.');
-                        showDialog('Skin Loader Error', 'The application is not supported on this device.', false,
-                                false, false);
                     }
                 }
 
@@ -1324,11 +1364,12 @@ __WLClient = function() {
                             + " is not on the available skins list, update to default skin.");
                     WL.App.writeUserPref('wlSkinName', 'default');
                 }
-                var freeSpaceOnDeviceMB = (WL.Utils.getFreeSpaceOnDevice() / 1048576).toFixed(2); // convert
-                // Bytes to MB required space on the device (in MB) to download
-                // the zip file + extract it (x3)
-                var requiredSizeForUpdateMB = ((3 * updatesJSON.updateSize) / 1048576).toFixed(2);
-
+                
+                var freeSpaceOnDeviceMB = (WL.Utils.getFreeSpaceOnDevice() / 1048576).toFixed(2); 
+                
+                //z = zippedsize, o = unzipped content (open), b= buffer 
+                // z + o + b
+                var requiredSizeForUpdateMB = ((updatesJSON.updateSize + updatesJSON.updateUnpackedSize) / 1048576).toFixed(2);
                 WL.Client.__hideBusy();
                 WL.Utils.addBlackDiv();
                 // first check if there is enough space on the device to
@@ -1342,7 +1383,7 @@ __WLClient = function() {
                         text : WL.ClientMessages.tryAgain,
                         handler : sendInitRequest
                     }, {
-                        text : WL.ClientMessages.exitApplication,
+                        text : WL.SimpleDialog.getExitButtonText(),
                         handler : function() {
                             WL.App.close();
                         }
@@ -1376,7 +1417,7 @@ __WLClient = function() {
                 text : WL.ClientMessages.update,
                 handler : WL.App.__update
             }, {
-                text : WL.ClientMessages.exit,
+                text : WL.SimpleDialog.getExitButtonText(),
                 handler : WL.App.close
             } ]);
         }
@@ -1793,7 +1834,7 @@ __WLClient = function() {
      * @param options
      *            Optional. Parameters hash.
      */
-    this.invokeProcedure = function(invocationData, options) {
+    this.invokeProcedure = function(invocationData, options, useSendInvoke) {
 
         WL.Validators.validateOptions({
             adapter : 'string',
@@ -1861,9 +1902,15 @@ __WLClient = function() {
         if (invocationData.parameters) {
             requestOptions.parameters.parameters = WLJSX.Object.toJSON(invocationData.parameters);
         }
-        new WLJSX.Ajax.WLRequest(REQ_PATH_BACKEND_QUERY, requestOptions);
+        
+        //invoke is used for adapter
+        var url = REQ_PATH_BACKEND_QUERY;
+        if (!WLJSX.Object.isUndefined(useSendInvoke) && useSendInvoke) {
+        	url = REQ_PATH_BACKEND_INVOKE;
+        }
+        new WLJSX.Ajax.WLRequest(url, requestOptions);
     };
-
+    
     /**
      * Fetchs an HTML or XML from a given URL (3rd party host). Applications
      * should use to bypass the single origin constraint of javascript XML. -
@@ -2043,6 +2090,22 @@ __WLClient = function() {
         delete this.__globalHeaders[name];
     };
 
+    function isWl403HandleChallenge(response) {
+    	var env = WL.Client.getEnvironment();
+        if (env != WL.Env.WINDOWS_PHONE && env != WL.Env.WINDOWS_PHONE_8 && env != WL.Env.BLACKBERRY && 
+        	env != WL.Env.BLACKBERRY10 && env != WL.Env.MOBILE_WEB) {
+            return false;
+        }
+    	 
+        if (response.status == 403) {
+            var challengesHeader = response.getHeader("WWW-Authenticate");
+            if ((typeof challengesHeader !== "undefined") && (challengesHeader == "WL-Composite-Challenge")) {
+                return true;
+            }
+        }
+        return false;
+    };
+    
     this.checkResponseForChallenges = function(wlRequest, response, responseForPostAnswersRealm) {
         var containsChallenges = false;
         
@@ -2060,7 +2123,7 @@ __WLClient = function() {
             response.setRequestHeader("WL-Authentication-Success", "");
         }
 
-        if (WL.Client.isWl401(response) || typeof isWl403ForBB == "function" && isWl403ForBB(response)) {
+        if (WL.Client.isWl401(response) || isWl403HandleChallenge(response)) {
             var challengeRealms = response.responseJSON.challenges;
             wlRequest.setExpectedAnswers(challengeRealms);
             
@@ -2169,7 +2232,7 @@ __WLClient = function() {
      * because if has accepts in it, it will trigger the resend.
      */
     this.removeFromWaitingListOnPostAnsweresWlReponse = function (response, wlRequest, responseForPostAnswersRealm){
-    	if (this.isWl401(response) || this.isWl403(response) || (typeof isWl403ForBB == "function" && isWl403ForBB(response))){
+    	if (this.isWl401(response) || this.isWl403(response) || isWl403HandleChallenge(response)){
     		//in case this is a wl response to a postAnswers Request, we need to take the original out of line
         	handler = WL.Client.__chMap[responseForPostAnswersRealm];
     		if (typeof(handler) !== 'undefined'){
@@ -2192,7 +2255,7 @@ __WLClient = function() {
          * handling the first request (just get the result).
          */
         this.startChallengeHandling = function(wlRequest, obj) {
-
+        	WL.Client.__hideBusy();
 			if (this.activeRequest == null){
 				this.activeRequest = wlRequest;
 			} else if (WLJSX.Object.isUndefined(wlRequest.options.fromChallengeRequest)) {
@@ -2310,8 +2373,7 @@ __WLClient = function() {
         	
         	var deviceID = device.uuid;
         	
-        	var osModelCallback = function(model){
-        		var osModel = WL.Utils.getCordovaPluginResponseObject(model, "osModel");
+        	var assembleDeviceAuthData = function(){
         		var appData = {
                 		id : WL.StaticAppProps.APP_DISPLAY_NAME,
             			version : WL.StaticAppProps.APP_VERSION
@@ -2320,7 +2382,7 @@ __WLClient = function() {
                 var deviceData = {
                 		id : deviceID,
             			os : device.version,
-            			model : osModel,
+            			model : device.model,
             			environment : WL.StaticAppProps.ENVIRONMENT
                 };
                 
@@ -2335,8 +2397,8 @@ __WLClient = function() {
         	};
         	
         	function deviceIDSuccessCallback (id) {
-        		deviceID = id;
-        		WL.DeviceAuth.__getOsModel(osModelCallback);
+                deviceID = WL.Utils.getCordovaPluginResponseObject(id, "deviceUUID");
+                assembleDeviceAuthData();
         	};
         	
         	function deviceIDFailureCallback(error) {
@@ -2346,7 +2408,7 @@ __WLClient = function() {
         	if (typeof(WL.DeviceAuth.__getDeviceUUID) !== 'undefined') {
         		WL.DeviceAuth.__getDeviceUUID(deviceIDSuccessCallback, deviceIDFailureCallback);
         	} else {
-        		WL.DeviceAuth.__getOsModel(osModelCallback);
+        		assembleDeviceAuthData();
         	}
         };
         
@@ -2566,7 +2628,7 @@ __WLClient = function() {
 
             function onTimeout() {
                 timer = null;
-                ajaxRequest.abort();
+                ajaxRequest.transport.abort();
 
                 var transport = {};
                 transport.responseJSON = {
@@ -2594,7 +2656,7 @@ __WLClient = function() {
                 options = {};
             }
             options.fromChallengeRequest = true;
-            WL.Client.invokeProcedure(invocationData, options);
+            WL.Client.invokeProcedure(invocationData, options, true);
         };
 
         // Returns it
@@ -2605,7 +2667,7 @@ __WLClient = function() {
      * Check if the user added a default handler for OnRemoteDisableDenial and
      * if so, activate it. If not then call the defaultRemoteDisableDenial.
      */
-    this.__handleOnRemoteDisableDenial = function(defaultonErrorRemoteDisableDenial) {
+    this.__handleOnRemoteDisableDenial = function(defaultonErrorRemoteDisableDenial, that) {
         if (initOptions.onErrorRemoteDisableDenial) {
             WL.Client.__hideBusy();
             initOptions.onErrorRemoteDisableDenial();
@@ -2616,7 +2678,7 @@ __WLClient = function() {
             initOptions.onErrorAppVersionAccessDenial();
             WL.App.close();
         } else {
-            defaultonErrorRemoteDisableDenial();
+            defaultonErrorRemoteDisableDenial(that);
         }
     };
    
@@ -2641,6 +2703,20 @@ __WLClient = function() {
             break;
         }
         return username;
+    };
+    
+    this.__getScreenHeight = function() {
+    	if (typeof __androidScreenSize == 'undefined' ){
+    		return null;
+    	}
+    	return __androidScreenSize.height;
+    };
+    
+    this.__getScreenWidth = function() {
+    	if (typeof __androidScreenSize == 'undefined' ){
+    		return null;
+    	}
+    	return __androidScreenSize.width;
     };
 };
 

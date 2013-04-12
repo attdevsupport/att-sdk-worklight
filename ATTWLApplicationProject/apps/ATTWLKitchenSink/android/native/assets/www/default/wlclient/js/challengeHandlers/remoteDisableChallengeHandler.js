@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/challengeHandlers/remoteDisableChallengeHandler.js in Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
@@ -69,6 +69,21 @@ function getEnv() {
     return WL.StaticAppProps.ENVIRONMENT;
 }
 
+wl_remoteDisableChallengeHandler.__generateDialogueButtons = function()
+{
+	 var buttons = [ {
+         text : WL.ClientMessages.exitApplication,
+         handler : function() {
+             // Note you must add the null options to openURL
+             // otherwise the event is assumed the 3rd argument.
+             WL.App.close();
+         }
+     } ];
+	 
+	 return buttons;
+}
+
+
 wl_remoteDisableChallengeHandler.handleFailure = function(err) {
     var message = err.message;
     var downloadLink = err.downloadLink;
@@ -76,15 +91,10 @@ wl_remoteDisableChallengeHandler.handleFailure = function(err) {
     /*
      * Processor default handler for failure (display message and close App).
      */
-    function defaultRemoteDisableDenialHandler() {
-        var buttons = [ {
-            text : WL.ClientMessages.exitApplication,
-            handler : function() {
-                // Note you must add the null options to openURL
-                // otherwise the event is assumed the 3rd argument.
-                WL.App.close();
-            }
-        } ];
+    function defaultRemoteDisableDenialHandler(that) {
+    	
+    	
+        var buttons = that.__generateDialogueButtons();
 
         if (downloadLink) {
             buttons.push({
@@ -102,5 +112,5 @@ wl_remoteDisableChallengeHandler.handleFailure = function(err) {
         WL.Client.__hideBusy();
     }
 
-    WL.Client.__handleOnRemoteDisableDenial(defaultRemoteDisableDenialHandler);
+    WL.Client.__handleOnRemoteDisableDenial(defaultRemoteDisableDenialHandler,this);
 };

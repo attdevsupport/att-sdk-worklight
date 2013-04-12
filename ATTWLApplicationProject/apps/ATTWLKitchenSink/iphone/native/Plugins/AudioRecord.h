@@ -16,5 +16,6 @@
 
 - (void)startAudioRecord:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 - (void) stopAudioRecord:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) writeBase64ToBinary:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
 
 @end

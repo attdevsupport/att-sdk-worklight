@@ -2,7 +2,7 @@
 /* JavaScript content from common/js/base.js in Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -824,28 +824,22 @@ window.WLJSX.Ajax = {
 	}
 };
 
-window.WLJSX.Ajax.Base = WLJSX.Class.create({
-	initialize: function(options) {
+window.WLJSX.Ajax.Request = WLJSX.Class.create({
+	_complete: false,
+
+	initialize: function(url, options) {
 		this.options = {
-			method:       'post',
-			asynchronous: true,
-			contentType:  'application/x-www-form-urlencoded',
-			encoding:     'UTF-8',
-			parameters:   '',
-			evalJSON:     true,
-			evalJS:       true
-		};
+				method:       'post',
+				asynchronous: true,
+				contentType:  'application/x-www-form-urlencoded',
+				encoding:     'UTF-8',
+				parameters:   '',
+				evalJSON:     true,
+				evalJS:       true
+			};
 		WLJSX.Object.extend(this.options, options || { });
 
 		this.options.method = this.options.method.toLowerCase();
-	}
-});
-
-window.WLJSX.Ajax.Request = WLJSX.Class.create(window.WLJSX.Ajax.Base, {
-	_complete: false,
-
-	initialize: function(__super, url, options) {
-		__super(options);
 		this.transport = window.WLJSX.Ajax.getTransport();
 		this.request(url);
 	},
@@ -903,11 +897,12 @@ window.WLJSX.Ajax.Request = WLJSX.Class.create(window.WLJSX.Ajax.Base, {
 		if (readyState > 1 && !((readyState == 4) && this._complete))
 			this.respondToReadyState(this.transport.readyState);
 	},
-
+	
 	setRequestHeaders: function() {
 		var headers = {
 			'X-Requested-With': 'XMLHttpRequest',
-			'Accept': 'text/javascript, text/html, application/xml, text/xml, */*'
+			'Accept': 'text/javascript, text/html, application/xml, text/xml, */*',
+			'Accept-Language' : WL.App.getDeviceLocale()
 		};
 
 		if (this.method == 'post') {

@@ -30,7 +30,12 @@
 	function openDialog(responseText) {
 		$('#pagePort').load("popup.html", '', function() {
 		});
-		window.localStorage.response = JSON.stringify(responseText);
+		if(responseText.status == 200 && responseText.invocationResult.statusCode == 200)
+		{
+		   window.localStorage.response = JSON.stringify(responseText.invocationResult.DeviceInfo, null, 3);
+		} else {
+		   window.localStorage.response = JSON.stringify(responseText, null, 3);
+		}
 	};
 
 	function backNav() {
@@ -64,6 +69,7 @@
 
 	var showConcernedUrl = function(data) {
 
+        //alert("URL: " + data.invocationResult.url);
 		document.getElementById("DCFrame").src = data.invocationResult.url;
 		$("#DCFrame").load(
 				function() {
@@ -71,6 +77,7 @@
 					if (busyInd.isVisible()) {
 						busyInd.hide();
 					}
+					//alert("iframe href: " + this.contentDocument.location.href);
 					var url = this.contentDocument.location.href;
 
 					if (url.indexOf('code') !== -1) {
@@ -91,7 +98,6 @@
 	function getDeviceCapabilities() {
 		busyInd.show();
 		invokeOAuthToken(showConcernedUrl);
-
 	};
 
 	onPageLoad();

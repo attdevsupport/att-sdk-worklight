@@ -5,7 +5,7 @@
 	<key>protocol</key> 
 	<string>http</string>
 	<key>host</key>
-	<string>192.168.1.2</string>
+	<string>192.168.1.6</string>
 	<key>port</key>
 	<string>8080</string>
 	<key>wlServerContext</key>
@@ -13,7 +13,7 @@
 	<key>application id</key>
 	<string>ATTWLKitchenSink</string>
 	<key>application version</key>
-	<string>1.0</string>
+	<string>2.3</string>
 	<key>environment</key>
 	<string>ipad</string>
 	<key>buildtime</key>

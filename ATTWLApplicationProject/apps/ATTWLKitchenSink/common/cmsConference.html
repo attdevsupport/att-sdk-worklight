@@ -1,0 +1,133 @@
+	<script src="js/contacts.js"></script>
+    <script src="js/lateMessage.js"></script>
+	<div class="header">
+		<span class="backbutton"><span class="innerText"
+			onclick="backNav();">Back</span></span> <span
+			class="headerTitle" style="margin-left: 80px;">CMS Conference</span>
+	</div>
+	<div class="body" align="center">
+	    <div id="mainCMS">
+			<table style="margin-top:10px;">
+				<tr class="trow">
+					<td class="tcol">
+					   <input class="inputnormal" type="text" id="phoneNumbers" placeholder="Enter Numbers to Dial" value="">
+	
+					</td>
+				</tr>			
+				<tr class="trow">
+			       <td class="tcol" style="padding-bottom:.667em"><button type="button" class="submitlarge"
+						onclick="getContacts();">Server Contacts</button></td>
+				</tr>		
+				<tr class="trow">
+					<td class="tcol" style="padding-bottom:.667em"><button type="button" class="submitlarge"
+							onclick="makeConference();">Conference Call</button></td>
+				</tr>		
+				<tr class="trow">	
+					<td class="tcol">
+						<button type="button" class="submitbroad"
+							onclick="sampleSignalExit();">Previous Session: Signal Exit</button>
+					</td>
+				</tr>
+				<tr class="trow">
+				</tr>
+				<tr class="trow">
+				</tr>
+			</table>
+		</div>
+		<div id="contactsContent" style="display: none;">
+			<table class="table" id="contactListTB" style="width: 100%; align:center">
+				<thead>
+					<tr class="trow">
+						<th class="tcol">
+							<b>Contact List</b>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				</tbody>
+				<tfoot>
+					<tr class="trow">
+						<td class="tcol" align="center">
+							<button type="button" onclick="returnToMainCMS();" style="width:80px">OK</button>
+						</td>
+					</tr>
+				</tfoot>
+			</table>		
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="js/callManagement.js"></script>
+	
+	<script type="text/javascript">
+		page = "cmsConference.html";
+		title = "CMS Conference";
+		function backNav(){
+			WL.App.resetBackButton();
+			loadHTML('callManagement.html');
+		}
+	
+		function sampleCreateSession() {
+			var i, AddrString='', addArr;
+			var textffield = document.getElementById("number");
+
+			if (textffield.value.length > 0) {
+				var msisdn1 = $("#number").val();
+				addArr = (msisdn1.split(","));
+				if (addArr.length === 1) {
+					//AddrString = 'tel:' + addArr[0];
+					AddrString = addArr[0];
+				} else {
+					AddrString = [];
+					for ( var i = 0; i < addArr.length; i = i + 1) {
+					    //AddrString.push('tel:' + addArr[i]);
+						AddrString.push(addArr[i]);
+					}
+				}
+	
+			}
+			
+			if(window.localStorage.accessToken===undefined)
+			{
+				generateAccessToken(function(){
+					createSession(AddrString, openDialog, busyInd);
+				});
+			}
+			else
+			{
+				createSession(AddrString, openDialog, busyInd);
+			}
+		};
+	
+		function sampleSignalExit() {
+			var sessionId='';
+			if(window.localStorage.sessionId != undefined)
+			{
+				messageId = JSON.parse(window.localStorage.sessionId);
+			}
+			
+			if(window.localStorage.accessToken===undefined)
+			{
+				generateAccessToken(function(){
+					sendSignal(sessionId, openDialog);
+				});
+			}
+			else
+			{
+				sendSignal(sessionId, openDialog);
+			}
+		};
+	
+		function openDialog(responseText, inSessionId)
+		{
+			$('#pagePort').load("popup.html",'',function(){});
+			if(window.localStorage.response === undefined) {
+			   window.localStorage.response = JSON.stringify(responseText, null, 3);;
+			} else {
+			   window.localStorage.response = window.localStorage.response + "\n\n" + JSON.stringify(responseText, null, 3);
+			}
+			if (inSessionId != "" && inSessionId != undefined) {
+				sessionId = inSessionId;
+				window.localStorage.sessionId = JSON.stringify(sessionId);
+			}
+		};
+</script>

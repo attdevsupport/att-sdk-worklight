@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/wlfragments.js in Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -409,7 +409,6 @@ License:
 
 	createScriptTag : function(url, success, error) {
 	    var scriptTag = document.createElement("script");
-	    scriptTag.setAttribute("type", "text/javascript");
 	    scriptTag.setAttribute("src", url);
 	    scriptTag.onload = scriptTag.onreadystatechange = function() {
 		if ((!this.readyState || this.readyState == "loaded" || this.readyState == "complete")) {
@@ -429,7 +428,6 @@ License:
 
 	globalEval : function(data, url) {
 	    var script = document.createElement("script");
-	    script.type = "text/javascript";
 	    script.setAttribute(ensureEVAL_JS_SRC, url);
 	    if (HttpLibrary.browser.msie) {
 		script.text = data;

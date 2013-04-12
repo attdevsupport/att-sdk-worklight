@@ -2,7 +2,7 @@
 /* JavaScript content from common/js/wlcommon.js in Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -582,7 +582,7 @@ WL.BrowserDetect.init();
 /* JavaScript content from common/js/wlcommon.js in android Common Resources */
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -596,26 +596,29 @@ WL.BusyIndicator = WLJSX.Class.create({
     __options : {
 	text : WL.ClientMessages.loading
     },
-
-    initialize : function(containerId, options) {	
+    
+    initialize : function(containerId, options) {
 	if (containerId && typeof containerId !== 'string') {
 	    WL.Logger.error("BusyIndicator constructor expects first argument to be typeof \'string\' instead of " + typeof containerId);
 	}
 	if (!WLJSX.Object.isUndefined(options)) {
 	    this.__options = WLJSX.Object.extend(this.__options, options);
 	}
+	this.__visible = false;
     },
 
     show : function() {
-	cordova.exec(null, null, "NativeBusyIndicator", "show", [this.__options.text]);
+    	this.__visible = true;
+    	cordova.exec(null, null, "NativeBusyIndicator", "show", [this.__options.text]);
     },
 
     hide : function() {
-	cordova.exec(null, null, "NativeBusyIndicator", "hide", []);
+    	this.__visible = false;
+    	cordova.exec(null, null, "NativeBusyIndicator", "hide", []);
     },
 
     isVisible : function() {
-	return cordova.exec(null, null, "NativeBusyIndicator", "isVisible", []);
+    	return this.__visible;
     }
 
 });

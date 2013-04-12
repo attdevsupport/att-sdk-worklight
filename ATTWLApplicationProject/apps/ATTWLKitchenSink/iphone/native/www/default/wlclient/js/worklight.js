@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/worklight.js in Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
@@ -57,7 +57,9 @@ var __WLEnvironment = {
     ADOBE_AIR : "air",
     ANDROID : "android",
     BLACKBERRY : "blackberry",
+    BLACKBERRY10 : "blackberry10",
     WINDOWS_PHONE: "windowsphone",
+    WINDOWS_PHONE_8: "windowsphone8",
     WINDOWS8: 'windows8',
     MOBILE_WEB: "mobilewebapp"
 };
@@ -115,7 +117,8 @@ var __WLErrorCode = {
     PROCEDURE_ERROR : "PROCEDURE_ERROR",
     UNSUPPORTED_VERSION : "UNSUPPORTED_VERSION",
     UNSUPPORTED_BROWSER : "UNSUPPORTED_BROWSER",
-    DISABLED_COOKIES : "DISABLED_COOKIES"
+    DISABLED_COOKIES : "DISABLED_COOKIES",
+    CONNECTION_IN_PROGRESS : "CONNECTION_IN_PROGRESS"
 };
 __WL.prototype.ErrorCode = __WLErrorCode;
 WL.ErrorCode = __WLErrorCode;
@@ -492,7 +495,7 @@ __WLUtils = function() {
         var resultURL;
 
         // if "path" is an absolute URL we just use it
-        if (path.match('http://') || path.match('https://') || path.match("itms://")) {
+        if (/^[a-z]+:\/\//i.test(path)) {
             resultURL = path;
         } else if (path.indexOf("/") === 0) {
             // In case using absolute url like "/random" it must be under
@@ -543,11 +546,9 @@ __WLUtils = function() {
         // readUserPref is syncronized on Android but async on iOS, this is why
         // the implementation differ
 
-        if (WL.Client.getEnvironment() === WL.Env.ANDROID) {
-            skinName = WL.App.readUserPref('wlSkinName');
-        } else if (WL.EnvProfile.isEnabled(WL.EPField.ISIOS)) {
-            skinName = WL.StaticAppProps.SKIN_NAME;
-        } else if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE) {
+        if (WL.Client.getEnvironment() === WL.Env.ANDROID || WL.EnvProfile.isEnabled(WL.EPField.ISIOS)) {
+        	skinName = WL.StaticAppProps.SKIN_NAME;
+        } else if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE || WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE_8) {
             skinName = getUrlParam("skinName");
             if (skinName.length == 0) {
                 skinName = "default";
@@ -567,10 +568,8 @@ __WLUtils = function() {
      */
     this.getFreeSpaceOnDevice = function() {
         var freeSpace;
-
-        if (WL.Client.getEnvironment() === WL.Env.ANDROID) {
-            freeSpace = cordova.exec(null, null, 'Utils', 'getAvailableSpace', []);
-        } else if (WL.EnvProfile.isEnabled(WL.EPField.ISIOS)) {
+        
+        if (WL.EnvProfile.isEnabled(WL.EPField.ISIOS) || WL.Client.getEnvironment() === WL.Env.ANDROID) {
             freeSpace = WL.StaticAppProps.FREE_SPACE;
         }
         // environements that don't support skins should return 'default'
@@ -600,11 +599,7 @@ __WLUtils = function() {
 
     this.getSkinLoaderChecksum = function() {
         var skinLoaderChecksum;
-        // readUserPref is syncronized on Android but async on iOS, this is why
-        // the implementation differ
-        if (WL.Client.getEnvironment() === WL.Env.ANDROID) {
-            skinLoaderChecksum = WL.App.readUserPref('wlSkinLoaderChecksum');
-        } else if (WL.EnvProfile.isEnabled(WL.EPField.ISIOS)) {
+        if (WL.EnvProfile.isEnabled(WL.EPField.ISIOS) || WL.Client.getEnvironment() === WL.Env.ANDROID) {
             skinLoaderChecksum = WL.StaticAppProps.SKIN_LOADER_CHECKSUM;
         }
         // environments that don't support skins should return null
@@ -723,12 +718,15 @@ __WLSimpleDialog = function() {
 
     this.__callback = function(result) {
 
-        if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE) {
+        if (WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE || WL.Client.getEnvironment() === WL.Env.WINDOWS_PHONE_8) {
             // Nothing to do on WP, since there is no bug there
         } else if (WL.EnvProfile.isEnabled(WL.EPField.USES_CORDOVA)) {
             // Phonegap bug - native code returns button number instead of
             // button index
-            result--;
+        	if (WL.StaticAppProps.ENVIRONMENT != WL.Environment.BLACKBERRY10){
+        		result--;
+        	}
+            
         } else if (WL.StaticAppProps.ENVIRONMENT == WL.Environment.BLACKBERRY) {
         } else {
             WL.SimpleDialog.__dialog.hide();
@@ -770,6 +768,16 @@ __WLSimpleDialog = function() {
             }
         }
     };
+    
+    /**
+     * Overridden in WP8 and Win8 gaps to return WL.ClientMessages.close, because
+     * WL.App.close (which handles the "exit" button) does nothing in Windows Phone 8 and Windows 8 environmrnts.
+     * It will display "Close" and the dialog will be closed. 
+     */
+    
+    this.getExitButtonText = function() {
+    	return WL.ClientMessages.exit;
+    }
 
     /**
      * 
@@ -813,7 +821,7 @@ __WLSimpleDialog = function() {
             	buttonsArray[i] = buttons[i].text.replace(",", "‚");
             }
 
-            if (WL.StaticAppProps.ENVIRONMENT == WL.Env.WINDOWS_PHONE) {
+            if (WL.StaticAppProps.ENVIRONMENT == WL.Env.WINDOWS_PHONE || WL.StaticAppProps.ENVIRONMENT == WL.Env.WINDOWS_PHONE_8) {
             	cordova.exec(function (result) { WL.SimpleDialog.__callback(result); }, 
             			function (err) { WL.Logger.error("WL.SimpleDialog.show() error in invoking callback."); }, 
             			"WLCustomDialog", "showDialog", [text, title, buttonsArray.join(",")]);
@@ -899,15 +907,23 @@ __WLApp = function() {
             break;
         case WL.Env.IPAD:
         case WL.Env.IPHONE:
-            document.location = absoluteURL;
+        	window.open(absoluteURL, '_system'); 
             break;
         case WL.Env.ADOBE_AIR:
             var urlReq = new window.runtime.flash.net.URLRequest(absoluteURL);
             wnd = window.runtime.flash.net.navigateToURL(urlReq);
-            break;
+            break; 
         case WL.Env.BLACKBERRY:
             var args = new blackberry.invoke.BrowserArguments(absoluteURL);
             blackberry.invoke.invoke(blackberry.invoke.APP_BROWSER, args);
+            break;
+        case WL.Env.BLACKBERRY10:
+            blackberry.invoke.invoke({
+                target: "sys.browser",
+                uri: absoluteURL
+            }, function(){}, function(){
+            	WL.Logger.error("Failed to open URL " + absoluteURL);
+            });
             break;
         default:
             if (target === "_self") {
@@ -927,12 +943,13 @@ __WLApp = function() {
      * 
      * @return the user device locale code.
      */
-    this.getDeviceLocale = function() {
-        if (WL.Client.getEnvironment() == WL.Env.ANDROID) {
-            return cordova.exec(null, null, "Utils", "getDeviceLocale", []);
-        } else {
-            return (navigator.language) ? navigator.language : navigator.userLanguage;
-        }
+	this.getDeviceLocale = function(callback) {
+		locale = WL.Client.getDeviceLocale();
+		//if locale is not confiured, take it regulary from navigator, if there is Cordova it would already be set using cordova
+		if (typeof locale === 'undefined' || locale == null) {
+			return (navigator.language) ? navigator.language : navigator.userLanguage;
+		}
+		return locale;
     };
 
     /**
@@ -1011,7 +1028,9 @@ WL.App = new __WLApp;
 __WLLogger = function() {
     var priority = {
         DEBUG : 'DEBUG',
-        ERROR : 'ERROR'
+        ERROR : 'ERROR',
+        WARN  : 'WARN',
+        INFO  : 'INFO'
     };
 
 	var enableLogger = true;
@@ -1090,7 +1109,9 @@ __WLLogger = function() {
             break;
         case WL.Env.ANDROID:
         case WL.Env.BLACKBERRY:
+        //BLACKBERRY10 uses console.log, so no special need here
         case WL.Env.WINDOWS_PHONE:
+        case WL.Env.WINDOWS_PHONE_8:
             break;
         default:
             try {
@@ -1116,11 +1137,17 @@ WL.Response = WLJSX.Class.create({
     }
 });
 
-WL.FailResponse = WLJSX.Class.create(WL.Response, {
+WL.FailResponse = WLJSX.Class.create({
+    invocationContext : null,
+    status : -1,
     errorCode : null,
     errorMsg : null,
-    initialize : function(__super, transport, invocationContext) {
-        __super(transport, invocationContext);
+    initialize : function(transport, invocationContext) {
+        if (transport !== null && typeof transport.status != "undefined") {
+            this.status = (transport.status || 200);
+        }
+        this.invocationContext = invocationContext;
+
         this.errorCode = transport.responseJSON.errorCode;
         this.errorMsg = transport.responseJSON.errorMsg;
     }
@@ -1131,8 +1158,7 @@ WL.FailResponse = WLJSX.Class.create(WL.Response, {
  * Add double-cookie headers to the request. 2. Parse cookies from the response.
  * 3. Invoke the authenticator on demand.
  */
-window.WLJSX.Ajax.WLRequest = WLJSX.Class
-        .create({
+window.WLJSX.Ajax.WLRequest = WLJSX.Class.create({
             instanceId : null,
             wlAnswers : {},
             postAnswerRealm : '',
@@ -2012,6 +2038,7 @@ WL.CookieManager = function() {
             cookiePersister = new AndroidCookiePersister();
             break;
         case WL.Env.WINDOWS_PHONE:
+        case WL.Env.WINDOWS_PHONE_8:
             cookiePersister = new WPCookiePersister();
             break;
         default:
@@ -2132,7 +2159,7 @@ WL.CookieManager = function() {
                 var deviceId = {};
                 deviceId.id = device.uuid;
                 deviceId.os = device.version;
-                deviceId.model = device.name;
+                deviceId.model = device.model;
                 deviceId.environment = WL.Client.getEnvironment();
                 headers.deviceId = WLJSX.Object.toJSON(deviceId);
             }
@@ -2320,14 +2347,28 @@ WL.androidProfileData[WL.EPField.SERVER_ADDRESS_CONFIGURABLE] = true;
 
 WL.blackberryProfileData = WLJSX.Object.clone(WL.MobileProfileData);
 WL.blackberryProfileData[WL.EPField.MOBILE] = true;
-WL.blackberryProfileData[WL.EPField.HAS_NATIVE_LOGGER] = true;
+WL.blackberryProfileData[WL.EPField.HAS_NATIVE_LOGGER] = false;
 WL.blackberryProfileData[WL.EPField.SUPPORT_PUSH_SMS] = true;
+
+WL.blackberry10ProfileData = WLJSX.Object.clone(WL.MobileProfileData);
+WL.blackberry10ProfileData[WL.EPField.MOBILE] = true;
+WL.blackberry10ProfileData[WL.EPField.HAS_NATIVE_LOGGER] = true;
+WL.blackberry10ProfileData[WL.EPField.SUPPORT_PUSH_SMS] = true;
+WL.blackberry10ProfileData[WL.EPField.USES_CORDOVA] = true;
 
 WL.windowsphoneProfileData = WLJSX.Object.clone(WL.MobileProfileData);
 WL.windowsphoneProfileData[WL.EPField.MOBILE] = true;
 WL.windowsphoneProfileData[WL.EPField.HAS_NATIVE_LOGGER] = true;
 WL.windowsphoneProfileData[WL.EPField.USES_CORDOVA] = true;
 WL.windowsphoneProfileData[WL.EPField.SUPPORT_PUSH_SMS] = true;
+
+WL.windowsphone8ProfileData = WLJSX.Object.clone(WL.MobileProfileData);
+WL.windowsphone8ProfileData[WL.EPField.MOBILE] = true;
+WL.windowsphone8ProfileData[WL.EPField.HAS_NATIVE_LOGGER] = true;
+WL.windowsphone8ProfileData[WL.EPField.USES_CORDOVA] = true;
+WL.windowsphone8ProfileData[WL.EPField.SUPPORT_PUSH_SMS] = true;
+WL.windowsphone8ProfileData[WL.EPField.SUPPORT_PUSH] = true;
+
 /**
  * EnvironmentProfile
  */

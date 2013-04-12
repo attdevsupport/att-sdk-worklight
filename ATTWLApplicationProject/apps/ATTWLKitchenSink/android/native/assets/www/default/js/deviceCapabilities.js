@@ -10,7 +10,7 @@ var params = {}, invocationData = {}, options = {};
 function invokeDeviceCapabilities(successCallback, failureCallback) {
 	params = {
 		'accept' : 'application/json',
-		'oAuthToken' : 'Bearer ' + window.localStorage.oAuthToken
+		'accessToken' : window.localStorage.oAuthToken
 	};
 	invocationData = {
 		adapter : 'DeviceCapabilities',

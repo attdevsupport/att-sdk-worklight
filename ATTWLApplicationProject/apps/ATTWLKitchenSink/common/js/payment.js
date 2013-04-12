@@ -1,4 +1,4 @@
-var MerchantPaymentRedirectUrl = "http://att.somee.com/ATTNotifications/PaymentSuccess.aspx";
+var MerchantPaymentRedirectUrl = "http://attdemo.somee.com/ATTNotifications/PaymentSuccess.aspx";
 var Amount = "0.99";
 var Category = 1;
 var Channel = "MOBILE_WEB";
@@ -92,9 +92,8 @@ var ATT = {
 	 * which app is registered for payment - Mandatory
 	 */
 
-	newTransaction : function(signature, signedDocument) {
-		
-		WL.Logger.debug('newTransaction called');
+	newTransaction : function(signature, signedDocument)
+	{	
 		var params = {
 			'signature' : signature,
 			'signedDocument' : signedDocument,
@@ -104,11 +103,9 @@ var ATT = {
 			procedure : "newTransaction",
 			parameters : [ params ]
 		};
-		function getSuccess(signedData) {
-			WL.Logger.debug('url is:'+signedData.invocationResult.url);
+		function getSuccess(signedData)
+		{
 			document.getElementById("transactionFrame").src = signedData.invocationResult.url;
-			
-			
 			
 			$("#transactionFrame")
 					.load(
@@ -118,6 +115,7 @@ var ATT = {
 								var url = this.contentDocument.location.href;
 								
 								if (url.indexOf('success') !== -1) {
+									alert("Failed transaction: \n" + url);
 									$("#iframe").hide();
 								} else {
 									if (url.indexOf('TransactionAuthCode') !== -1) {
@@ -136,7 +134,6 @@ var ATT = {
 									}
 								}
 							});
-
 		}
 
 		function getFailure(error) {
@@ -145,6 +142,7 @@ var ATT = {
 			alert("error is " + JSON.stringify(error));
 
 		}
+		
 		WL.Client.invokeProcedure(data, {
 			onSuccess : getSuccess,
 			onFailure : getFailure
@@ -165,9 +163,9 @@ var ATT = {
 		var params = {
 		    'idType':'TransactionAuthCode',
 			'id' : OauthCode,
-			'accessToken' : 'Bearer ' + window.localStorage.accessToken,
+			'accessToken' : window.localStorage.accessToken,
 			'accept':'application/json'
-		}
+		};
 		var data = {
 			adapter : "PaymentAdapter",
 			procedure : "getTransactionStatus",
@@ -193,7 +191,7 @@ var ATT = {
 					.find('td input:radio')
 					.click(
 							function() {
-								window.localStorage.TransactionId = data.invocationResult.TransactionId
+								window.localStorage.TransactionId = data.invocationResult.TransactionId;
 								$("#refundtransaction").attr("disabled", false);
 							});
 			$("#btntransactionstatus").attr("disabled", true);
@@ -233,8 +231,8 @@ var ATT = {
 			"contentType" : "application/json",
 			"action" : "refund",
 			'accept' : 'application/json',
-			'accessToken' : 'Bearer ' + window.localStorage.accessToken
-		}
+			'accessToken' : window.localStorage.accessToken
+		};
 		var data = {
 			adapter : "PaymentAdapter",
 			procedure : "refundTransaction",
@@ -343,7 +341,7 @@ var ATT = {
 		var params = {
 				'idType':'SubscriptionAuthCode',
 			"id" : window.localStorage.subscriptionAuthCode,
-			'accessToken' : 'Bearer ' + window.localStorage.accessToken
+			'accessToken' : window.localStorage.accessToken
 		}
 		var data = {
 			adapter : "PaymentAdapter",
@@ -404,7 +402,7 @@ var ATT = {
 		var params = {
 			'consumerId' : window.localStorage.SubsConsumerId,
 			'merchantSubscriptionId' : window.localStorage.MerchantSubscriptionId,
-			'accessToken' : 'Bearer ' + window.localStorage.accessToken
+			'accessToken' : window.localStorage.accessToken
 		}
 		var data = {
 			adapter : "PaymentAdapter",
@@ -444,7 +442,7 @@ var ATT = {
 		WL.Logger.debug('getNotification called');
 		var params = {
 			'notificationId' : notificationId,
-			'accessToken' : 'Bearer '+window.localStorage.accessToken
+			'accessToken' : window.localStorage.accessToken
 		}
 		var data = {
 			adapter : "PaymentAdapter",
@@ -483,7 +481,7 @@ var ATT = {
 		WL.Logger.debug('deleteNotification called');
 		var params = {
 			'notificationId' : notificationId,
-			'accessToken' : 'Bearer ' + window.localStorage.accessToken
+			'accessToken' : window.localStorage.accessToken
 		}
 		var data = {
 			adapter : "PaymentAdapter",

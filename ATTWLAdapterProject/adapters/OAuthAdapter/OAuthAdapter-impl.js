@@ -2,20 +2,20 @@
 /**
  * This method will obtain OAuthToken by redirecting the subscriber's browser (via a redirect URL) to the AT&T Gateway OAuth Server.
  */
-function getAuthCode() {
-	
+function getAuthCode()
+{
 	var url = {
-			  "url" : "https://api.att.com/oauth/authorize"
-			    + '?client_id=' + WL.Server.configuration["apiKey"] + "&scope=DC"
-			    //+ WL.Server.configuration["oauthScope"]
-			 };
+		"url" : "https://api.att.com/oauth/authorize"
+		+ '?client_id=' + WL.Server.configuration["apiKey"] + "&scope=DC"
+		//+ WL.Server.configuration["oauthScope"]
+	 };
 	WL.Logger.debug('oAuthcode : url => '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(url));
 	return url;
 }
 
-
-
-function getAccessToken(options) {
+function getAccessToken(options)
+{
+	logInfo('********* OAuthAdapter.getAccessToken *********');
 	
 	var input = {
 			method :'post',
@@ -35,13 +35,14 @@ function getAccessToken(options) {
 		logInfo('********* accesstoken *********');
 		input['body'] = {'contentType': 'application/x-www-form-urlencoded','content':'client_id=' + WL.Server.configuration["apiKey"] + '&client_secret=' + WL.Server.configuration["secretKey"] + '&grant_type=client_credentials&scope=' + WL.Server.configuration["scope"]};
 	}
+
+	logInfo('Input: '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
 	
 	var result = WL.Server.invokeHttp(input);
-	logInfo('********* OAUTH ADAPTER LOGS *********');
-	logInfo('Input: '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
+
 	logInfo('Response: '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
-	var accessToken = {"accessToken":result.access_token};
 	
+	var accessToken = {"accessToken":result.access_token};
 	return accessToken;
 }
 

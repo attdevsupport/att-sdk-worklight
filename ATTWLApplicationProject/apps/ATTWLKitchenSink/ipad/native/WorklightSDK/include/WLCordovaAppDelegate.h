@@ -1,6 +1,6 @@
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -46,6 +46,13 @@ extern NSString * const SAVED_CHECKSUM_KEY_NAME; // key for NSUserDefaults
 + (NSString*) wwwFolderName;
 + (NSString*) startPage;
 + (NSString*) pathForResource:(NSString*)resourcepath;
+
+// This method can be used instead of application:didLaunchingWithOptions for application
+// initialization IF some other delegate superclass is receiving the application:didLaunchingWithOptions
+// message to do some pre-requisite initialization (such as a secure container authorization).
+// The superclass will return to iOS, and then at some later point (such as when secure container
+// authorization is successful) should invoke this method.
+- (BOOL)appStart:(UIApplication *)application withOptions:(NSDictionary *)launchOptions;
 
 @end
 

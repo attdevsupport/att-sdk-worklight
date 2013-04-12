@@ -6,18 +6,13 @@
 	<connectivity>
 		<connectionPolicy xsi:type="http:HTTPConnectionPolicyType">
 			<protocol>https</protocol>
-			<domain>api.att.com</domain>
+			   <domain>api.att.com</domain> 
 			<port>443</port>			
 		</connectionPolicy>
 		<loadConstraints maxConcurrentConnectionsPerNode="2"/>
 	</connectivity>
-
 	
 	<procedure name="sendSMS"/>
-	
 	<procedure name="getSMSDeliveryStatus"/>
-	
 	<procedure name="getSMS"/>
-	
-	
 </wl:adapter>

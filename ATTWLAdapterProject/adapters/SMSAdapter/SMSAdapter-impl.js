@@ -1,9 +1,15 @@
-var baseEndPoint='rest/sms/2/messaging/';
+var baseEndPoint='sms/v3/messaging/';
 /**
  * The Send SMS method sends an SMS message to one or more AT&T Mobile Network devices.
  * @param options
  */
-function sendSMS(options) {
+function sendSMS(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 			method :"post",
 			path : baseEndPoint+"outbox",
@@ -38,7 +44,13 @@ function sendSMS(options) {
  * The Get SMS Delivery Status method requests the status of a previous SMS delivery request that was accepted by the AT&T Network for delivery to a mobile device.
  * @param options
  */
-function getSMSDeliveryStatus(options){
+function getSMSDeliveryStatus(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 			method :'get',
 			path : baseEndPoint+'outbox/'+options.smsId,
@@ -61,12 +73,20 @@ function getSMSDeliveryStatus(options){
  * The Get SMS method receives SMS messages via the polling mechanism.
  * @param options
  */
-function getSMS(options){
+function getSMS(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 			method :'get',
-			path : baseEndPoint+'inbox',
+			// path : baseEndPoint+'inbox',
+			path : baseEndPoint+'inbox/' + options.registrationId,
 			headers: {'Authorization': options.accessToken ,"Content-Type":options.contentType },
-			parameters:{'RegistrationID': options.registrationId},
+
+			// parameters:{'RegistrationID': options.registrationId},
 		};
 	if(options.accept!==undefined)
 	{

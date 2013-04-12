@@ -1,16 +1,14 @@
 
 /* JavaScript content from js/sms.js in folder common */
-
-var shortCode='48507027';
-
+var shortCode='48507088';
+//var shortCode='44627002';
+// var shortCode='52862105';
 var accessToken;
-
 var params={},invocationData={},options={};
-
 
 /**
  * Function to send an SMS to one or more AT&T Mobile Network devices
- * @param number Address to send the SMS to
+ * @param number address to send the SMS to
  * @param message Text to be sent in the SMS
  * @param cbData Success Callback Function after SMS is sent successfully
  */
@@ -19,60 +17,59 @@ var params={},invocationData={},options={};
 		
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/json' */
 		params={
-					'body' : {
-						"Message" : message,
-						"Address" : number
+					'body' : { 
+						'outboundSMSRequest' : {
+							"message" : message,
+							"address" : number
+						}
 					},
 					'contentType' : 'application/json',
 					'accept' : 'application/json',
-					'accessToken':'Bearer '+window.localStorage.accessToken
+					'accessToken': window.localStorage.accessToken
 				};
 		
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/xml' */
 		 
 //		params={
-//				"body":"<SmsRequest>"+"<Address>"+number+"</Address>"+"<Message>"+message+"</Message>"+"</SmsRequest>",
+//				"body":"<outboundSmsRequest>"+"<address>"+number+"</address>"+"<message>"+message+"</message>"+"</outboundSmsRequest>",
 //				'contentType' : 'application/xml',
 //				'accept' : 'application/json',
-//				'accessToken':'Bearer '+window.localStorage.accessToken
+//				'accessToken': window.localStorage.accessToken
 //					};
 		
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/x-www-form-urlencoded' */
 		
 //		params={
-//				"body":"Address="+encodeURIComponent(number)+"&Message="+encodeURIComponent(message),
+//				"body":"address="+encodeURIComponent(number)+"&message="+encodeURIComponent(message),
 //				'contentType' : 'application/x-www-form-urlencoded',
 //				'accept' : 'application/json',
-//				'accessToken':'Bearer '+window.localStorage.accessToken
 //					};
+//				'accessToken': window.localStorage.accessToken
 		invocationData= {
 				adapter : 'SMSAdapter' ,
 				procedure : 'sendSMS' ,
 				parameters : [params]			
 		};
 		options = {
-				onSuccess : function(data) {
-								busyInd.hide();
-								WL.Logger.debug("Success : Response is - "+JSON.stringify(data));
-								var smsId='';
-								if(data.invocationResult.SmsResponse === undefined)
-									{
-										smsId = data.invocationResult.Id;
-									}
-								else
-									{
-										smsId = data.invocationResult.SmsResponse.id;
-									}
-								
-								cbData(data, smsId);
-				} ,
-				onFailure : function(error) {
-								busyInd.hide();
-								WL.Logger.debug("Failiure : Response is - "+error);
-								console.log(error);
-								cbData(error);
-				} ,
-				invocationContext : {}
+			onSuccess : function(data) {
+				busyInd.hide();
+				WL.Logger.debug("Success : Response is - "+JSON.stringify(data));
+				var smsId='';
+				
+				if(data.invocationResult.outboundSMSResponse !== undefined)
+				{
+					smsId = data.invocationResult.outboundSMSResponse.messageId;
+				}
+				
+				cbData(data, smsId);
+			},
+			onFailure : function(error) {
+							busyInd.hide();
+							WL.Logger.debug("Failiure : Response is - "+error);
+							console.log(error);
+							cbData(error);
+			} ,
+			invocationContext : {}
 		};
 		
 		WL.Client.invokeProcedure(invocationData, options);
@@ -91,7 +88,7 @@ var params={},invocationData={},options={};
 					'smsId':smsId,
 					'accept' : 'application/json',
 					'contentType' : 'application/json',
-					'accessToken':'Bearer '+window.localStorage.accessToken
+					'accessToken': window.localStorage.accessToken
 			};
 			
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/xml' */
@@ -99,7 +96,7 @@ var params={},invocationData={},options={};
 //					'smsId':smsId,
 //					'accept' : 'application/json',
 //					'contentType' : 'application/xml',
-//					'accessToken':'Bearer '+window.localStorage.accessToken
+//					'accessToken': window.localStorage.accessToken
 //			};
 			
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/x-www-form-urlencoded' */
@@ -107,7 +104,7 @@ var params={},invocationData={},options={};
 //					'smsId':smsId,
 //					'accept' : 'application/json',
 //					'contentType' : 'application/x-www-form-urlencoded',
-//					'accessToken':'Bearer '+window.localStorage.accessToken
+//					'accessToken': window.localStorage.accessToken
 //			};
 			
 			invocationData= {
@@ -133,7 +130,6 @@ var params={},invocationData={},options={};
 			WL.Client.invokeProcedure(invocationData, options);
 		};
 	
-		
 /**
  * Function to get the SMS sent to a shortcode
  * @param cbData - Callback function after successful invocation of the method
@@ -143,28 +139,28 @@ var params={},invocationData={},options={};
 		busyInd.show();
 		
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/json' */
-//			params={
-//					'accept' : 'application/json',
-//					'registrationId' : shortCode,
-//					'contentType' : 'application/json',
-//					'accessToken':'Bearer '+window.localStorage.accessToken
-//			};
+			params={
+					'accept' : 'application/json',
+					'registrationId' : shortCode,
+					'contentType' : 'application/json',
+					'accessToken': window.localStorage.accessToken
+			};
 	
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/xml' */
 //			params={
 //					'accept' : 'application/json',
 //					'registrationId' : shortCode,
 //					'contentType' : 'application/xml',
-//					'accessToken':'Bearer '+window.localStorage.accessToken
+//					'accessToken': window.localStorage.accessToken
 //			};
 			
 		/* UNCOMMENT THE FOLLOWING FOR CONTENT TYPE AS 'application/x-www-form-urlencoded' */
-			params={
-					'accept' : 'application/json',
-					'registrationId' : shortCode,
-					'contentType' : 'application/x-www-form-urlencoded',
-					'accessToken':'Bearer '+window.localStorage.accessToken
-			};
+//			params={
+//					'accept' : 'application/json',
+//					'registrationId' : shortCode,
+//					'contentType' : 'application/x-www-form-urlencoded',
+//					'accessToken': window.localStorage.accessToken
+//			};
 			
 			invocationData= {
 					adapter : 'SMSAdapter' ,
@@ -186,5 +182,4 @@ var params={},invocationData={},options={};
 			};
 			
 			WL.Client.invokeProcedure(invocationData, options);
-		
 		};

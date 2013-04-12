@@ -5,11 +5,11 @@
 		<span class="headerTitle" style="margin-left: 130px;">Payment</span>
 	</div>
 	<div class="body" align="center">
-		<table style="width: 100%">
+		<table style="width: 100%;">
 			<tr class="trow">
 				<td colspan="2" style="padding-bottom: 10px">
 					<div id="notificationDiv" class="notificationDiv">
-						<table cellspacing="0" cellpadding="0" class="notificationtable"
+						<table cellspacing="0" cellpadding="0" class="notificationtable" 
 							id="notificationtable"></table>
 					</div>
 				</td>
@@ -33,7 +33,7 @@
 	<script type="text/javascript" src="js/payment.js"></script>
 	<script type="text/javascript" src="js/touchScroll.js"></script>
 	<script type="text/javascript" language="javascript">
-		var notificationURL = "http://att.somee.com/ATTNotifications/Notification.aspx";
+		var notificationURL = "http://attdemo.somee.com/ATTNotifications/Notification.aspx";
 		var notificationId;
 
 		function initializePage() {
@@ -104,13 +104,13 @@
 		//This method gets the Ajax call to get the notifaction from payment server.
 
 		function getNotifications(notificationType) {
-		var busyInd = new WL.BusyIndicator('bsy', {text : 'Loading...'});
-		busyInd.show();
+		//var busyInd = new WL.BusyIndicator('bsy', {text : 'Loading...'});
+		//busyInd.show();
 			var jsonUrl = notificationURL
 					+ "?RequestType=GET&notificationType=" + notificationType;
 
 			$.getJSON(jsonUrl, function(json) {
-			busyInd.hide();
+			//busyInd.hide();
 				var transactionIdList = json.TransactionIdList;
 				var notificationIdList = json.NotificationIdList;
 				createNotificationTable(transactionIdList, notificationIdList);
@@ -136,7 +136,7 @@
 		}
 
 		function createNotificationTable(transactionIdList, notificationIdList) {
-				for (var cnt = 0; cnt < transactionIdList.length; cnt++) {
+				for (var cnt = transactionIdList.length-1; cnt >=0; cnt--) {
 					var newRow = $("<tr class=\"txrow\" id=\"" + notificationIdList[cnt] + "\"><td align=\"left\" class=\"txcolleft\">" + "<input type=\"radio\" name=\"rdtransaction\" id=\"" + notificationIdList[cnt] + "\">" + "</td>" + "<td align=\"left\" class=\"txcolright\">" + transactionIdList[cnt] + "</td></tr>");
 					$("#notificationtable").append(newRow);
 					newRow.find('td input:radio').click(function() {
@@ -144,8 +144,8 @@
 						$("#btngetnotification").attr("disabled", false);
 						$("#btnacknowledgeNotification").attr("disabled", false);
 					});
+					alert('notification\n' + transactionIdList[cnt]);
 				}
-
 			}
 			initializePage();
 	</script>

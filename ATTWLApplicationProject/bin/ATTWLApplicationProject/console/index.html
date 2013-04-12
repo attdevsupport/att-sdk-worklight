@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+		<!-- Licensed Materials - Property of IBM
+			 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+			 US Government Users Restricted Rights - Use, duplication or
+             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Worklight Console</title>
+		<meta name="description" content="Worklight Console" />
+		<meta name="author" content="Worklight CORD team" />
+		<meta content="(C) Copyright IBM Corp. 2006, 2013" name="DC.Rights" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+		<link rel="stylesheet" href="css/style.css?v=2" />
+		<link rel="stylesheet" href="css/tab.css?v=2" />
+		<link rel="stylesheet" href="css/catalog.css?v=2" />
+		<link rel="stylesheet" href="css/pushNotifications.css?v=2" />
+	</head>
+	<body>
+		<!-- Start of #container -->
+		<div id="container">
+			<div class="header">
+				<h1 id="Worklight" class="translate"></h1>
+				<div class="nav">
+					<ul id="headerNav">
+						<li><span id="welcome" class="translate"></span><span id="userName"></span></li>
+						<li><a id="logoutLink" class="translate"></a></li>
+						<li class="lastLi"><a id="aboutLink" class="translate"></a></li>
+					</ul>
+				</div>
+				<div id="about">
+					<div id="aboutBackground"></div>
+					<div id="aboutContent">
+						<h2 id="aboutWorklight" class="translate"></h2>
+						<div>
+							<p>
+								<span id="serverVersionLabel" class="translate strong"></span>
+								<span id="serverVersion"></span>
+							</p>
+							<p id="copy" class="translate"></p>
+							<button id="closeAbout" class="translate"></button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="main">
+				<div class="nav">
+					<ul id="tabNavigation">
+						<li id="catalogLi"><a id="catalogLink" class="translate"></a></li>
+						<li id="pushNotificationsLi"><a id="pushNotificationsLink" class="translate"></a></li>
+					</ul>
+				</div>
+				<div id="statusMessage-container">
+					<div id="statusMessage" class="header">
+						<!--h1></h1-->
+					</div>
+				</div>
+				<div id="tab"></div>
+			</div>
+			<div id="footer" class="translate"></div>
+		</div>
+		<!-- End of #container -->
+		
+		<!-- Start Yes No dialog box -->
+		<div id="confirmationContainer">
+			<div id="confirmationBackground"></div>
+			<div id="confirmationDialog">
+				<h1 id="confirmationDialogTitle"></h1>
+				<p id="confirmationDialogP1"></p>
+				<p id="confirmationDialogP2"></p>
+				<button id="confirmationDialogYesButton" class="translate"></button>
+				<button id="confirmationDialogNoButton" class="translate"></button>
+			</div>
+		</div>
+		<!-- End Yes No dialog box -->
+		
+		<!-- Start get URL dialog box -->
+		<div id="getURLcontainer">
+			<div id="getURLbackground"></div>
+			<div id="getURLdialog">
+				<h1 id="getURLdialogTitle"></h1>
+				<p><strong id="getURLdialogP1"></strong></p>
+				<p>
+					<span id="fullURL" class="translate"></span>
+					<input type="text" id="getURLdialogP2" readonly="readonly"/>
+				</p>
+				<p id="shortUrlContainer">
+					<span id="shortenedURL" class="translate"></span>
+					<input type="text" id="getShortenedURL" readonly="readonly"/>
+				</p>
+				<div id="qrcode"></div>
+				<p id="qrContainer">
+					<span id="qrInstructions1" class="translate"></span><br/>
+					<span id="qrInstructions2" class="weak translate"></span>
+					<img src="" id="qrImg" alt="" />
+				</p>
+				<button id="getURLdialogCloseButton" class="translate"></button>
+			</div>
+		</div>
+		<!-- End get URL dialog box -->
+		
+		<!-- JavaScript at the bottom for fast page loading -->
+		<script src="js/jquery-1.6.min.js"></script>
+		<script src="js/jquery.tmpl.min.js"></script>
+        <script src="js/jquery.json-2.2.min.js"></script>
+		<script src="js/jquery.qrcode.min.js"></script>
+		<script src="js/jquery.busy.js"></script>
+        <script src="js/ajaxfileupload.js"></script>
+		<script src="js/mustache.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="js/script.js"></script>
+		<script src="js/messages.js"></script>
+		<script src="js/catalog.js"></script>
+		<script src="js/pushNotifications.js"></script>
+		<!-- end scripts -->
+	</body>
+</html>

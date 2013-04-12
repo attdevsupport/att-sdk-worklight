@@ -11,6 +11,7 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2710063116A09DEF0072351B /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2710063016A09DEF0072351B /* Capture.bundle */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		301BF570109A69640062928A /* www in Resources */ = {isa = PBXBuildFile; fileRef = 301BF56E109A69640062928A /* www */; };
 		301BF5B5109A6A2B0062928A /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5B4109A6A2B0062928A /* AddressBook.framework */; };
@@ -23,7 +24,6 @@
 		301BF5C3109A6A2B0062928A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C2109A6A2B0062928A /* QuartzCore.framework */; };
 		301BF5C5109A6A2B0062928A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
-		30E1352710E2C1420031B30D /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
 		4255CFF6126B2ACD00B1C79C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4255CFF5126B2ACD00B1C79C /* CoreData.framework */; };
 		428BCE071372799200AEB66F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 428BCE011372799200AEB66F /* Default-Landscape~ipad.png */; };
 		428BCE081372799200AEB66F /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 428BCE021372799200AEB66F /* Default-Portrait~ipad.png */; };
@@ -33,6 +33,7 @@
 		42B5EAC41250C4AF00DC666F /* ATTWLKitchenSink.m in Sources */ = {isa = PBXBuildFile; fileRef = 42B5EAC31250C4AF00DC666F /* ATTWLKitchenSink.m */; };
 		42D9944B12952AAC00E883AC /* worklight.plist in Resources */ = {isa = PBXBuildFile; fileRef = 42D9944A12952AAC00E883AC /* worklight.plist */; };
 		42DB65D6141F483300EA8B09 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42DB65D5141F483300EA8B09 /* CoreMedia.framework */; };
+		470009E616BE4F3700E4EA3D /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 470009E516BE4F3700E4EA3D /* config.xml */; };
 		471100FD1640064200670C3C /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 471100FC1640064200670C3C /* Default-568h@2x~iphone.png */; };
 		8405DAED13D5AFC800B64489 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8405DAEC13D5AFC800B64489 /* Settings.bundle */; };
 		846D17A6145DC8F9008C9E10 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 846D17A5145DC8F9008C9E10 /* libz.dylib */; };
@@ -58,6 +59,7 @@
 		9CD1B091152C7C4E009E4A91 /* Default@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD1B090152C7C4E009E4A91 /* Default@2x~iphone.png */; };
 		9CD1B093152C7DC0009E4A91 /* Icon-small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD1B092152C7DC0009E4A91 /* Icon-small-50.png */; };
 		9CD1B095152C7DCA009E4A91 /* Icon-small.png in Resources */ = {isa = PBXBuildFile; fileRef = 9CD1B094152C7DCA009E4A91 /* Icon-small.png */; };
+		BD71147717036EDA00302460 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BD71147617036EDA00302460 /* libresolv.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +85,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* ATTWLKitchenSink.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ATTWLKitchenSink.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2710063016A09DEF0072351B /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		301BF56E109A69640062928A /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = SOURCE_ROOT; };
@@ -96,7 +99,6 @@
 		301BF5C2109A6A2B0062928A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		30E1352610E2C1420031B30D /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ATTWLApplicationProjectATTWLKitchenSinkIphone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATTWLApplicationProjectATTWLKitchenSinkIphone_Prefix.pch; sourceTree = "<group>"; };
 		4255CFF5126B2ACD00B1C79C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		428BCE011372799200AEB66F /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 		42B5EAC31250C4AF00DC666F /* ATTWLKitchenSink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATTWLKitchenSink.m; sourceTree = "<group>"; };
 		42D9944A12952AAC00E883AC /* worklight.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = worklight.plist; sourceTree = "<group>"; };
 		42DB65D5141F483300EA8B09 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		470009E516BE4F3700E4EA3D /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		471100FC1640064200670C3C /* Default-568h@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x~iphone.png"; path = "Resources/Default-568h@2x~iphone.png"; sourceTree = "<group>"; };
 		47A39D881663483600DE0F55 /* WLCookieExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCookieExtractor.h; sourceTree = "<group>"; };
 		8405DAEC13D5AFC800B64489 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 		9CD1B090152C7C4E009E4A91 /* Default@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default@2x~iphone.png"; path = "Resources/Default@2x~iphone.png"; sourceTree = "<group>"; };
 		9CD1B092152C7DC0009E4A91 /* Icon-small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-small-50.png"; path = "Resources/Icon-small-50.png"; sourceTree = "<group>"; };
 		9CD1B094152C7DCA009E4A91 /* Icon-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-small.png"; path = "Resources/Icon-small.png"; sourceTree = "<group>"; };
+		BD71147617036EDA00302460 /* libresolv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libresolv.dylib; path = usr/lib/libresolv.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD71147717036EDA00302460 /* libresolv.dylib in Frameworks */,
 				920D631B1619F5B4007B7418 /* sqlcipher.framework in Frameworks */,
 				9C8D139315EA409900392D18 /* libCordova.a in Frameworks */,
 				9C5B6E5D1535A43C00AF1336 /* Security.framework in Frameworks */,
@@ -212,6 +217,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				BD71147617036EDA00302460 /* libresolv.dylib */,
 				1467356D168B191D006BEFE0 /* Plugins */,
 				9C8D137F15EA404F00392D18 /* CordovaLib.xcodeproj */,
 				9C3102AA14E1804D006D8917 /* WorklightSDK */,
@@ -242,6 +248,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				470009E516BE4F3700E4EA3D /* config.xml */,
+				2710063016A09DEF0072351B /* Capture.bundle */,
 				471100FC1640064200670C3C /* Default-568h@2x~iphone.png */,
 				8405DAEC13D5AFC800B64489 /* Settings.bundle */,
 				428BCE031372799200AEB66F /* Default~iphone.png */,
@@ -250,7 +258,6 @@
 				9C962E09156D2C9A00A8F385 /* Icon@2x.png */,
 				9CD1B094152C7DCA009E4A91 /* Icon-small.png */,
 				42D9944A12952AAC00E883AC /* worklight.plist */,
-				30E1352610E2C1420031B30D /* Cordova.plist */,
 				8D1107310486CEB800E47090 /* ATTWLApplicationProjectATTWLKitchenSinkIphone-Info.plist */,
 			);
 			name = Resources;
@@ -411,10 +418,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				470009E616BE4F3700E4EA3D /* config.xml in Resources */,
+				2710063116A09DEF0072351B /* Capture.bundle in Resources */,
 				471100FD1640064200670C3C /* Default-568h@2x~iphone.png in Resources */,
 				9C8D139015EA405B00392D18 /* VERSION in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
-				30E1352710E2C1420031B30D /* Cordova.plist in Resources */,
 				42D9944B12952AAC00E883AC /* worklight.plist in Resources */,
 				428BCE071372799200AEB66F /* Default-Landscape~ipad.png in Resources */,
 				428BCE081372799200AEB66F /* Default-Portrait~ipad.png in Resources */,
@@ -522,7 +530,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				INFOPLIST_FILE = "ATTWLApplicationProjectATTWLKitchenSinkIphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -558,7 +566,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				INFOPLIST_FILE = "ATTWLApplicationProjectATTWLKitchenSinkIphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -613,7 +621,7 @@
 					"\"$(BUILT_PRODUCTS_DIR)\"",
 				);
 				INFOPLIST_FILE = "ATTWLApplicationProjectATTWLKitchenSinkIphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",

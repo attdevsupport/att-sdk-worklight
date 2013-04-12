@@ -10,34 +10,41 @@ var params={},invocationData={},options={};
  * @param audioType - Audio format
  * @param cbData - Callback function after successful invocation of the method
  */
-speechToText = function(audioString,audioType, cbData)
+speechToText = function(audioString, audioType, context, language, cbData)
 {
     setAudioDataFromBase64(audioString);
-		var params = {
-				"fileObject" : audioData,
-				"accessToken" : "Bearer " + window.localStorage.accessToken,
-				"contentType" : audioType,
-				"XSpeechContent" : "BusinessSearch",
-				"accept" : "application/json"
-			};
-		
-		var invocationData = {
-	            adapter : 'SpeechAdapter',
-	            procedure : 'speechToText',
-	            parameters : [params]
-	    };
-		options = {
-				onSuccess : function(data) {
-								busyInd.hide();
-								cbData(data);		
-				} ,
-				onFailure : function(error) {
-								busyInd.hide();
-								cbData(error);
-				} ,
-				invocationContext : {}
-		};
-		WL.Client.invokeProcedure(invocationData, options);
+    
+	var params = 
+	{
+		"fileObject" : audioData,
+		"accessToken" : window.localStorage.accessToken,
+		"contentType" : audioType,
+		"xSpeechContext" : context,
+		"accept" : "application/json"
+	};
+	
+	if(context==="Generic" && language !== undefined)
+	{
+	   params.contentLanguage = language;
+	}
+	
+	var invocationData = {
+            adapter : 'SpeechAdapter',
+            procedure : 'speechToText',
+            parameters : [params]
+    };
+	options = {
+			onSuccess : function(data) {
+							busyInd.hide();
+							cbData(data);		
+			} ,
+			onFailure : function(error) {
+							busyInd.hide();
+							cbData(error);
+			} ,
+			invocationContext : {}
+	};
+	WL.Client.invokeProcedure(invocationData, options);
 };
 
 
@@ -55,3 +62,15 @@ function setAudioDataFromBase64(audioString)
     	audioData = base64AudioString;
     }
 }
+
+function speechContextSelected()
+{
+	var languageStyle = document.getElementById('languageRow').style;
+	if($('#context').val() === "Generic")
+	{
+		languageStyle.display = 'table-row';		
+	} else {
+		languageStyle.display = 'none';
+	}
+}
+

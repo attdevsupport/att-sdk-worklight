@@ -7,13 +7,18 @@ public class ATTConstant
 	public static final String ARG_BODY="body";
 	public static final String ARG_HEADER_CONTENT_TYPE = "contentType";
 	public static final String ARG_HEADER_CONTENT_LENGTH = "headerContentLength";
-	public static final String ARG_HEADER_XSPEECH_CONTENT = "XSpeechContent";
+	public static final String ARG_HEADER_CONTENT_LANGUAGE = "contentLanguage";
+	public static final String ARG_HEADER_XSPEECH_CONTEXT = "xSpeechContext";
+	public static final String ARG_HEADER_XSPEECH_SUBCONTEXT = "xSpeechSubContext";
 	public static final String ARG_HEADER_TRANSFER_ENCODING = "headerTransferEncoding";
+	public static final String ARG_HEADER_XARG = "xArg";
 	public static final String VAL_TRANSFER_ENCODING_CHUNKED = "chunked";
 	public static final String ARG_URL = "host";
 	public static final String VAL_CONTENT_TYPE_WAV = "audio/wav";
 	public static final String VAL_CONTENT_TYPE_AMR = "audio/amr";
-
+	public static final String VAL_CONTENT_TYPE_AMRWB = "audio/amr-wb";
+	public static final String VAL_EN_US = "en-US";
+	
 	public static final String ERR_INV_ACT_CODE = "PLAT001";
 	public static final String ERR_INV_ACT_MSG = "Invalid Action Provided";
 	public static final String ARG_TOKEN = "accessToken";

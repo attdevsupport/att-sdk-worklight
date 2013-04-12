@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		470009E516BE4F3700E4EA3D /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };		2710063116A09DEF0072351B /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2710063016A09DEF0072351B /* Capture.bundle */; };
 		920D631B1619F5B4007B7418 /* sqlcipher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 920D631A1619F5B4007B7418 /* sqlcipher.framework */; };
 		9C8D139315EA409900392D18 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C8D138A15EA404F00392D18 /* libCordova.a */; };
 		471100FD1640064200670C3C /* Default-568h@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = 471100FC1640064200670C3C /* Default-568h@2x~iphone.png */; };
@@ -26,7 +27,6 @@
 		301BF5C3109A6A2B0062928A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C2109A6A2B0062928A /* QuartzCore.framework */; };
 		301BF5C5109A6A2B0062928A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */; };
 		305D5FD1115AB8F900A74A75 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */; };
-		30E1352710E2C1420031B30D /* Cordova.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30E1352610E2C1420031B30D /* Cordova.plist */; };
 		4255CFF6126B2ACD00B1C79C /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4255CFF5126B2ACD00B1C79C /* CoreData.framework */; };
 		428BCE071372799200AEB66F /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 428BCE011372799200AEB66F /* Default-Landscape~ipad.png */; };
 		428BCE081372799200AEB66F /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 428BCE021372799200AEB66F /* Default-Portrait~ipad.png */; };
@@ -91,6 +91,7 @@
 /* End PBXContainerItemProxy section */ 
 
 /* Begin PBXFileReference section */
+		470009E616BE4F3700E4EA3D /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 470009E516BE4F3700E4EA3D /* config.xml */; };		2710063016A09DEF0072351B /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
 		920D631A1619F5B4007B7418 /* sqlcipher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlcipher.framework; path = Frameworks/sqlcipher.framework; sourceTree = "<group>"; };
 		9C8D137F15EA404F00392D18 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		47A39D881663483600DE0F55 /* WLCookieExtractor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCookieExtractor.h; sourceTree = "<group>"; };
@@ -112,7 +113,6 @@
 		301BF5C2109A6A2B0062928A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		301BF5C4109A6A2B0062928A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		305D5FD0115AB8F900A74A75 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
-		30E1352610E2C1420031B30D /* Cordova.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Cordova.plist; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* ATTWLApplicationProjectATTWLKitchenSinkIpad_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATTWLApplicationProjectATTWLKitchenSinkIpad_Prefix.pch; sourceTree = "<group>"; };
 		4255CFF5126B2ACD00B1C79C /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		428BCE011372799200AEB66F /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "Resources/Default-Landscape~ipad.png"; sourceTree = "<group>"; };
@@ -253,6 +253,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				470009E516BE4F3700E4EA3D /* config.xml */, 
+				2710063016A09DEF0072351B /* Capture.bundle */, 
 				471100FC1640064200670C3C /* Default-568h@2x~iphone.png */,
 				8405DAEC13D5AFC800B64489 /* Settings.bundle */,
 				428BCE031372799200AEB66F /* Default~iphone.png */,
@@ -261,7 +263,6 @@
 				9C962E09156D2C9A00A8F385 /* Icon@2x.png */,
 				9CD1B094152C7DCA009E4A91 /* Icon-small.png */,
 				42D9944A12952AAC00E883AC /* worklight.plist */,
-				30E1352610E2C1420031B30D /* Cordova.plist */,
 				8D1107310486CEB800E47090 /* ATTWLApplicationProjectATTWLKitchenSinkIpad-Info.plist */,
 			);
 			name = Resources;
@@ -428,10 +429,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				470009E616BE4F3700E4EA3D /* config.xml in Resources */, 
+				2710063116A09DEF0072351B /* Capture.bundle in Resources */, 
 				471100FD1640064200670C3C /* Default-568h@2x~iphone.png in Resources */,
 				9C8D139015EA405B00392D18 /* VERSION in Resources */,
 				301BF570109A69640062928A /* www in Resources */,
-				30E1352710E2C1420031B30D /* Cordova.plist in Resources */,
 				42D9944B12952AAC00E883AC /* worklight.plist in Resources */,
 				428BCE071372799200AEB66F /* Default-Landscape~ipad.png in Resources */,
 				428BCE081372799200AEB66F /* Default-Portrait~ipad.png in Resources */,

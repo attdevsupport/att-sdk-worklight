@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/deviceAuthentication.js in Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
@@ -44,10 +44,6 @@ __WLDeviceAuth = function() {
     
     this.saveCertificate = function(successCallback, failureCallback, provisioningEntitiy, certificate, realm) {
         cordova.exec(successCallback, failureCallback, "DeviceAuth", "saveCertificate", [ provisioningEntitiy, certificate, realm]);
-    },
-    
-    this.__getOsModel = function(callback) {
-        cordova.exec(callback, callback, "DeviceAuth", "getOsModel", []);
     },
 
     this.signCsr = function(csrData, provisioningEntitiy, successCallback, failureCallback) {

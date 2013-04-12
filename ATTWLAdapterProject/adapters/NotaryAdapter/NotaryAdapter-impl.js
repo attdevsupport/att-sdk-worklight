@@ -36,6 +36,7 @@ function getSignedPayload(options) {
 	if (options.accept !== undefined) {
 		input.headers.Accept = options.accept;
 	}
+	
 	logInfo('*********  NOTARY PAYLOAD LOGS *********');
 	logInfo('Input : '
 			+ com.worklight.server.integration.api.JSObjectConverter

@@ -1,9 +1,12 @@
 package com.ATTWLKitchenSink;
 
-
+import java.io.File;
 import java.io.IOException;
-import android.media.MediaRecorder;
+import java.io.FileOutputStream;
+import java.net.URI;
 
+import android.media.MediaRecorder;
+import android.util.Base64;
 
 import org.apache.cordova.api.CallbackContext;
 import org.apache.cordova.api.CordovaPlugin;
@@ -11,14 +14,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+public class Recorder extends CordovaPlugin 
+{
+    private static MediaRecorder recorder;
 
-
-public class Recorder extends CordovaPlugin  {
-     private static MediaRecorder recorder;
-
-	public boolean execute(String action,JSONArray args, CallbackContext callbackContext){
-		
-		
+	public boolean execute(String action,JSONArray args, CallbackContext callbackContext)
+	{
 		if(action.equalsIgnoreCase("start"))
 		{
 			return this.start(args);
@@ -27,18 +28,27 @@ public class Recorder extends CordovaPlugin  {
 		{
 			return this.stop();
 			
+		}else if(action.equalsIgnoreCase("writeBase64ToBinary"))
+		{
+			if(this.writeBase64ToBinary(args))
+			{
+				callbackContext.success();
+			} else {
+				callbackContext.error("callback failed");
+			}
+			return true;
 		}
 		return false;
-		
 	}
+
 /**
  * Method used to start the Audio Recording.
  * @param args
  * @return boolean value
  */
 
-public boolean start(JSONArray args){
-
+public boolean start(JSONArray args)
+{
 	String filePath=null;
 	int audioChannels = 0,samplingRate=0,encodingBitRate=0;
 	JSONObject json = null;
@@ -150,4 +160,64 @@ public boolean stop() {
 	return recorderStopped;
 }
 
+	/**
+	 * Method used to write base64 data into a file as binary.
+	 * @param args Arguments to the method
+	 * @param args.base64String The base64 encoded String
+	 * @param args.filePath Binary data is written to this file
+	 * @return boolean value
+	 */
+	public boolean writeBase64ToBinary(JSONArray args)
+	{
+		String filePath=null;
+		String base64String = null;
+		
+		if(args.length() != 2) return false;
+		
+		try {
+			base64String = args.getString(0);
+		} catch (JSONException e) {
+			e.printStackTrace();
+			return false;
+		}	
+		
+		try
+		{
+			filePath = args.getString(1);
+		} 
+		catch (JSONException e)
+		{
+			e.printStackTrace();
+			return false;
+		}	
+
+		try
+		{
+			byte[] binaryData;
+			
+			System.out.println("Decoding base64");
+			
+	        binaryData = Base64.decode(base64String, Base64.DEFAULT);
+	        
+	        URI fileUri = new URI(filePath);
+	        
+	        File outFile = new File(fileUri.getPath());
+	        
+			System.out.println("Write file: " + fileUri.getPath());
+			
+	        FileOutputStream outStream = new FileOutputStream(outFile);
+	        if(outStream != null)
+	        {
+	        	outStream.write(binaryData, 0, binaryData.length);
+	        	outStream.close();
+	        } 
+		} 
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+	
+		return true;
+	}
 }

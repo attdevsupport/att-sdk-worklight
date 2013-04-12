@@ -3,21 +3,28 @@
  * the network for a particular mobile terminal.
  * 
  * @param options
- *            It is a json that contains the OAuthToken token and accept.
+ *            It is a json that contains the access token and accept.
  * @returns json/xml list of items
  */
-function getDeviceCapabilities(options) {
+function getDeviceCapabilities(options)
+{
 	var accept="";
 	if(options.accept != undefined && options.accept !=""){
 		accept=options.accept;
 	}else{
 		accept="application/json";
 	}
+
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}	
+	
 	var input = {
 		method : "get",
 		path : "rest/2/Devices/Info",
 		headers : {
-			"Authorization" : options.oAuthToken,
+			"Authorization" : options.accessToken,
 			"Accept" : accept
 		},
 	};
@@ -25,8 +32,11 @@ function getDeviceCapabilities(options) {
 	logInfo('********* DEVICE CAPABILITIES ADAPTER LOGS *********');
 	logInfo('Input: '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
 	
-	return WL.Server.invokeHttp(input);
-
+	var result = WL.Server.invokeHttp(input);
+	
+	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
+	
+	return(result);
 }
 
 function logInfo(value)

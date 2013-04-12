@@ -4,6 +4,7 @@ var baseEndPoint = 'rest/3/Commerce/Payment/';
  * javascript was giving unidentified problem in Worklight version 5.0.5. The java code requires the host name which cannot be directly fetched from the domain
  * of the adapter. Thus, we have explicitly mentioned the domain in this file so that it is accessible in the java code.*/
 var domain = "https://api.att.com/";
+
 /**
  * method logInfo A common method used to print the debug statements.It is an
  * Internal method.
@@ -23,7 +24,7 @@ function logInfo(value) {
  */
 function newTransaction(options) {
 	var url = {
-		"url" : "https://api.att.com/rest/3/Commerce/Payment/Transactions"
+		"url" : domain + "rest/3/Commerce/Payment/Transactions"
 				+ '?Signature=' + options.signature + "&SignedPaymentDetail="
 				+ options.signedDocument + "&clientid=" + WL.Server.configuration["apiKey"]
 	};
@@ -42,7 +43,13 @@ function newTransaction(options) {
  *            A JSON Object that has all the required Parameters.
  * @returns response of getTransactionStatus method.
  */
-function getTransactionStatus(options) {
+function getTransactionStatus(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 		method : 'get',
 		path : baseEndPoint + 'Transactions/'+options.idType+'/'+options.id,
@@ -73,44 +80,12 @@ function getTransactionStatus(options) {
  *            A JSON Object that has all the required Parameters.
  * @returns response of refundTransaction method.
  */
-/*function refundTransaction(options) {
-	var input = {
-		method : 'put',
-		path : baseEndPoint + 'Transactions/' + options.transactionId
-				+ '?Action=' + options.action,
-		headers : {
-			'Authorization' : options.accessToken,
-			"Content-Type" : options.contentType,
-		},
-		body : {
-			"contentType" : options.contentType
-		}
-
-	};
-	if (options.accept !== undefined) {
-		input.headers.Accept = options.accept;
+function refundTransaction(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
 	}
-	if (options.contentType !== undefined
-			&& options.contentType === "application/json") {
-		input.body.content = com.worklight.server.integration.api.JSObjectConverter
-				.toFormattedString(options.body);
-	} else {
-		input.body.content = options.body;
-	}
-	logInfo('********* REFUND TRANSACTION   LOGS *********');
-	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
-	// http call to AT&T service
-	var result = WL.Server.invokeHttp(input);
-
-	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
-	return result;
-}*/
-
-function refundTransaction(options) {
 	options.host = domain+baseEndPoint + 'Transactions/' + options.transactionId+ '?Action=' + options.action;
 	WL.Logger.debug(options.host);
 	var refundHelper = new com.att.PaymentHelper();
@@ -129,7 +104,13 @@ function refundTransaction(options) {
  *            A JSON Object that has all the required Parameters.
  * @returns response of getNotification method.
  */
-function getNotification(options) {
+function getNotification(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 		method : 'get',
 		path : baseEndPoint + 'Notifications/' + options.notificationId,
@@ -161,7 +142,13 @@ function getNotification(options) {
  *            A JSON Object that has all the required Parameters.
  * @returns response of deleteNotification method.
  */
-function deleteNotification(options) {
+function deleteNotification(options)
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 		method : 'put',
 		path : baseEndPoint + 'Notifications/' + options.notificationId,
@@ -194,16 +181,16 @@ function deleteNotification(options) {
  */
 function newSubscription(options) {
 	var url = {
-		"url" : "https://api.att.com/rest/3/Commerce/Payment/Subscriptions"
+		"url" : domain + "rest/3/Commerce/Payment/Subscriptions"
 				+ '?Signature=' + options.signature + "&SignedPaymentDetail="
 				+ options.signedDocument + "&clientid=" + WL.Server.configuration["apiKey"]
-	}
+	};
 	logInfo('********* NEW SUBSCRIPTION  LOGS *********');
 	logInfo('Input : '
 			+ com.worklight.server.integration.api.JSObjectConverter
 					.toFormattedString(options));
 	logInfo('Response : ' + url);
-	return url
+	return url;
 };
 
 /**
@@ -213,7 +200,13 @@ function newSubscription(options) {
  *            A JSON Object that has all the required Parameters.
  * @returns response of getSubscriptionStatus method.
  */
-function getSubscriptionStatus(options) {
+function getSubscriptionStatus(options) 
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 		method : 'get',
 		path : baseEndPoint + 'Subscriptions/'+options.idType+'/'+options.id,
@@ -243,7 +236,13 @@ function getSubscriptionStatus(options) {
  *            A JSON Object that has all the required Parameters.
  * @returns response of getSubscriptionDetails method.
  */
-function getSubscriptionDetails(options) {
+function getSubscriptionDetails(options) 
+{
+	if(options.accessToken.indexOf("Bearer ") == -1)
+	{
+		options.accessToken = 'Bearer ' + options.accessToken;
+	}
+	
 	var input = {
 		method : 'get',
 		path : baseEndPoint + 'Subscriptions/' + options.merchantSubscriptionId

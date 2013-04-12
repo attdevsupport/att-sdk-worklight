@@ -2,7 +2,7 @@
 /* JavaScript content from wlclient/js/challengeHandlers/authenticityChallengeHandler.js in Common Resources */
 /*
  * Licensed Materials - Property of IBM
- * 5725-G92 (C) Copyright IBM Corp. 2006, 2012. All Rights Reserved.
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
  * US Government Users Restricted Rights - Use, duplication or
  * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
  */
@@ -27,7 +27,7 @@ wl_authenticityChallengeHandler.handleChallenge = function(obj) {
 
 wl_authenticityChallengeHandler.handleFailure = function(err) {
     WL.SimpleDialog.show(WL.ClientMessages.wlclientInitFailure, WL.ClientMessages.authFailure, [ {
-        text : WL.ClientMessages.exit,
+        text : WL.SimpleDialog.getExitButtonText(),
         handler : function() {
             WL.App.close();
         }
