@@ -1,0 +1,711 @@
+/*
+* Licensed Materials - Property of IBM
+* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*/
+
+
+.topToolBarItem{
+    display: inline-block;
+	width:470px;
+	line-height: 40px;
+}
+#animationStatus label {
+	font-size: 12px;
+}
+
+.topToolBarItem button {
+	width: auto;
+	background: #fff;
+	display: inline-block;
+	margin-left: 8px;
+}
+
+.topToolBarItem button:hover {
+	background: #7FBEE4;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7FBEE4', endColorstr='#CAE3F1',GradientType=0 );
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0.4, rgb(127,190,228)), color-stop(1, rgb(202,227,241)));
+	background: -moz-linear-gradient(center bottom, rgb(127,190,228) 40%, rgb(202,227,241) 100%);
+	background: linear-gradient(top, rgb(127,190,228) 40%, rgb(202,227,241) 100%);
+	color: #fff;
+}
+
+#smsUnsubscribe{
+	text-align: right;
+}
+
+#pushNotifications .main {
+	padding: 8px;
+}
+
+.column {
+	display: inline-block;
+	float: left;
+	min-height: 500px;
+	width: 440px;
+	background-color: #fff;30%
+}
+
+#eventSources {
+	background-image: linear-gradient(left, rgb(255,255,255) 30%, rgb(204,204,204) 30%);
+	background-image: -o-linear-gradient(left, rgb(255,255,255) 30%, rgb(204,204,204) 30%);
+	background-image: -moz-linear-gradient(left, rgb(255,255,255) 30%, rgb(204,204,204) 30%);
+	background-image: -webkit-linear-gradient(left, rgb(255,255,255) 30%, rgb(204,204,204) 30%);
+	background-image: -ms-linear-gradient(left, rgb(255,255,255) 30%, rgb(204,204,204) 30%);
+	background-image: -webkit-gradient(linear, left top, right top, color-stop(0.3, rgb(255,255,255)), color-stop(0.3, rgb(204,204,204)));
+}
+
+#server.column {
+	border-right: 0 none;
+	width: 40px;
+	/* background: url('../images/appIcon.png') no-repeat 50% 4px #dcdcdc; */
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAARLSURBVHjaAEEAvv8BeKK6AAICAQDs8fUA9Pf4APX5+iLm9PtM9gAGNfD8AjcBAQIICAH92P3598L8+PbH/f39vQICAwAFBQYAAQEBAAKIhQEIgDQDK9CQ999+uD/4zjrrI4eYHDe/MEOAqjDD+5//GI48+iTL+POrK8vn13/+vX3WwPD3dy9Q2w+QXoAAAEEAvv8E/v8AAP/8/wDm8fZl1PMFmAEXJAIMDhEAmEkcACcRBwCNzO4AEvQFABAGEwDg6xEEBAUJhPvn3i4A/v5jAQQE9AKI6RfQgDuvvngcf/F/BrOYMtNvNl6GfBMRBmNRNobYjQ8ZFpx/zVBmLMDgIc/FwMTCysAqIMnwj0s87MfXH51sDP9ZAAIAQQC+/wLg7fkaxd/8mv4PHAL9AwcAFAT9AFgoDgCCweYAx97tABgE+wDN4/AA3uz1AMBbIQA8GgoA9P4LAPX4BWr58/NOAgBBAL7/At3p/ETx/Q0dAQQHAPb1+AA8GgcABgMAALnX6QA2FwUAcDgWAPP3+gDz9PYAocvmANPi7QAE/fwA/P0FAPbz+U0CiOnle0b3f8ycwHD5x/Dr2zcGEwlOhotPPzP8+PaDwUOZj+HwzVcMkhwMDLzM/xk4mBgYVPlZGL5//goOty8fvhkBBABBAL7/Au/v/zYA/v8A/ff5AP34+AAJBAAA1OrzACYYCAD8AP4Ao8/kAMTg7QAqFQgAkLvYANDe6QAF/PgA//r5APr3+BgCiOnfjx8cDL9+Mfz79QOo/A/D9TdfGLiAprwC2iDMx8HAysfO4KAmwnDs4VuG91+/Mjx//YGB4TfQgD+/gPg3E0AAMXEyf735D+j0///+MrCzszCsvPaGwU5WgCHYQIZBWZSXocNTk+EL0LCtt98ycAEDh/HfH4b/v4Ga//1iYGb89wEggJi42b7u/v/jEzBa/zAwA1PY0x9MDI2XPjAwCvEz2MryMfhrijHMvvMVmPLYgS5kAvr2P1Az0HO/vjPw8bDcAAggJi72XzuZfrz+9e/nT6AhzAxsXLwM818xMqz8xMjw9C8Dw5Lnfxg+c/IxMDBxMPz9y8gATnjAWPj78xODqCDnXoAAYuLmZrwgxPm18febFwx/vv1j+P2XnYGBhYtBk5edQQ4YoP8ZWRh+/wMG6B9mBqC3Gf7++cfw8+tHBmHO3+eUZEUXAgQQ078/fxn4eZn7uX6/XP7z5VOGP2+BSfz1Xwax34wMbMA8IvAPmODfAeP961+GP99/M/x8/46B68/7l9Z6igki/DzvAQKIWVjXkYGZmekPC+O/7d8/vOb78+Ov+b+fzAy/frMw8AEDbdUZYCq88Yzh37vnDH/ePGQQ+P7ohLmqULictMRlkH8AAoiFAWjLf5C/GJi+cbH+y/vz5db+v/dfeV54ImgUtYtLiuH3L2bOfx/f8/z7eJ2P5ct+UTG2BVwcbJ/+/P0L1MPIABBgAG6vyk7s2euWAAAAAElFTkSuQmCC") no-repeat 50% 4px #dcdcdc;
+}
+
+#notificationsToApps.column {
+	width: 524px;
+}
+
+.column h2 {
+	background: #f3f3f3;
+	border-bottom: 1px solid #ededed;
+	border-top: 1px solid #d0e8f4;
+	color: #0072b1;
+	font-weight: bold;
+	line-height: 32px;
+	text-align: center;
+	
+}
+.eventSource,
+.pushService,
+.notificationsToApp {
+	border: 1px solid #0073B3;
+	margin: 8px 0 24px 148px;
+	position: relative;
+	width: 250px;
+}
+
+.notificationsToApp {
+    margin: 8px 30px 24px 194px;
+    width: 300px;
+}
+
+.eventSource.disabled,
+.pushService.disabled,
+.notificationsToApp.disabled {
+	border-color: #595959;
+	border-top-color: #cdcdcd;
+}
+
+.eventSourceTitle {
+    min-height: 27px;
+    padding: 2px 6px 6px 6px;
+}
+
+.pushServiceTitle {
+	height: 24px;
+	padding: 0 6px;
+}
+
+.active .eventSourceTitle,
+.active .pushServiceTitle {
+	background: #f3f8fc;
+	border-top: 1px solid #d9eaf4;
+}
+
+.disabled .eventSourceTitle,
+.disabled .pushServiceTitle {
+	background: #f5f5f5;
+	border-top: 1px solid #e9e9e9;
+}
+
+h3 {
+	display: inline-box;
+	font-size: 14px;
+	font-weight: normal;
+	height: 14px;
+	overflow: hidden;
+	-moz-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 180px;
+}
+
+.active h3 {
+	color: #07b;
+}
+
+.disabled h3 {
+	color: #737373;
+}
+
+.notificationsToApp h3 {
+	height: 24px;
+	overflow: hidden;
+	-moz-text-overflow: ellipsis;
+	-ms-text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	-webkit-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 280px;
+}
+
+.notificationsToApp h3 img {
+	height: 24px;
+	width: 24px;
+	vertical-align: middle;	
+}
+
+.notificationsToApp .notificationsToAppBody {
+	border-bottom: 1px solid #ccc;
+	padding: 10px 10px 0 10px;
+}
+
+h4,
+h6 {
+	font-weight: normal;
+	padding-top: 4px;
+}
+
+.active h4,
+.active h6 {
+	color: #7e7f81;
+}
+
+.disabled h4,
+.disabled h6 {
+	color: #737373;
+}
+
+.service.disabled h4 {
+	color: inherit;
+}
+
+h4.android,
+h4.apple,
+h4.Apple,
+h4.Microsoft,
+h4.sms,
+h4.SMS,
+h4.Google {
+	/* background-image: url("../images/android.ios.blackberry.windowsphone7.sms.png"); */
+	background-image: url("data:image/png;base64,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");	background-repeat: no-repeat;
+}
+
+h4.android {
+	background-position: 0 -12px;
+}
+
+h4.apple,
+h4.Apple {
+	background-position: 0 -60px;
+}
+h4.google,
+h4.Google {
+	background-position: 0 -10px;
+}
+
+h4.blackberry {
+background-position: 0 -108px;
+}
+
+h4.SMS,
+h4.sms {
+	background-position: 0 -210px;
+}
+
+h4.Microsoft {
+	background-position: 0 -262px;
+}
+
+
+h5 {
+    font-weight: normal;
+    padding: 0 12px 0 0;
+    position: absolute;
+    right: 6px;
+    text-align: right;
+    top: 2px;
+    width: 60px;
+}
+
+.pushService h5 {
+	margin: 4px 0 0 0;
+}
+
+h5.active,
+h5.disabled,
+h5.error {
+	/* background-image: url("../images/active.error.disabled.png") no-repeat scroll 100% -5px transparent; */
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAABRCAYAAAAATIyKAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAkJJREFUeNrslc2KE0EUhc+triaO4jj4CLrI1j9w7SKLPIIbwUEURREEn8KVuPFnpeA7hBBwMxtxHJltdC1DVBDUSfqn6npudRIyMKgLF7PoDsmt7rp17ulKfVWiqvjb5fAPV5sEbz93tm9pxfRMa6g040Rj0nh68YXI7e1NLc5/xI7b4sNm9mWucC5ewbGds3CBI3fDFlxFpTIDApCzLZVgN76BiMBnplopMjEdxppRrLRFgWoGL4jolLQW2ct2kMZo4B/PHEQp4SOHuaqGBMeRMSmYYTMutOKjt0EO+X7jOdob0pMw2drRYowsFxWnqnX85MfRnzgqUsUm4qScTu8rtujuvb2pNedInIfTih2dZeknl5+LtCuzTTq6mL+7/0CdurTwE4x1joK05qTlwuNHIu/vPtQz169ioyxtxZNTRZ4KRHz3HXx6+ZpKscT63t5SOk98aHKywURoYBLLyJdJg440ndYB4m07R+KuDiVk8pVJ5J4jF3nkHNHyyKXPbdDkc0ppVBhdBkPNaVIh6two5NsvWCTw1NL53GjaXQJBpfGIejaD3/8B03e2B5gZEo3jJ+DW1hrMP1y7YXtImiPbZUQK3lGVL3Xp1bMW8zbpKGM+Go3U+HLpGDu4Unu9nshwONRut4sQQvraOl/SnOcYj8c8FPlwOp0e6EzHPu9npMiUvZUxBbs0Hc6SYoJzXj55Koriz8Yts65rHIbWQnWptFpqNS6VVn0liufTsfCUCB4MBodibH39fr/F/H8m/RZgAO2WQeiYTueAAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	display: none;
+}
+
+h5.active {
+	background-position: 100% -6px;
+	color: #575757;
+}
+
+h5.disabled {
+	background-position: 100% -60px;
+	color: #565656;
+}
+
+h5.error {
+	background-position: 100% -33px;
+	color: #565656;
+}
+
+.eventSourceBody,
+.pushServiceBody,
+.notificationsToAppBody {
+	min-height: 50px;
+	padding: 10px;
+	background: #D9EAF4;
+}
+
+.active .eventSourceBody,
+.active .pushServiceBody,
+.active .notificationsToAppBody,
+.active .service {
+	background: #d9eaf4;
+}
+
+.disabled .eventSourceBody,
+.disabled .pushServiceBody,
+.disabled .notificationsToAppBody,
+.disabled .service {
+	background: #e9e9e9;
+}
+
+.active .eventSourceBody p,
+.active .pushServiceBody p,
+.active .notificationsToAppBody p {
+	color: #595959;
+}
+
+.disabled .eventSourceBody p,
+.disabled .pushServiceBody p,
+.disabled .notificationsToAppBody p {
+	color: #737373;
+}
+
+.service {
+	border: 1px solid transparent;
+	border-bottom-color: #fff;
+	position: relative;
+}
+
+.service.enabled {
+	background: #D9EAF4;
+}
+
+.service.disabled {
+	background: #d9d9d9;
+}
+
+.service.animated {
+	border-color: #f00;
+}
+
+.service h4 {
+	font-size: 14px;
+	margin: 0 0 0 10px;
+	padding: 4px 0 2px 20px;
+}
+
+.service h6 {
+	margin: 0 0 0 10px;
+}
+
+.service .errorMessage {
+	color: #f00 !important;
+	display: none;
+	margin: 10px 0;
+}
+
+.service a {
+	text-align: center;
+}
+
+.eventSourceFooter,
+.pushServiceFooter,
+.notificationsToAppFooter {
+	height: 22px;
+	padding: 0 6px;
+	text-align: right;
+}
+
+.notificationsToAppFooter {
+	display: none;
+}
+
+.active .eventSourceFooter,
+.active .pushServiceFooter,
+.active .notificationsToAppFooter {
+	background: #d9eaf4;
+	border-top: 1px solid #f5fbfb;
+}
+
+.disabled .eventSourceFooter,
+.disabled .pushServiceFooter,
+.disabled .notificationsToAppFooter {
+	background: #e9e9e9;
+	border-top: 1px solid #f1f1f1;
+}
+
+.eventSourceFooter a.simulateMessage,
+.eventSourceFooter a.enableDisable,
+.pushServiceFooter a.enableDisable,
+.notificationsToAppFooter a.enableDisable,
+.pushServiceFooter .getErrorReport {
+	/* background: url("../images/fullArrow.png") no-repeat scroll 0 50% transparent; */
+	background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAMAAAAFCAIAAAAPE8H1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAADUBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+Cjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDQuMi4yLWMwNjMgNTMuMzUyNjI0LCAyMDA4LzA3LzMwLTE4OjEyOjE4ICAgICAgICAiPgogPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICAgeG1sbnM6eG1wUmlnaHRzPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvcmlnaHRzLyIKICAgIHhtbG5zOnBob3Rvc2hvcD0iaHR0cDovL25zLmFkb2JlLmNvbS9waG90b3Nob3AvMS4wLyIKICAgIHhtbG5zOklwdGM0eG1wQ29yZT0iaHR0cDovL2lwdGMub3JnL3N0ZC9JcHRjNHhtcENvcmUvMS4wL3htbG5zLyIKICAgeG1wUmlnaHRzOk1hcmtlZD0iRmFsc2UiCiAgIHhtcFJpZ2h0czpXZWJTdGF0ZW1lbnQ9IiIKICAgcGhvdG9zaG9wOkF1dGhvcnNQb3NpdGlvbj0iIj4KICAgPGRjOnJpZ2h0cz4KICAgIDxyZGY6QWx0PgogICAgIDxyZGY6bGkgeG1sOmxhbmc9IngtZGVmYXVsdCIvPgogICAgPC9yZGY6QWx0PgogICA8L2RjOnJpZ2h0cz4KICAgPGRjOmNyZWF0b3I+CiAgICA8cmRmOlNlcT4KICAgICA8cmRmOmxpLz4KICAgIDwvcmRmOlNlcT4KICAgPC9kYzpjcmVhdG9yPgogICA8ZGM6dGl0bGU+CiAgICA8cmRmOkFsdD4KICAgICA8cmRmOmxpIHhtbDpsYW5nPSJ4LWRlZmF1bHQiLz4KICAgIDwvcmRmOkFsdD4KICAgPC9kYzp0aXRsZT4KICAgPHhtcFJpZ2h0czpVc2FnZVRlcm1zPgogICAgPHJkZjpBbHQ+CiAgICAgPHJkZjpsaSB4bWw6bGFuZz0ieC1kZWZhdWx0Ii8+CiAgICA8L3JkZjpBbHQ+CiAgIDwveG1wUmlnaHRzOlVzYWdlVGVybXM+CiAgIDxJcHRjNHhtcENvcmU6Q3JlYXRvckNvbnRhY3RJbmZvCiAgICBJcHRjNHhtcENvcmU6Q2lBZHJFeHRhZHI9IiIKICAgIElwdGM0eG1wQ29yZTpDaUFkckNpdHk9IiIKICAgIElwdGM0eG1wQ29yZTpDaUFkclJlZ2lvbj0iIgogICAgSXB0YzR4bXBDb3JlOkNpQWRyUGNvZGU9IiIKICAgIElwdGM0eG1wQ29yZTpDaUFkckN0cnk9IiIKICAgIElwdGM0eG1wQ29yZTpDaVRlbFdvcms9IiIKICAgIElwdGM0eG1wQ29yZTpDaUVtYWlsV29yaz0iIgogICAgSXB0YzR4bXBDb3JlOkNpVXJsV29yaz0iIi8+CiAgPC9yZGY6RGVzY3JpcHRpb24+CiA8L3JkZjpSREY+CjwveDp4bXBtZXRhPgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgCjw/eHBhY2tldCBlbmQ9InciPz6wCsCdAAAAOklEQVR42mJgKNr86sXrV69eMDEw/RPrPPWXkYmRoWgjAyMjAwMTC4hi/P+y1JSJgYHhVakZkAQIMADl3Q9itHlijwAAAABJRU5ErkJggg==") no-repeat scroll 0 50% transparent;
+	color: #0075B5;
+    line-height: 22px;
+    padding: 0 0 0 5px;
+}
+
+.eventSourceFooter a.enableDisable {
+	display: none;
+}
+
+.eventSourceFooter a.simulateMessage {
+	display: none;
+	float: left;
+}
+
+.pushServiceFooter .getErrorReport {
+	float: right;
+}
+
+.warning {
+	color: #f00 !important;
+	padding: 10px;
+}
+
+button {
+	background: #AFD7F0;
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.4, rgb(127,190,228)), color-stop(1, rgb(202,227,241)));
+	background-image: -moz-linear-gradient(center bottom, rgb(127,190,228) 40%, rgb(202,227,241) 100%);
+	border: 1px solid #86BCDC;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	cursor: pointer;
+	display: block;
+	margin: 0 auto;	
+	padding: 2px 4px;
+	margin-top: 7px;
+	margin-bottom: 7px;
+	width: 100px;
+}
+
+#c2dmCaptcha{
+	text-align:center;
+	width:100%;
+	display:none;
+}
+#c2dmCaptchaSubmitButton{
+	display:none;
+}
+#c2dmCaptchaImage{
+	width: 200px;
+	height: 70px;
+	margin-top:7px;
+	margin-bottom:7px;
+}
+#c2dmCaptchaText{
+	width: 200px;
+}
+
+.incomingMessages {
+	background: #ddd;
+	color: #000;
+	display: block;
+	line-height: 16px;
+    margin: 12px 0 8px -160px;
+	opacity: 0.7;
+    padding: 2px 16px 2px 0;
+	position: relative;
+	text-align: right;
+    width: 140px;
+}
+
+.service .incomingMessages {
+	left: -32px;
+	position: absolute;
+	top: 10px;
+	width: 144px;
+}
+
+.incomingMessages.animated {
+	background: #ff0;
+}
+
+.incomingMessages:after {
+	content: '';
+	display:inline-block;
+	border: 30px solid transparent;
+	border-left-color: #ddd;
+	position: absolute;
+	right: -60px;
+	top: -11px;
+}
+
+.incomingMessages.animated:after {
+	border-left-color: yellow;
+}
+
+.redText {
+	color: red !important;
+}
+
+.greyText {
+	color: gray !important;
+}
+
+.blackText {
+	color: black !important;
+}
+
+#simulateMessage {
+	display: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#simulateMessageBackground {
+	background: #000;
+	bottom: 0;
+	left: 0;
+	min-height: 100%;
+	min-width: 100%;
+	opacity: 0.1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity = 10);
+
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 1000;
+	height: 100%;
+}
+
+#simulateMessageContent {
+	background: #CCC;
+	background-image: -moz-linear-gradient(center bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);	
+	background-image: -ms-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -o-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(217, 217, 217)), color-stop(0.56, rgb(242, 242, 242)));
+	background-image: linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	border: 5px solid #FFF;
+	height: 203px;
+	margin: 20% auto 0 auto;
+	position: relative;
+	width: 491px;
+	z-index: 1001;
+}
+
+#simulateMessageLegend {
+	color: #0071B0;
+	font-weight: bold;
+	margin: 10px;
+	text-align: center;
+}
+
+#simulateMessageContent label {
+	display: inline-block;
+	margin: 2px 0;
+	padding: 2px 0 0 10px;
+	vertical-align: top;
+	width: 100px;
+}
+
+#simulateMessageContent input{
+	margin: 2px 0;
+	width: 180px;
+}
+
+#simulateMessageContent input[disabled="disabled"] {
+	background-color: transparent;
+	border: 0 none;
+}
+
+#simulateMessageContent #simulateMessageFrom {
+	width: 360px;
+	z-index: 1000;
+}
+
+#simulateMessageContent #simulateMessageNotificationText {
+	margin: 2px 0;
+}
+
+#simulateMessageContent #simulateMessageLength {
+	font-size: 10px;
+	vertical-align: top;
+}
+
+#simulateMessageContent #simulateMessageClose,
+#simulateMessageContent #simulateMessageSend {
+	background: #b1b1b1;
+	background-image: -moz-linear-gradient(center bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);	
+	background-image: -ms-linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -o-linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -webkit-linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(177, 177, 177)), color-stop(0.56, rgb(233, 233, 233)));
+	background-image: linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	color: #0071B0;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    height: 25px;
+    line-height: 25px;
+    margin: 2px 10px;
+    text-align: center;
+    width: 64px;
+}
+
+#simulateMessageContent #simulateMessageSend {
+	margin-left: 114px;
+}
+
+#simulateMessageContent #simulateMessageClose:hover,
+#simulateMessageContent #simulateMessageSend:hover {
+	background: #CCC;
+	background-image: -moz-linear-gradient(center bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);	
+	background-image: -ms-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -o-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(217, 217, 217)), color-stop(0.56, rgb(242, 242, 242)));
+	background-image: linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+}
+
+#unsubscribeModal{
+	display: none;
+}
+
+
+#unsubscribeModal {
+	display: none;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#unsubscribeBackground {
+	background: #000;
+	bottom: 0;
+	left: 0;
+	min-height: 100%;
+	min-width: 100%;
+	opacity: 0.1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity = 10);
+
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 1000;
+	height: 100%;
+}
+
+#unsubscribeContent {
+	background: #CCC;
+	background-image: -moz-linear-gradient(center bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -ms-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -o-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(217, 217, 217)), color-stop(0.56, rgb(242, 242, 242)));
+	background-image: linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	border: 5px solid #FFF;
+	height: 430px;
+	margin: 240px auto 0 auto;
+	position: relative;
+	width: 610px;
+	z-index: 1001;
+	text-align: center;
+	font-size: 14px;
+}
+
+#unsubscribeContent h2 {
+	background: none repeat scroll 0 0 #0073B3;
+	height: 40px;
+	padding-left: 10px;
+	line-height: 40px;
+	color: white;
+}
+
+#unsubscribeScreen1,#unsubscribeScreen2{
+	margin: 10px;
+	display: none;
+}
+#invalidCharacterInPhoneNumbers{
+	display: block;
+	height: 34px;
+	color:red;
+	margin: 5px 0;
+}
+#unsubscribeContent span{
+	display: block;
+}
+
+#unsubscribeContent textarea{
+	width: 450px;
+	height: 240px;
+	margin: 10px 0 0 0;
+}
+
+
+#unsubscribeContent button {
+	background: #b1b1b1;
+	background-image: -moz-linear-gradient(center bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -ms-linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -o-linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -webkit-linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(177, 177, 177)), color-stop(0.56, rgb(233, 233, 233)));
+	background-image: linear-gradient(bottom, rgb(177, 177, 177) 12%, rgb(233, 233, 233) 56%);
+	color: #0071B0;
+	display: inline-block;
+	font-size: 12px;
+	font-weight: bold;
+	height: 25px;
+	margin: 0px 50px;
+	cursor: pointer;
+	/* hack for IE7 */
+	zoom:1;
+}
+
+#unsubscribeContent button:active {
+	position: relative;
+	top: 1px;
+}
+
+#unsubscribeContent button:hover {
+	background: #CCC;
+	background-image: -moz-linear-gradient(center bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -ms-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -o-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+	background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.12, rgb(217, 217, 217)), color-stop(0.56, rgb(242, 242, 242)));
+	background-image: linear-gradient(bottom, rgb(217, 217, 217) 12%, rgb(242, 242, 242) 56%);
+}
+
+#doUnsubscribeButton.disabled{
+	opacity: 0.2;
+	cursor: default;
+}
+#doUnsubscribeButton.disabled:active{
+	top: 0px;
+}

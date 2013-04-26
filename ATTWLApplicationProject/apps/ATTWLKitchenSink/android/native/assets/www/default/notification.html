@@ -1,0 +1,151 @@
+
+	<input type="hidden" value="" id="notificationIdToBeRemoved" />
+	<div class="header">
+		<span class="backbutton"><span class="innerText" id="back">Back</span></span>
+		<span class="headerTitle" style="margin-left: 130px;">Payment</span>
+	</div>
+	<div class="body" align="center">
+		<table style="width: 100%;">
+			<tr class="trow">
+				<td colspan="2" style="padding-bottom: 10px">
+					<div id="notificationDiv" class="notificationDiv">
+						<table cellspacing="0" cellpadding="0" class="notificationtable" 
+							id="notificationtable"></table>
+					</div>
+				</td>
+			</tr>
+			<tr class="trow">
+				<td colspan="2" style="padding-bottom: 10px">
+					<button type="button" id="btngetnotification"
+						class="submitextralarge" align="center"
+						onclick="getNotificationDetails();">Get Notification</button>
+				</td>
+			</tr>
+			<tr class="trow">
+				<td colspan="2" style="padding-bottom: 10px">
+					<button type="button" id="btnacknowledgeNotification"
+						class="submitextralarge" align="center"
+						onclick="acknowledgeNotification();">Delete Notification</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript" src="js/payment.js"></script>
+	<script type="text/javascript" src="js/touchScroll.js"></script>
+	<script type="text/javascript" language="javascript">
+		var notificationURL = "http://attdemo.somee.com/ATTNotifications/Notification.aspx";
+		var notificationId;
+
+		function initializePage() {
+			var prevPageLink = page;
+
+			$("#back").click(
+					function() {
+					WL.Logger.debug('Back Button clicked');
+						//Remove the notification id from the xml file
+						deleteNotifications($("#notificationIdToBeRemoved")
+								.val(), prevPageLink);
+					});
+
+			$("#btngetnotification").attr("disabled", true);
+			$("#btnacknowledgeNotification").attr("disabled", true);
+			var notificationType = prevPageLink == "transactionpayment.html" ? "SuccesfulRefund"
+					: "CancelSubscription";
+			getNotifications(notificationType);
+			touchScroll('notificationDiv');
+		}
+
+		function getNotificationDetails() {
+			WL.Logger.debug('Get Notification Button clicked');
+			if (notificationId != undefined) {
+			if(window.localStorage.accessToken===undefined)
+			{
+				generateAccessToken(function(){
+					ATT.getNotification(notificationId);
+				});
+			}
+			else
+			{
+				ATT.getNotification(notificationId);
+			}
+				
+			}
+		}
+
+		function acknowledgeNotification() {
+			WL.Logger.debug('Delete Notification Button clicked');
+			if (notificationId != undefined) {
+			if(window.localStorage.accessToken===undefined)
+			{
+				generateAccessToken(function(){
+					ATT.deleteNotification(notificationId);
+				});
+			}
+			else
+			{
+				ATT.deleteNotification(notificationId);
+			}
+				
+			}
+		}
+
+		function getUrlParameters() {
+			var vars = [], hash;
+			var hashes = window.location.href.slice(
+					window.location.href.indexOf('?') + 1).split('&');
+			for ( var i = 0; i < hashes.length; i++) {
+				hash = hashes[i].split('=');
+				vars.push(hash[0]);
+				vars[hash[0]] = hash[1];
+			}
+			return vars;
+		}
+
+		//This method gets the Ajax call to get the notifaction from payment server.
+
+		function getNotifications(notificationType) {
+		//var busyInd = new WL.BusyIndicator('bsy', {text : 'Loading...'});
+		//busyInd.show();
+			var jsonUrl = notificationURL
+					+ "?RequestType=GET&notificationType=" + notificationType;
+
+			$.getJSON(jsonUrl, function(json) {
+			//busyInd.hide();
+				var transactionIdList = json.TransactionIdList;
+				var notificationIdList = json.NotificationIdList;
+				createNotificationTable(transactionIdList, notificationIdList);
+			});
+
+		}
+
+		function deleteNotifications(notificationIdList, prevPage) {
+			//Ajax call to get the notifaction from payment server
+			if (notificationIdList.length > 0) {
+				var jsonUrl = notificationURL
+						+ "?RequestType=POST&NotificationId="
+						+ notificationIdList;
+				$.getJSON(jsonUrl, function(json) {
+					$('#pagePort').load(prevPage, '', function() {
+					});
+				});
+			} else {
+				$('#pagePort').load(prevPage, '', function() {
+				});
+			}
+
+		}
+
+		function createNotificationTable(transactionIdList, notificationIdList) {
+				for (var cnt = transactionIdList.length-1; cnt >=0; cnt--) {
+					var newRow = $("<tr class=\"txrow\" id=\"" + notificationIdList[cnt] + "\"><td align=\"left\" class=\"txcolleft\">" + "<input type=\"radio\" name=\"rdtransaction\" id=\"" + notificationIdList[cnt] + "\">" + "</td>" + "<td align=\"left\" class=\"txcolright\">" + transactionIdList[cnt] + "</td></tr>");
+					$("#notificationtable").append(newRow);
+					newRow.find('td input:radio').click(function() {
+						notificationId = this.id;
+						$("#btngetnotification").attr("disabled", false);
+						$("#btnacknowledgeNotification").attr("disabled", false);
+					});
+					alert('notification\n' + transactionIdList[cnt]);
+				}
+			}
+			initializePage();
+	</script>

@@ -1,0 +1,104 @@
+<div class="header">
+	<span class="backbutton"><span class="innerText"
+		onclick="backNav();">Back</span></span> <span class="headerTitle"
+		style="margin-left: 90px;">Device Capability</span>
+</div>
+<div class="body" align="center">
+	<table cellspacng="0" cellpadding="0" style="margin-top: 10px">
+
+		<tr class="trow">
+
+			<td class="tcol"><button type="button" class="submitextralarge"
+					align="center" style="width: 150px"
+					onclick="getDeviceCapabilities();">Get Device Capability</button></td>
+
+		</tr>
+
+	</table>
+</div>
+
+<div id="iframe" class="iframe">
+	<iframe id="DCFrame" frameborder="0" marginwidth="0" marginheight="0"
+		height="100%" width="100%"></iframe>
+</div>
+
+<script type="text/javascript" src="js/deviceCapabilities.js"></script>
+<script type="text/javascript" src="js/OAuthToken.js"></script>
+<script type="text/javascript" src="js/accessToken.js"></script>
+<script type="text/javascript">
+	page = "deviceCapabilities.html";
+	function openDialog(responseText) {
+		$('#pagePort').load("popup.html", '', function() {
+		});
+		if(responseText.status == 200 && responseText.invocationResult.statusCode == 200)
+		{
+		   window.localStorage.response = JSON.stringify(responseText.invocationResult.DeviceInfo, null, 3);
+		} else {
+		   window.localStorage.response = JSON.stringify(responseText, null, 3);
+		}
+	};
+
+	function backNav() {
+		WL.App.resetBackButton();
+		$('#pagePort').load("ATTWLKitchenSink.html #pagePort", '', function() {
+		});
+	}
+
+	function onPageLoad() {
+		$("#iframe").hide();
+	};
+	var successCallbackGetDC = function(data) {
+		if (busyInd.isVisible()) {
+			busyInd.hide();
+		}
+		openDialog(data);
+	};
+
+	var errorCallbackGetDC = function(error) {
+		if (busyInd.isVisible()) {
+			busyInd.hide();
+		}
+		openDialog(error);
+	};
+
+	var callbackDcAccessToken = function(data) {
+		var accessToken = data.invocationResult.accessToken;
+		window.localStorage.oAuthToken = accessToken;
+		invokeDeviceCapabilities(successCallbackGetDC, errorCallbackGetDC);
+	};
+
+	var showConcernedUrl = function(data) {
+
+        //alert("URL: " + data.invocationResult.url);
+		document.getElementById("DCFrame").src = data.invocationResult.url;
+		$("#DCFrame").load(
+				function() {
+					$("#iframe").show();
+					if (busyInd.isVisible()) {
+						busyInd.hide();
+					}
+					//alert("iframe href: " + this.contentDocument.location.href);
+					var url = this.contentDocument.location.href;
+
+					if (url.indexOf('code') !== -1) {
+						var index = url.indexOf("code");
+						window.localStorage.oAuthToken = url.substr(index + 5,
+								url.length + 1);
+						WL.Logger.debug("code is "
+								+ window.localStorage.oAuthToken);
+						$("#iframe").hide();
+						busyInd.show();
+						generateAccessToken(callbackDcAccessToken);
+					}
+
+				});
+
+	};
+
+	function getDeviceCapabilities() {
+		busyInd.show();
+		invokeOAuthToken(showConcernedUrl);
+	};
+
+	onPageLoad();
+</script>
