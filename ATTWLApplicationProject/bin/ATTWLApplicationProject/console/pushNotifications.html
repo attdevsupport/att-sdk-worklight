@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!-- Licensed Materials - Property of IBM
+	 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+	 US Government Users Restricted Rights - Use, duplication or
+	 disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
+<html>
+<head>
+	<meta charset="utf-8"/>
+	<meta content="(C) Copyright IBM Corp. 2006, 2013" name="DC.Rights"/>
+	<title>pushNotifications</title>
+</head>
+<body>
+<div id="pushNotifications" class="template">
+	<div class="header">
+
+		<!-- Not used
+		<div id="connectToForm" style="display:none">
+			<label id="connectToLabel" for="connectTo" class="translate"></label>
+			<select id="connectTo">
+				<option value="Worklight Node 1">Worklight Node 1</option>
+				<option value="Worklight Node 2">Worklight Node 2</option>
+			</select>
+		</div>
+		-->
+
+		<div id="animationStatus" class="topToolBarItem">
+			<span id="animationsAre" class="translate"></span>
+			<span id="animationsStatus" class="translate"></span>
+			<button id="changeAnimationStatus" class="translate"></button>
+		</div>
+		<div id="smsUnsubscribe" class="topToolBarItem">
+			<span id="smsPushService" class="translate"></span>
+			<button id="unsubscribeDevices" class="translate"></button>
+		</div>
+	</div>
+
+	<div id="unsubscribeModal">
+		<div id="unsubscribeBackground"></div>
+		<div id="unsubscribeContent">
+			<h2 id="unsubscribeTitle" class="translate"></h2>
+			<div id="unsubscribeScreen1">
+				<span id="unsubscribeText1" class="translate"></span>
+				<span id="unsubscribeText2" class="translate"></span>
+				<textarea id="numbersToUnsubscribe"></textarea>
+				<span id="invalidCharacterInPhoneNumbers"></span>
+				<button id="doUnsubscribeButton" class="disabled translate"></button>
+				<button id="cancelUnsubscribeButton" class="translate"></button>
+			</div>
+			<div id="unsubscribeScreen2">
+				<span id="resultOfUnsubscription" class="translate"></span>
+				<br/>
+				<textarea id="unsubscriptionResult" readonly="readonly"></textarea>
+				<br/><br/><br/>
+				<button id="closeUnsubscriptionButton" class="translate"></button>
+			</div>
+		</div>
+	</div>
+
+	<div class="main">
+		<div id="eventSources" class="column">
+			<h2 id="eventSourcesTitle" class="translate"></h2>
+			<!-- Generate dynamicly from JS -->
+		</div>
+		<div id="notificationsToApps" class="column last">
+			<h2 id="notificationsToAppsTitle" class="translate"></h2>
+			<!-- Generate dynamicly from JS -->
+		</div>
+	</div>
+	<div class="footer"></div>
+	<div id="simulateMessage">
+		<div id="simulateMessageBackground"></div>
+		<div id="simulateMessageContent">
+			<form>
+				<legend id="simulateMessageLegend" class="translate"></legend>
+				<label id="simulateMessageFromLabel" class="translate"></label>
+				<input type="text" id="simulateMessageFrom" readonly="readonly" disabled="disabled"/>
+				<br/>
+				<label id="simulateMessageUserIDLabel" class="translate" for="simulateMessageUserID"></label>
+				<input type="text" id="simulateMessageUserID"/>
+				<br/>
+				<label id="simulateMessageDeviceLabel" class="translate" for="simulateMessageDevice"></label>
+				<input type="text" id="simulateMessageDevice"/>
+				<br/>
+				<label id="simulateMessageNotificationTextLabel" class="translate"
+					   for="simulateMessageNotificationText"></label>
+				<textarea id="simulateMessageNotificationText"></textarea>
+				<input type="text" id="simulateMessageLength" readonly="readonly" disabled="disabled"/>
+				<br/>
+				<a id="simulateMessageSend" class="translate"></a>
+				<a id="simulateMessageClose" class="translate"></a>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- end of #pushNotifications -->
+</body>
+</html>

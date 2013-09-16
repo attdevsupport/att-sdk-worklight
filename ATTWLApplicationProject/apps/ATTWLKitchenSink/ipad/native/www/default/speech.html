@@ -1,0 +1,191 @@
+
+        <script type="text/javascript" src="js/speech.js"></script>
+        <script type="text/javascript">
+        page = "speech.html";
+		title = "Speech To Text";
+		
+		var fs,filePath,fname = "recordedAudio.wav";
+        var fileSelected,mediaRec=null, recInterval,recordSettings = {"FormatID": "kAudioFormatLinearPCM","SampleRate": 8000.0,"NumberOfChannels": 1,"LinearPCMBitDepth": 16};
+		function recfile1() {recordAudio(fname);}
+function success(){console.log("ok");}
+function recordAudio(fname) {
+    fs.root.d
+    fs.root.getFile(fname, {create: true, exclusive: false}, function(entry){
+                    filePath = entry.fullPath;
+                    window.localStorage.speechFilePath = filePath;
+                    mediaRec = new Media(entry.fullPath, success, function(){console.log("failed");});
+                    mediaRec.startRecordWithSettings(recordSettings);
+                    }, function(){console.log("error");});
+}
+
+function onBodyLoad(){
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem){fs=fileSystem;}, function(){console.log("failed");});
+    Media.prototype.startRecordWithSettings = function(options) {
+        cordova.exec(null, null, "AudioRecord","startAudioRecord", [this.id, this.src, options]);
+    };
+    Media.prototype.stopRecordWithSettings = function() {
+        cordova.exec(null, null, "AudioRecord","stopAudioRecord", [this.id, this.src]);
+    };
+}
+function startRecording(){
+    fname = "recordedAudio.wav";
+    recfile1();
+    $('#record').text('Recording.....').button("refresh");
+    
+}
+function stopRecording(){
+    mediaRec.stopRecordWithSettings();
+    $('#record').text('Start Recording').button("refresh");
+}
+function playRecording()
+{
+    var my_media;
+    fs.root.getFile(fname, {create: false, exclusive: false},
+                    function success(entry) {
+	                    my_media = new Media(entry.fullPath,
+	                       function()
+	                       {
+	                          my_media.release();
+	                          fs.
+	                          console.log("ok");
+	                       },function(err){console.log(err.code+" "+err.message);});
+	                    my_media.play();
+                    },
+                    function() {
+	                    console.log("not found file");
+                    }
+                    );
+}
+		
+           function backNav(){
+           	   WL.App.resetBackButton();
+               $('#pagePort').load("ATTWLKitchenSink.html #pagePort",'',function(){});
+           }
+        function openDialog(responseText, SpeechId)
+        {
+        	window.localStorage.response = JSON.stringify(responseText, null, 3);
+            $('#pagePort').load("popup.html");
+            //alert('ResponseText:'+ JSON.stringify(responseText));
+        }
+            
+			function getFile() {
+                $("#pagePort").load("filebrowse.html");
+            }
+			
+			$(document).ready(function() {
+			    lastContext = windows.localStorage.lastContext;
+			    lastLang = windows.localStorage.lastLang;
+			    if(!lastContext) lastContext = "Generic";
+			    if(!lastLang) lastLang = "en-US";
+                $("#context").val( lastContext ).attr('selected',true);
+                $("#language").val( lastLang ).attr('selected',true);
+                			
+                showSelectedFileName();
+                onBodyLoad();
+            });
+           
+           function showSelectedFileName()
+           {
+               var fileSelected = window.localStorage.speechFilePath;
+               if(fileSelected!== undefined)
+               {
+                   document.getElementById('fileSelected').innerHTML = '';
+                   var lastindex = fileSelected.lastIndexOf("/");
+                   var fileName =  fileSelected.substring(lastindex+1,(fileSelected.length));
+                   document.getElementById('fileSelected').innerHTML = 'Selected File : ' +  fileName ;
+                   fname = fileName;
+                   
+               }
+               
+           }
+			
+			function readSpeechFile(file){
+			var FileReader = cordova.require('cordova/plugin/FileReader');
+				var reader = new FileReader();
+				reader.onloadend = function(evt) {
+					busyInd.show();
+					console.log("Read as data URL");
+					console.log(evt.target.result);
+					audioData = evt.target.result;
+					var lastindex = file.lastIndexOf("/"); 
+        			var fileName =  file.substring(lastindex+1,(file.length));
+					var fileExt= "audio/" + fileName.substring(fileName.lastIndexOf('.')+1,(fileName.length));
+					window.localStorage.lastContext = $('#context').val();
+					window.localStorage.lastLang = $('#language').val();
+					speechToText(audioData, fileExt, $('#context').val(), $('#language').val(), openDialog);
+					}
+				reader.readAsDataURL(file);
+			}
+
+			function speech() {
+				if(window.localStorage.speechFilePath!==undefined)
+				{
+					readSpeechFile(window.localStorage.speechFilePath);
+				}
+			}
+			
+			function textforshortcode() {
+				$("#header").css("header");
+			}
+		</script>
+	 	<div id="speech">
+		<div class="header">
+			<span class="backbutton"><span class="innerText" onclick="backNav();">Back</span></span>
+			<span class="headerTitle" style="margin-left:130px;">Speech To Text</span>
+		</div>
+		<div class="body" align="center">
+            <br/>
+			<table class="table">
+			
+				<tr class="trow">
+		            <td class="tcol" id="contextLabel">
+		               <div class="label">Context:</div>
+		            </td>
+		            <td class="tcol" colspan="1">
+		               <select id="context">
+		                  <option value="Generic" selected="selected">Generic</option>
+		                  <option value="BusinessSearch">Business</option>
+		                  <option value="Gaming">Gaming</option>
+		                  <option value="QuestionAndAnswer">Q and A</option>
+		                  <option value="SMS">SMS</option>
+		                  <option value="SocialMedia">Social</option>
+		                  <option value="TV">TV</option>
+		                  <option value="Websearch">Web Search</option>
+		               </select>
+		            </td>
+         		</tr>
+		         <tr class="trow" id="languageRow">
+		            <td class="tcol">
+		               <div class="label">Language:</div>
+		            </td>
+		            <td class="tcol" colspan="1">
+		               <select id="language">
+						<option value="en-US" selected="selected">English</option>
+						<option value="es-US">Espanol</option>
+		               </select>
+		            </td>
+		         </tr>			
+                    <tr class="trow">
+                        
+                        <td class="tcol" colspan="1"><button type="button" class="submitlarge" id="record" onclick="startRecording();" style="margin-left:10px;">Start Recording</button></td>
+                    </tr>
+                    <tr class="trow">
+                        
+                        <td class="tcol" colspan="1"><button type="button" class="submitlarge" onclick="stopRecording();" style="margin-left:10px;">Stop Recording</button></td>
+                    </tr>
+                    <tr class="trow">
+                        
+                        <td class="tcol" colspan="1"><button type="button" class="submitlarge" onclick="playRecording();" style="margin-left:10px;">Play Audio</button></td>
+                    </tr>
+                    <tr class="trow">
+                        
+                        <td class="tcol" colspan="1">
+                            <button type="button" class="submitlarge" onclick="speech()" style="margin-left:10px;">
+                                Speech
+                            </button></td>
+                    </tr>
+                </table>
+			</div>
+		</div>
+    
+		

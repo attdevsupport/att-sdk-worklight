@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cordova>
+    <preference name="KeyboardDisplayRequiresUserAction" value="true" />
+    <preference name="SuppressesIncrementalRendering" value="false" />
+    <preference name="UIWebViewBounce" value="true" />
+    <preference name="TopActivityIndicator" value="gray" />
+    <preference name="EnableLocation" value="false" />
+    <preference name="EnableViewportScale" value="false" />
+    <preference name="AutoHideSplashScreen" value="true" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    <preference name="MediaPlaybackRequiresUserAction" value="false" />
+    <preference name="AllowInlineMediaPlayback" value="false" />
+    <preference name="OpenAllWhitelistURLsInWebView" value="false" />
+    <preference name="BackupWebStorage" value="cloud" />
+    <preference name="UIControls" value='{"TabBarSettings": {"position": "bottom", "height": 49}, "ToolBarSettings": {"style": "Default"}}'/>
+
+    <plugins>
+        <!--  Cordova -->
+        <plugin name="Device" value="CDVDevice" />
+        <plugin name="Logger" value="CDVLogger" />
+        <plugin name="Compass" value="CDVLocation" />
+        <plugin name="Accelerometer" value="CDVAccelerometer" />
+        <plugin name="Camera" value="CDVCamera" />
+        <plugin name="NetworkStatus" value="CDVConnection" />
+        <plugin name="Contacts" value="CDVContacts" />
+        <plugin name="Debug Console" value="CDVDebugConsole" />
+        <plugin name="Echo" value="CDVEcho" />
+        <plugin name="File" value="CDVFile" />
+        <plugin name="FileTransfer" value="CDVFileTransfer" />
+        <plugin name="Geolocation" value="CDVLocation" />
+        <plugin name="Notification" value="CDVNotification" />
+        <plugin name="Media" value="CDVSound" />
+        <plugin name="Capture" value="CDVCapture" />
+        <plugin name="SplashScreen" value="CDVSplashScreen" />
+        <plugin name="Battery" value="CDVBattery" />
+        <plugin name="Globalization" value="CDVGlobalization" />
+        <plugin name="InAppBrowser" value="CDVInAppBrowser" />
+        
+        <!-- Worklight -->
+        <plugin name="DeviceAuth" value="DeviceAuthPlugin" />
+    	<plugin name="WebResourcesDownloader" value="WebResourcesDownloader" />
+		<plugin name="WLNotification" value="WLNotification" />
+		<plugin name="WLApp" value="WLApp" />
+		<plugin name="UIControls" value="UIControls" />
+		<plugin name="Push" value="Push" />
+		<plugin name="NetworkDetector" value="NetworkDetector" />
+		<plugin name="NativePage" value="NativePage" />
+		<plugin name="SecurityPlugin" value="SecurityPlugin" />
+		<plugin name="StoragePlugin" value="StoragePlugin" />
+		<plugin name="Badge" value="Badge" />
+		<plugin name="NotificationEx" value="NotificationEx" />
+		
+       <!--User-->
+       <plugin name="AudioRecord" value="AudioRecord"/>
+    </plugins>
+    <access origin="*" />
+</cordova>

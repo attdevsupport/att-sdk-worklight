@@ -1,0 +1,479 @@
+<!DOCTYPE HTML><html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+        <meta charset="UTF-8">
+	
+        <title>Banking</title>
+	
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+	
+        <link href="wlclient/css/wlclient.css" rel="stylesheet">
+        <link href="images/favicon.png" rel="shortcut icon">
+	
+        <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+	
+        <link href="jqueryMobile/jquery.mobile.theme-1.2.1.css" rel="stylesheet">
+	
+        <link href="jqueryMobile/jquery.mobile-1.2.1.css" rel="stylesheet">
+	
+        <link href="css/Banking.css" rel="stylesheet">
+	
+        <link href="jqueryMobile/styles.css" rel="stylesheet">
+	
+        <script>
+		// Define WL namespace.
+		var WL = WL ? WL : {};
+
+		/**
+		 * WLClient configuration variables.
+		 * Values are injected by the deployer that packs the gadget.
+		 */
+		WL.StaticAppProps = {
+   "APP_DISPLAY_NAME": "Banking",
+   "APP_SERVICES_URL": "\/apps\/services\/",
+   "APP_VERSION": "1.1",
+   "ENVIRONMENT": "iphone",
+   "LOGIN_DISPLAY_TYPE": "embedded",
+   "WORKLIGHT_ROOT_URL": "\/apps\/services\/api\/Banking\/iphone\/"
+};</script>
+		<script src="wlclient/js/cordova.js"></script>
+		<script src="common/js/wljq.js"></script>
+		<script src="common/js/base.js"></script>
+		<script src="wlclient/js/messages.js"></script>
+		<script src="common/js/wlcommon.js"></script>
+		<script src="wlclient/js/diagnosticDialog.js"></script>
+		<script src="wlclient/js/deviceAuthentication.js"></script>
+		<script src="wlclient/js/window.js"></script>
+		<script src="wlclient/js/worklight.js"></script>
+		<script src="wlclient/js/wlclient.js"></script>
+		<script src="wlclient/js/wlfragments.js"></script>
+		<script src="wlclient/js/encryptedcache.js"></script>
+		<script src="wlclient/js/jsonstore/jsonstore.js"></script>
+		<script src="wlclient/js/checksum.js"></script>
+		<script src="wlclient/js/challengeHandlers/antiXSRFChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/authenticityChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/deviceAuthAutoProvisioningChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/deviceAuthNoProvisioningChallengeHandler.js"></script>
+		<script src="wlclient/js/challengeHandlers/remoteDisableChallengeHandler.js"></script>
+		<script src="wlclient/js/json2.js"></script>
+		<script src="wlclient/js/wlgap.ios.js"></script><script>window.$ = window.jQuery = WLJQ;</script>
+	<script src="jqueryMobile/jquery.mobile-1.2.1.js"></script>
+
+    </head>
+    <body id="content" style="display: none;">
+   
+        <div data-role="page" data-theme="a" id="pageOptions">
+      
+            <div data-role="header" data-theme="a">
+          
+                <h3>
+              Bank by Voice
+          </h3>
+          
+                <a class="ui-btn-right" data-icon="info" data-iconpos="notext" data-role="button" data-theme="a" href="#pageInfo"></a>          
+      
+            </div>
+      
+            <div data-role="content">
+          
+                <div class="listener" id="searchInstruction">
+                  Speak an Option: 
+          </div>      
+          
+                <div id="optionsList">
+	          
+                    <ul data-divider-theme="" data-inset="true" data-role="listview">
+                 
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide" onclick="stopRecording(); $.mobile.changePage($('#pagePaymentDetails'));">  
+			        
+                            <a href="#pagePayemntDetails">Pay My Bill</a>
+			     
+                        </li>
+                 
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide" onclick="stopRecording(); $.mobile.changePage($('#pageAccount'));">  
+			        
+                            <a href="#">View Account</a>
+			     
+                        </li>
+			     
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide" onclick="stopRecording(); $.mobile.changePage($('#pageServices'));">  
+			        
+                            <a href="#">Add Services</a>
+			     
+                        </li>
+			     
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide" onclick="stopRecording(); $.mobile.changePage($('#pageContact'));">  
+			        
+                            <a href="#">Contact Us</a>
+			     
+                        </li>				     
+	          
+                    </ul>
+          
+                </div>
+          
+                <div class="listener" id="optionPageStatus" style="display:none">
+              
+                    <p>
+                        <b>
+              </b>
+                    </p>
+          
+                </div>  
+          
+                <div style="text-align: right">
+	         
+                    <input height="86" src="jqueryMobile/images/search_button.png" type="image" width="92">
+          
+                </div>          
+      
+            </div>
+	
+        </div>
+
+   
+        <div data-role="page" data-theme="a" id="pagePaymentDetails">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-role="button" href="#pageOptions">
+              Back
+          </a>
+          
+                <h3>
+              Payment Details
+          </h3>
+      
+            </div>
+      
+            <div data-role="content">
+          
+                <div class="listener">
+             
+                    <p id="paymentInstructions">How much do you want to pay?</p>
+             
+                    <div>
+                        <br>
+                    </div> 
+             
+                    <label for="paymentAmount" style="text-align:left;">Amount:</label>
+             <input data-theme="a" id="paymentAmount" name="paymentAmount" readonly style="color:orange" type="text">
+             <label for="paymentDate" style="text-align:left;">Pay On:</label>
+             <input data-theme="a" id="paymentDate" name="paymentDate" readonly style="color:orange" type="text">
+          
+                </div>
+          
+                <div id="paymentDetailsButtons">
+	          
+                    <ul data-divider-theme="" data-inset="true" data-role="listview">
+                 
+                        <li data-icon="check" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide" onclick="loadConfirmationPage();">  
+			        
+                            <a href="">Submit</a>
+			     
+                        </li>
+                 
+                        <li data-icon="delete" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide">  
+			        
+                            <a href="#pageOptions">Cancel</a>
+			     
+                        </li>
+	          
+                    </ul>
+          
+                </div>
+          
+                <div class="listener" id="paymentDetailsStatus" style="display:none">
+              
+                    <p>
+                        <b>
+              </b>
+                    </p>
+          
+                </div>          
+          
+                <div style="text-align: right">
+	         
+                    <input height="86" src="jqueryMobile/images/search_button.png" type="image" width="92">
+          
+                </div>          
+      
+            </div>
+  
+        </div>  
+
+  
+        <div data-role="page" data-theme="a" id="pageConfirmation">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-role="button" href="#pagePaymentDetails">
+              Back
+          </a>
+          
+                <h3>
+              Confirmation
+          </h3>
+      
+            </div>
+      
+            <div data-role="content">
+          
+                <div class="listener" id="confirmLabel">
+                Are you sure?
+             <div>
+                        <br>
+                    </div> 
+             
+                    <label id="confirmAmountLabel" style="text-align:left;color:orange;"></label>
+             <label id="confirmDateLabel" style="text-align:left;color:orange;"></label>
+          
+                </div>
+          
+                <div id="paymentConfirmationButtons">
+	          
+                    <ul data-divider-theme="" data-inset="true" data-role="listview">
+                 
+                        <li data-icon="check" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide" onclick="loadSuccessPage();">  
+			        
+                            <a href="#pageSuccess">Yes</a>
+			     
+                        </li>
+                 
+                        <li data-icon="delete" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide">  
+			        
+                            <a href="#pageOptions">Cancel</a>
+			     
+                        </li>
+	          
+                    </ul>
+          
+                </div>
+          
+                <div class="listener" id="confirmationPageStatus" style="display:none">
+              
+                    <p>
+                        <b>
+              </b>
+                    </p>
+          
+                </div>          
+          
+                <div style="text-align: right">
+	         
+                    <input height="86" src="jqueryMobile/images/search_button.png" type="image" width="92">
+          
+                </div>          
+      
+            </div>
+  
+        </div>  
+  
+  
+        <div data-role="page" data-theme="a" id="pageSuccess">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-icon="home" data-iconpos="notext" data-role="button" href="#pageOptions"></a>
+          
+                <h3>
+              Success
+          </h3>
+      
+            </div>
+      
+            <div data-role="content">
+          
+                <div class="listener" id="successDetails" style="text-align: left">
+	          
+                    <h4>Transaction Completed.</h4>
+	          
+                    <br>
+	          
+                    <h5 id="confirmationCode"></h5>
+          
+                </div>
+      
+            </div>
+   
+        </div>   
+  
+  
+        <div data-role="page" data-theme="a" id="pageInfo">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-icon="home" data-iconpos="notext" data-role="button" href="#pageOptions"></a>
+          
+                <h3>
+              About
+          </h3>
+      
+            </div>
+      
+            <div data-role="content">
+          
+                <div class="listener" id="aboutDetails" style="text-align: left">
+	          
+                    <h4>Payment demo app for Speech</h4>
+	          
+                    <p>Uses the power of the Speech API from the AT&amp;T Developer Platform.  Backed by AT&amp;T Watson Engine.  Please visit the 
+	            <a href="http://developer.att.com/">AT&amp;T Developer Program</a> for more information.
+	          </p>
+          
+                </div>
+      
+            </div>
+   
+        </div>  
+
+   
+        <div data-role="page" data-theme="a" id="pageAccount">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-role="button" href="#pageOptions">
+              Back
+          </a>
+          
+                <h3>
+              Account Details
+          </h3>
+      
+            </div>
+      
+            <div data-role="content" style="text-align:center">
+             
+                <label style="text-align:left;color:orange">Name: Your Name</label>
+             
+                <br>
+                <br>
+             
+                <label style="text-align:left;color:orange">Phone: 425-555-1221</label>             
+             
+                <br>
+                <br>
+             
+                <label style="text-align:left;color:orange">Email: you@example.com</label>   
+             
+                <br>
+                <br>          
+             
+                <label style="text-align:left;color:orange">Address: Redmond, WA</label>
+             
+                <br>
+                <br>
+             
+                <label style="text-align:left;color:orange">Services: Premium</label>             
+             
+                <br>
+                <br>
+             
+                <label style="text-align:left;color:orange">Balance: $99.99</label>
+      
+            </div>
+   
+        </div>
+
+   
+        <div data-role="page" data-theme="a" id="pageServices">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-role="button" href="#pageOptions">
+              Back
+          </a>
+          
+                <h3>
+              Add Services
+          </h3>
+      
+            </div>
+      
+            <div data-role="content">
+          
+                <div class="listener" id="serviceInstructions">
+                  Chose a Service: 
+          </div>      
+          
+                <div id="optionsList">
+             
+                    <ul data-divider-theme="" data-inset="true" data-role="listview">
+                 
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide">  
+                 
+                            <a href="">Good</a>
+                 
+                        </li>
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide">  
+                 
+                            <a href="">Better</a> 
+                 
+                        </li>
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide">  
+                 
+                            <a href="">Even Better</a>
+                 
+                        </li>
+                        <li data-icon="arrow" data-iconpos="right" data-mini="false" data-theme="a" data-transition="slide">  
+                 
+                            <a href="" style="color:orange;">Premium</a>               
+             
+                        </li>
+                    </ul>
+          
+                </div>         
+      
+            </div>
+   
+        </div>
+   
+   
+        <div data-role="page" data-theme="a" id="pageContact">
+      
+            <div data-role="header" data-theme="a">
+          
+                <a class="ui-btn-left" data-role="button" href="#pageOptions">
+              Back
+          </a>
+          
+                <h3>
+              Contact Us
+          </h3>
+      
+            </div>
+      
+            <div data-role="content" style="text-align:center">
+             
+                <label style="text-align:left;color:orange">AT&amp;T Developer Platform</label>
+             
+                <br>
+                <br>
+             
+                <a href="http://developer.att.com/" style="color:orange;">developer.att.com</a>              
+             
+                <br>
+                <br>
+             
+                <label style="text-align:left;color:orange">Phone: 1-800-331-0500</label>   
+             
+                <br>
+                <br>          
+             
+                <label style="text-align:left;color:orange">Twitter: @attdeveloper</label>
+      
+            </div>
+   
+        </div>   
+   
+        <script src="js/accessToken.js"></script>
+   <script src="js/initOptions.js"></script>
+   <script src="js/wordsToDate.js"></script>
+   <script src="js/wordsToNum.js"></script>
+   <script src="js/recording.js"></script>
+   <script src="js/Banking.js"></script>
+   <script src="js/messages.js"></script>
+
+    </body>
+</html>

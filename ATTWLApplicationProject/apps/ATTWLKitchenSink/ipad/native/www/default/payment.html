@@ -1,0 +1,43 @@
+
+	<div class="header">
+		<span class="backbutton"><span class="innerText"
+			onclick="backNav();">Back</span></span> <span class="headerTitle"
+			style="margin-left: 130px;">Payment</span>
+	</div>
+	<div class="body" align="center">
+		<table class="table">
+			<tr class="trow">
+				<td class="tcol" style="padding-bottom: 10px">
+					<button type="button" class="submitextralarge" align="center"
+						onclick="openDialog('transaction')">Single Pay</button>
+				</td>
+			</tr>
+			<tr class="trow">
+				<td class="tcol" style="padding-bottom: 10px">
+					<button type="button" class="submitextralarge" align="center"
+						onclick="openDialog('subscription')">Subscription</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<script type="text/javascript" language="javascript">
+		function backNav() {
+		WL.Logger.debug('Back Button clicked');
+		WL.App.resetBackButton();
+			$('#pagePort').load("ATTWLKitchenSink.html #pagePort", '', function() {
+			});
+		}
+		function openDialog(type) {
+			WL.Logger.debug(type + ' Button clicked');
+			if (type == "transaction") {
+				// window.location.href = "transactionpayment.html";
+				$('#pagePort').load('transactionpayment.html', '', function() {
+				});
+			} else if (type == "subscription") {
+				//window.location.href = "subscriptionpayment.html";
+				$('#pagePort').load('subscriptionpayment.html', '', function() {
+				});
+			}
+
+		}
+	</script>

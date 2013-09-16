@@ -1,0 +1,16 @@
+
+/* this CSS file extends the application CSS file found under common\css */
+
+/* body should stretch in an Android application */
+body {
+	height: auto;
+	min-height: 100%;
+	overflow: auto;
+}
+
+/*Worklight container div */
+#content {
+	height: auto;
+	min-height: 100%;
+	width: 100%;
+}
