@@ -40,6 +40,7 @@ speechToText = function(audioString, audioType, context, language, cbData)
 							cbData(data);		
 			} ,
 			onFailure : function(error) {
+				            handleAuthorizationFailure(error);
 							busyInd.hide();
 							cbData(error);
 			} ,

@@ -61,6 +61,7 @@ var params={},invocationData={},options={};
 			},
 			onFailure : function(error) {
 							busyInd.hide();
+							handleAuthorizationFailure(error);
 							WL.Logger.debug("Failiure : Response is - "+error);
 							console.log(error);
 							cbData(error);
@@ -116,6 +117,7 @@ var params={},invocationData={},options={};
 					} ,
 					onFailure : function(error) {
 									busyInd.hide();
+									handleAuthorizationFailure(error);
 									WL.Logger.debug("Failiure : Response is - "+error);
 									console.log('error');
 									cbData(error);
@@ -170,6 +172,7 @@ var params={},invocationData={},options={};
 									cbData(data);
 					} ,
 					onFailure : function(error) {
+						            handleAuthorizationFailure(error);
 									busyInd.hide();
 									WL.Logger.debug("Failiure : Response is - "+error);
 									cbData(error);

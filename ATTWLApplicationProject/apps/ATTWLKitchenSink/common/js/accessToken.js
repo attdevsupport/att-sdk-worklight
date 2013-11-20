@@ -63,6 +63,7 @@ function generateAccessToken(successCallback)
    
 	options = {
 		onFailure : function(error) {
+			clearAccessToken();
 		},
 		invocationContext : {}
 	};
@@ -134,5 +135,15 @@ function logDeviceInfo() {
 	if (window.device) {
 		WL.Logger.debug("device.platform = " + device.platform);
 		WL.Logger.debug("device.version = " + device.version);
+	}
+}
+
+var handleAuthorizationFailure = function(result)
+{
+	if(result!==undefined && result.innvocationResult !== undefined && result.invocationResult.statusCode !== undefined)
+	{
+	   if(result.invocationResult.statusCode == 401) {
+		   clearAccessToken();
+	   }
 	}
 }

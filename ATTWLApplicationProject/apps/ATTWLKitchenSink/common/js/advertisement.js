@@ -55,6 +55,7 @@ function getAds(category, gender, ageGroup, city, keywords, cbData, busyInd)
 		} ,
 		onFailure : function(error) {
 			busyInd.hide();
+			handleAuthorizationFailure(error);
 			WL.Logger.debug("Failiure : Response is - "+error);
 			cbData(error);
 		} ,

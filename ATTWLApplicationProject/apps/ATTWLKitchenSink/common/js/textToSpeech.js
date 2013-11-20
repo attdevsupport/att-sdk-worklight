@@ -38,6 +38,7 @@ textToSpeech = function(textString, language, voice, callback)
 		},
 		onFailure : function (result)
 		{
+			handleAuthorizationFailure(error);
 			busyInd.hide();
 			callback(result);
 		},

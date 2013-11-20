@@ -16,6 +16,12 @@ function invokeOAuthToken(successCallback) {
 			if (busyInd.isVisible()) {
 				busyInd.hide();
 			}
+			if(error.innvocationResult !== undefined && error.invocationResult.statusCode !== undefined)
+			{
+			   if(error.invocationResult.statusCode == 401 || error.invocationResult.statusCode == 400) {
+				   clearAccessToken();
+			   }
+			}
 			window.localStorage.response = JSON.stringify(error);
 			$('#pagePort').load("popup.html", '', function() {
 			});
