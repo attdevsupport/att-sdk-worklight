@@ -49,6 +49,7 @@ var params={},invocationData={},options={};
 		options = {
 			onSuccess : function(data) {
 				busyInd.hide();
+				handleAuthorizationFailure(data);
 				WL.Logger.debug("Success : Response is - "+JSON.stringify(data));
 				var smsId='';
 				
@@ -112,6 +113,7 @@ var params={},invocationData={},options={};
 			options = {
 					onSuccess : function(data) {
 									busyInd.hide();
+									handleAuthorizationFailure(data);
 									WL.Logger.debug("Success : Response is - "+JSON.stringify(data));
 									cbData(data);
 					} ,
@@ -168,6 +170,7 @@ var params={},invocationData={},options={};
 			options = {
 					onSuccess : function(data) {
 									busyInd.hide();
+									handleAuthorizationFailure(data);
 									console.log('success : ' + JSON.stringify(data));
 									cbData(data);
 					} ,

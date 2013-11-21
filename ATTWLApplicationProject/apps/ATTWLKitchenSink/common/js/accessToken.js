@@ -36,6 +36,7 @@ var setupAccessTokenTimer = function()
 
 var clearAccessToken = function()
 {
+   oAuthLog += "\nClear access & refresh tokens";
    window.localStorage.removeItem("accessToken");
    window.localStorage.removeItem("accessTokenExpiresAt");
    window.localStorage.removeItem("refreshToken");
@@ -140,10 +141,19 @@ function logDeviceInfo() {
 
 var handleAuthorizationFailure = function(result)
 {
-	if(result!==undefined && result.innvocationResult !== undefined && result.invocationResult.statusCode !== undefined)
+	if(result!==undefined && result.invocationResult !== undefined && result.invocationResult.statusCode !== undefined)
 	{
 	   if(result.invocationResult.statusCode == 401) {
+		   oAuthLog += "\n401 Unauthorized received";
 		   clearAccessToken();
+		   generateAccessToken();
 	   }
 	}
-}
+};
+
+// Call this routine only if you want to recreate an HTTP 401 Unauthorized case
+var invalidateToken = function()
+{
+   oAuthLog +="\nMade token invalid";
+   window.localStorage.accessToken = 'abcdefghijklmnopqrstuvwxyz123456';
+};
