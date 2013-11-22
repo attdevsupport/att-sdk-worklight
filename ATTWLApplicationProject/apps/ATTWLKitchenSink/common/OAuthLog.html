@@ -16,7 +16,11 @@
             <td class="tcol" style="padding-bottom: 10px">
                <button type="button" class="submitextralarge" align="center"
                   onclick="oAuthLog += '\nClear token'; clearAccessToken(); generateAccessToken();">Clear</button>
-            </td>                        
+            </td>
+            <td class="tcol" style="padding-bottom: 10px">
+               <button type="button" class="submitextralarge" align="center"
+                  onclick="invalidateAccessToken();">Invalidate</button>
+            </td>
          </tr>
       </table>
    </div>
