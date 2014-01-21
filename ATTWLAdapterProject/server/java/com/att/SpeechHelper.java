@@ -3,10 +3,9 @@ package com.att;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -14,7 +13,10 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.json.java.JSONObject;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.worklight.server.integration.api.JSObjectConverter;
+//import com.worklight.server.integration.api.JSObjectConverter;
+import com.worklight.common.js.util.JSObjectConverter;
+
+import java.util.logging.Logger;
 
 public class SpeechHelper
 {
@@ -59,7 +61,7 @@ public class SpeechHelper
 				conn.setRequestProperty("Accept", (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
 			}
 					
-			String clientSdk = "ClientSdk=Worklight-" + (String)args.get("platform") + "-2.3.0.0";
+			String clientSdk = "ClientSdk=Worklight-" + (String)args.get("platform") + "-3.2.0.0";
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {
@@ -67,19 +69,22 @@ public class SpeechHelper
 			}
 			
 			String base64AudioString = (String)args.get(ATTConstant.ARG_FILEOBJECT);
+			Logger logger = Logger.getLogger("Speech Adapter");
+            logger.info("The received string is: " + base64AudioString);
+            
 			byte[] decoded = Base64.decode(base64AudioString);
-			String decodedBinaryString = new String(decoded); 
-			OutputStreamWriter wr = new OutputStreamWriter(
-					conn.getOutputStream());
-			wr.write(decodedBinaryString);
+			
+			OutputStream wr = conn.getOutputStream();			
+			
+			wr.write(decoded);
 			wr.flush();
 			wr.close();
-			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
-			System.out.println("Headers***********");
+			//System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
+			//System.out.println("Headers***********");
 			//@SuppressWarnings("unchecked")
-			Map<String,List<String>> header = conn.getHeaderFields();
-			for (String key: header.keySet ())
-			   System.out.println (key+": "+conn.getHeaderField (key));
+			//Map<String,List<String>> header = conn.getHeaderFields();
+			//for (String key: header.keySet ())
+			//   System.out.println (key+": "+conn.getHeaderField (key));
 			
 			JSONObject response = new JSONObject();
 			if (conn.getResponseCode() < 400) {

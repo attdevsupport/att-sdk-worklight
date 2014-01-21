@@ -1,6 +1,6 @@
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -21,10 +21,10 @@
     
 }
 
-- (void) encrypt:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options; 
-- (void) decrypt:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options; 
-- (void) keygen:(NSMutableArray *)arguments withDict:(NSMutableDictionary *)options;
-- (void)hashData:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options;
+- (void) encrypt:(CDVInvokedUrlCommand*)command; 
+- (void) decrypt:(CDVInvokedUrlCommand*)command; 
+- (void) keygen:(CDVInvokedUrlCommand*)command;
+- (void)hashData:(CDVInvokedUrlCommand*)command;
 
 @end
 

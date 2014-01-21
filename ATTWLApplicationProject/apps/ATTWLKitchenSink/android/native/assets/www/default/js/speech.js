@@ -3,7 +3,6 @@
 
 /* JavaScript content from js/speech.js in folder common */
 		
-var audioData = {};
 var params={},invocationData={},options={};
 
 /**
@@ -14,8 +13,16 @@ var params={},invocationData={},options={};
  */
 speechToText = function(audioString, audioType, context, language, cbData)
 {
-    setAudioDataFromBase64(audioString);
-    
+    var audioData = {};
+    var searchString = 'base64,';
+    var index = audioString.indexOf(searchString);
+    if(index >= 0)
+    {
+    	audioData = audioString.substring(index+searchString.length, audioString.length);
+    	console.log("audioData now begins at: " + audioData.substring(0, 16) + "\n\tand length is " + audioData.length);
+    } else {
+    	audioData = audioString;
+    }   
 	var params = 
 	{
 		"fileObject" : audioData,
@@ -49,22 +56,6 @@ speechToText = function(audioString, audioType, context, language, cbData)
 	};
 	WL.Client.invokeProcedure(invocationData, options);
 };
-
-
-/**
- * Function to remove the Base-64 header from the string
- * @param audioString - Audio data in Base-64 encoded format
- */	
-function setAudioDataFromBase64(audioString)
-{
-	var searchString = 'base64,';
-    var index = audioString.indexOf(searchString);
-    if(index >= 0)
-    {
-    	var base64AudioString = audioString.substring(index+searchString.length, audioString.length);
-    	audioData = base64AudioString;
-    }
-}
 
 function speechContextSelected()
 {

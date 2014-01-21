@@ -22,7 +22,7 @@ function textToSpeech(options)
 	
 	var response = speechHelper.textToSpeech(options); 
 
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(response));
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(response));
 	
 	logInfo("Text: " + options.body);
 	return {

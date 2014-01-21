@@ -2,8 +2,13 @@
 /* JavaScript content from js/recording.js in folder common */
 var fileName = "recordedAudio.amr";
 
-function startRecording(recordedCallback)
+function startRecording(recordedCallback, recordTimeout)
 {
+   if(recordTimeout === undefined)
+   {
+      recordTimeout = 4000;
+   }
+   
    if(recordingOn === "true") {
       //alert("stopped recording");
       stopRecording();
@@ -31,7 +36,7 @@ function startRecording(recordedCallback)
     	//} else {
     	//   alert("timedout but not recording");
       //}
-    }, 4000);
+    }, recordTimeout);
 }
 
 function stopRecording()

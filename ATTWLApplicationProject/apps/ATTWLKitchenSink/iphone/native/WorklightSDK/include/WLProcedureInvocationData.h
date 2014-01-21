@@ -1,6 +1,6 @@
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -26,6 +26,7 @@
 	
 	// Array of primitive types: (NSString, NSNumber) BOOL values should be created as 
 	NSArray *parameters;
+	BOOL compressResponse;
 }
 
 // Sets the procedure parameters
@@ -38,6 +39,6 @@
 
 // Initializes with the adapter name and the procedure name.
 -(id)initWithAdapterName:(NSString *)adapter procedureName:(NSString *)procedure;
-
-
+-(id)initWithAdapterName:(NSString *)theAdapter procedureName:(NSString *)theProcedure compressResponse:(BOOL)isCompressResponse;
+-(void)setCompressResponse :(BOOL)isCompressResponse;
 @end

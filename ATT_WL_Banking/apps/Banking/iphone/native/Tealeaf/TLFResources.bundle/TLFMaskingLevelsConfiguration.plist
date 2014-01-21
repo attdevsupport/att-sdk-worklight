@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CustomRegex</key>
+	<dict>
+		<key>match</key>
+		<string>.</string>
+		<key>replace</key>
+		<string>Y</string>
+	</dict>
+	<key>Sensitive</key>
+	<dict>
+		<key>capitalCaseAlphabet</key>
+		<string>X</string>
+		<key>number</key>
+		<string>9</string>
+		<key>smallCaseAlphabet</key>
+		<string>x</string>
+		<key>symbol</key>
+		<string>#</string>
+	</dict>
+	<key>TagRegex</key>
+	<string>^9[0-9][0-9][0-9]$</string>
+	<key>UITextField</key>
+	<integer>3</integer>
+	<key>UITextFieldSecure</key>
+	<integer>3</integer>
+	<key>UITextView</key>
+	<integer>3</integer>
+	<key>UITextViewSecure</key>
+	<integer>3</integer>
+</dict>
+</plist>

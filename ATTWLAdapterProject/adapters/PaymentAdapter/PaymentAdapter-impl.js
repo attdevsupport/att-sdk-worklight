@@ -30,10 +30,8 @@ function newTransaction(options) {
 	};
 	logInfo('********* NEW TRANSACTION LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(options));
-	logInfo('Response : ' + com.worklight.server.integration.api.JSObjectConverter
-         .toFormattedString(url));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
+	logInfo('Response : ' + com.worklight.common.js.util.JSObjectConverter.toFormattedString(url));
 	return url;
 }
 
@@ -63,14 +61,12 @@ function getTransactionStatus(options)
 	}
 	logInfo('********* GET TRANSACTION STATUS LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	// http call to AT&T service
 	var result = WL.Server.invokeHttp(input);
 
 	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }
 
@@ -124,14 +120,12 @@ function getNotification(options)
 	}
 	logInfo('********* GET NOTIFICATION  LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	// http call to AT&T service
 	var result = WL.Server.invokeHttp(input);
 
 	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 
 }
@@ -162,14 +156,12 @@ function deleteNotification(options)
 	}
 	logInfo('********* DELETE TRANSACTION LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	// http call to AT&T service
 	var result = WL.Server.invokeHttp(input);
 
 	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }
 
@@ -187,8 +179,7 @@ function newSubscription(options) {
 				+ options.signedDocument + "&clientid=" + WL.Server.configuration["apiKey"]
 	};
 	logInfo('********* NEW SUBSCRIPTION  LOGS ********* \n'
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(options));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
 	logInfo('Response : ' + url.url);
 	return url;
 };
@@ -219,14 +210,12 @@ function getSubscriptionStatus(options)
 	}
 	logInfo('********* GET SUBSCRIPTION STATUS LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	// http call to AT&T service
 	var result = WL.Server.invokeHttp(input);
 
 	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 };
 /**
@@ -256,13 +245,11 @@ function getSubscriptionDetails(options)
 	}
 	logInfo('********* GET SUBSCRIPTION DETAILS  LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	// http call to AT&T service
 	var result = WL.Server.invokeHttp(input);
 
 	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }

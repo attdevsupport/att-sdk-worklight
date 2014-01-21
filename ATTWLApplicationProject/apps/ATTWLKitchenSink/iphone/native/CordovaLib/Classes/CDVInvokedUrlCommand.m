@@ -18,7 +18,8 @@
  */
 
 #import "CDVInvokedUrlCommand.h"
-#import "JSONKit.h"
+#import "CDVJSON.h"
+#import "NSData+Base64.h"
 
 @implementation CDVInvokedUrlCommand
 
@@ -58,29 +59,33 @@
         _className = className;
         _methodName = methodName;
     }
+    [self massageArguments];
     return self;
 }
 
-- (void)legacyArguments:(NSMutableArray**)legacyArguments andDict:(NSMutableDictionary**)legacyDict
+- (void)massageArguments
 {
-    NSMutableArray* newArguments = [NSMutableArray arrayWithArray:_arguments];
+    NSMutableArray* newArgs = nil;
 
-    for (NSUInteger i = 0; i < [newArguments count]; ++i) {
-        if ([[newArguments objectAtIndex:i] isKindOfClass:[NSDictionary class]]) {
-            if (legacyDict != NULL) {
-                *legacyDict = [newArguments objectAtIndex:i];
-            }
-            [newArguments removeObjectAtIndex:i];
-            break;
+    for (NSUInteger i = 0, count = [_arguments count]; i < count; ++i) {
+        id arg = [_arguments objectAtIndex:i];
+        if (![arg isKindOfClass:[NSDictionary class]]) {
+            continue;
         }
-    }
-
-    // Legacy (two versions back) has no callbackId.
-    if (_callbackId != nil) {
-        [newArguments insertObject:_callbackId atIndex:0];
-    }
-    if (legacyArguments != NULL) {
-        *legacyArguments = newArguments;
+        NSDictionary* dict = arg;
+        NSString* type = [dict objectForKey:@"CDVType"];
+        if (!type || ![type isEqualToString:@"ArrayBuffer"]) {
+            continue;
+        }
+        NSString* data = [dict objectForKey:@"data"];
+        if (!data) {
+            continue;
+        }
+        if (newArgs == nil) {
+            newArgs = [NSMutableArray arrayWithArray:_arguments];
+            _arguments = newArgs;
+        }
+        [newArgs replaceObjectAtIndex:i withObject:[NSData dataFromBase64String:data]];
     }
 }
 

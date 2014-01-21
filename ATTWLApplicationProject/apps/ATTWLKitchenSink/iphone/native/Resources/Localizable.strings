@@ -1,0 +1,178 @@
+// PII user facing
+/*
+ * Licensed Materials - Property of IBM
+ * 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+ * US Government Users Restricted Rights - Use, duplication or
+ * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+ */
+
+//a
+
+"activityTypeNil" = "[WLClient logActivity:] activityType cannot be nil.";
+"aliasSubscriptionSuccess" = "[INFO] Successfully subscribed to alias %1$@";
+"aliasSubscriptionFailure" = "[ERROR] Failed to subscribe to alias %1$@";
+"aliasUnsubscriptionSuccess" = "[INFO] Successfully unsubscribed from alias %1$@ ";
+"aliasUnsubscriptionFailure" = "[ERROR] Failed to unsubscribe from alias %1$@";
+"adapterNameNil" = "[WLProcedureInvocationData initWithAdapterName:procedureName:] AdaperName cannot be nil or empty.";
+"appInternalError" = "The application encountered an internal error. Please uninstall the application and then re-install it.";
+"appNeedsSpace" = "The application needs %.2f MB to initialize, but only %.2f MB are available. Please free some space and try again.";
+"appZipDownloadFailedServerNotResponding" = "Downloading application .zip file failed. The server is not responding.";
+"appZipDownloadFailedServerStatus" = "Downloading application .zip file failed with server status %d. %1$@";
+"addRequestToChallengeHandlerlist" = "Adding request to %1$@ challenge handler's waiting list";
+"applicationDisabled" = "Application Disabled";
+
+
+//b
+//c
+
+"copyBundleError" = "Error: Couldn't copy bundle resources to %1$@. %2$@";
+"classDoesNotDefineMethod" = "[NativePage show] Controller class '%1$@' does not define the '%2$@' method.";
+"challengeHandlerDoesNotExistLog" = "Challenge handler does not exist. There is no registered challenge handler with key %1$@";
+"challengeHandlerDoesNotExist" = "Challenge handler does not exist";
+"close" = "Close";
+
+
+//d
+
+"delegateNil" = "[WLClient invokeProcedure:withDelegate:] delegate cannot be nil.";
+"defaultResponseListenerMessage" = "[INFO] Default response listener is being used because Response Listener is nil.";
+"decryptZipSuccess" = "Successfully decrypted resources.zip, length:%d Bytes";
+"deleteOldContentsError" = "Error: Couldn't delete old contents of directory. %1$@";
+"deleteWwwError" = "Error: Couldn't delete old www location. %1$@";
+"downloading" = "Downloading...";
+"deleteOldAppFailed" = "Can't delete old application version(%1$@). %2$@";
+"decryptFileFailed" = "Failed to decrypt file %1$@";
+
+
+//e
+
+"errorProcessingResponse" = "Error processing response. Error is '%1$@'.";
+"eventSourceSubscriptionExists" =	"A push notifications subscription with eventSourceID=%d already exists. Aborting current subscription request.";
+"eventSourceNilAliasError" = "[ERROR] Cannot subscribe or unsubscribe from an eventsource with nil or empty alias. Use concrete values which are not nil or empty.";
+"eventSourceWithAliasNotRegistered" = "[ERROR] Event source with alias %1$@ is not registered.Register before subscribing to or unsubscribing from an event source with alias %2$@.";
+"eventSourceWithAliasRegistrationError" = "[ERROR] Cannot register to event source callback with alias: %1$@ , adapter: %2$@ , eventSource: %3$@ because one or more input parameters are nil or empty.";
+"eventSourceWithAliasAlreadyRegistered" = "[ERROR] Cannot register to event source callback with alias %1$@ because it is already registered.";
+"errorRegisteringPushCheckProfile" = "Error in registration for Push notifiactions, check your provisioning profile. Original error: %1$@";
+"errorUpdatingApp" = "Fatal error updating application. %1$@";
+"errorFetchingCookie" = "Unresolved error fetching cookie with name '%1$@' %2$@, %3$@";
+"errorCreatingCookie" = "Unresolved error creating cookie '%1$@=%2$@' %3$@, %4$@";
+"errorSavingCookie" = "Unresolved error saving cookie '%1$@=%2$@' %3$@, %4$@";
+"errorCreatingStorage" = "Unresolved error creating persistent store %1$@, %2$@";
+"eventSourcesEmpty" = " event sources are empty";
+"errorUpdatingApp" = "Fatal error updating application. %1$@";
+"eventSourcesEmpty" = " event sources are empty";
+"error" = "Error";
+"errorProcessingRequestFromApp" = "An error was encountered while processing the request from the application.";
+
+//f
+//g
+
+"getNewVersion" = "Get new version";
+
+//h
+//i
+
+"invocationDataNil" = "[WLClient invokeProcedure:withDelegate:] invocationData cannot be nil.";
+"invocationResultError" = "InvocationResult cannot be created from response text. %1$@";
+
+//j
+
+"jsonParsingError" = "Error parsing parameters into a JSON string. %1$@";
+
+//k
+
+//l
+
+"logActivitySuccess" = "logActivity success. Response from server is %1$@";
+"logActivityFailure" =	"logActivity failure (%1$@).";
+"loading" = "Loading...";
+
+//m
+
+"missingKeysInplist" = "Some keys are missing in worklight.plist. Missing keys: %1$@";
+
+//n
+
+"NO_COOKIES_ERROR_MESSAGE" = "WLClient must be initialized with initWithDelegate: before calling any other API method.";
+"notificationTokenNotUpdatedOnServer" = "[ERROR] Cannot subscribe or unsubscribe, notification token is not updated on the server";
+"notificationSubscriptionClearing" = "[INFO] Clearing all notification subscriptions";
+"NSSObjectNull" = "NSS object is null";
+"noRegisteredChallengeHandler" = "There is no registered challenge handler with key %1$@";
+"noTokenPresent" = "no token present";
+
+//o
+
+"onReadyToSubscribeListenerNil" = "[WARNING] onReadyToSubscribeListener is nil";
+"onSuccessResponse" = "[DEBUG] on success response : %1$@";
+"onFailureResponse" = "[DEBUG] on failure response : %1$@";
+"overrideWLChallengeHandler" = "You must override WLChallengeHandler.handleChallenge in a subclass";
+
+//p
+
+"pushNotificationTokenUpdateSuccess" = "Success updating push notifications token: %1$@";
+"pushOptionsError" = "[WLClient subscribeWithToken:adapter:eventSource:eventSourceID:notificationType:delegate:options:] options cannot contain keys 'alert', 'badge', or 'sound'";
+"pushNotificationTokenUpdateFailure" = "Failure updating push notifications token: %1$@";
+"pushNotificationTokenChanged" = "[INFO] Push notification device token is changed. updating server token";
+"pushNotificationTokenNil" = "[ERROR] Cannot use Push Notifications if token received from client app is nil. Provide a valid token.";
+"procedureNameNil" = "[WLProcedureInvocationData initWithAdapterName:procedureName:] Procedurename cannot be nil or empty.";
+"plistNotInResourceBundle" = "worklight.plist not found in main resource bundle.";
+"printEventSources" = " printing event sources %1$@";
+
+//q
+
+//r
+
+"registerChallengeHandlerError" = "Cannot register challengeHandler. It does nor resolve to a valid value (value is nil). Please check your implementation which calls to registerChallengeHandler.";
+"registeredEventSourcesNil" = "[DEBUG] RegisteredEventSources are nil.";
+"requestInnerApp" = "The request for inner app: %1$@ , ver: %2$@ - was sent to server";
+"renameTempDirFailed" = "Can't rename temp directory (%1$@) to (%2$@). %3$@";
+"requestTimeOut" = "Request timeout is %f";
+"responseHeaderCookieDataCode" = "Response Header: %1$@\nResponse Cookies: %2$@\nResponse Data: %3$@\nStatus code=%d";
+"responseHeaderCookieData" = "Response Header: %1$@\nResponse Cookies: %2$@\nResponse Data: %3$@";
+
+//s
+
+"serverTokenUpdateFail" = "[DEBUG] Failed to update token on server";
+"serverDeviceToken" = "[DEBUG] server token : %1$@ and device token : %2$@";
+"serverToken" = "[DEBUG] Server token is %1$@";
+"saveCheckSumofNewWebResource" = "Saving checksum of new web resources on device.";
+"switchFromCachetoAppDir" = "Need to switch from cache dir to app support dir";
+"setCookieNotParsed" = "'set-cookie' header '%1$@' could not be parsed. The section '%2$@' does not have a proper name=value structure";
+"sendingRequestHeaders" = "Sending request (%1$@) with headers: \n%2$@\nPost Data: %3$@";
+"serverResponseNotJSON" = "Could not extract %1$@ from server response (probably due to server response not being a json response).";
+"statusCode" = "Status code='%d' error='%1$@'";
+"serviceNotification" = "Service Notification";
+
+
+//t
+
+"timeoutNotInstanceofNSNumber" = "options contains a \"timeout\" key for an object (%1$@) that is not an instance of NSNumber.";
+"tokenIs" = "token is %1$@";
+
+//u
+
+"updatingNotificationSubscription" = "[INFO] Updating notification subscriptions";
+"updateAppCopyFailed" = "Can't copy (%1$@) to updated application (%2$@). %3$@";
+"updateDownloadStart" = "Start downloading update file.";
+"unpacking" = "Unpacking...";
+
+//v
+
+//w
+
+"webResourceIntegrityTest" = "Starting web resources integrity test.";
+"WebResourcesIntegrityTestFail" = "Web resources integrity test: Failure.";
+"webResourceIntegrityTestSuccess" = "Web resources integrity test: Success.";
+"webResourceIntegrityTestDisabled" = "Web resources integrity test is disabled.";
+"wlCordovaCheckSumError" = "[WLCordovaAppDelegate shouldCalculateWebResourcesChecksum] Error";
+"wlCordovaAppDelegateIgnoreMediaError" = "[WLCordovaAppDelegate shouldIgnoreMediaFiles] Error";
+"wlCordovaIgnoredFileExtensionsError" = "[WLCordovaAppDelegate getIgnoredFileExtensionsArray] Error";
+"wlConfigInvalid" = "[WLConfig init] Invalid initialization" ;
+"waitingForResponse" = "waiting for response... (Thread=%1$@)";
+
+//x
+//y
+
+
+
+//z

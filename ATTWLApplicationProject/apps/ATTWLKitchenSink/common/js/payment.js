@@ -96,7 +96,6 @@ var ATT = {
       function getFailure(error) {
          WL.Logger.debug('Error : ' + JSON.stringify(error));
          alert("error is  " + JSON.stringify(error));
-         handleAuthorizationFailure(error);
       }
 
       WL.Client.invokeProcedure(data, {

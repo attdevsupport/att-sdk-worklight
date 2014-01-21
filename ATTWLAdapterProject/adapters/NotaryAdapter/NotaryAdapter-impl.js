@@ -28,8 +28,7 @@ function getSignedPayload(options) {
 		},
 		body : {
 			'contentType' : options.contentType,
-			'content' : com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(options.data)
+			'content' : com.worklight.common.js.util.JSObjectConverter.toFormattedString(options.data)
 		}
 	};
 
@@ -39,13 +38,11 @@ function getSignedPayload(options) {
 	
 	logInfo('*********  NOTARY PAYLOAD LOGS *********');
 	logInfo('Input : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(input));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	// http call to AT&T service
 	var result = WL.Server.invokeHttp(input);
 
 	logInfo('Response : '
-			+ com.worklight.server.integration.api.JSObjectConverter
-					.toFormattedString(result));
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }

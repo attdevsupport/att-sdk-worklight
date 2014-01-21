@@ -43,7 +43,7 @@ function startAmountRecorder()
    $("#paymentAmount").val("");
    $("#paymentDate").val("");
    setListeningStatus("#paymentDetailsStatus");
-   startRecording(paymentAmountRecordingCallback);   
+   startRecording(paymentAmountRecordingCallback, 5000);   
 }
 
 var fs;
@@ -365,9 +365,15 @@ function optionPageRecordingCallback(recordingFile)
 function paymentAmountCallback(response)
 {
    // alert("optionTextCallback response: " + JSON.stringify(response, null,3));
-   if (response.isSuccessful) {
+   if (response.isSuccessful)
+   {
+      if (response.result.indexOf("cancel") !== -1)
+      {
+         $.mobile.changePage($("#pageOptions"));
+      }
+   
       // if dollar amount, fill it in and take the date
-      // Otherwise restart the listener
+      // Otherwise restart the listener      
       amount = wordsToCurrency(response.result);
       if (amount !== undefined  && amount !== -1) {
          // set amount field to

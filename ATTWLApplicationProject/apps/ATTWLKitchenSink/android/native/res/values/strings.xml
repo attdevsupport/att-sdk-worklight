@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- PII admin facing -->
 <resources>
   <string name="app_name">ATTWLKitchenSink</string>  
   <string name="push_notification_title">ATTWLKitchenSink</string>
@@ -11,9 +12,9 @@
   <string name="summaryWLServerUrl">Change the server URL: http[s]://domain or IP address[:port][/context root]</string>
   <string name="titleWLServerUrl">Server URL</string>
   <string name="networkSettingsTitleWLServerUrl">Network Settings</string>
-  <string name="OKTitleWLServerUrl">Ok</string>
+  <string name="OKTitleWLServerUrl">OK</string>
   <string name="titleInvalidWLServerUrl">Invalid URL</string>
-  <string name="errorInvalidWLServerUrl">is not a valid URL. Valid format is http[s]://domain or IP address[:port][/context root]</string>
+  <string name="errorInvalidWLServerUrl">%1$s is not a valid URL. Valid format is http[s]://domain or IP address[:port][/context root]</string>
   <string name="serverAddress">Server Address</string>
   <string name="changeServerAddress">Change server URL</string>
   
@@ -25,4 +26,8 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">Downloading application update (progress in kilobytes)</string>
+<string name="testResourcesChecksumErrorMessage">The application encountered an internal error. Please uninstall the application and then re-install it.</string>
+<string name="kb">kb</string>
+<string name="worklightSettingsTitle">Worklight Settings</string>
+<string name="cancel">Cancel</string>
 </resources>

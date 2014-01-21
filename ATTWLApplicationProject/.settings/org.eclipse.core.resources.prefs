@@ -1,3 +1,22 @@
-eclipse.preferences.version=1
+#Tue Jan 14 17:44:01 PST 2014
+base.iphone=3577331796
+base.android=1420749232
+ATTWLKitchenSink.android.native=1420749232-2408201680-2746434164
+common.android=3995469295
 encoding//apps/ATTWLKitchenSink/common/css/reset.css=UTF-8
-wl_version=5.0.6
+fipshttp.android=1259741140
+encoding//apps/ALUORCA/iphone/css/ALUORCA.css=UTF-8
+wl_version=6.1.0.00.20131219-1900
+eclipse.preferences.version=1
+ATTWLKitchenSink.iphone.native=3577331796-752482804
+encoding//apps/ALUORCA/common/ALUORCA.html=US-ASCII
+encoding//apps/ALUORCA/common/css/ALUORCA.css=UTF-8
+jsonstore.android=2746434164
+analytics.ipad=2383137509
+encoding//apps/ALUORCA/android/css/ALUORCA.css=UTF-8
+fipshttp.iphone=4131626944
+fipshttp.ipad=1204642243
+ATTWLKitchenSink.ipad.native=3577331796-2383137509
+base.ipad=3577331796
+analytics.android=2408201680
+analytics.iphone=752482804

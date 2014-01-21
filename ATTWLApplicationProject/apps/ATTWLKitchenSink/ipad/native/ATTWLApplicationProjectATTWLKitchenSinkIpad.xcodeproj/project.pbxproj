@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E144E08180EEB9400A01719 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E144E07180EEB9400A01719 /* libc++.dylib */; };
+		5E144E0A180EEBA700A01719 /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E144E09180EEBA700A01719 /* libstdc++.dylib */; };
+		9C0ED53917FE946A00C8B73C /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0ED53A17FE946B00C8B73C /* ImageIO.framework */; };
+		2710069116A09DEF0072351B /* CDVNotification.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2710069016A09DEF0072351B /* CDVNotification.bundle */; };
+		2710067116A09DEF0072351B /* CDVCapture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2710067016A09DEF0072351B /* CDVCapture.bundle */; };
+		2710065116A09DEF0072351B /* Localizations.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2710065016A09DEF0072351B /* Localizations.bundle */; };
+		96F493801781D3F600F24C35 /* libWLAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96F4937D1781D3F600F24C35 /* libWLAnalytics.a */; };
+		71B9C74F170B3D2D008197AE /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B9C74E170B3D2D008197AE /* CoreTelephony.framework */; };
+		71D6567517147FFC00219B1E /* TLFResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 71D6567317147FFC00219B1E /* TLFResources.bundle */; };
+		71D6567417147FFC00219B1E /* libTLFLib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D6567217147FFC00219B1E /* libTLFLib.a */; };
+		47F3D1F41723E20B004534C9 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 47F3D1F31723E20B004534C9 /* AssetsLibrary.framework */; };
 		470009E516BE4F3700E4EA3D /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };		2710063116A09DEF0072351B /* Capture.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2710063016A09DEF0072351B /* Capture.bundle */; };
 		920D631B1619F5B4007B7418 /* sqlcipher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 920D631A1619F5B4007B7418 /* sqlcipher.framework */; };
 		9C8D139315EA409900392D18 /* libCordova.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C8D138A15EA404F00392D18 /* libCordova.a */; };
@@ -91,6 +102,72 @@
 /* End PBXContainerItemProxy section */ 
 
 /* Begin PBXFileReference section */
+		5E0FF50418266D8200725BDA /* WLCallbackFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCallbackFactory.h; sourceTree = "<group>"; };
+		5E55B3D618109340000E42A7 /* WLWifiVisibleAccessPointsChangeTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiVisibleAccessPointsChangeTrigger.h; sourceTree = "<group>"; };
+		5E55B3D718109340000E42A7 /* WLWifiTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiTrigger.h; sourceTree = "<group>"; };
+		5E55B3D818109340000E42A7 /* WLWifiLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiLocation.h; sourceTree = "<group>"; };
+		5E55B3D918109340000E42A7 /* WLWifiFailureCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiFailureCallback.h; sourceTree = "<group>"; };
+		5E55B3DA18109340000E42A7 /* WLWifiExitTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiExitTrigger.h; sourceTree = "<group>"; };
+		5E55B3DB18109340000E42A7 /* WLWifiError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiError.h; sourceTree = "<group>"; };
+		5E55B3DC18109340000E42A7 /* WLWifiEnterTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiEnterTrigger.h; sourceTree = "<group>"; };
+		5E55B3DD18109340000E42A7 /* WLWifiDwellOutsideTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiDwellOutsideTrigger.h; sourceTree = "<group>"; };
+		5E55B3DE18109340000E42A7 /* WLWifiDwellInsideTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiDwellInsideTrigger.h; sourceTree = "<group>"; };
+		5E55B3DF18109340000E42A7 /* WLWifiDisconnectTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiDisconnectTrigger.h; sourceTree = "<group>"; };
+		5E55B3E018109340000E42A7 /* WLWifiConnectTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiConnectTrigger.h; sourceTree = "<group>"; };
+		5E55B3E118109340000E42A7 /* WLWifiConnectedCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiConnectedCallback.h; sourceTree = "<group>"; };
+		5E55B3E218109340000E42A7 /* WLWifiAcquisitionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiAcquisitionPolicy.h; sourceTree = "<group>"; };
+		5E55B3E318109340000E42A7 /* WLWifiAcquisitionCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiAcquisitionCallback.h; sourceTree = "<group>"; };
+		5E55B3E418109340000E42A7 /* WLWifiAccessPointFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiAccessPointFilter.h; sourceTree = "<group>"; };
+		5E55B3E518109340000E42A7 /* WLWifiAccessPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLWifiAccessPoint.h; sourceTree = "<group>"; };
+		5E55B3E718109340000E42A7 /* WLTriggersConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTriggersConfiguration.h; sourceTree = "<group>"; };
+		5E55B3E818109340000E42A7 /* WLTriggerCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLTriggerCallback.h; sourceTree = "<group>"; };
+		5E55B3EF18109340000E42A7 /* WLPolygon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLPolygon.h; sourceTree = "<group>"; };
+		5E55B3F118109340000E42A7 /* WLLocationServicesConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLLocationServicesConfiguration.h; sourceTree = "<group>"; };
+		5E55B3F218109340000E42A7 /* WLGeoUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoUtils.h; sourceTree = "<group>"; };
+		5E55B3F318109340000E42A7 /* WLGeoTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoTrigger.h; sourceTree = "<group>"; };
+		5E55B3F418109340000E42A7 /* WLGeoPositionChangeTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoPositionChangeTrigger.h; sourceTree = "<group>"; };
+		5E55B3F518109340000E42A7 /* WLGeoPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoPosition.h; sourceTree = "<group>"; };
+		5E55B3F618109340000E42A7 /* WLGeoFailureCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoFailureCallback.h; sourceTree = "<group>"; };
+		5E55B3F718109340000E42A7 /* WLGeoExitTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoExitTrigger.h; sourceTree = "<group>"; };
+		5E55B3F818109340000E42A7 /* WLGeoError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoError.h; sourceTree = "<group>"; };
+		5E55B3F918109340000E42A7 /* WLGeoEnterTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoEnterTrigger.h; sourceTree = "<group>"; };
+		5E55B3FA18109340000E42A7 /* WLGeoDwellOutsideTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoDwellOutsideTrigger.h; sourceTree = "<group>"; };
+		5E55B3FB18109340000E42A7 /* WLGeoDwellInsideTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoDwellInsideTrigger.h; sourceTree = "<group>"; };
+		5E55B3FC18109340000E42A7 /* WLGeoCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoCallback.h; sourceTree = "<group>"; };
+		5E55B3FD18109340000E42A7 /* WLGeoAcquisitionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLGeoAcquisitionPolicy.h; sourceTree = "<group>"; };
+		5E55B3FF18109340000E42A7 /* WLEventTransmissionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLEventTransmissionPolicy.h; sourceTree = "<group>"; };
+		5E55B40118109340000E42A7 /* WLDeviceContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLDeviceContext.h; sourceTree = "<group>"; };
+		5E55B40318109340000E42A7 /* WLDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLDevice.h; sourceTree = "<group>"; };
+		5E55B40618109340000E42A7 /* WLCoordinate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCoordinate.h; sourceTree = "<group>"; };
+		5E55B40818109340000E42A7 /* WLConfidenceLevel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLConfidenceLevel.h; sourceTree = "<group>"; };
+		5E55B40A18109341000E42A7 /* WLCircle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLCircle.h; sourceTree = "<group>"; };
+		5E55B40C18109341000E42A7 /* WLArea.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLArea.h; sourceTree = "<group>"; };
+		5E55B40E18109341000E42A7 /* WLAcquisitionPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAcquisitionPolicy.h; sourceTree = "<group>"; };
+		5E55B40F18109341000E42A7 /* WLAcquisitionFailureCallbacksConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLAcquisitionFailureCallbacksConfiguration.h; sourceTree = "<group>"; };
+		5E55B46C18109341000E42A7 /* AcquisitionFailureCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcquisitionFailureCallback.h; sourceTree = "<group>"; };
+		5E55B46D18109341000E42A7 /* AcquisitionCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcquisitionCallback.h; sourceTree = "<group>"; };
+		5E55B46E18109341000E42A7 /* AbstractWifiFilterTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractWifiFilterTrigger.h; sourceTree = "<group>"; };
+		5E55B46F18109341000E42A7 /* AbstractWifiDwellTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractWifiDwellTrigger.h; sourceTree = "<group>"; };
+		5E55B47018109341000E42A7 /* AbstractWifiAreaTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractWifiAreaTrigger.h; sourceTree = "<group>"; };
+		5E55B47118109341000E42A7 /* AbstractTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractTrigger.h; sourceTree = "<group>"; };
+		5E55B47218109341000E42A7 /* AbstractPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractPosition.h; sourceTree = "<group>"; };
+		5E55B47318109341000E42A7 /* AbstractGeoDwellTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractGeoDwellTrigger.h; sourceTree = "<group>"; };
+		5E55B47418109341000E42A7 /* AbstractGeoAreaTrigger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractGeoAreaTrigger.h; sourceTree = "<group>"; };
+		5E55B47518109341000E42A7 /* AbstractAcquisitionError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractAcquisitionError.h; sourceTree = "<group>"; };
+		5E144E07180EEB9400A01719 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = compiled.mach-o.dylib; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		5E144E09180EEBA700A01719 /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = compiled.mach-o.dylib; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		9C0ED53A17FE946B00C8B73C /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		2710069016A09DEF0072351B /* CDVNotification.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CDVNotification.bundle; path = Resources/CDVNotification.bundle; sourceTree = "<group>"; };
+		2710067016A09DEF0072351B /* CDVCapture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = CDVCapture.bundle; path = Resources/CDVCapture.bundle; sourceTree = "<group>"; };
+		2710065016A09DEF0072351B /* Localizations.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Localizations.bundle; path = Resources/Localizations.bundle; sourceTree = "<group>"; };
+		96F4937D1781D3F600F24C35 /* libWLAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libWLAnalytics.a; path = libWLAnalytics.a; sourceTree = "<group>"; };
+		71B9C74E170B3D2D008197AE /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		71D6567017147FC200219B1E /* TLFPublicDefinitions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLFPublicDefinitions.h; sourceTree = "<group>"; };
+		71D6566F17147FC200219B1E /* TLFCustomEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLFCustomEvent.h; sourceTree = "<group>"; };
+		71D6566E17147FC200219B1E /* TLFApplication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLFApplication.h; sourceTree = "<group>"; };
+		71D6567317147FFC00219B1E /* TLFResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = TLFResources.bundle; sourceTree = "<group>"; };
+		71D6567217147FFC00219B1E /* libTLFLib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTLFLib.a; path = libTLFLib.a; sourceTree = "<group>"; };
+		47F3D1F31723E20B004534C9 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		470009E616BE4F3700E4EA3D /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 470009E516BE4F3700E4EA3D /* config.xml */; };		2710063016A09DEF0072351B /* Capture.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = Capture.bundle; path = Resources/Capture.bundle; sourceTree = "<group>"; };
 		920D631A1619F5B4007B7418 /* sqlcipher.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = sqlcipher.framework; path = Frameworks/sqlcipher.framework; sourceTree = "<group>"; };
 		9C8D137F15EA404F00392D18 /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
@@ -165,6 +242,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E144E08180EEB9400A01719 /* libc++.dylib in Frameworks */,
+				5E144E0A180EEBA700A01719 /* libstdc++.dylib in Frameworks */,
+				9C0ED53917FE946A00C8B73C /* ImageIO.framework in Frameworks */,
+				96F493801781D3F600F24C35 /* libWLAnalytics.a in Frameworks */,
+				71B9C74F170B3D2D008197AE /* CoreTelephony.framework in Frameworks */,
+				71D6567417147FFC00219B1E /* libTLFLib.a in Frameworks */,
+				47F3D1F41723E20B004534C9 /* AssetsLibrary.framework in Frameworks */,
 				920D631B1619F5B4007B7418 /* sqlcipher.framework in Frameworks */,
 				9C8D139315EA409900392D18 /* libCordova.a in Frameworks */,
 				9C5B6E5D1535A43C00AF1336 /* Security.framework in Frameworks */,
@@ -191,6 +275,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		71D6567117147FFC00219B1E /* Tealeaf */ = {
+			isa = PBXGroup;
+			children = (
+				96F4937D1781D3F600F24C35 /* libWLAnalytics.a */,
+				71D6567317147FFC00219B1E /* TLFResources.bundle */,
+				71D6567217147FFC00219B1E /* libTLFLib.a */,
+				
+			);
+			path = Tealeaf;
+			sourceTree = "<group>";
+		};
 		9C8D138015EA404F00392D18 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +319,7 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				71D6567117147FFC00219B1E /* Tealeaf */, 
 				9C8D137F15EA404F00392D18 /* CordovaLib.xcodeproj */, 
 				9C3102AA14E1804D006D8917 /* WorklightSDK */,
 				301BF56E109A69640062928A /* www */,
@@ -253,6 +349,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2710069016A09DEF0072351B /* CDVNotification.bundle */, 
+				2710067016A09DEF0072351B /* CDVCapture.bundle */, 
+				2710065016A09DEF0072351B /* Localizations.bundle */, 
 				470009E516BE4F3700E4EA3D /* config.xml */, 
 				2710063016A09DEF0072351B /* Capture.bundle */, 
 				471100FC1640064200670C3C /* Default-568h@2x~iphone.png */,
@@ -271,6 +370,11 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5E144E07180EEB9400A01719 /* libc++.dylib */,
+				5E144E09180EEBA700A01719 /* libstdc++.dylib */,
+				9C0ED53A17FE946B00C8B73C /* ImageIO.framework */,
+				71B9C74E170B3D2D008197AE /* CoreTelephony.framework */,
+				47F3D1F31723E20B004534C9 /* AssetsLibrary.framework */,
 				920D631A1619F5B4007B7418 /* sqlcipher.framework */,
 				9C5B6E5A1535A43200AF1336 /* Security.framework */,
 				42DB65D5141F483300EA8B09 /* CoreMedia.framework */,
@@ -320,6 +424,61 @@
 		9C3102AD14E1804D006D8917 /* Worklight-Include */ = {
 			isa = PBXGroup;
 			children = (
+				5E0FF50418266D8200725BDA /* WLCallbackFactory.h */,
+				5E55B3D618109340000E42A7 /* WLWifiVisibleAccessPointsChangeTrigger.h */,
+				5E55B3D718109340000E42A7 /* WLWifiTrigger.h */,
+				5E55B3D818109340000E42A7 /* WLWifiLocation.h */,
+				5E55B3D918109340000E42A7 /* WLWifiFailureCallback.h */,
+				5E55B3DA18109340000E42A7 /* WLWifiExitTrigger.h */,
+				5E55B3DB18109340000E42A7 /* WLWifiError.h */,
+				5E55B3DC18109340000E42A7 /* WLWifiEnterTrigger.h */,
+				5E55B3DD18109340000E42A7 /* WLWifiDwellOutsideTrigger.h */,
+				5E55B3DE18109340000E42A7 /* WLWifiDwellInsideTrigger.h */,
+				5E55B3DF18109340000E42A7 /* WLWifiDisconnectTrigger.h */,
+				5E55B3E018109340000E42A7 /* WLWifiConnectTrigger.h */,
+				5E55B3E118109340000E42A7 /* WLWifiConnectedCallback.h */,
+				5E55B3E218109340000E42A7 /* WLWifiAcquisitionPolicy.h */,
+				5E55B3E318109340000E42A7 /* WLWifiAcquisitionCallback.h */,
+				5E55B3E418109340000E42A7 /* WLWifiAccessPointFilter.h */,
+				5E55B3E518109340000E42A7 /* WLWifiAccessPoint.h */,
+				5E55B3E718109340000E42A7 /* WLTriggersConfiguration.h */,
+				5E55B3E818109340000E42A7 /* WLTriggerCallback.h */,
+				5E55B3EF18109340000E42A7 /* WLPolygon.h */,
+				5E55B3F118109340000E42A7 /* WLLocationServicesConfiguration.h */,
+				5E55B3F218109340000E42A7 /* WLGeoUtils.h */,
+				5E55B3F318109340000E42A7 /* WLGeoTrigger.h */,
+				5E55B3F418109340000E42A7 /* WLGeoPositionChangeTrigger.h */,
+				5E55B3F518109340000E42A7 /* WLGeoPosition.h */,
+				5E55B3F618109340000E42A7 /* WLGeoFailureCallback.h */,
+				5E55B3F718109340000E42A7 /* WLGeoExitTrigger.h */,
+				5E55B3F818109340000E42A7 /* WLGeoError.h */,
+				5E55B3F918109340000E42A7 /* WLGeoEnterTrigger.h */,
+				5E55B3FA18109340000E42A7 /* WLGeoDwellOutsideTrigger.h */,
+				5E55B3FB18109340000E42A7 /* WLGeoDwellInsideTrigger.h */,
+				5E55B3FC18109340000E42A7 /* WLGeoCallback.h */,
+				5E55B3FD18109340000E42A7 /* WLGeoAcquisitionPolicy.h */,
+				5E55B3FF18109340000E42A7 /* WLEventTransmissionPolicy.h */,
+				5E55B40118109340000E42A7 /* WLDeviceContext.h */,
+				5E55B40318109340000E42A7 /* WLDevice.h */,
+				5E55B40618109340000E42A7 /* WLCoordinate.h */,
+				5E55B40818109340000E42A7 /* WLConfidenceLevel.h */,
+				5E55B40A18109341000E42A7 /* WLCircle.h */,
+				5E55B40C18109341000E42A7 /* WLArea.h */,
+				5E55B40E18109341000E42A7 /* WLAcquisitionPolicy.h */,
+				5E55B40F18109341000E42A7 /* WLAcquisitionFailureCallbacksConfiguration.h */,
+				5E55B46C18109341000E42A7 /* AcquisitionFailureCallback.h */,
+				5E55B46D18109341000E42A7 /* AcquisitionCallback.h */,
+				5E55B46E18109341000E42A7 /* AbstractWifiFilterTrigger.h */,
+				5E55B46F18109341000E42A7 /* AbstractWifiDwellTrigger.h */,
+				5E55B47018109341000E42A7 /* AbstractWifiAreaTrigger.h */,
+				5E55B47118109341000E42A7 /* AbstractTrigger.h */,
+				5E55B47218109341000E42A7 /* AbstractPosition.h */,
+				5E55B47318109341000E42A7 /* AbstractGeoDwellTrigger.h */,
+				5E55B47418109341000E42A7 /* AbstractGeoAreaTrigger.h */,
+				5E55B47518109341000E42A7 /* AbstractAcquisitionError.h */,
+				71D6567017147FC200219B1E /* TLFPublicDefinitions.h */,
+				71D6566F17147FC200219B1E /* TLFCustomEvent.h */,
+				71D6566E17147FC200219B1E /* TLFApplication.h */,
 				47A39D881663483600DE0F55 /* WLCookieExtractor.h */,
 				9C163202157CF09F00FCA43B /* WLDeviceAuthManager.h */,
 				9C8F9E31155FEAE1008CFFA8 /* MainViewController.h */,
@@ -429,6 +588,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2710069116A09DEF0072351B /* CDVNotification.bundle in Resources */, 
+				2710067116A09DEF0072351B /* CDVCapture.bundle in Resources */, 
+				2710065116A09DEF0072351B /* Localizations.bundle in Resources */, 
+				71D6567517147FFC00219B1E /* TLFResources.bundle in Resources */,
 				470009E616BE4F3700E4EA3D /* config.xml in Resources */, 
 				2710063116A09DEF0072351B /* Capture.bundle in Resources */, 
 				471100FD1640064200670C3C /* Default-568h@2x~iphone.png in Resources */,
@@ -542,6 +705,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/WorklightSDK\"",
+					"\"$(SRCROOT)/Tealeaf\"",
 				);
 				PRODUCT_NAME = ATTWLKitchenSink;
 				SDKROOT = iphoneos;
@@ -575,6 +739,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/WorklightSDK\"",
+					"\"$(SRCROOT)/Tealeaf\"",
 				);
 				PRODUCT_NAME = ATTWLKitchenSink;
 				SDKROOT = iphoneos;
@@ -627,6 +792,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SRCROOT)/WorklightSDK\"",
+					"\"$(SRCROOT)/Tealeaf\"",
 				);
 				PRODUCT_NAME = ATTWLKitchenSink;
 				SDKROOT = iphoneos;

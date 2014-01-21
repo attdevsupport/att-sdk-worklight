@@ -10,7 +10,8 @@ import java.util.Map;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.json.java.JSONObject;
-import com.worklight.server.integration.api.JSObjectConverter;
+import com.worklight.common.js.util.JSObjectConverter;
+
 import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class PaymentHelper {
@@ -47,7 +48,6 @@ public class PaymentHelper {
 			wr.write(body);
 			wr.flush();
 			wr.close();
-			@SuppressWarnings("unchecked")
 			Map<String,List<String>> header = conn.getHeaderFields();
 			for (String key: header.keySet ())
 			   System.out.println (key+": "+conn.getHeaderField (key));

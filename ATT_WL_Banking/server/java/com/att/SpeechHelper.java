@@ -14,7 +14,7 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.json.java.JSONObject;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-import com.worklight.server.integration.api.JSObjectConverter;
+import com.worklight.common.js.util.JSObjectConverter;
 
 public class SpeechHelper
 {

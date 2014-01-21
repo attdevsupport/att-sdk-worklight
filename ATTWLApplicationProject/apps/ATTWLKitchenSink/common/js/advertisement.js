@@ -40,7 +40,6 @@ function getAds(category, gender, ageGroup, city, keywords, cbData, busyInd)
 		onSuccess : function(data)
 		{
 		   busyInd.hide();
-		   handleAuthorizationFailure(data);
 		   WL.Logger.debug("Success : Response is - " + JSON.stringify(data));
 			
 		   var wrapperID = 'advertisement',
@@ -56,7 +55,6 @@ function getAds(category, gender, ageGroup, city, keywords, cbData, busyInd)
 		} ,
 		onFailure : function(error) {
 			busyInd.hide();
-			handleAuthorizationFailure(error);
 			WL.Logger.debug("Failiure : Response is - "+error);
 			cbData(error);
 		} ,

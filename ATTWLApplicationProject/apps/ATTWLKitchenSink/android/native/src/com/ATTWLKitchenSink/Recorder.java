@@ -8,8 +8,11 @@ import java.net.URI;
 import android.media.MediaRecorder;
 import android.util.Base64;
 
-import org.apache.cordova.api.CallbackContext;
-import org.apache.cordova.api.CordovaPlugin;
+//import org.apache.cordova.api.CallbackContext;
+//import org.apache.cordova.api.CordovaPlugin;
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,6 +52,7 @@ public class Recorder extends CordovaPlugin
 
 public boolean start(JSONArray args)
 {
+	System.out.println("Recorder.start called");
 	String filePath=null;
 	int audioChannels = 0,samplingRate=0,encodingBitRate=0;
 	JSONObject json = null;
@@ -96,19 +100,14 @@ public boolean start(JSONArray args)
 	}
 	boolean recordingStarted = false;
 	try {
-		
 		recorder = new MediaRecorder();
 		recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
 		recorder.setOutputFormat(MediaRecorder.OutputFormat.AMR_NB);
 		recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 		recorder.setOutputFile(filePath);
-
-		
 		recorder.setAudioChannels(audioChannels);
 		recorder.setAudioSamplingRate(samplingRate);
 		recorder.setAudioEncodingBitRate(encodingBitRate);
-		
-
 		try {
 			System.out.println("Preparing recorder.....");
 			recorder.prepare();
@@ -129,8 +128,11 @@ public boolean start(JSONArray args)
 
 		recordingStarted = true;
 	} catch (Exception e) {
+		System.out.println("Recorder: Setting up MediaRecorder exceptioned.");
+		e.printStackTrace();
 	}
 
+	System.out.println("Recorder.start returning " + recordingStarted);
 	return recordingStarted;
 }
 /**

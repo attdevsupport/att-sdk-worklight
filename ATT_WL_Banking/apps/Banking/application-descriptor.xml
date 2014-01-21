@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Attribute "id" must be identical to application folder name -->
-<application xmlns="http://www.worklight.com/application-descriptor" id="Banking" platformVersion="5.0.6">
+<!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="Banking" platformVersion="6.1.0.00.20131219-1900">
     <displayName>Banking</displayName>
     <description>Banking</description>
     <author>
         <name>ATT Developer Platform</name>
-        <email>@attdeveloper]</email>
+        <email>devsupport-sf@list.att.com</email>
         <homepage>http://developer.att.com</homepage>
-        <copyright>Copyright ATT 2013</copyright>
+        <copyright>Copyright ATT 2013-2014</copyright>
     </author>
-    <height>460</height>
-    <width>320</width>
     <mainFile>Banking.html</mainFile>
+    <features>
+        <JSONStore/>
+    <Analytics/>
+</features>
     <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
-    <iphone bundleId="com.Banking" version="1.1">
+    <iphone bundleId="com.Banking" version="1.2">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
         </security>
     </iphone>
-    <android version="1.1">
+    <android version="1.2">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
@@ -28,6 +29,4 @@
             <publicSigningKey>Replace this text with the public key of the certificate with which you sign the APK. For details see the Worklight Developer's Reference Guide.</publicSigningKey>
         </security>
     </android>
-    <!--worklightServerRootURL>http://${local.IPAddress}:8080</worklightServerRootURL-->
-    <worklightServerRootURL>http://108.229.114.34:9080/worklight</worklightServerRootURL>
 </application>

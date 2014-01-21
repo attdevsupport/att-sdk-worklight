@@ -7,13 +7,13 @@
 	<key>host</key>
 	<string>192.168.43.44</string>
 	<key>port</key>
-	<string>8080</string>
+	<string>10080</string>
 	<key>wlServerContext</key>
-	<string>/</string>
+	<string>/ATTWLApplicationProject/</string>
 	<key>application id</key>
 	<string>ATTWLKitchenSink</string>
 	<key>application version</key>
-	<string>3.1</string>
+	<string>3.2</string>
 	<key>environment</key>
 	<string>ipad</string>
 	<key>buildtime</key>
@@ -25,6 +25,10 @@
 	<key>ignoredFileExtensions</key>
 	<string></string>
 	<key>wlMainFile</key>
-	<string>ATTWLKitchenSink.html</string>	
+	<string>ATTWLKitchenSink.html</string>
+	<key>wlUid</key>
+	<string>zA6qy7zmslY/uFmjLbjpgQ==</string>			
+	<key>platformVersion</key>
+	<string>6.1.0.00.20131219-1900</string>
 </dict>
 </plist>

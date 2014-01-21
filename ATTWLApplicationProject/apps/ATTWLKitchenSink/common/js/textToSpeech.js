@@ -34,12 +34,10 @@ textToSpeech = function(textString, language, voice, callback)
 		onSuccess : function (result)
 		{
 			busyInd.hide();
-			handleAuthorizationFailure(result);
 			callback(result);
 		},
 		onFailure : function (result)
 		{
-			handleAuthorizationFailure(result);
 			busyInd.hide();
 			callback(result);
 		},

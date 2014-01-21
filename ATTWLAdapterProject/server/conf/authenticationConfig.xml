@@ -14,7 +14,20 @@
 		</resource>
 	</staticResources -->
 
-	<realms>
+	<staticResources>
+<resource id="receiveSMS" securityTest="SubscribeServlet">
+<urlPatterns>/receiveSMS*</urlPatterns>
+</resource>
+</staticResources>
+<securityTests>
+<customSecurityTest name="SubscribeServlet">
+<test isInternalUserID="true" realm="SubscribeServlet"/>
+</customSecurityTest>
+</securityTests>
+<realms>
+<realm loginModule="rejectAll" name="SubscribeServlet">
+<className>com.worklight.core.auth.ext.HeaderAuthenticator</className>
+</realm>
 		<realm loginModule="StrongDummy" name="SampleAppRealm">
 			<className>com.worklight.core.auth.ext.FormBasedAuthenticator</className>
 		</realm>
@@ -31,6 +44,9 @@
 	</realms>
 
 	<loginModules>
+<loginModule name="rejectAll">
+<className>com.worklight.core.auth.ext.RejectingLoginModule</className>
+</loginModule>
 		<loginModule name="StrongDummy">
 			<className>com.worklight.core.auth.ext.NonValidatingLoginModule</className>
 		</loginModule>

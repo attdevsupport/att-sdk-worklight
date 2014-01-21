@@ -24,7 +24,7 @@ function sendSMS(options)
 	
 	if(options.contentType!==undefined && options.contentType==="application/json")
 	{
-		input.body.content = com.worklight.server.integration.api.JSObjectConverter.toFormattedString(options.body); 
+		input.body.content = com.worklight.common.js.util.JSObjectConverter.toFormattedString(options.body); 
 	}
 	else
 	{
@@ -32,11 +32,11 @@ function sendSMS(options)
 	}
 	
 	logInfo('********* SEND SMS LOGS ***********');
-	logInfo('Input : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
+	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	
 	var result=WL.Server.invokeHttp(input);
 	
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }
 
@@ -61,11 +61,11 @@ function getSMSDeliveryStatus(options)
 		input.headers.Accept=options.accept;
 	}
 	logInfo('********* GET SMS DELIVERY LOGS ***********');
-	logInfo('Input : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
+	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	
 	var result=WL.Server.invokeHttp(input);
 	
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }
 
@@ -95,8 +95,8 @@ function getSMS(options)
 	
 	var result=WL.Server.invokeHttp(input);
 	logInfo('********* GET SMS LOGS ***********');
-	logInfo('Input : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
+	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }
 

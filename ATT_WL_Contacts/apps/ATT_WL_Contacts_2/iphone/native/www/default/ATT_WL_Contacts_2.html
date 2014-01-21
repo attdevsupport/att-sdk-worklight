@@ -1,0 +1,115 @@
+<!DOCTYPE HTML><html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>ATT_WL_Contacts_2</title>
+        <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0" name="viewport">
+        <link href="worklight/worklight.css" rel="stylesheet">
+        <link href="images/favicon.png" rel="shortcut icon">
+        <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="jqueryMobile/jquery.mobile.theme-1.2.1.css" rel="stylesheet">
+        <link href="jqueryMobile/jquery.mobile-1.2.1.css" rel="stylesheet">
+        <link href="css/ATT_WL_Contacts_2.css" rel="stylesheet">
+        <link href="jqueryMobile/styles.css" rel="stylesheet">
+        <script>
+		// Define WL namespace.
+		var WL = WL ? WL : {};
+		/**
+		 * WLClient configuration variables.
+		 * Values are injected by the deployer that packs the gadget.
+		 */
+		WL.StaticAppProps = {
+   "APP_DISPLAY_NAME": "FindContacts",
+   "APP_ID": "ATT_WL_Contacts_2",
+   "APP_SERVICES_URL": "\/apps\/services\/",
+   "APP_VERSION": "1.0",
+   "ENVIRONMENT": "iphone",
+   "LOGIN_DISPLAY_TYPE": "embedded",
+   "WORKLIGHT_NATIVE_VERSION": "3577331796-752482804",
+   "WORKLIGHT_PLATFORM_VERSION": "6.1.0.00.20131219-1900",
+   "WORKLIGHT_ROOT_URL": "\/apps\/services\/api\/ATT_WL_Contacts_2\/iphone\/"
+};</script>
+		<script src="worklight/cordova.js"></script>
+		<script src="worklight/wljq.js"></script>
+		<script src="worklight/worklight.js"></script>
+		<script src="worklight/checksum.js"></script>
+		<script src="worklight/jsonstore.js"></script>
+		<script src="worklight/analytics.js"></script>
+		<script>window.$ = window.jQuery = WLJQ;</script>
+	<script src="jqueryMobile/jquery.mobile-1.2.1.js"></script>
+    </head>
+    <body id="content" style="display: none;">
+  <!-- Home -->
+        <div data-role="page" data-theme="a" id="page1">
+            <div data-role="header" data-theme="a">
+                <h3>
+              Find Contacts
+          </h3>
+                <a class="ui-btn-right" data-icon="info" data-iconpos="notext" data-role="button" data-theme="a" href="#page3"></a>          
+            </div>
+            <div data-role="content">
+                <div class="listener" id="searchInstruction">
+                    <p>
+                        <b>
+                  Tap mic and speak a <i>name</i> 
+              </b>
+                    </p>
+                </div>      
+                <div style="text-align: center">
+                    <input height="86" onclick="toggleRecording();" src="jqueryMobile/images/search_button.png" type="image" width="92">
+                </div>
+                <div class="listener" id="searchLabel" style="display:none">
+                    <p>
+                        <b>
+              </b>
+                    </p>
+                </div>
+                <div id="contactsList">
+                    <ul data-divider-theme="" data-inset="true" data-role="listview">
+                    </ul>
+                </div>
+            </div>
+        </div>
+  <!-- contactDetails -->
+        <div data-role="page" data-theme="a" id="page2">
+            <div data-role="header" data-theme="a">
+                <a class="ui-btn-left" data-role="button" href="#page1">
+              Back
+          </a>
+                <h3>
+              Contact
+          </h3>
+            </div>
+            <div data-role="content">
+                <div class="listener" id="contactDetails">
+                </div>
+                <input data-icon="forward" data-iconpos="right" data-theme="a" onclick="sendBusinessCard();" type="submit" value="Text Business Card">
+                <div class="listener" id="sendLabel">
+                </div>             
+            </div>
+        </div>
+  <!-- aboutDetails -->
+        <div data-role="page" data-theme="a" id="page3">
+            <div data-role="header" data-theme="a">
+                <a class="ui-btn-left" data-icon="home" data-iconpos="notext" data-role="button" href="#page1"></a>
+                <h3>
+              About
+          </h3>
+            </div>
+            <div data-role="content">
+                <div class="listener" id="aboutDetails" style="text-align: left">
+                    <h4>Demo app for Impact 2013.</h4>
+                    <p>Uses the power of SMS and Speech APIs from the AT&amp;T Developer Platform.  Backed by AT&amp;T Watson Engine.  Please visit the 
+	            <a href="http://developer.att.com/worklight">AT&amp;T Developer Program</a> for more information.
+	          </p>
+                </div>
+            </div>
+        </div>  
+	<!--application UI goes here-->
+        <script src="js/accessToken.js"></script>
+	<script src="js/initOptions.js"></script>
+	<script src="js/ATT_WL_Contacts_2.js"></script>
+	<script src="js/messages.js"></script>
+	<script src="js/recording.js"></script>	 
+    </body>
+</html>

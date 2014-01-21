@@ -19,6 +19,7 @@ public class Banking extends WLDroidGap {
 		super.loadUrl(getWebMainFilePath());
 		// Add custom initialization code after this line
 	}
+	
 }
 
 

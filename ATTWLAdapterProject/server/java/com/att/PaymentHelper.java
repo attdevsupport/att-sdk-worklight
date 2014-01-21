@@ -10,7 +10,7 @@ import java.util.Map;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.json.java.JSONObject;
-import com.worklight.server.integration.api.JSObjectConverter;
+import com.worklight.common.js.util.JSObjectConverter;
 import sun.net.www.protocol.https.HttpsURLConnectionImpl;
 
 public class PaymentHelper {

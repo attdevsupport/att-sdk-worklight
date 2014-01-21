@@ -1,6 +1,6 @@
 /*
 * Licensed Materials - Property of IBM
-* 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 * US Government Users Restricted Rights - Use, duplication or
 * disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 */
@@ -20,6 +20,8 @@
 @class WLCookieExtractor;
 @class WLRequest;
 @class WLProcedureInvocationData;
+@class WLEventTransmissionPolicy;
+@protocol WLDevice;
 
 @interface WLClient : NSObject {
     
@@ -32,6 +34,9 @@
     //Challenge handlers
     NSMutableDictionary *globalHeaders;
     NSMutableDictionary *challengeHandlers;
+    
+    // Location Services
+    id<WLDevice> wlDevice;
     
     BOOL isInitialized;
 }
@@ -46,6 +51,16 @@ extern NSMutableDictionary *piggyBackData;
 @property (nonatomic, retain) NSMutableDictionary *registeredEventSourceIDs;
 
 @property (nonatomic) BOOL isInitialized;
+
+@property (readwrite) NSInteger interval;
+
+@property (readwrite, retain) NSTimer *timer;
+
+@property (nonatomic) BOOL isResumed;
+
+@property (nonatomic) BOOL isRequestFailed;
+
+@property (readwrite, retain) NSMutableDictionary *userPreferenceMap;
 
 + (WLClient *) sharedInstance;
 
@@ -116,6 +131,12 @@ extern NSMutableDictionary *piggyBackData;
  */
 -(int) getEventSourceIDFromUserInfo:(NSDictionary *)userInfo;
 
+//-(void)setUserPref:(NSString *)key :(NSString *)value :(id<WLDelegate>)responseListener :(NSMutableDictionary *)options;
+//-(void)setUserPrefs :(NSMutableDictionary *)userPrefMap :(id<WLDelegate>)responseListener :(NSMutableDictionary *)options;
+//-(void) deleteUserPref :(NSString *)key :(id<WLDelegate>)responseListener :(NSMutableDictionary *)options;
+//-(NSString *)getUserPref :(NSString *)key;
+//-(BOOL) hasUserPref :(NSString *)key;
+
 /*
  * @description
  * Reports a user activity for auditing or reporting purposes. The activity is stored in the application statistics tables.
@@ -155,5 +176,44 @@ extern NSMutableDictionary *piggyBackData;
 
 -(NSDictionary *) getAllChallengeHandlers;
 
-    
+-(void) setHeartBeatInterval :(NSInteger)val;
+
+/**
+ * Gets the WLDevice instance
+ */
+-(id<WLDevice>) getWLDevice;
+
+
+/**
+ * Equivalent to <code>[transmitEvent: eventJson immediately: NO]
+ * @param event - the event to be transmitted.
+ */
+- (void) transmitEvent: (NSMutableDictionary*) eventJson;
+
+/**
+ * Transmits a provided event object to the server.
+ * <p>
+ * An event object is added to the transmission buffer. The event object is either transmitted immediately,
+ * if the immediate parameter is set to <code>true</code>, otherwise it is transmitted according to the transmission policy.
+ * For more information, see <code>WL.Client.setEventTransmissionPolicy</code>. One of the properties for the event object might be the device context, which comprises geo-location and WiFi data.
+ * If no device context is transmitted as part of the event, the current device context, as returned by <code>WL.Device.getContext</code>, is added automatically to the event during the transmission process.
+ *
+ * @param eventJson - The event object that is being transmitted. The event object is either a literate object, or a reference to an object.
+ * @param immediately - A boolean flag that indicates whether the transmission should be immediate (<code>true</code>), or should be based on the transmission policy's interval (<code>false</code>).
+ *                        If immediate is <code>true</code>, previously buffered events are transmitted, as well as the current event. The default value is <code>false</code>.
+ */
+- (void) transmitEvent: (NSMutableDictionary*) eventJson immediately: (BOOL) immediately;
+
+/**
+* Configures the transmission of events from the client to the server, according to the provided transmission policy.
+* @param policy The policy instance which will be used.
+*/
+- (void) setEventTransmissionPolicy: (WLEventTransmissionPolicy*) policy;
+
+/**
+ * Purges the internal event transmission buffer.
+ * <p>
+ * The internal event transmission buffer is purged, and all events awaiting transmission are permanently lost.
+ */
+- (void) purgeEventTransmissionBuffer;
 @end

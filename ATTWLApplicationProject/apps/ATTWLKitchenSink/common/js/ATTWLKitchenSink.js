@@ -9,13 +9,21 @@ function wlCommonInit(){
 }
 
 var storageDir;
+var tempFileSystem;
+var fileScheme = "file://";
+
 document.addEventListener("deviceready", function()
 {
 	window.requestFileSystem(LocalFileSystem.TEMPORARY, 0,
 		function onSuccess(fileSystem)
 		{
-			storageDir = fileSystem.root.fullPath;
-			//alert("storage dir: " + storageDir);
+		    iScheme = fileSystem.root.fullPath.indexOf(fileScheme);
+		    if(iScheme >= 0) {
+		    	storageDir = fileSystem.root.fullPath.substring(iScheme + fileScheme.length);
+		    } else {
+		    	storageDir = fileSystem.root.fullPath;
+		    }		
+			tempFileSystem = fileSystem;
 		},
 		function onError(error) 
 		{

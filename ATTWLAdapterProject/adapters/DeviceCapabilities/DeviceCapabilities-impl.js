@@ -30,11 +30,11 @@ function getDeviceCapabilities(options)
 	};
 	
 	logInfo('********* DEVICE CAPABILITIES ADAPTER LOGS *********');
-	logInfo('Input: '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
+	logInfo('Input: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	
 	var result = WL.Server.invokeHttp(input);
 	
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	
 	return(result);
 }

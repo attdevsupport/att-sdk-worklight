@@ -34,16 +34,11 @@
 + (CDVInvokedUrlCommand*)commandFromJson:(NSArray*)jsonEntry;
 
 - (id)initWithArguments:(NSArray*)arguments
-   callbackId          :(NSString*)callbackId
-    className           :(NSString*)className
-   methodName          :(NSString*)methodName;
+             callbackId:(NSString*)callbackId
+              className:(NSString*)className
+             methodName:(NSString*)methodName;
 
 - (id)initFromJson:(NSArray*)jsonEntry;
-
-// The first NSDictionary found in the arguments will be returned in legacyDict.
-// The arguments array with be prepended with the callbackId and have the first
-// dict removed from it.
-- (void)legacyArguments:(NSMutableArray**)legacyArguments andDict:(NSMutableDictionary**)legacyDict;
 
 // Returns the argument at the given index.
 // If index >= the number of arguments, returns nil.

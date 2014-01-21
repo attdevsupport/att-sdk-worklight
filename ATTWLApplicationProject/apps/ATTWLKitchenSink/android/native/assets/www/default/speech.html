@@ -4,10 +4,13 @@
 		title = "Speech To Text";
         
 		var fileName = "recordedAudio.amr";
-           function backNav(){
-           	   WL.App.resetBackButton();
-               $('#pagePort').load("ATTWLKitchenSink.html #pagePort",'',function(){});
-           }
+		
+        function backNav()
+        {
+        	WL.App.resetBackButton();
+            $('#pagePort').load("ATTWLKitchenSink.html #pagePort",'',function(){});
+        }
+        
         function openDialog(responseText, SpeechId)
         {
         	window.localStorage.response = JSON.stringify(responseText, null, 3);
@@ -21,79 +24,88 @@
 			
 			$(document).ready(function()
 			{
-			    lastContext = windows.localStorage.lastContext;
-			    lastLang = windows.localStorage.lastLang;
+			    lastContext = window.localStorage.lastContext;
+			    lastLang = window.localStorage.lastLang;
 			    if(!lastContext) lastContext = "Generic";
 			    if(!lastLang) lastLang = "en-US";
                 $("#context").val( lastContext ).attr('selected',true);
                 $("#language").val( lastLang ).attr('selected',true);
-                showSelectedFileName();
             });
                 
-           function showSelectedFileName()
-           {
-               var fileSelected = window.localStorage.speechFilePath;
-               if(fileSelected!== undefined)
-               {
-                   document.getElementById('fileSelected').innerHTML = '';
-                   var lastindex = fileSelected.lastIndexOf("/");
-                   var fileName =  fileSelected.substring(lastindex+1,(fileSelected.length));
-                   document.getElementById('fileSelected').innerHTML = 'Selected File : ' +  fileName ;
-                   
-               }
-           }
-			
-			function readSpeechFile(file){
-			var FileReader = cordova.require('cordova/plugin/FileReader');
+			function readSpeechFile(file)
+			{
+			//var FileReader = cordova.require('cordova/plugin/FileReader');
 				var reader = new FileReader();
 				reader.onloadend = function(evt) {
 					busyInd.show();
 					console.log("Read as data URL");
 					console.log(evt.target.result);
 					audioData = evt.target.result;
-					var lastindex = file.lastIndexOf("/"); 
-        			var fileName =  file.substring(lastindex+1,(file.length));
-					var fileExt= "audio/" + fileName.substring(fileName.lastIndexOf('.')+1,(fileName.length));
 					window.localStorage.lastContext = $('#context').val();
 					window.localStorage.lastLang = $('#language').val();
-					speechToText(audioData, fileExt, $('#context').val(), $('#language').val(), openDialog);
-					}
+					speechToText(audioData, file.type, $('#context').val(), $('#language').val(), openDialog);
+				}
+			    
+			    reader.abort = function(evt) {
+			        alert("FileReader: abort event");
+			    }
+			    
+			    reader.onerror = function(evt) {
+			       alert("FileReader: error event" + JSON.stringify(evt));
+			    }
+			    
 				reader.readAsDataURL(file);
 			}
 
+            function gotFileEntry(fileEntry)
+            {
+               fileEntry.file(readSpeechFile, fileFailed);
+            }
+            
+            function fileFailed(error)
+            {
+               alert("getFile failed " + error.code);
+            }
+            
 			function speech()
 			{
-				if(window.localStorage.speechFilePath!==undefined)
+			   tempFileSystem.root.getFile(fileName, null, gotFileEntry, fileFailed);
+			/*	if(window.localStorage.speechFilePath!==undefined)
 				{
 					readSpeechFile(window.localStorage.speechFilePath);
 				}
+		     */
 			}
 			
 			function textforshortcode() {
 				$("#header").css("header");
 			}
-				function startRecording() {
-
+	
+	function startRecording()
+	{
 		var args = [ {
-			filePath : "/mnt/sdcard/"+fileName,
+			filePath : storageDir + "/" + fileName,
 			audioChannels : 1,
 			samplingRate : 8000,
 			encodingBitRate : 1220
-		} ]
+		} ];
+		//alert("Sending these args to Recorder.start" + JSON.stringify(args));
 		Cordova.exec(null, null, "Recorder", "start", args);
-		$('#record').text('Recording.....').button("refresh");
+		//$('#record').text('Recording.....').button("refresh");
+		$('#record').text('Recording.....');
 	}
 
 	function stopRecording()
 	{
-		window.localStorage.speechFilePath = "/mnt/sdcard/"+fileName;
+		window.localStorage.speechFilePath = storageDir + "/" + fileName;
 		Cordova.exec(null, null, "Recorder", "stop", [ {} ]);
-		$('#record').text('Start Recording').button("refresh");
+		//$('#record').text('Start Recording').button("refresh");
+		$('#record').text('Start Recording');
 	}
 	
 	function playRecording() {
 		// Play the audio file at url
-		var my_media = new Media("/mnt/sdcard/"+fileName,
+		var my_media = new Media(storageDir + "/" + fileName,
 		// success callback
 		function() {
 			console.log("playAudio():Audio Success");

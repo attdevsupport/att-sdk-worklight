@@ -7,7 +7,7 @@ var speechURL ='https://api.att.com/speech/v3/speechToText';
 function speechToText(options)
 {
 	logInfo('********* enter speechToText ***********');
-	logInfo('speechToText options: '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(options));
+	logInfo('speechToText options: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
 	
 	if(options.accessToken.indexOf("Bearer ") == -1)
 	{
@@ -33,7 +33,7 @@ function speechToText(options)
 	var response = speechHelper.speechToText(options);
 	
 	logInfo('********* Speech ADAPTER LOGS ***********');
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(response));
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(response));
 	
 	return {
 		result: response

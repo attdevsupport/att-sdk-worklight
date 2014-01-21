@@ -54,11 +54,11 @@ function getAds(options)
 		input.headers.Accept=options.accept;
 	}
 	logInfo('********* Get Advertising ***********');
-	logInfo('Input : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(input));
+	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	
 	var result=WL.Server.invokeHttp(input);
 	
-	logInfo('Ads Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(result));
+	logInfo('Ads Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
 	return result;
 }
 

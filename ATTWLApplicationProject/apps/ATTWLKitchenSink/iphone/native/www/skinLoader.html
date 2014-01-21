@@ -3,8 +3,8 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title></title>
+		<script src="default/worklight/cordova.js"></script>
 		<script src="default/js/skinLoader.js"></script>
-		<script src="default/wlclient/js/cordova.js"></script>
 		<style>
 			html, body{
 				margin: 0;
@@ -28,12 +28,12 @@
 				}
 				
 				// save the skin name to device local data as part of skinLoader optimization
-				cordova.exec("WLApp.writeUserPref", {'key' : 'wlSkinName', 'value': skinName} );
+				cordova.exec(null,null,"WLApp","writeUserPref", [{'key' : 'wlSkinName', 'value': skinName}] );
 				if (!skinExists(skinName)) {
 					console.log("Error loading skin '" + skinName + "'. Will load default skin.");
 					navigator.notification.alert("The application is not supported on this device. You may face problems while using it.", function(){
 						skinName = "default";
-						cordova.exec("WLApp.writeUserPref", {'key' : 'wlSkinName', 'value': skinName} );
+						cordova.exec(null,null,"WLApp","writeUserPref", [{'key' : 'wlSkinName', 'value': skinName}] );
 						safeDocumentLocation(""+ skinName + "/" + mainFile );
 					}, "Device Unsupported");
 				} else {

@@ -1,4 +1,11 @@
 /*
+* Licensed Materials - Property of IBM
+* 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+* US Government Users Restricted Rights - Use, duplication or
+* disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+*/
+
+/*
  Licensed to the Apache Software Foundation (ASF) under one
  or more contributor license agreements.  See the NOTICE file
  distributed with this work for additional information
@@ -18,15 +25,13 @@
  */
 
 #import "CDVCommandDelegateImpl.h"
-
+#import "CDVJSON.h"
 #import "CDVCommandQueue.h"
 #import "CDVPluginResult.h"
 #import "CDVViewController.h"
-
 // Worklight change start
 #define WORKLIGHT_SCHEME_PREFIX			@"worklight://"
 // Worklight change end
-
 @implementation CDVCommandDelegateImpl
 
 - (id)initWithViewController:(CDVViewController*)viewController
@@ -41,7 +46,7 @@
 
 - (NSString*)pathForResource:(NSString*)resourcepath
 {
-    // Worklight change start
+ 	// Worklight change start
     if ([resourcepath hasPrefix:WORKLIGHT_SCHEME_PREFIX]) {
         return [resourcepath substringFromIndex:[WORKLIGHT_SCHEME_PREFIX length]];
     }
@@ -64,7 +69,11 @@
 
 - (void)evalJsHelper2:(NSString*)js
 {
+    CDV_EXEC_LOG(@"Exec: evalling: %@", [js substringToIndex:MIN([js length], 160)]);
     NSString* commandsJSON = [_viewController.webView stringByEvaluatingJavaScriptFromString:js];
+    if ([commandsJSON length] > 0) {
+        CDV_EXEC_LOG(@"Exec: Retrieved new exec messages by chaining.");
+    }
 
     [_commandQueue enqueCommandBatch:commandsJSON];
 }
@@ -87,17 +96,16 @@
 
 - (void)sendPluginResult:(CDVPluginResult*)result callbackId:(NSString*)callbackId
 {
+    CDV_EXEC_LOG(@"Exec(%@): Sending result. Status=%@", callbackId, result.status);
+    // This occurs when there is are no win/fail callbacks for the call.
+    if ([@"INVALID" isEqualToString : callbackId]) {
+        return;
+    }
     int status = [result.status intValue];
     BOOL keepCallback = [result.keepCallback boolValue];
-    id message = result.message == nil ? [NSNull null] : result.message;
+    NSString* argumentsAsJSON = [result argumentsAsJSON];
 
-    // Use an array to encode the message as JSON.
-    message = [NSArray arrayWithObject:message];
-    NSString* encodedMessage = [message cdvjk_JSONString];
-    // And then strip off the outer []s.
-    encodedMessage = [encodedMessage substringWithRange:NSMakeRange(1, [encodedMessage length] - 2)];
-    NSString* js = [NSString stringWithFormat:@"cordova.require('cordova/exec').nativeCallback('%@',%d,%@,%d)",
-        callbackId, status, encodedMessage, keepCallback];
+    NSString* js = [NSString stringWithFormat:@"cordova.require('cordova/exec').nativeCallback('%@',%d,%@,%d)", callbackId, status, argumentsAsJSON, keepCallback];
 
     [self evalJsHelper:js];
 }
@@ -127,14 +135,25 @@
     return [_viewController getCommandInstance:pluginName];
 }
 
-- (void)registerPlugin:(CDVPlugin*)plugin withClassName:(NSString*)className
-{
-    [_viewController registerPlugin:plugin withClassName:className];
-}
-
 - (void)runInBackground:(void (^)())block
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), block);
+}
+
+- (NSString*)userAgent
+{
+    return [_viewController userAgent];
+}
+
+- (BOOL)URLIsWhitelisted:(NSURL*)url
+{
+    return ![_viewController.whitelist schemeIsAllowed:[url scheme]] ||
+           [_viewController.whitelist URLIsAllowed:url];
+}
+
+- (NSDictionary*)settings
+{
+    return _viewController.settings;
 }
 
 @end
