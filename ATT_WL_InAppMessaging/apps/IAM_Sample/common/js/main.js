@@ -31,7 +31,7 @@ credentials.expired = function() {
 
 credentials.setExpiration = function(inExpiration)
 {
-   maxSeconds = 43200; // one month
+   maxSeconds = 2592000; // 30 days
    if(inExpiration > maxSeconds) {
       inExpiration = maxSeconds;
    }
@@ -78,7 +78,7 @@ credentials.initialize = function() {
 
 credentials.getAccessToken = function() {
    console.log("Expiration: " + this.expiration + "now: " + Date.now());
-   if(this.expiration*1000 > Date.now()) {
+   if(!this.expired()) {
       return this.accessToken;
    } else {
       // TODO use refresh token - for now just log back in
@@ -311,28 +311,27 @@ var getMessageIndexInfoCallback = function(data)
 		invokeIamCreateMessageIndex(credentials.getAccessToken(),createMessageIndexCallback);
 	} 
 };
-
-function sendMessage () {
-	
+   
+function sendMessage ()
+{
+   	
 }
+
 function deleteMessageCallback (data)
 {
 	$("#" + deleteId).hide();
-	}
+}
 
 function deleteMessagesCallback(data)
 {
 	$("#" + deleteId).hide();
-	
-	}
+}
+
 function deleteFromStorage()
 {
-	
-	
-	}
-function updateInStorage(){
-	
-	
+}
+
+function updateInStorage() {
 }
 
 function saveMessageIndex(object) {
@@ -367,7 +366,6 @@ function populateMessageStorage(data) {
 			messageStorage.messageIndex.messages[key] = messages[key];
 
 		});
-	
 	}
 
 	saveMessageIndex(messageStorage);
@@ -523,63 +521,169 @@ function generateConversationList(participants)
 				+ "   messageInfo  ' >" + timestamp + " </span> </li>");
 	}
 }
-//send message TestCode
+
+//send message
 function sendMessage()
 {
 	var AddString, addArr;
 	var textffield = document.getElementById("recipientInput");
 
 	var message = $("#messageInput").val();
-
-	if (textffield.value.length > 0) {
+   var subject = $("#subjectInput").val();
+   
+	if (textffield.value.length > 0)
+	{
 		var msisdn1 = $("#recipientInput").val();
 		addArr = (msisdn1.split(","));
 		AddString = [];
 		for ( var i = 0; i < addArr.length; i = i + 1) {
 			AddString.push('tel:' + addArr[i]);
 		}
-	   
-	   invokeIamSendMessage(AddString,message,null, null,credentials.getAccessToken(), sendMessageCallback);
+		
+	   invokeIamSendMessage(AddString, message, subject, null, credentials.getAccessToken(), sendMessageCallback);
 	} else {
 	   alert("Please enter a recipient");
 	}
 };
 
+$('buttonSendMessage').on('tap', sendMessage);
+
 function sendMessageCallback(data,msgId)
 { 
-	
 	console.log(msgId);
 	$.mobile.changePage("#page-messageList");
-	}
-//image test code
+}
 
-var imageobject = [];
-function getPhotoDisplayPicture(source)
+var attachments;
+var currentImage;
+
+$("#buttonAddAttachment").on('tap', function() {
+   getPhoto(navigator.camera.PictureSourceType.PHOTOLIBRARY);
+}); 
+
+$("#page-sendMessage").on("pageshow", function() {
+   attachments = {};
+   currentImage = "";
+   document.getElementById("images").innerHTML = "";
+});
+
+var getPhoto = function(source)
 {
-	navigator.camera.getPicture(onSuccessShowImage, onPhotoDisplayFail,
+	navigator.camera.getPicture(onSuccessGetPhoto, onFailGetPhoto,
 	{
-        quality : 10,
+        quality : $('sliderResize').val(),
         allowEdit : true,
-        destinationType : Camera.DestinationType.DATA_URL,
-        sourceType : source
+        destinationType : Camera.DestinationType.FILE_URI,
+        sourceType : source,
+        mediaType: Camera.MediaType.PICTURE
 	});
-}
+};
 
-function onSuccessShowImage(imageObject)
+var onSuccessGetPhoto = function(imageUri)
 {
-    imageurl = "data:image/jpeg;base64," + imageObject;
-    loadimages(imageurl, imageObject);
-}
+   currentImage = imageUri;
+   window.resolveLocalFileSystemURI(imageUri, gotFileEntry, failedResolveFile);
+};
 
-function onPhotoDisplayFail(message)
+var gotFileEntry = function(entry)
 {
-   console.log('getPhotoDisplay failed: ' + message);
-}
+   entry.file(function (file)
+   {
+       var reader = new FileReader();
+       alert("got file: " + file.name + " full: " + file.fullPath);
+       reader.onloadend = function(evt)
+       {
+          if (evt.target.result) {
+             //console.log("load event result: " + evt.target.result);
+             setAttachment(currentImage, evt.target.result);
+          } else {
+             alert("File read error: " + FileError.toMessage(evt.target.error.code));
+          }                
+       };
+       reader.onerror = function(evt)
+       {
+         alert("Failed to read file. "  + FileError.toMessage(evt.target.error.code)); 
+       };
+       reader.readAsDataURL(file);
+   },
+   failedEntryFile);
+};
 
-function loadimages(imageURI,imageObject)
+var setAttachment = function(imageUri, base64)
 {
-    imageobject.push(imageObject);
-    document.getElementById("images").innerHTML += "<img src ='" + imageURI + "' height = '65' width = '65' style = 'margin-left:10px;border:1px solid black'/>";
+   // base64 is prefixed with content type in this format: 
+   // "data:image/jpeg;base64,...actual base64 data here..."
+   // Extract the content type based on above format
+   startOfType = base64.indexOf(':')+1;
+   endOfType = base64.indexOf(',');
+   
+   if(startOfType == -1 || endOfType == -1)
+   {
+      alert("Attachment formatting failed.");
+      return;
+   }
+   
+   attachments[imageUri] = {};
+   attachments[imageUri].imageType = base64.substring(startOfType, endOfType-1);
+   attachments[imageUri].base64 = base64.substring(endOfType + 1);
+   
+   document.getElementById("images").innerHTML += "<img src ='" + imageUri + 
+      "' height = '65' width = '65' style = 'margin-left:10px;border:1px solid black'/>";   
+};
+
+var failedEntryFile = function(fileError)
+{
+   failedFile("failedEntryFile", fileError);
+};
+
+var failedResolveFile = function(fileError)
+{
+   failedFile("failedResolveFile", fileError);
+};
+
+var failedFile = function(from, fileError) {
+   alert(from + " failed with code " + fileError.code + " " + fileCodeToMessage(fileError.code));
+   //alert("Failed to open file: " + JSON.stringify(evt));
+};
+
+var fileCodeToMessage = function(code)
+{
+   if(code == FileError.NOT_FOUND_ERR)
+   {
+      codeMsg = "FileError.NOT_FOUND_ERR";
+   } else if(code == FileError.SECURITY_ERR) {
+      codeMsg = "FileError.SECURITY_ERR";
+   } else if(code == FileError.ABORT_ERR) {
+      codeMsg = "FileError.ABORT_ERR";
+   } else if(code == FileError.NOT_READABLE_ERR) {
+      codeMsg = "FileError.NOT_READABLE_ERR";
+   } else if(code == FileError.ENCODING_ERR) {
+      codeMsg = "FileError.ENCODING_ERR";
+   } else if(code == FileError.NO_MODIFICATION_ALLOWED_ERR) {
+      codeMsg = "FileError.NO_MODIFICATION_ALLOWED_ERR";
+   } else if(code == FileError.INVALID_STATE_ERR) {
+      codeMsg = "FileError.INVALID_STATE_ERR";
+   } else if(code == FileError.SYNTAX_ERR) {
+      codeMsg = "FileError.SYNTAX_ERR";
+   } else if(code == FileError.INVALID_MODIFICATION_ERR) {
+      codeMsg = "FileError.INVALID_MODIFICATION_ERR";
+   } else if(code == FileError.QUOTA_EXCEEDED_ERR) {
+      codeMsg = "FileError.QUOTA_EXCEEDED_ERR";
+   } else if(code == FileError.TYPE_MISMATCH_ERR) {
+      codeMsg = "FileError.TYPE_MISMATCH_ERR";
+   } else if(code == FileError.PATH_EXISTS_ERR) {
+      codeMsg = "FileError.PATH_EXISTS_ERR";
+   } else {
+      codeMsg = "FileError.UNKNOWN";
+   }
+   return codeMsg;
+};
+
+FileError.toMessage = fileCodeToMessage; 
+
+function onFailGetPhoto(message)
+{
+   console.log('No file chosen. ' + message);
 }
 
 var exists = function(thing) {
@@ -587,3 +691,14 @@ var exists = function(thing) {
 	else return false;
 };
 
+var fileSystem;
+document.addEventListener("deviceready", function()
+{
+   window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function onSuccess(fs)
+   {
+      fileSystem = fs;
+   }, function onError(error)
+   {
+      alert("Cannot get file system.  Will not be able to send attachments. Error: " + error.code);
+   });   
+}, false);

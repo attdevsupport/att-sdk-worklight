@@ -31,7 +31,7 @@
                 <h1>In App Messaging</h1>
             </div>         
             <div data-role="content" style="padding: 15px">
-               <button id="buttonConnect" data-inline="true">Connect</button>
+               <button id="buttonConnect" data-inline="true" style="align='center';">Connect</button>
             </div>
          </div>
          
@@ -64,42 +64,41 @@
         
 	            <div data-role="content" >
 	               <ul class="messageList unstyled"  id = "conversationList"></ul>
-	     
             	</div>
-
          </div>
     		
-    		<div data-role="page" id="page-sendMessage" data-add-back-btn="true">
-                <div data-theme="b" data-role="header" data-position="fixed">
-                  <h1>
-                      Compose
-                  </h1>
-                </div>
-                <div data-role="content">
-                  <div data-role="fieldcontain">
-                      <input name="" id="recipientInput" placeholder="Enter Number/Email" value="" type="text" data-mini="true">
-                  </div>
+         <div data-role="page" id="page-sendMessage" data-add-back-btn="true">
+	         <div data-theme="b" data-role="header" data-position="fixed">
+	           <h1>
+	               Compose
+	           </h1>
+	         </div>
+            <div data-role="content">
+              <div data-role="fieldcontain">
+                  <input name="" id="recipientInput" placeholder="Enter Number/Email" value="" type="text" data-mini="true">
+              </div>
 
-                  <div data-role="fieldcontain">
-                      <input name="" id="subjectInput" placeholder="Enter Subject" value="" type="text" data-mini="true">
-                  </div>
-               
-                  <div data-role="fieldcontain">
-                      <textarea name="" id="messageInput" placeholder="Enter Message"></textarea>
-                  </div>
+              <div data-role="fieldcontain">
+                  <input name="" id="subjectInput" placeholder="Enter Subject" value="" type="text" data-mini="true">
+              </div>
+           
+              <div data-role="fieldcontain">
+                  <textarea name="" id="messageInput" placeholder="Enter Message"></textarea>
+              </div>
+              
+              <label for="slider" data-theme='b'>Resize Picture by %:</label><input data-theme='b' type="range" name="slider" id="sliderResize" value="50" min="10" max="100"> 
 
+              <a data-role="button" id="buttonAddAttachment" data-theme='b'>
+                 Add Picture
+              </a>
 
-                  <a data-role="button" onClick="getPhotoDisplayPicture(navigator.camera.PictureSourceType.PHOTOLIBRARY);">
-                    Add Attachment
-                  </a>
+              <div id="images" style="border-color:black;"> </div>
 
-                <div id="images" style="border-color:black;"> </div>
-
-                <a data-role="button" onClick="sendMessage();" href="#" data-theme='b' style="margin-top:60px;">
-                    Send
-                </a>
+              <a data-role="button" id="buttonSendMessage" href="#" data-theme='b' style="margin-top:60px;">
+                  Send
+              </a>
             </div>
-            </div>
+         </div>
 
     		<script src="js/iam.js"></script>
     		<script src="js/main.js"></script>

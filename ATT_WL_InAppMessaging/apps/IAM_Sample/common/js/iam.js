@@ -30,11 +30,18 @@ function invokeIamSendMessage(addresses, text, subject, attachments,
 	};
 
 	params.messageRequest.addresses = addresses;
-	if (exists(text))
-		params.messageRequest.text = text;
+	if (exists(text)) 
+	{ 
+	   params.messageRequest.text = text;
+	}
 	if (exists(subject))
+	{
 		params.messageRequest.subject = subject;
-	// if(exists(attachments)) params.attachments = attachments;
+	}
+   if(exists(attachments)) 
+   {
+      params.attachments = attachments;
+   }
 
 	invocationData = {
 		adapter : 'IAM',
@@ -43,7 +50,6 @@ function invokeIamSendMessage(addresses, text, subject, attachments,
 	};
 	options = {
 		onSuccess : function(data) {
-			//busyInd.hide();
 			WL.Logger.debug("Success : Response is - " + JSON.stringify(data));
 			var iamMsgId = '';
 
