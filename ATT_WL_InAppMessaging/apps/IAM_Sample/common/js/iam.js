@@ -10,7 +10,7 @@ var params = {}, invocationData = {}, options = {};
  *            Text to be sent the message (optional)
  * @param subject
  *            Subject of the message (optional)
- * @param attachements
+ * @param attachments
  *            Array of attachments. Each attachment is an object {
  *            name:"file.name", contentType : "image/jpeg", file: "BASE64
  *            ENCODED FILE DATA"},
@@ -24,7 +24,6 @@ function invokeIamSendMessage(addresses, text, subject, attachments,
 	params = {
 		'contentType' : 'application/json',
 		'accept' : 'application/json',
-		// 'accessToken': window.localStorage.oAuthToken
 		'accessToken' : accessToken,
 		'messageRequest' : {}
 	};
@@ -38,9 +37,14 @@ function invokeIamSendMessage(addresses, text, subject, attachments,
 	{
 		params.messageRequest.subject = subject;
 	}
-   if(exists(attachments)) 
+   if(exists(attachments))
    {
-      params.attachments = attachments;
+      params.messageRequest.messageContent = [];
+      for(attachmentKey in attachments)
+      {
+         attachments[attachmentKey]['content-transfer-encoding'] = "BASE64";
+         params.messageRequest.messageContent.push(attachments[attachmentKey]);
+      };
    }
 
 	invocationData = {
@@ -166,7 +170,7 @@ function invokeIamGetNotificationConnectionDetails(accessToken, invokeCallback) 
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'getNotificationConnectionDetails',
 		parameters : [ params ]
 	};
@@ -194,7 +198,7 @@ function invokeIamGetMessage(messageId, accessToken, invokeCallback) {
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'getMessage',
 		parameters : [ params ]
 	};
@@ -224,7 +228,7 @@ function invokeIamUpdateMessage(messageId, message, accessToken,
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'updateMessage',
 		parameters : [ params ]
 	};
@@ -245,16 +249,15 @@ function invokeIamUpdateMessage(messageId, message, accessToken,
 	WL.Client.invokeProcedure(invocationData, options);
 }
 
-function invokeIamUpdateMessages(messageIds, messages, accessToken,
+function invokeIamUpdateMessages(messages, accessToken,
 		invokeCallback) {
 	params = {
 		'accessToken' : accessToken,
-		'messageId' : messageId,
-		'message' : message
+		'messages': messages
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'updateMessages',
 		parameters : [ params ]
 	};
@@ -283,7 +286,7 @@ function invokeIamDeleteMessage(messageId, accessToken, invokeCallback) {
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'deleteMessage',
 		parameters : [ params ]
 	};
@@ -312,7 +315,7 @@ function invokeIamDeleteMessages(messageIds, invokeCallback) {
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'deleteMessages',
 		parameters : [ params ]
 	};
@@ -334,7 +337,8 @@ function invokeIamDeleteMessages(messageIds, invokeCallback) {
 }
 
 function invokeIamGetMessagePart(messageId, partId, accessToken, accessToken,
-		invokeCallback) {
+		invokeCallback)
+{
 	params = {
 		// 'accessToken': window.localStorage.oAuthToken
 		'accessToken' : accessToken,
@@ -343,7 +347,7 @@ function invokeIamGetMessagePart(messageId, partId, accessToken, accessToken,
 	};
 
 	invocationData = {
-		adapter : 'IMMN',
+		adapter : 'IAM',
 		procedure : 'getMessagePart',
 		parameters : [ params ]
 	};
