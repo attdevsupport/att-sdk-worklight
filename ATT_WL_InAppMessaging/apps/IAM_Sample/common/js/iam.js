@@ -19,7 +19,7 @@ var params = {}, invocationData = {}, options = {};
  * @param busyInd
  *            Busy indicator
  */
-function invokeIamSendMessage(addresses, text, subject, attachments,
+function invokeIamSendMessage(addresses, text, subject, attachments, isGroup,
 		accessToken, sendCallback) {
 	params = {
 		'contentType' : 'application/json',
@@ -46,6 +46,9 @@ function invokeIamSendMessage(addresses, text, subject, attachments,
          params.messageRequest.messageContent.push(attachments[attachmentKey]);
       };
    }
+    if(exists(isGroup)) {
+    	params.MessageRequest.isGroup = isGroup;
+    };
 
 	invocationData = {
 		adapter : 'IAM',
@@ -304,10 +307,10 @@ function invokeIamDeleteMessage(messageId, accessToken, invokeCallback) {
 		invocationContext : {}
 	};
 
-	WL.Client.invokeProcedure(invocationData, accessToken, options);
+	WL.Client.invokeProcedure(invocationData, options);
 }
 
-function invokeIamDeleteMessages(messageIds, invokeCallback) {
+function invokeIamDeleteMessages(messageIds,accessToken, invokeCallback) {
 	params = {
 		// 'accessToken': window.localStorage.oAuthToken
 		'accessToken' : accessToken,
@@ -336,36 +339,33 @@ function invokeIamDeleteMessages(messageIds, invokeCallback) {
 	WL.Client.invokeProcedure(invocationData, options);
 }
 
-function invokeIamGetMessagePart(messageId, partId, accessToken, accessToken,
-		invokeCallback)
+function invokeIamGetMessageContent(urlPath, accessToken, invokeCallback)
 {
-	params = {
-		// 'accessToken': window.localStorage.oAuthToken
-		'accessToken' : accessToken,
-		'messageId' : messageId,
-		'partId' : partId
-	};
+   params = {
+      'accessToken' : accessToken,
+      'urlPath' : urlPath
+   };
 
-	invocationData = {
-		adapter : 'IAM',
-		procedure : 'getMessagePart',
-		parameters : [ params ]
-	};
+   invocationData = {
+      adapter : 'IAM',
+      procedure : 'getMessageContent',
+      parameters : [ params ]
+   };
 
-	options = {
-		onSuccess : function(data) {
-			WL.Logger.debug("Success : Response is - " + JSON.stringify(data));
-			invokeCallback(data);
-		},
-		onFailure : function(error) {
-			WL.Logger.debug("Failure : Response is - " + error);
-			console.log(error);
-			invokeCallback(error);
-		},
-		invocationContext : {}
-	};
+   options = {
+      onSuccess : function(data) {
+         WL.Logger.debug("Success : Response is - " + JSON.stringify(data));
+         invokeCallback(data);
+      },
+      onFailure : function(error) {
+         WL.Logger.debug("Failure : Response is - " + error);
+         console.log(error);
+         invokeCallback(error);
+      },
+      invocationContext : {'urlPath': urlPath}
+   };
 
-	WL.Client.invokeProcedure(invocationData, options);
+   WL.Client.invokeProcedure(invocationData, options);
 }
 
 function invokeIamGetMessageDelta(state, accessToken, invokeCallback) {
@@ -386,8 +386,7 @@ function invokeIamGetMessageDelta(state, accessToken, invokeCallback) {
 			invokeCallback(data);
 		},
 		onFailure : function(error) {
-			WL.Logger.debug("Failure : Response is - " + error);
-			console.log(error);
+			WL.Logger.debug("Failure : Response is - " + JSON.stringify(error));
 			invokeCallback(error);
 		},
 		invocationContext : {}

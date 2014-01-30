@@ -109,39 +109,30 @@ function getMessage(options)
    return result; 
 }
 
-function getMessagePart(options)
+function getMessageContent(options)
 {
-   if(options.accessToken.indexOf("Bearer ") == -1)
-   {
-      options.accessToken = 'Bearer ' + options.accessToken;
-   }
+    if(options.accessToken.indexOf("Bearer ") == -1)
+    {
+       options.accessToken = 'Bearer ' + options.accessToken;
+    }
    
-   var input = {
-         method :"get",
-         path : baseEndPoint+"messages",
-         headers: {
-            "Authorization": options.accessToken, 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-         }
-   };
-   
-   if(options !== undefined && options.messageId !== undefined)
-   {
-      input.path = input.path + "/" + options.messageId;
-      
-      if(options.partId !== undefined)
-      {
-         input.path = input.path + "/" + options.partId;
-      }
-   }  
-   
-   logInfo('>>>>IAM.getMessageParts request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
-   
-   var result=WL.Server.invokeHttp(input);
-   
-   logInfo('>>>>IAM.getMessageParts response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
-   return result; 
+    options.host = "https://api.att.com";
+    if (options.urlPath !== undefined) {
+      options.host = options.host + options.urlPath;
+    }
+	
+	logInfo('********* getMessageContent ADAPTER LOGS ***********');
+	logInfo('options : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
+	
+	var speechHelper = new com.att.SpeechHelper();
+	
+	var response = speechHelper.iamGetMessageContent(options); 
+
+	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(response));
+
+	return {
+		result: response
+	};   
 }
 
 function getMessagesDelta(options)
@@ -226,7 +217,7 @@ function updateMessage(options)
 
    if(options !== undefined && options.messageId !== undefined)
    {
-      input.path = input.path + "/" + messageId;     
+      input.path = input.path + "/" + options.messageId;     
    }    
    
    if(options !== undefined && options.message !== undefined)

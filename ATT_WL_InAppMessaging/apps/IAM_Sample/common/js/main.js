@@ -1,9 +1,25 @@
+var busyIndicator;
+
 function wlCommonInit()
 {
-	// Common initialization code goes here
+   // Common initialization code goes here
+   busyIndicator = new WL.BusyIndicator('', {
+      text : 'Processing...'
+   });
+   busyIndicator.show();
 }
 
 var selectedId, unreadMsgs;
+
+document.addEventListener("backbutton", function(e){
+    if($.mobile.activePage.is('#page-messageList')){
+        e.preventDefault();
+        navigator.app.exitApp();
+    }
+    else {
+        navigator.app.backHistory();
+    }
+}, false);
 
 var credentials = new Object();
 
@@ -31,16 +47,15 @@ credentials.expired = function() {
 
 credentials.setExpiration = function(inExpiration)
 {
-
    maxSeconds = 2592000; // 30 days
    if(inExpiration > maxSeconds) {
       inExpiration = maxSeconds;
    }
    this.expiration = inExpiration + Date.now()/1000;
-
 };
 
-credentials.store = function() {
+credentials.store = function()
+{
 	window.localStorage.setItem('credentials', JSON.stringify(this));   
 };
 
@@ -78,8 +93,8 @@ credentials.initialize = function() {
 	this.mobileNumber = "";
 };
 
-credentials.getAccessToken = function() {
-
+credentials.getAccessToken = function()
+{
    console.log("Expiration: " + this.expiration + "now: " + Date.now());
    if(!this.expired()) {
       return this.accessToken;
@@ -88,21 +103,31 @@ credentials.getAccessToken = function() {
       this.softLogout();
       $.mobile.changePage("#page-login");
    }
-
 };
 
+$("#page-login").on("pageshow", function()
+{
+   busyIndicator.hide();
+});
+
 $("#buttonLogout").on('tap', function() 
-		{
+{
 	messageStorage.clear();
 	credentials.logOut();
 	
-	
 	$.mobile.changePage("#page-login");
-		});
+});
 
 credentials.relogin = function()
 {
 	this.state = "loggedOut"; 
+};
+
+var getMobileNumber = function()
+{
+   var phoneNumber = $('#mobileNumber').val();
+   phoneNumber = phoneNumber.replace(/\D/g,'');
+   return phoneNumber;
 };
 
 var messageStorage ={};
@@ -135,16 +160,15 @@ messageStorage.init = function () {
 	this.conversationGroups ={};
 };
 
-
 function startLogin()
 {
 	// if mobile # field is filled in, load iframe and begin oath
 	if(validMobileNumber())
 	{
-		credentials.mobileNumber = '+1' + $('#mobileNumber').val();
+		credentials.mobileNumber = '+1' + getMobileNumber();
 		getAuthorizationCode(authorizationCodeSuccess, authorizationCodeFailed);      
 	} else {
-		alert("Please enter a 10 digit mobile number");
+		showAlertView("Please enter a 10 digit mobile number");
 	}
 };
 
@@ -152,12 +176,13 @@ $("#loginButton").on('tap', startLogin);
 
 function authorizationCodeSuccess(response)
 {
-	console.log("authorizationCodeSuccess: " + JSON.stringify(response, null, 3));
+	//console.log("authorizationCodeSuccess: " + JSON.stringify(response, null, 3));
 	if(response.status < 300)
 	{
 		// load iframe with this url
+	   // TODO put the redirect URL is some config file easier to find
 		$('#iframeAuthorization').attr('src', response.invocationResult.url + "&redirect_uri=https://ldev.code-api-att.com/ATTDPSDEMO/landingpage.html");
-		console.log("authorizationCodeSuccess: load authZ page with: " + $('#iframeAuthorization').attr('src'));
+		//console.log("authorizationCodeSuccess: load authZ page with: " + $('#iframeAuthorization').attr('src'));
 		$.mobile.changePage("#page-authorization"); 
 	} else {
 		authorizationCodeFailed(response);
@@ -166,7 +191,7 @@ function authorizationCodeSuccess(response)
 
 function authorizationCodeFailed(error)
 {
-	alert("Failed to get authorization code. " + JSON.stringify(error));
+	showAlertView("Failed to get authorization code. " + JSON.stringify(error));
 };
 
 function getAuthorizationResult()
@@ -176,14 +201,15 @@ function getAuthorizationResult()
 	console.log("index: " + index + " in url: " + currentUrl);
 	if (index != -1)
 	{
+	   $("#iframeAuthorization").hide();
 		credentials.authorizationCode = currentUrl.substr(index + 5);
-		WL.Logger.debug("authZ code is "+ credentials.authorizationCode);
-
+		busyIndicator.show();
 		authorizeAccessToken(credentials.authorizationCode, accessTokenSuccess, accessTokenFail);
 	} else {
 		index = currentUrl.indexOf("error=");
 		if(index != -1)
 		{
+		   $("#iframeAuthorization").hide();
 			accessTokenFail({'error' : currentUrl.substring(index+6)});
 		}
 	}  
@@ -193,7 +219,6 @@ $("#iframeAuthorization").on('load', getAuthorizationResult);
 
 function accessTokenSuccess(result) 
 {
-	$("#iframeAuthorization").hide();
 	if(result.status >= 300) accessTokenFail(result);
 
 	credentials.accessToken = result.invocationResult.accessToken;
@@ -202,20 +227,21 @@ function accessTokenSuccess(result)
 	credentials.setLoggedIn();
 	credentials.store();
 	console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
+	messageStorage.retrieve();
 	$.mobile.changePage("#page-messageList");
 }
 
 function accessTokenFail(error)
 {
 	$("#iframeAuthorization").hide();
-	alert("Failed to acquire access. " + JSON.stringify(result.invocationResult));
+	showAlertView("Failed to acquire access. " + JSON.stringify(result.invocationResult));
+	busyIndicator.hide();
 	$.mobile.changePage("#page-login");
 }
 
 function validMobileNumber()
 {
-	tempNumber = $('#mobileNumber').val();
-	tempNumber = tempNumber.replace(/\D/g,'');
+	tempNumber = getMobileNumber();
 	if(tempNumber.length != 10)
 	{
 		return false;
@@ -231,6 +257,7 @@ var determineStartPage = function()
 	// Check if access token is stored and is valid. If so, load the uber conversation page
 	credentials.retrieve();
 	if(credentials.isLoggedIn() && !credentials.expired()) {
+		messageStorage.retrieve();
 		$.mobile.changePage("#page-messageList");      
 	} else {
 		$.mobile.changePage("#page-login");
@@ -239,94 +266,130 @@ var determineStartPage = function()
 
 function loadConnectPage()
 {
+   if(busyIndicator !== undefined) 
+   {
+      busyIndicator.hide();
+   }
+   
 	$.mobile.changePage("#page-connect");
 }
 
 var iamAppConnect = function()
 {
-	WL.Client.connect({
-		onSuccess: determineStartPage,
-		onFailure: loadConnectPage
-	});
+   if(busyIndicator!==undefined) busyIndicator.show();
+   WL.Client.reloadApp();
 };
+
+function showAlertView(message, alertCallback, title, buttonName) {
+	"use strict";
+	if(!exists(title)) {
+	   title = "AT&T In App Messaging";
+	}
+	navigator.notification.alert(
+   	message,
+   	alertCallback,
+   	title,
+   	buttonName
+	);
+}
+
+function showConifrmAlert(message, alertCallback, title, buttonNames) {
+	"use strict";
+	navigator.notification.confirm(
+	message,
+	alertCallback,
+	title,
+	buttonNames
+	);
+}
 
 $("#buttonConnect").on('tap', iamAppConnect);
 
-$("#page-connect").on("pageshow", function() {
-	alert("Unable to connect to Worklight server. Please verifiy connectivity, that server is started, and try again.");
+$("#page-connect").on("pageshow", function()
+{
+   if(busyIndicator!==undefined) busyIndicator.hide();
+	showAlertView("Unable to connect to Worklight server. Please verifiy connectivity, that server is started, and try again.");
 });
 
 $("#page-messageList").on("pageshow", function() {
+	$('#messageListHeader').text(credentials.mobileNumber);
 	loadMessages();
 });
 
 $("#page-conversationList").on("pagebeforeshow", function() {	
 	$('#conversationList').empty();
+	$('#conversationHeader').text(selectedId);
 });
 
 $("#page-conversationList").on("pageshow", function() {
 	generateConversationList(selectedId);
-
+	updateUnread(unreadMsgs);
 });
 
-function loadMessages() {
-
-	messageStorage.retrieve(); //TODO move to after login 
+function loadMessages()
+{
 	if (messageStorage.messageIndex==null||messageStorage.messageIndex.state==undefined) {
 		messageStorage.init();
 		console.log("initialized storage");
 		invokeIamGetMessageIndexInfo(credentials.getAccessToken(), getMessageIndexInfoCallback);
-	}
-
-	else {
+	} else {
 		console.log("Storage exist.Fetching Deltas");
 		var state = messageStorage.messageIndex.state;
-		invokeIamGetMessageDelta(state,credentials.getAccessToken(),getMessageDeltaCallback);
+		invokeIamGetMessageDelta(state,credentials.getAccessToken(), getMessageDeltaCallback);
 	}
-
 }
 
 function createMessageIndexCallback (data) {
-
+   if(requestFailed(data)) return;
 	invokeIamGetMessageList(credentials.getAccessToken(),null,getMessageListCallback);
 }
 
 function getMessageListCallback(data) {
+   if(requestFailed(data)) return;
 	populateMessageStorage(data);
 	generateMessageList();
 }
 
-function getMessageDeltaCallback(data) {
-// TODO make seperate functions for each(i.e delete,update,add)
-	if (messageStorage.messageIndex.state != data.invocationResult.deltaResponse.state) {
+function getMessageDeltaCallback(data)
+{
+   if(requestFailed(data)) return;
+   
+// TODO make separate functions for each(i.e delete,update,add)
+	if (messageStorage.messageIndex.state != data.invocationResult.deltaResponse.state)
+	{
 		addsIdArr = [];
 		for (var i = 0; i <= 1; i++) {
 			if (data.invocationResult.deltaResponse.delta[i].adds.length > 0) {
-				for (var j = 0; j < data.invocationResult.deltaResponse.delta[i].adds.length; j++) {
+				for (var j = data.invocationResult.deltaResponse.delta[i].adds.length - 1; j >= 0; j--) {
 					addsIdArr.push(data.invocationResult.deltaResponse.delta[i].adds[j].messageId);
 				}
 				addsObject = {};
 				addsObject.messageIds = addsIdArr.toString();
 				invokeIamGetMessageList(credentials.getAccessToken(),
 						addsObject, getMessageListCallback);
-
 			}
-			if (data.invocationResult.deltaResponse.delta[i].updates.length > 0) {
+	
+			if (data.invocationResult.deltaResponse.delta[i].updates.length > 0)
+			{
 				for (var k = 0; k < data.invocationResult.deltaResponse.delta[i].updates.length; k++) {
-					mesageStorage.messageIndex.messages[data.invocationResult.deltaResponse.delta[i].updates[k].messageId].isUnread = data.invocationResult.deltaResponse.delta[i].updates[k].isUnread;
+					messageStorage.messageIndex.messages[data.invocationResult.deltaResponse.delta[i].updates[k].messageId].isUnread = data.invocationResult.deltaResponse.delta[i].updates[k].isUnread;
 
 				}
 			}
+			
 			if (data.invocationResult.deltaResponse.delta[i].deletes.length > 0) {
-				for (j = 0; j < data.invocationResult.deltaResponse.delta[i].deletes.length; j++) {
-					var participant = getParticipants(mesageStorage.messageIndex.messages[data.invocationResult.deltaResponse.delta[i].deletes[j].messageId]);
-					delete mesageStorage.messageIndex.messages[data.invocationResult.deltaResponse.delta[i].deletes[j].messageId];
+				for (var l = 0; l < data.invocationResult.deltaResponse.delta[i].deletes.length; l++) {
+					
+					
+					var participant = getParticipants(messageStorage.messageIndex.messages[data.invocationResult.deltaResponse.delta[i].deletes[l].messageId]);
+					delete messageStorage.messageIndex.messages[data.invocationResult.deltaResponse.delta[i].deletes[l].messageId];
 
-					while (messageStorage.conversationGroups[participant].messageIDs.indexOf(data.invocationResult.deltaResponse.delta[i].deletes[j].messageId) !== -1) {
-						messageStorage.conversationGroups[participant].messageIDs.splice(messageStorage.conversationGroups[participant].messageIds.indexOf(data.invocationResult.deltaResponse.delta[i].deletes[j].messageId),1);
-						if (messageStorage.conversationGroups[participant].messageIDs.length == 0) {
-							delete messageStorage.conversationGroups[participant];
+					while (messageStorage.conversationGroups[participant].messageIDs.indexOf(data.invocationResult.deltaResponse.delta[i].deletes[l].messageId) !== -1) {
+						messageStorage.conversationGroups[participant].messageIDs.splice(messageStorage.conversationGroups[participant].messageIDs.indexOf(data.invocationResult.deltaResponse.delta[i].deletes[l].messageId),1);
+					
 						}
+					if (messageStorage.conversationGroups[participant].messageIDs.length == 0) {
+						delete messageStorage.conversationGroups[participant];
 					}
 				}
 			}
@@ -338,15 +401,46 @@ function getMessageDeltaCallback(data) {
 	generateMessageList();
 }
 
+var requestFailed = function(result)
+{
+   if(!exists(result))
+   {
+      showAlertView("Unable to process request - no result received.");
+      busyIndicator.hide();
+      return true;
+   } else if(exists(result.isSuccessful)) {
+      if(result.isSuccessful==false || 
+         (result.isSuccessful==true && result.status>=300))
+      {
+         busyIndicator.hide();
+         var errors = "";
+         var statusCode = "None";
+         var statusReason = "";
+         
+         if(exists(result.errors)) errors=result.errors;
+         if(exists(result.statusCode)) statusCode = result.statusCode;
+         if(exists(result.statusReason)) statusCode = result.statusReason;
+         
+         showAlertView("Request failed " + errors + " Status: " + statusCode + " " + statusReason);
+         
+         return true;
+      }
+   } else {
+      return false;
+   } 
+};
+
 var getMessageIndexInfoCallback = function(data)
 {
-	if (data.status<300 && data.invocationResult.isSuccessful &&
-			data.invocationResult.messageIndexInfo.status == "INITIALIZED")
+	if (!requestFailed(data))
 	{
-		invokeIamGetMessageList(credentials.getAccessToken(),null,getMessageListCallback);
-	} else {
-		invokeIamCreateMessageIndex(credentials.getAccessToken(),createMessageIndexCallback);
-	} 
+	   if(data.invocationResult.messageIndexInfo.status == "INITIALIZED")
+   	{
+   		invokeIamGetMessageList(credentials.getAccessToken(),null,getMessageListCallback);
+   	} else {
+   		invokeIamCreateMessageIndex(credentials.getAccessToken(),createMessageIndexCallback);
+   	}
+	}
 };
 
 function deleteMessageCallback (data)
@@ -357,42 +451,39 @@ function deleteMessageCallback (data)
 function deleteMessagesCallback(data)
 {
 	$("#" + deleteId).hide();
-
-
 }
 
-
-function updateUnread(unreadArr){
+function updateUnread(unreadArr)
+{
 	var unReadObj={};
-
+	 var unreadId;
 	if(unreadArr.length == 1)
 	{
-		messageId=unreadArr[0];
-		unReadObj.message = {"isUnread":false};
-		invokeIamUpdateMessage(messageId, unReadObj,credentials.getAccessToken() ,messageUpdateCallback);
+		unreadId = unreadArr[0];
+		unReadObj = {"isUnread":false};
+		invokeIamUpdateMessage(unreadId, unReadObj,credentials.getAccessToken() ,messageUpdateCallback);
 	}
-	else{
-		unReadObj.messages = [];
+	else if(unreadArr.length >1){
+		unReadObj = [];
 		for (var k=0;k<unreadArr.length;k++)
 		{
-			unReadObj.messages[k] = {"messageId": unreadArr[i], "isUnread":false};
+			unReadObj[k] = {"messageId": unreadArr[k], "isUnread":false};
 		}
 		invokeIamUpdateMessages(unReadObj,credentials.getAccessToken() ,messageUpdateCallback);
 	}
-
-
 }
 
-function saveMessageIndex(object) {
-	localStorage.setItem(credentials.mobileNumber, JSON.stringify(object));
-}
-
-function getMessageIndex() {
-	var object = localStorage.getItem(credentials.mobileNumber);
-	return object && JSON.parse(object);
+function messageUpdateCallback (data) 
+{
+	if(!requestFailed(data))
+	{
+	   messageStorage.conversationGroups[selectedId].hasUnread = false;
+	}
 }
 
 function populateMessageStorage(data) {
+   if(requestFailed(data)) return;
+   
 	var messages = {};
 	for (var i = data.invocationResult.messageList.messages.length-1; i >= 0; --i) {
 
@@ -405,15 +496,14 @@ function populateMessageStorage(data) {
 	if (messageStorage.messageIndex.messages == undefined){
 		messageStorage.messageIndex.messages={};
 		messageStorage.messageIndex = data.invocationResult.messageList;
-
 		messageStorage.messageIndex.messages = messages;
 
 	}
 	else {
 		$.each(messages,function(key) {
 			messageStorage.messageIndex.messages[key] = messages[key];
-
 		});
+
 	}
 	
 	populateConversationStorage(messages);
@@ -424,12 +514,12 @@ function getParticipants(messageData)
 	if (messageData.recipients.length > 1) {
 		var participantsArr = [];
 		if (messageData.isIncoming == false) { 
-			for (var i = 0; i < messageData.recipients.length - 1; i++) {
+			for (var i = 0; i < messageData.recipients.length ; i++) {
 				participantsArr.push(messageData.recipients[i].value);
 			}
 		} else {
 			participantsArr.push(messageData.from.value);
-			for (var i = 0; i < messageData.recipients.length - 1; i++) {
+			for (var i = 0; i < messageData.recipients.length; i++) {
 				if (messageData.recipients[i].value != credentials.mobileNumber) {
 					participantsArr.push(messageData.recipients[i].value);
 				}
@@ -449,39 +539,60 @@ function getParticipants(messageData)
 			return messageData.from.value;
 		}
 	}
-
 }
 
-function populateConversationStorage(messages) {
-
-	$.each(messages,function(key) {
-
+var populateConversationStorage = function(messages)
+{
+	$.each(messages,function(key)
+	{
 		var participants = getParticipants(messages[key]);
-
+		
 		if (messageStorage.conversationGroups[participants] == undefined) {
 			messageStorage.conversationGroups[participants] = {};
 			messageStorage.conversationGroups[participants].messageIDs = [];
+			messageStorage.conversationGroups[participants].hasUnread = false;
 		}
-
+		if(messages[key].type=="MMS")
+			{
+			for (var i=0;i<messages[key].mmsContent.length;i++)
+				{
+				 if(messages[key].mmsContent[i].type=="TEXT") {
+					 
+					 invokeIamGetMessageContent(messages[key].mmsContent[i].contentUrl, credentials.getAccessToken(),
+						      getMmsTextCallback);
+				 }
+				 else {
+					 messageStorage.messageIndex.messages[key].text="";
+				 }
+				}
+			}
 		messageStorage.conversationGroups[participants].messageIDs.push(key);
 		messageStorage.conversationGroups[participants].lastMsg = key;
 		messageStorage.conversationGroups[participants].lastTS = messages[key].timeStamp;
-
-		messageStorage.conversationGroups[participants].hasUnread = messages[key].isUnread;
+		if(messages[key].isUnread == true)
+			{
+			messageStorage.conversationGroups[participants].hasUnread = true;
+			}
 	});
 
 	messageStorage.save();
 
 	console.log("Messages Stored Successfully");
-}
-function generateMessageList() {
+};
 
+var getMmsTextCallback = function(data) {
+	if(requestFailed(data)) return;
+	
+	messageStorage.messageIndex.messages[data.invocationContext.messageId].text = data.invocationResult.text;
+};
+function generateMessageList()
+{
 	$('#messageList').empty();
 
 	var msgStatus, msgText, timestamp, label;
 
-
 	var sortedKey = Object.keys(messageStorage.conversationGroups).sort(function(a, b) {
+	   busyIndicator.hide();
 		if (messageStorage.conversationGroups[a].lastTS == messageStorage.conversationGroups[b].lastTS) {
 			return 0;
 		}
@@ -491,9 +602,7 @@ function generateMessageList() {
 	for(var i=0;i<sortedKey.length;i++) {
 		if (messageStorage.conversationGroups[sortedKey[i]].hasUnread == true) {
 			msgStatus = "newMsg";
-		}
-
-		else {
+		} else {
 			msgStatus = "oldMsg";
 		}
 
@@ -505,11 +614,12 @@ function generateMessageList() {
 			if(messageStorage.messageIndex.messages[msgID].typeMetaData.subject == "")
 			{
 				msgText = "[No Subject]";
+
 			}
 			else {
-				msgText = messageStorage.messageIndex.messages[msgID].typeMetaData.subject; 
-			}
+				msgText = "Subject: " + messageStorage.messageIndex.messages[msgID].typeMetaData.subject; 
 
+			}
 		}
 		timestamp = messageStorage.conversationGroups[sortedKey[i]].lastTS;
 
@@ -525,20 +635,19 @@ function generateMessageList() {
 		selectedId = $(this).attr('id');
 		$.mobile.changePage("#page-conversationList",{transition:"slide",changeHash: true });
 	});
+
 	$('#messageList li').on('taphold', function() {
 		deleteId = $(this).attr('id');
-		 $('#messageListPopup').popup().popup('open');
-		 $('#popupDivider').text(deleteId);
-		
+		showConifrmAlert("This thread will be deleted", deleteThreadCallback, "Delete", null);		
 	});
 
+	busyIndicator.hide();
 	$('#messageList').listview('refresh');
-
 }
 
 function generateConversationList(participants)
 {
-	var from, msgID, timestamp, msgText, messageClass, float_direction;
+	var from, msgID, timestamp, msgText, messageClass, float_direction,fromInfo;
 	
 	unreadMsgs=[];
 	// console.log("participants: " + participants + " number of messages: " + messageStorage.conversationGroups[participants].messageIDs.length);
@@ -550,9 +659,9 @@ function generateConversationList(participants)
 		timestamp = parseTimeStamp.toLocaleTimeString().replace(/:\d+$/, '');
 
 		// WL.Logger.debug("i: " + i + " msdID: " + msgID + " \nfrom: " + from + "time: " + timestamp + " type: " + messageStorage.messageIndex.messages[msgID].type);
-		if(messageStorage.messageIndex.messages[msgID].isRead == false)
+		if(messageStorage.messageIndex.messages[msgID].isUnread == true)
 		{
-			unreadMsgs.push(msgId);
+			unreadMsgs.push(msgID);
 		}
 
 		if (messageStorage.messageIndex.messages[msgID].type == "TEXT")
@@ -561,31 +670,54 @@ function generateConversationList(participants)
 		}
 		else {
 			// for MMS
+			msgText = messageStorage.messageIndex.messages[msgID].text;
+			//alert(msgText);
 			var mmsText="";
 			for (var iContent=0;iContent<messageStorage.messageIndex.messages[msgID].mmsContent.length;iContent++){
-				mmsText = mmsText + "Attachment: " + messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName +
-				"<br><button> Download </button><br><br>";
+				if(messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName.indexOf("smil.xml") == -1) // SMIL not for user consumption
+				{
+					mmsText = mmsText + "Attachment: " + messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName +
+					"<br><button data-contentUrl='"+ messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentUrl + "'> Download </button><br><br>";
+				}
 			}	
-			msgText = mmsText;
+			msgText = msgText +"<br>" + mmsText;
 			// WL.Logger.debug("mmsText: " + mmsText);
 		}	
 
 		if (from == credentials.mobileNumber) {
 			messageClass = "bubbledRight";
 			float_direction = "pull-right";
+			fromInfo="";
 		} else {
 			messageClass = "bubbledLeft";
 			float_direction = "pull-left";
+			fromInfo = "<span class = '" + float_direction
+				+ "   messageInfo  ' >" + from
+				+ " </span>";
 		}
 
 		$("#conversationList").append(
-				"<li> <span class = '" + float_direction
-				+ "   messageInfo  ' >" + from
-				+ " </span> <div class = '" + messageClass + "'> "
+				"<li id='"+ msgID + "'>"+fromInfo + " <div class = '" + messageClass + "'> "
 				+ msgText + " </div> <span class = '" + float_direction
 				+ "   messageInfo  ' >" + timestamp + " </span> </li>");
+
+	}
+	$('#conversationList li').on('taphold', function() {
+		deleteId = $(this).attr('id');
+		showConifrmAlert("This message will be deleted", deleteMsgCallback, "Delete", null);
+		
+	});
+}
+
+function deleteMsgCallback(buttonIndex)
+{
+	if(buttonIndex==1)
+	{
+   	console.log("Message being deleted:" + deleteId);
+   	invokeIamDeleteMessage(deleteId,credentials.getAccessToken(),deleteMessageCallback);
 	}
 }
+
 
 //send message
 function sendMessage()
@@ -601,23 +733,30 @@ function sendMessage()
 		addArr = (msisdn1.split(","));
 		AddString = [];
 		for ( var i = 0; i < addArr.length; i = i + 1) {
+			if(addArr[i].indexOf("@") > 0) {
+			AddString.push(addArr[i]);
+			} else if (addArr[i].length>=10) {
 			AddString.push('tel:' + addArr[i]);
+			} else if(addArr[i].length<=7)
+			AddString.push('short:' + addArr[i]);
 		}
 
-		invokeIamSendMessage(AddString, message, subject, attachments, credentials.getAccessToken(), sendMessageCallback);
-
+		busyIndicator.show();
+		invokeIamSendMessage(AddString, message, subject, attachments, null, credentials.getAccessToken(), sendMessageCallback);
 	} else {
-	   alert("Please enter a recipient");
+	   showAlertView("Please enter a recipient");
 	}
 };
-
 
 $('#buttonSendMessage').on('tap', sendMessage);
 
 function sendMessageCallback(data,msgId)
-{ 
-
+{
+   if(requestFailed(data)) return;
+      
+   busyIndicator.hide(); 
 	console.log(msgId);
+	showAlertView("Message sent");
 	$.mobile.changePage("#page-messageList");
 }
 
@@ -628,7 +767,6 @@ $("#buttonAddAttachment").on('tap', function() {
    getPhoto(navigator.camera.PictureSourceType.PHOTOLIBRARY);
 }); 
 
-
 $("#page-sendMessage").on("pageshow", function() {
    attachments = {};
    currentImage = "";
@@ -637,6 +775,7 @@ $("#page-sendMessage").on("pageshow", function() {
 
 var getPhoto = function(source)
 {
+   busyIndicator.show();
 	navigator.camera.getPicture(onSuccessGetPhoto, onFailGetPhoto,
 	{
         destinationType : Camera.DestinationType.FILE_URI,
@@ -674,14 +813,17 @@ var gotFileEntry = function(entry)
                 origImg.src = evt.target.result;
              } else {
                 setAttachment(currentImage, file.name, evt.target.result);
+                busyIndicator.hide();
              }
           } else {
-             alert("File read error: " + FileError.toMessage(evt.target.error.code));
+             busyIndicator.hide();
+             showAlertView("File read error: " + FileError.toMessage(evt.target.error.code));
           }                
        };
        reader.onerror = function(evt)
        {
-         alert("Failed to read file. "  + FileError.toMessage(evt.target.error.code)); 
+          busyIndicator.hide();  
+          showAlertView("Failed to read file. "  + FileError.toMessage(evt.target.error.code)); 
        };
        reader.readAsDataURL(file);
    },
@@ -707,13 +849,15 @@ var resizeImage = function()
    var newDataUri = canvas.toDataURL();
    
    setAttachment(currentImage, this.fileName, newDataUri);
+   busyIndicator.hide();
 };
 
 var setAttachment = function(imageUri, fileName, base64)
 {
    if(base64.length >= 1048576)
    {
-      alert("Encoded file is " + parseFloat(base64.length/1024/1024).toFixed(2) + 
+      busyIndicator.hide();
+      showAlertView("Encoded file is " + parseFloat(base64.length/1024/1024).toFixed(2) + 
             " MB. It must be less than 1MB. Please resize photo.");
       return;
    }
@@ -728,7 +872,7 @@ var setAttachment = function(imageUri, fileName, base64)
    
    if(startOfType == -1 || endOfType == -1)
    {
-      alert("Attachment formatting failed.");
+      showAlertView("Attachment formatting failed.");
       return;
    }
    
@@ -762,8 +906,10 @@ var failedResolveFile = function(fileError)
    failedFile("failedResolveFile", fileError);
 };
 
-var failedFile = function(from, fileError) {
-   alert(from + " failed with code " + fileError.code + " " + fileCodeToMessage(fileError.code));
+var failedFile = function(from, fileError)
+{
+   busyIndicator.hide();
+   showAlertView(from + " failed with code " + fileError.code + " " + fileCodeToMessage(fileError.code));
 };
 
 var fileCodeToMessage = function(code)
@@ -803,9 +949,15 @@ FileError.toMessage = fileCodeToMessage;
 
 function onFailGetPhoto(message)
 {
-   console.log('No file chosen. ' + message);
+   busyIndicator.hide();
+   showAlertView('No file chosen. ' + message);
 }
 
+function onResume() {
+	 if($.mobile.activePage.is('#page-messageList')){
+	        loadMessages();
+	 }
+}
 var exists = function(thing) {
 	if(thing!==undefined && thing!=null) return true;
 	else return false;
@@ -814,11 +966,44 @@ var exists = function(thing) {
 var fileSystem;
 document.addEventListener("deviceready", function()
 {
-   window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, function onSuccess(fs)
+   document.addEventListener("resume", onResume, false);
+   
+   window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function onSuccess(fs)
    {
       fileSystem = fs;
    }, function onError(error)
    {
-      alert("Cannot get file system.  Will not be able to send attachments. Error: " + error.code);
+      showAlertView("Cannot get file system.  Will not be able to send attachments. Error: " + error.code);
    });   
 }, false);
+
+function getContent(urlPath)
+{
+	//urlPath ="/myMessages/v2/messages/I7/parts/2";
+	//urlPath ="/myMessages/v2/messages/I57/parts/1";
+	invokeIamGetMessageContent(urlPath, credentials.accessToken, getMessageContentCallback);
+}
+
+function getMessageContentCallback(data)
+{
+	if(requestFailed(data)) return;
+	//pathParts = data.invocationContext.split('/');
+	showAlertView("Get content returned: " + JSON.stringify(data.invocationResult));
+}
+
+$('#deleteThread').on('tap', function() {
+   showConifrmAlert("This thread will be deleted", deleteThreadCallback, "Delete", null); 
+});
+
+function deleteThreadCallback (buttonIndex)
+{
+   if(buttonIndex==1) {
+      var deleteMsgId;
+		
+      for(var i=0;i<messageStorage.conversationGroups[deleteId].messageIDs.length;i++)
+      {
+         deleteMsgId=messageStorage.conversationGroups[deleteId].messageIDs[i]; 
+         invokeIamDeleteMessage(deleteMsgId,credentials.getAccessToken(),deleteMessagesCallback);
+      }
+   }
+}

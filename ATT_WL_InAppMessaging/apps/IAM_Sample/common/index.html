@@ -3,7 +3,7 @@
     	<head>
     		<meta charset="UTF-8">
     		<title>index</title>
-    		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,  user-scalable=0">
     		<link rel="shortcut icon" href="images/favicon.png">
     		<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
     		<link href="jqueryMobile/jquery.mobile-1.3.2.css" rel="stylesheet">
@@ -13,6 +13,15 @@
     	</head>
     
     	<body style="display: none;">
+         <div data-role="page" id="page-splash"  data-title="att" data-theme="b" style="background:white; height: 100%;">
+            <div data-role="header" data-theme="b">
+                <h1>In App Messaging</h1>
+            </div>
+            <div data-role="content" id="splashContent" style="text-align: center; vertical-align:middle;">
+               <img src="images/attlogo.jpeg" alt="att">     
+            </div>   
+         </div>
+             	
 			<div data-role="page" id="page-login"  data-title="Login" data-theme="b">
             <div data-role="header" data-theme="b">
                 <h1>In App Messaging</h1>
@@ -30,8 +39,8 @@
             <div data-role="header" data-theme="b">
                 <h1>In App Messaging</h1>
             </div>         
-            <div data-role="content" style="padding: 15px">
-               <button id="buttonConnect" data-inline="true" style="align='center';">Connect</button>
+            <div data-role="content" style="padding: 15px; text-align: center;">
+               <button id="buttonConnect" data-inline="true">Connect</button>
             </div>
          </div>
          
@@ -45,7 +54,7 @@
          
 	      <div data-role="page" id="page-messageList">
 	            <div data-role="header" data-theme="b" data-position="fixed">
-	                <h1>Conversations</h1>
+	                <h1 id=messageListHeader></h1>
 	                <button id="buttonLogout" data-inline="true">Logout</button>
 	                <!--a href="#page-conversationList"  >Logout</a-->
 	                <a href="#page-sendMessage" >New</a>
@@ -64,8 +73,8 @@
                  	
     		<div data-role="page" id="page-conversationList" data-title="Page 2" data-add-back-btn="true">
 	            <div data-role="header" data-theme="b" data-position="fixed">
-	                <h1>Messages</h1>
-	                  <a href="#page-sendMessage"class="ui-btn-right" >New </a>
+	                <h1 id="conversationHeader"></h1>
+	                  <a href="#page-sendMessage" class="ui-btn-right" >New</a>
 	            </div>
         
 	            <div data-role="content" >

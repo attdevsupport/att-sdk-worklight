@@ -16,7 +16,7 @@
    <procedure name="deleteMessages"/>  
    <procedure name="deleteMessage"/>      
    <procedure name="getMessage"/>      
-   <procedure name="getMessagePart"/>      
+   <procedure name="getMessageContent"/>      
    <procedure name="getMessagesDelta"/>   
    <procedure name="getMessageIndexInfo"/>
    <procedure name="getMessageList"/>                   
