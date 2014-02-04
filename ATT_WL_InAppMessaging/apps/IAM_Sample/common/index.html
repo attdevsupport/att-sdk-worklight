@@ -1,124 +1,133 @@
 <!DOCTYPE HTML>
 <html>
-    	<head>
-    		<meta charset="UTF-8">
-    		<title>index</title>
-    		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,  user-scalable=0">
-    		<link rel="shortcut icon" href="images/favicon.png">
-    		<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
-    		<link href="jqueryMobile/jquery.mobile-1.3.2.css" rel="stylesheet">
-    		<link rel="stylesheet" href="css/main.css">
-    		<script>window.$ = window.jQuery = WLJQ;</script>
-    		<script src="jqueryMobile/jquery.mobile-1.3.2.js"></script>
-    	</head>
-    
-    	<body style="display: none;">
-         <div data-role="page" id="page-splash"  data-title="att" data-theme="b" style="background:white; height: 100%;">
-            <div data-role="header" data-theme="b">
-                <h1>In App Messaging</h1>
-            </div>
-            <div data-role="content" id="splashContent" style="text-align: center; vertical-align:middle;">
-               <img src="images/attlogo.jpeg" alt="att">     
-            </div>   
-         </div>
-             	
-			<div data-role="page" id="page-login"  data-title="Login" data-theme="b">
-            <div data-role="header" data-theme="b">
-                <h1>In App Messaging</h1>
-            </div>
-			   <div data-role="content" id="page-loginContent">
-			      <label id="labelMobileNumber">Mobile Number:</label>
-			      <br>
-			      <input type="number" name="mobileNumber" id="mobileNumber" placeholder="5035551248">
-			      <br> 
-			      <button id="loginButton" data-inline="true">Login</button>      
-			   </div>   
+<head>
+<meta charset="UTF-8">
+<title>index</title>
+<meta name="viewport"
+	content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,  user-scalable=0">
+<link rel="shortcut icon" href="images/favicon.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+<link href="jqueryMobile/jquery.mobile-1.3.2.css" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<script>
+   window.$ = window.jQuery = WLJQ;
+</script>
+<script src="jqueryMobile/jquery.mobile-1.3.2.js"></script>
+</head>
+
+<body style="display: none;">
+	<div data-role="page" id="page-splash" data-title="att" data-theme="b"
+		style="background: white; height: 100%;">
+		<div data-role="header" data-theme="b">
+			<h1>In App Messaging</h1>
+		</div>
+		<div data-role="content" id="splashContent"
+			style="text-align: center; vertical-align: middle;">
+			<img src="images/attlogo.jpeg" alt="att">
+		</div>
+	</div>
+
+	<div data-role="page" id="page-login" data-title="Login" data-theme="b">
+		<div data-role="header" data-theme="b">
+			<h1>In App Messaging</h1>
+		</div>
+		<div data-role="content" id="page-loginContent">
+			<label id="labelMobileNumber">Mobile Number:</label> <br> <input
+				type="number" name="mobileNumber" id="mobileNumber"
+				placeholder="5035551248"> <br>
+			<div style="text-align: center;">
+				<button id="loginButton" data-inline="true">Login</button>
 			</div>
-         
-         <div data-role="page" id="page-connect" data-title="Disconnected" data-theme="b">
-            <div data-role="header" data-theme="b">
-                <h1>In App Messaging</h1>
-            </div>         
-            <div data-role="content" style="padding: 15px; text-align: center;">
-               <button id="buttonConnect" data-inline="true">Connect</button>
-            </div>
-         </div>
-         
-			<div data-role="page" id="page-authorization">
-			    <div data-role="content">
-			        <iframe id="iframeAuthorization" 
-			            seamless height="100%" width="100%">
-                 </iframe> <!-- src to be filled in at runtime -->
-			    </div>
+		</div>
+	</div>
+
+	<div data-role="page" id="page-connect" data-title="Disconnected"
+		data-theme="b">
+		<div data-role="header" data-theme="b">
+			<h1>In App Messaging</h1>
+		</div>
+		<div data-role="content" style="padding: 15px; text-align: center;">
+			<button id="buttonConnect" data-inline="true">Connect</button>
+		</div>
+	</div>
+
+	<div data-role="page" id="page-authorization">
+		<div data-role="content">
+			<iframe id="iframeAuthorization" seamless height="100%" width="100%">
+			</iframe>
+			<!-- src to be filled in at runtime -->
+		</div>
+	</div>
+
+	<div data-role="page" id="page-messageList">
+		<div data-role="header" data-theme="b" data-position="fixed">
+			<h1 id=messageListHeader></h1>
+			<button id="buttonLogout" data-inline="true">Log Out</button>
+			<a href="#page-sendMessage">New</a>
+		</div>
+
+		<div data-role="content">
+			<ul data-role="listview" class="ui-listview" id="messageList">
+			</ul>
+			<div id="messageListPopup" data-role="popup">
+				<ul data-role="listview" data-inset="true" style="min-width: 210px;">
+					<li data-role="divider" data-theme="b" id="popupDivider"></li>
+					<li id="deleteThread" style="background: white;">Delete Thread</li>
+				</ul>
 			</div>
-         
-	      <div data-role="page" id="page-messageList">
-	            <div data-role="header" data-theme="b" data-position="fixed">
-	                <h1 id=messageListHeader></h1>
-	                <button id="buttonLogout" data-inline="true">Logout</button>
-	                <!--a href="#page-conversationList"  >Logout</a-->
-	                <a href="#page-sendMessage" >New</a>
-	            </div>
-	        
-	            <div data-role="content">
-	                <ul data-role="listview" class="ui-listview" id="messageList"> </ul>
-	                <div id="messageListPopup" data-role="popup" >
-            <ul data-role="listview" data-inset="true" style="min-width:210px;">
-                <li data-role="divider" data-theme="b" id="popupDivider"></li>
-                <li id="deleteThread" style="background:white;">Delete Thread</li>
-            </ul>
-        </div>
-	        	</div>
-        	</div>
-                 	
-    		<div data-role="page" id="page-conversationList" data-title="Page 2" data-add-back-btn="true">
-	            <div data-role="header" data-theme="b" data-position="fixed">
-	                <h1 id="conversationHeader"></h1>
-	                  <a href="#page-sendMessage" class="ui-btn-right" >New</a>
-	            </div>
-        
-	            <div data-role="content" >
-	               <ul class="messageList unstyled"  id = "conversationList"></ul>
-            	</div>
-         </div>
-    		
-         <div data-role="page" id="page-sendMessage" data-add-back-btn="true">
-	         <div data-theme="b" data-role="header" data-position="fixed">
-	           <h1>
-	               Compose
-	           </h1>
-	         </div>
-            <div data-role="content">
-              <div data-role="fieldcontain">
-                  <input name="" id="recipientInput" placeholder="Enter Number/Email" value="" type="text" data-mini="true">
-              </div>
+		</div>
+	</div>
 
-              <div data-role="fieldcontain">
-                  <input name="" id="subjectInput" placeholder="Enter Subject" value="" type="text" data-mini="true">
-              </div>
-           
-              <div data-role="fieldcontain">
-                  <textarea name="" id="messageInput" placeholder="Enter Message"></textarea>
-              </div>
-              
-              <label for="slider" data-theme='b'>Resize Picture by %:</label><input data-theme='b' type="range" name="slider" id="sliderResize" value="50" min="10" max="100"> 
+	<div data-role="page" id="page-conversationList" data-title="Page 2"
+		data-add-back-btn="true">
+		<div data-role="header" data-theme="b" data-position="fixed">
+			<h1 id="conversationHeader"></h1>
+			<a href="#page-sendMessage" id="newMessage-btn" class="ui-btn-right">New</a>
+		</div>
 
-              <a data-role="button" id="buttonAddAttachment" data-theme='b'>
-                 Add Picture
-              </a>
+		<div data-role="content">
+			<ul class="messageList unstyled" id="conversationList"></ul>
+		</div>
+	</div>
 
-              <div id="images" style="border-color:black;"> </div>
-
-              <a data-role="button" id="buttonSendMessage" href="#" data-theme='b' style="margin-top:60px;">
-                  Send
-              </a>
-            </div>
+   <div data-role="page" id="page-sendMessage" data-add-back-btn="true" data-theme="b">
+      <div data-theme="b" data-role="header" data-position="fixed">
+         <h1>Compose</h1>
+      </div>
+      <div data-role="content">
+         <div data-role="fieldcontain">
+            <input data-theme="b" name="" id="recipientInput" placeholder="Enter Number/Email"
+               value="" type="text" data-mini="true">
+            <label><input data-mini="true" type="checkbox" name="checkboxGroupMessage" id="checkboxGroupMessage">
+               Group Message
+            </label>
          </div>
 
-    		<script src="js/iam.js"></script>
-    		<script src="js/main.js"></script>
-    		<script src="js/messages.js"></script>
-    		<script src="js/oAuth.js"></script>
-         <script src="js/initOptions.js"></script>    		
-    	</body>
+         <div data-role="fieldcontain">
+            <input data-theme="b" name="" id="subjectInput" placeholder="Enter Subject"
+               value="" type="text" data-mini="true">
+         </div>
+
+         <div data-theme="b" data-role="fieldcontain">
+            <textarea data-theme="b" name="" id="messageInput" placeholder="Enter Message"></textarea>
+         </div>
+
+         <label for="slider" data-theme='b'>Reduce Picture When Adding to %:</label><input
+            data-theme='b' type="range" name="slider" id="sliderResize"
+            value="20" min="1" max="100"> <a data-role="button"
+            id="buttonAddAttachment" data-theme='b'> Add Picture </a>
+
+         <div id="images" style="border-color: black;"></div>
+
+         <a data-role="button" id="buttonSendMessage" href="#" data-theme='b'
+            style="margin-top: 60px;"> Send </a>
+      </div>
+   </div>
+
+	<script src="js/iam.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/messages.js"></script>
+	<script src="js/oAuth.js"></script>
+	<script src="js/initOptions.js"></script>
+</body>
 </html>
