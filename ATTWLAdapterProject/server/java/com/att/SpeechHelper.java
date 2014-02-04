@@ -258,32 +258,47 @@ public class SpeechHelper
 			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
 			conn.setRequestProperty("Accept", "*/*");
 			
-			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");		
+			System.out.println("********* InAppMessaging GetMessageContent ***********");		
 			
 			int responseCode = conn.getResponseCode();
 			String responseCodeString = Integer.toString(responseCode);
 			JSONObject response = new JSONObject();
 			response.put("code", responseCodeString);
 			
-			if (responseCode < 400) { // Handle binary response
-				// Get all the headers to pass through
-				// Read the response and convert to base64
-				BufferedInputStream inputStream = new BufferedInputStream(conn.getInputStream());
-				
-				int iContentLength = conn.getHeaderFieldInt("Content-Length", 0);
-				int totalRead = 0;
-				int currentRead = 0;
-                byte[] binaryBody = new byte[iContentLength];
-                do {
-                   currentRead = inputStream.read(binaryBody, totalRead, iContentLength-totalRead);
-                   totalRead += currentRead;
-                } while (totalRead < iContentLength);
-                
-                String encodedBody = Base64.encode(binaryBody); Base64.encode(binaryBody, iContentLength);
-				response.put("base64", encodedBody.toString());
-				response.put("contentType", conn.getHeaderField("Content-Type") + ";base64");
-				response.put("contentLength", encodedBody.length());
-			} else { // handle html response
+			if (responseCode < 400) {
+				String contentType = conn.getHeaderField("Content-Type");
+				contentType = contentType.toLowerCase();
+				if(contentType.contains("image/") || contentType.contains("audio/") || contentType.contains("video/")) {
+					// Handle binary response
+					// Get all the headers to pass through
+					// Read the response and convert to base64
+					BufferedInputStream inputStream = new BufferedInputStream(conn.getInputStream());
+					
+					int iContentLength = conn.getHeaderFieldInt("Content-Length", 0);
+					int totalRead = 0;
+					int currentRead = 0;
+	                byte[] binaryBody = new byte[iContentLength];
+	                do {
+	                   currentRead = inputStream.read(binaryBody, totalRead, iContentLength-totalRead);
+	                   totalRead += currentRead;
+	                } while (totalRead < iContentLength);
+	                
+	                String encodedBody = Base64.encode(binaryBody); Base64.encode(binaryBody, iContentLength);
+					response.put("base64", encodedBody.toString());
+					response.put("contentType", conn.getHeaderField("Content-Type") + ";base64");
+					response.put("contentLength", encodedBody.length());
+				} else {
+					StringBuffer contentString = new StringBuffer();
+					BufferedReader is = new BufferedReader(new InputStreamReader(
+							conn.getInputStream()));
+					String str;
+					while (null != ((str = is.readLine()))) {
+						contentString.append(str);
+					}
+					is.close();
+					response.put("content", contentString.toString());					
+				}
+			} else { // handle error response
 				StringBuffer errorString = new StringBuffer();
 				BufferedReader is = new BufferedReader(new InputStreamReader(
 						conn.getErrorStream()));

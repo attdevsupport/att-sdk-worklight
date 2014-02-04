@@ -753,6 +753,7 @@ function generateConversationList(participants) {
          function() {
             deleteId = $(this).attr('id');
             showConfirmAlert("This message will be deleted", deleteMsgCallback,
+            showConifrmAlert("This message will be deleted", deleteMsgCallback,
                   "Delete", null);
 
          });
