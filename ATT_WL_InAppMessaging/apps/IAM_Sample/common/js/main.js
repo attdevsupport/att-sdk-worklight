@@ -57,23 +57,20 @@ credentials.store = function() {
 
 credentials.retrieve = function() {
    try {
-      objectString = window.localStorage.getItem('credentials');
-      console.log("read creds from storage: " + objectString);
-      if (!objectString) {
-         console.log("no stored credentials");
-         credentials.initialize();
+      var objectString = window.localStorage.getItem('credentials');
+      if (!exists(objectString)) {
+         this.initialize();
       } else {
-         credsObject = JSON.parse(objectString);
+         var credsObject = JSON.parse(objectString);
          this.state = credsObject.state;
          this.accessToken = credsObject.accessToken;
          this.expiration = credsObject.expiration;
          this.refreshToken = credsObject.refreshToken;
          this.mobileNumber = credsObject.mobileNumber;
-         console.log("Parsed creds: " + JSON.stringify(this));
       }
    } catch (getExecption) {
-      console.log("EXCEPTION parsing credentials");
-      credentials.initialize();
+      showAlertView("EXCEPTION parsing credentials");
+      this.initialize();
    }
 };
 
@@ -82,6 +79,7 @@ credentials.clearAccess = function() {
    this.accessToken = "";
    this.expiration = 0;
    this.refreshToken = "";
+   this.authorizationCode = "";
 };
 
 credentials.initialize = function() {
@@ -90,7 +88,7 @@ credentials.initialize = function() {
 };
 
 credentials.getAccessToken = function() {
-   console.log("Expiration: " + this.expiration + "now: " + Date.now());
+   //console.log("Expiration: " + this.expiration + "now: " + Date.now());
    if (!this.expired()) {
       return this.accessToken;
    } else {
@@ -102,12 +100,12 @@ credentials.getAccessToken = function() {
 
 $("#page-login").on("pageshow", function() {
    busyIndicator.hide();
+   $('#mobileNumber').val("");
 });
 
 $("#buttonLogout").on('tap', function() {
    messageStorage.clear();
    credentials.logOut();
-
    $.mobile.changePage("#page-login");
 });
 
@@ -149,7 +147,7 @@ messageStorage.init = function() {
 };
 
 function startLogin() {
-   // if mobile # field is filled in, load iframe and begin oath
+   // if mobile # field is filled in, load page and begin oath
    if (validMobileNumber()) {
       credentials.mobileNumber = '+1' + getMobileNumber();
       getAuthorizationCode(authorizationCodeSuccess, authorizationCodeFailed);
@@ -160,20 +158,18 @@ function startLogin() {
 
 $("#loginButton").on('tap', startLogin);
 
+var authorizationPage;
+
 function authorizationCodeSuccess(response) {
-   // console.log("authorizationCodeSuccess: " + JSON.stringify(response, null,
-   // 3));
    if (response.status < 300) {
-      // load iframe with this url
       // TODO put the redirect URL is some config file easier to find
-      $('#iframeAuthorization')
-            .attr(
-                  'src',
-                  response.invocationResult.url
-                        + "&redirect_uri=https://ldev.code-api-att.com/ATTDPSDEMO/landingpage.html");
-      // console.log("authorizationCodeSuccess: load authZ page with: " +
-      // $('#iframeAuthorization').attr('src'));
-      $.mobile.changePage("#page-authorization");
+
+      authorizationPage = window.open(response.invocationResult.url + 
+         "&redirect_uri=https://ldev.code-api-att.com/ATTDPSDEMO/landingpage.html", 
+         '_blank', 'clearsessioncache=yes,clearcache=yes,location=no,toolbar=no');
+      authorizationPage.addEventListener('loadstop', getAuthorizationResult);
+      authorizationPage.addEventListener('loaderror', getAuthorizationResultFailed);
+      authorizationPage.addEventListener('exit', getAuthorizationResultExit);
    } else {
       authorizationCodeFailed(response);
    }
@@ -183,12 +179,12 @@ function authorizationCodeFailed(error) {
    showAlertView("Failed to get authorization code. " + JSON.stringify(error));
 };
 
-function getAuthorizationResult() {
-   var currentUrl = this.contentDocument.location.href;
+function getAuthorizationResult(event) {
+   var currentUrl = event.url;
    var index = currentUrl.indexOf("code=");
    console.log("index: " + index + " in url: " + currentUrl);
    if (index != -1) {
-      $("#iframeAuthorization").hide();
+      authorizationPage.close();
       credentials.authorizationCode = currentUrl.substr(index + 5);
       busyIndicator.show();
       authorizeAccessToken(credentials.authorizationCode, accessTokenSuccess,
@@ -196,7 +192,7 @@ function getAuthorizationResult() {
    } else {
       index = currentUrl.indexOf("error=");
       if (index != -1) {
-         $("#iframeAuthorization").hide();
+         authorizationPage.close();
          accessTokenFail({
             'error' : currentUrl.substring(index + 6)
          });
@@ -204,10 +200,18 @@ function getAuthorizationResult() {
    }
 };
 
-$("#iframeAuthorization").on('load', getAuthorizationResult);
+var getAuthorizationResultFailed = function(error) {
+   authorizationPage.close();
+   showAlertView("Failed to get authorization. " + event.message);
+};
+
+var getAuthorizationResultExit = function(event) {
+   authorizationPage.close();
+   //showAlertView("Authorization page exited. ");
+};
 
 function accessTokenSuccess(result) {
-   if (result.status >= 300)
+   if (result.status >= 300 || result.invocationResult.statusCode >= 300)
       accessTokenFail(result);
 
    credentials.accessToken = result.invocationResult.accessToken;
@@ -215,17 +219,15 @@ function accessTokenSuccess(result) {
    credentials.refreshToken = result.invocationResult.refreshToken;
    credentials.setLoggedIn();
    credentials.store();
-   console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
    messageStorage.retrieve();
    $.mobile.changePage("#page-messageList");
 }
 
 function accessTokenFail(error) {
-   $("#iframeAuthorization").hide();
    showAlertView("Failed to acquire access. "
-         + JSON.stringify(result.invocationResult));
+         + JSON.stringify(error.invocationResult));
    busyIndicator.hide();
-   $.mobile.changePage("#page-login");
+   //$.mobile.changePage("#page-login");
 }
 
 function validMobileNumber() {
@@ -404,20 +406,27 @@ var requestFailed = function(result) {
       showAlertView("Unable to process request - no result received.");
       busyIndicator.hide();
       return true;
-   } else if (exists(result.isSuccessful)) {
-      if (result.isSuccessful == false
-            || (result.isSuccessful == true && result.status >= 300)) {
+   } else if (exists(result.invocationResult.isSuccessful)) {
+      //alert("request was success " + JSON.stringify(result, null, 3));
+      if (result.invocationResult.isSuccessful == false
+            || (result.invocationResult.isSuccessful == true && result.invocationResult.statusCode >= 300)) {
          busyIndicator.hide();
          var errors = "";
          var statusCode = "None";
          var statusReason = "";
 
-         if (exists(result.errors))
+         if (exists(result.errors)) {
             errors = result.errors;
-         if (exists(result.statusCode))
-            statusCode = result.statusCode;
-         if (exists(result.statusReason))
-            statusCode = result.statusReason;
+         }
+         if (exists(result.status)) {
+            statusCode = result.status;
+         }
+         if (exists(result.invocationResult.statusCode)) {
+            statusCode = result.invocationResult.statusCode;
+         }
+         if(exists(result.invocationResult.RequestError)) {
+            statusReason = result.invocationResult.RequestError;
+         }
 
          showAlertView("Request failed " + errors + " Status: " + statusCode
                + " " + statusReason);
@@ -425,6 +434,7 @@ var requestFailed = function(result) {
          return true;
       }
    } else {
+      busyIndicator.hide();
       return false;
    }
 };
@@ -583,7 +593,7 @@ var getMmsTextCallback = function(data) {
    var str = data.invocationContext.urlPath,
    arr = str.split('/'),
    msgId = arr[arr.indexOf('messages') + 1]; 
-   messageStorage.messageIndex.messages[msgId].text = data.invocationResult.text;
+   messageStorage.messageIndex.messages[msgId].text = data.invocationResult.result.message.content;
 };
 function generateMessageList() {
    $('#messageList').empty();
@@ -775,6 +785,7 @@ function sendMessageCallback(data, msgId) {
    busyIndicator.hide();
    console.log(msgId);
    showAlertView("Message sent");
+   clearComposePage();
    $.mobile.changePage("#page-messageList");
 }
 
@@ -786,10 +797,18 @@ $("#buttonAddAttachment").on('tap', function() {
 });
 
 $("#page-sendMessage").on("pageshow", function() {
+   clearComposePage();
+});
+
+var clearComposePage = function() {
    attachments = {};
    currentImage = "";
-   document.getElementById("images").innerHTML = "";
-});
+   $('#recipientInput').val("");
+   $('#checkboxGroupMessage').val("");
+   $('#subjectInput').val("");
+   $('#messageInput').val("");
+   $('#images').html(""); 
+};
 
 var getPhoto = function(source) {
    busyIndicator.show();
@@ -994,7 +1013,7 @@ document.addEventListener(
 function getContent(urlPath) {
    // urlPath ="/myMessages/v2/messages/I7/parts/2";
    // urlPath ="/myMessages/v2/messages/I57/parts/1";
-   invokeIamGetMessageContent(urlPath, credentials.accessToken,
+   invokeIamGetMessageContent(urlPath, credentials.getAccessToken(),
          getMessageContentCallback);
 }
 
