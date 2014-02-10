@@ -6,9 +6,6 @@
 	z-index: 1;
 }
 
-h3 {
-margin-top:0px;	
-}
 .bubbledLeft{
 	float: left;
 	margin-right: auto;
@@ -63,13 +60,21 @@ margin-top:0px;
 .messageInfo
 {
 	color: '';
-	font-size: 12px;
+	font-size: 10px;
 	clear:both;
 	padding-left: 5px;
 	padding-right: 5px;
 	
 }
-
+ul li h3 {
+	word-wrap: break-word;
+	white-space: normal !important;
+	overflow-wrap: break-word;
+	margin-top: 0px;
+}
+.messageMargin {
+	margin-bottom: 10px;
+}
 .pull-right
 {
 	float:right;
@@ -86,11 +91,14 @@ margin-top:0px;
 
 .oldMsg
 {
-	font-weight:normal;
+	font-weight:normal !important;
 }
 
 .newMsg
 {
 	background: white;
 	font-weight: bolder;
+}
+body {
+    -webkit-touch-callout: none !important;
 }

@@ -124,9 +124,9 @@ function getMessageContent(options)
 	logInfo('********* getMessageContent ADAPTER LOGS ***********');
 	logInfo('options : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
 	
-	var speechHelper = new com.att.SpeechHelper();
+	var utils = new com.att.ATTUtils();
 	
-	var response = speechHelper.iamGetMessageContent(options); 
+	var response = utils.iamGetMessageContent(options); 
 
 	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(response));
 

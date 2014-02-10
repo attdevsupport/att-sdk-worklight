@@ -22,7 +22,7 @@ var backbuttonConfirm = function(buttonId) {
 };
 
 document.addEventListener("backbutton", function(e) {
-   if ($.mobile.activePage.is('#page-messageList')) {
+   if ($.mobile.activePage.is('#page-messageList') && device.platform != "iOS") {
       e.preventDefault();
       showConfirmAlert("Logout when exiting?", backbuttonConfirm, null, "Logout,Exit Only,Stay");
    } else {
@@ -115,17 +115,25 @@ $("#page-login").on("pageshow", function() {
    $('#mobileNumber').val("");
 });
 
+var logoutApp = function() {
+   messageStorage.clear();
+   credentials.logOut();
+   $.mobile.changePage("#page-login");   
+};
+
 var logoutConfirm = function(buttonId) {
    if(buttonId == 1) {
-      messageStorage.clear();
-      credentials.logOut();
-      $.mobile.changePage("#page-login");
+      logoutApp();
       window.setInterval(navigator.app.exitApp, 500);
    }     
 };
 
 $("#buttonLogout").on('tap', function() {
-   showConfirmAlert("Logout and exit the app?", logoutConfirm, null, "Ok,Cancel");
+   if(device.platform != "iOS") {
+      showConfirmAlert("Logout and exit the app?", logoutConfirm, null, "Ok,Cancel");
+   } else {
+      logoutApp();
+   }
 });
 
 credentials.relogin = function() {
@@ -203,7 +211,7 @@ function authorizationCodeFailed(error) {
 function getAuthorizationResult() {
    var currentUrl = this.contentDocument.location.href;
    var index = currentUrl.indexOf("code=");
-   console.log("index: " + index + " in url: " + currentUrl);
+   //console.log("index: " + index + " in url: " + currentUrl);
    if (index != -1) {
       $("#iframeAuthorization").hide();
       credentials.authorizationCode = currentUrl.substr(index + 5);
@@ -340,7 +348,7 @@ function loadMessages() {
    if (messageStorage.messageIndex == null
          || messageStorage.messageIndex.state == undefined) {
       messageStorage.init();
-      console.log("initialized storage");
+      //console.log("initialized storage");
       invokeIamGetMessageIndexInfo(credentials.getAccessToken(),
             getMessageIndexInfoCallback);
    } else {
@@ -450,6 +458,8 @@ var requestFailed = function(result) {
                + " " + statusReason);
 
          return true;
+      } else {
+         return false;
       }
    } else {
       busyIndicator.hide();
@@ -744,16 +754,18 @@ function generateConversationList(participants) {
       $("#conversationList").append(
             "<li id='" + msgID + "'>" + fromInfo + " <div class = '"
                   + messageClass + "'> " + msgText + " </div> <span class = '"
-                  + float_direction + "   messageInfo  ' >" + timestamp
+                  + float_direction + " messageInfo messageMargin' >" + timestamp
                   + " </span> </li>");
 
    }
+
+   $('#conversationList button').on('tap',downloadAttachment);
+
    $('#conversationList li').on(
          'taphold',
          function() {
             deleteId = $(this).attr('id');
             showConfirmAlert("This message will be deleted", deleteMsgCallback,
-            showConifrmAlert("This message will be deleted", deleteMsgCallback,
                   "Delete", null);
 
          });
@@ -802,21 +814,17 @@ function sendMessageCallback(data, msgId) {
       return;
 
    busyIndicator.hide();
-   console.log(msgId);
+   //console.log(msgId);
    showAlertView("Message sent");
    clearComposePage();
    $.mobile.changePage("#page-messageList");
 }
 
-var attachments;
-var currentImage;
+var attachments = {};
+var currentImage = "";
 
 $("#buttonAddAttachment").on('tap', function() {
    getPhoto(navigator.camera.PictureSourceType.PHOTOLIBRARY);
-});
-
-$("#page-sendMessage").on("pageshow", function() {
-   clearComposePage();
 });
 
 var clearComposePage = function() {
@@ -839,6 +847,7 @@ var getPhoto = function(source) {
 };
 
 var onSuccessGetPhoto = function(imageUri) {
+   console.log("onSuccessGetPhoto: " + imageUri);
    currentImage = imageUri;
    window.resolveLocalFileSystemURI(imageUri, gotFileEntry, failedResolveFile);
 };
@@ -846,38 +855,49 @@ var onSuccessGetPhoto = function(imageUri) {
 var origImg;
 
 var gotFileEntry = function(entry) {
-   entry.file(function(file) {
-      var reader = new FileReader();
-      reader.onloadend = function(evt) {
-         if (evt.target.result) {
-            // console.log("load event result: " + evt.target.result);
-
-            // resize the image
-            if ($('#sliderResize').val() < 100) {
-               origImg = new Image;
-
-               origImg.onload = resizeImage;
-               origImg.quality = $('#sliderResize').val() / 100; // resize by
-                                                                  // this factor
-               origImg.fileName = file.name;
-               origImg.src = evt.target.result;
+   try {
+      console.log("gotFileEntry entry: " + JSON.stringify(entry,null,3));
+      entry.file(function(file) {
+         var reader = new FileReader();
+         reader.onloadend = function(evt) {
+            //console.log("FileReder loadend event result: " + JSON.stringify(evt,null,3));
+            if (evt.target.result) {
+               // resize the image
+               if ($('#sliderResize').val() < 100) {
+                  origImg = new Image;
+   
+                  origImg.onload = resizeImage;
+                  origImg.quality = $('#sliderResize').val() / 100; // resize by
+                                                                     // this factor
+                  origImg.fileName = file.name;
+                  origImg.src = evt.target.result;
+               } else {
+                  setAttachment(currentImage, file.name, evt.target.result);
+                  busyIndicator.hide();
+               }
             } else {
-               setAttachment(currentImage, file.name, evt.target.result);
                busyIndicator.hide();
+               showAlertView("File read error: "
+                     + FileError.toMessage(evt.target.error.code));
             }
-         } else {
+         };
+         
+         reader.onerror = function(evt) {
             busyIndicator.hide();
-            showAlertView("File read error: "
-                  + FileError.toMessage(evt.target.error.code));
-         }
-      };
-      reader.onerror = function(evt) {
-         busyIndicator.hide();
-         showAlertView("Failed to read file. "
-               + FileError.toMessage(evt.target.error.code));
-      };
-      reader.readAsDataURL(file);
-   }, failedEntryFile);
+            showAlertView("File read error: " + JSON.stringify(evt,null,3));
+         };
+         
+         reader.onabort = function(evt) {
+            busyIndicator.hide();
+            showAlertView("FileReader abort: " + JSON.stringify(evt));
+         };
+         
+         reader.readAsDataURL(file);
+      }, failedEntryFile);
+   } catch (readException) {
+      console.log("gotFileEntry exception: " + JSON.stringify(readException,null,3));
+      busyIndicator.hide();
+   }
 };
 
 var resizeImage = function() {
@@ -902,7 +922,8 @@ var resizeImage = function() {
 };
 
 var setAttachment = function(imageUri, fileName, base64) {
-   if (base64.length >= 1048576) {
+   var maxAttach = 1048576;
+   if (base64.length >= maxAttach) {
       busyIndicator.hide();
       showAlertView("Encoded file is "
             + parseFloat(base64.length / 1024 / 1024).toFixed(2)
@@ -938,7 +959,6 @@ var setAttachment = function(imageUri, fileName, base64) {
    if (extension != subType) {
       fileName = fileName.substring(0, extPos + 1) + subType;
    }
-   ;
    attachments[imageUri].fileName = fileName;
 
    document.getElementById("images").innerHTML += "<img src ='"
@@ -1027,22 +1047,21 @@ document.addEventListener(
                               showAlertView("Cannot get file system.  Will not be able to send attachments. Error: "
                                     + error.code);
                            });
+               fileSystem.root
+                     .getDirectory(
+                           "Download",
+                           {
+                              create : true,
+                              exclusive : false
+                           },
+                           function onSuccess(dirEntry) {
+                              downloadDir = dirEntry;
+                           },
+                           function onError(error) {
+                              showAlertView("Cannot access Download Folder. Will not be able to Download Attachments. Error: "
+                                    + error.code);
+                           });      
             }, false);
-
-function getContent(urlPath) {
-   // urlPath ="/myMessages/v2/messages/I7/parts/2";
-   // urlPath ="/myMessages/v2/messages/I57/parts/1";
-   invokeIamGetMessageContent(urlPath, credentials.getAccessToken(),
-         getMessageContentCallback);
-}
-
-function getMessageContentCallback(data) {
-   if (requestFailed(data))
-      return;
-   // pathParts = data.invocationContext.split('/');
-   showAlertView("Get content returned: "
-       + JSON.stringify(data.invocationResult));
-}
 
 $('#deleteThread').on(
       'tap',
@@ -1065,4 +1084,48 @@ function deleteThreadCallback(buttonIndex) {
    if(buttonIndex == 1 || buttonIndex == 2) {
       $('#messageList li').on('tap', messageListTap);
    }
+}
+
+function downloadAttachment() {
+   var mmsContentUrl = $(this).attr('data-contentUrl');
+   invokeIamGetMessageContent(mmsContentUrl,credentials.getAccessToken(),getMessageContentCallback);
+}
+
+function getMessageContentCallback(data) {
+   if (requestFailed(data))
+      return;
+   var base64data = data.invocationResult.result.message.base64;
+   contentData = data.invocationResult.result.message.contentType;
+   var attachmentName = contentData.substring(contentData.lastIndexOf("=")+1, contentData.lastIndexOf(";")); 
+   dataFile(base64data);
+   downloadDir.getFile(attachmentName, {create: true, exclusive: false}, gotAttachmentFileEntry, fileCodeToMessage);
+}
+
+function gotAttachmentFileEntry(fileEntry) {
+   fileEntry.createWriter(gotFileWriter, fileCodeToMessage);
+}
+
+function gotFileWriter(writer) {   
+   writer.onwritestart = function(evt) {
+      console.log("File write started");        
+   };
+   writer.onwriteend = function(evt) {
+      busyIndicator.hide();
+      console.log("File write successful");
+      showAlertView("Download Complete");        
+   };
+   writer.write(file);
+}
+
+var file;
+
+function dataFile(bs64data) {
+
+   var binary = window.atob(bs64data);
+   var bArray = []; 
+   for (var i = 0; i < binary.length; i++) {
+      bArray.push(binary.charCodeAt(i));  // convert to binary.. 
+      } 
+   fileArr = new Uint8Array(bArray);
+   file=fileArr.buffer;
 }
