@@ -1042,25 +1042,27 @@ document.addEventListener(
                            0,
                            function onSuccess(fs) {
                               fileSystem = fs;
+                              fileSystem.root
+                                          .getDirectory(
+                                                "Download",
+                                                {
+                                                   create : true,
+                                                   exclusive : false
+                                                },
+                                                function onSuccess(
+                                                      dirEntry) {
+                                                   downloadDir = dirEntry;
+                                                },
+                                                function onError(error) {
+                                                   showAlertView("Cannot access Download Folder. Will not be able to Download Attachments. Error: "
+                                                         + error.code);
+                                                });
                            },
                            function onError(error) {
                               showAlertView("Cannot get file system.  Will not be able to send attachments. Error: "
                                     + error.code);
                            });
-               fileSystem.root
-                     .getDirectory(
-                           "Download",
-                           {
-                              create : true,
-                              exclusive : false
-                           },
-                           function onSuccess(dirEntry) {
-                              downloadDir = dirEntry;
-                           },
-                           function onError(error) {
-                              showAlertView("Cannot access Download Folder. Will not be able to Download Attachments. Error: "
-                                    + error.code);
-                           });      
+                     
             }, false);
 
 $('#deleteThread').on(
@@ -1088,12 +1090,15 @@ function deleteThreadCallback(buttonIndex) {
 
 function downloadAttachment() {
    var mmsContentUrl = $(this).attr('data-contentUrl');
+   busyIndicator.show();
    invokeIamGetMessageContent(mmsContentUrl,credentials.getAccessToken(),getMessageContentCallback);
 }
 
 function getMessageContentCallback(data) {
-   if (requestFailed(data))
-      return;
+   if (requestFailed(data)) {
+	   busyIndicator.hide();
+	   return;
+   }
    var base64data = data.invocationResult.result.message.base64;
    contentData = data.invocationResult.result.message.contentType;
    var attachmentName = contentData.substring(contentData.lastIndexOf("=")+1, contentData.lastIndexOf(";")); 
@@ -1112,7 +1117,7 @@ function gotFileWriter(writer) {
    writer.onwriteend = function(evt) {
       busyIndicator.hide();
       console.log("File write successful");
-      showAlertView("Download Complete");        
+      showAlertView("Saved in Download Folder");        
    };
    writer.write(file);
 }
