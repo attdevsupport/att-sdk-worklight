@@ -32,11 +32,12 @@ AT&T Platform APIs:
 </div>
 
 ===============Tested versions===============
-IBM Worklight Studio 6.1
-Xcode 5.0
-Android SDK rev. 22.3
-Apple Simulator: iOS 7.1 for both iPhone
-iPhone 4s and 5 
-Android (Physical Device): 4.3, 4.4
-Android Emulator: 4.2
---END--
+<ul>
+<li>IBM Worklight Studio 6.1</li>
+<li>Xcode 5.0</li>
+<li>Android SDK rev. 22.3</li>
+<li>Apple Simulator: iOS 7.1 for both iPhone</li>
+<li>iPhone 4s and 5</li>
+<li>Android (Physical Device): 4.3, 4.4</li>
+<li>Android Emulator: 4.2</li>
+</ul>
