@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="ATT_WL_InAppMessaging">
-        <wb-resource deploy-path="/" source-path="/apps/IAM_Sample/common"/>
-        <wb-resource deploy-path="/" source-path="/apps/IAM_Sample/iphone"/>
-        <wb-resource deploy-path="/" source-path="/apps/IAM_Sample/android"/>
-        <property name="context-root" value="ATT_WL_InAppMessaging"/>
-    </wb-module>
-</project-modules>
