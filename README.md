@@ -13,7 +13,7 @@ AT&T Platform APIs:
 <ul>
 <li>Advertising</li>
 <li>Device Capabilities</li>
-<li>In App Messaging (IAM)</li>
+<li>In App Messaging</li>
 <li>Notary</li>
 <li>OAuth</li>
 <li>Payment</li>
