@@ -661,7 +661,7 @@ function generateMessageList() {
 
          }
       }
-      timestamp = messageStorage.conversationGroups[sortedKey[i]].lastTS;
+      timestamp = getDate(messageStorage.conversationGroups[sortedKey[i]].lastTS);
 
       $("#messageList").append(
             "<li class='" + msgStatus + "' id ='" + label
@@ -719,7 +719,6 @@ function generateConversationList(participants) {
             if (messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName
                   .indexOf("smil.xml") == -1 && messageStorage.messageIndex.messages[msgID].mmsContent[iContent].type != "TEXT") // SMIL not for user consumption
             {
-               // TODO: Download the attachment and get the content
                msgText = msgText
                      + "Attachment: "
                      + messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName
@@ -737,6 +736,7 @@ function generateConversationList(participants) {
          subject = messageStorage.messageIndex.messages[msgID].typeMetaData.subject;
          if(subject != "") {
             subject = subject + "<br>";
+            msgText = "Sub:" + subject + msgText;
          }
       }
       
@@ -771,6 +771,11 @@ function generateConversationList(participants) {
          });
 }
 
+function getDate(timestamp) {
+   var msgTS = new Date(timestamp);
+   var msgDate = msgTS.getMonth() + "/" + msgTS.getDate() + "/" + msgTS.getFullYear();
+    return msgDate;
+}
 function deleteMsgCallback(buttonIndex) {
    if (buttonIndex == 1) {
       console.log("Message being deleted:" + deleteId);
