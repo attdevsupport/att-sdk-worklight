@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>button:click</key>
+	<integer>2</integer>
+	<key>toggleButton:click</key>
+	<integer>2</integer>
+	<key>slider:valueChange</key>
+	<integer>2</integer>
+	<key>stepper:valueChange</key>
+	<integer>0</integer>
+	<key>selectList:valueChange</key>
+	<integer>2</integer>
+	<key>selectList:load</key>
+	<integer>2</integer>
+	<key>datePicker:dateChange</key>
+	<integer>0</integer>
+	<key>textBox:textChange</key>
+	<integer>2</integer>
+	<key>label:textChange</key>
+	<integer>2</integer>
+	<key>label:load</key>
+	<integer>2</integer>
+	<key>scroller:scrollChange</key>
+	<integer>2</integer>
+	<key>actionSheet:buttonIndex</key>
+	<integer>2</integer>
+	<key>actionSheet:show</key>
+	<integer>0</integer>
+	<key>alertView:buttonIndex</key>
+	<integer>2</integer>
+	<key>alertView:show</key>
+	<integer>0</integer>
+	<key>printScreen</key>
+	<integer>3</integer>
+	<key>customEvent</key>
+	<integer>2</integer>
+	<key>exception</key>
+	<integer>1</integer>
+	<key>connection</key>
+	<integer>1</integer>
+	<key>mobileState</key>
+	<integer>1</integer>
+</dict>
+</plist>

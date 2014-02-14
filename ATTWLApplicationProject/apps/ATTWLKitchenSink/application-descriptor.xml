@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Attribute "id" must be identical to application folder name -->
+<application xmlns="http://www.worklight.com/application-descriptor" id="ATTWLKitchenSink" platformVersion="6.1.0.00.20131219-1900">
+    <displayName>ATTWLKitchenSink</displayName>
+    <description>This is the sample application for AT&amp;T Worklight Adapters</description>
+    <author>
+        <name>AT&amp;T</name>
+        <email>devsupport-sf@list.att.com</email>
+        <homepage>http://developer.att.com</homepage>
+        <copyright>Copyright AT&amp;T</copyright>
+    </author>
+    <mainFile>ATTWLKitchenSink.html</mainFile>
+    <features>
+        <JSONStore/>
+    <Analytics/>
+</features>
+    <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
+    <iphone bundleId="com.ATTWLKitchenSink" version="3.2">
+        <worklightSettings include="true"/>
+        <security>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+        </security>
+    </iphone>
+    <android version="3.2">
+        <worklightSettings include="true"/>
+        <security>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+            <publicSigningKey>Replace this text with the public key of the certificate with which you sign the APK. For details see the Worklight Developer's Reference Guide.</publicSigningKey>
+        </security>
+    </android>
+    <ipad bundleId="com.ATTWLKitchenSink" version="3.2">
+        <worklightSettings include="true"/>
+        <security>
+            <encryptWebResources enabled="false"/>
+            <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
+        </security>
+    </ipad>
+</application>

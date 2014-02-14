@@ -10,15 +10,17 @@ mobile applications to market.
 The AT&T Adapters provide interfaces that facilitate access to the following
 AT&T Platform APIs:
 
-• Advertising
-• Device Capabilities
-• Notary
-• OAuth
-• Payment
-• SMS
-• Speech To Text
-• Text To Speech
-
+<ul>
+<li>Advertising</li>
+<li>Device Capabilities</li>
+<li>In App Messaging (IAM)</li>
+<li>Notary</li>
+<li>OAuth</li>
+<li>Payment</li>
+<li>SMS</li>
+<li>Speech To Text</li>
+<li>Text To Speech</li>
+</ul>
 <div>
 <table>
 <tr>
@@ -30,19 +32,11 @@ AT&T Platform APIs:
 </div>
 
 ===============Tested versions===============
-IBM Worklight Studio & Enterprise Server: 5.0.6
-Xcode 4.6
-Android SDK rev. 21.0.1
-iOS Simulator: iOS 5.1, iOS 6.1 for both iPhone and iPad
-Android Emulator: 4.0.4, 4.1
-Android Devices: 4.0 and 4.1
-
-
-===============Known issues===============
-1. On Android 4.0 in the KitchenSink sample application, the PIN verification
-button may become only partially visible on the bottom of the screen but is
-still clickable.  On iPhone, the PIN verification button may become inoperable.
-Use the GO keyboard button as a work around in this case.
-
-2. In KitchenSink sample application, audio capture from mic may not work on Android devices with versions before 4.0.
+IBM Worklight Studio 6.1
+Xcode 5.0
+Android SDK rev. 22.3
+Apple Simulator: iOS 7.1 for both iPhone
+iPhone 4s and 5 
+Android (Physical Device): 4.3, 4.4
+Android Emulator: 4.2
 --END--

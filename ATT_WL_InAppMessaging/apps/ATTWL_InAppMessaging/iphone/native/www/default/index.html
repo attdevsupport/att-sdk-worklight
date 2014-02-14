@@ -1,0 +1,132 @@
+<!DOCTYPE HTML><html>
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta charset="UTF-8">
+        <title>index</title>
+        <meta content="telephone=no" name="format-detection">
+        <meta content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,  user-scalable=0" name="viewport">
+        <link href="worklight/worklight.css" rel="stylesheet">
+        <link href="images/favicon.png" rel="shortcut icon">
+        <link href="images/apple-touch-icon.png" rel="apple-touch-icon">
+        <link href="jqueryMobile/jquery.mobile-1.3.2.css" rel="stylesheet">
+        <link href="css/main.css" rel="stylesheet">
+        <script>
+		// Define WL namespace.
+		var WL = WL ? WL : {};
+		/**
+		 * WLClient configuration variables.
+		 * Values are injected by the deployer that packs the gadget.
+		 */
+		WL.StaticAppProps = {
+   "APP_DISPLAY_NAME": "ATTWL_InAppMessaging",
+   "APP_ID": "ATTWL_InAppMessaging",
+   "APP_SERVICES_URL": "\/apps\/services\/",
+   "APP_VERSION": "1.0",
+   "ENVIRONMENT": "iphone",
+   "LOGIN_DISPLAY_TYPE": "embedded",
+   "WORKLIGHT_NATIVE_VERSION": "3577331796",
+   "WORKLIGHT_PLATFORM_VERSION": "6.1.0.00.20131219-1900",
+   "WORKLIGHT_ROOT_URL": "\/apps\/services\/api\/ATTWL_InAppMessaging\/iphone\/"
+};</script>
+		<script src="worklight/cordova.js"></script>
+		<script src="worklight/wljq.js"></script>
+		<script src="worklight/worklight.js"></script>
+		<script src="worklight/checksum.js"></script>
+		<script>
+   window.$ = window.jQuery = WLJQ;
+</script>
+<script src="jqueryMobile/jquery.mobile-1.3.2.js"></script>
+    </head>
+    <body style="display: none;">
+        <div data-role="page" data-theme="b" data-title="att" id="page-splash" style="background: white; height: 100%;">
+            <div data-role="header" data-theme="b">
+                <h1>In App Messaging</h1>
+            </div>
+            <div data-role="content" id="splashContent" style="text-align: center; vertical-align: middle;">
+                <img alt="att" src="images/attlogo.jpeg">
+		</div>
+        </div>
+        <div data-role="page" data-theme="b" data-title="Login" id="page-login">
+            <div data-role="header" data-theme="b">
+                <h1>In App Messaging</h1>
+            </div>
+            <div data-role="content" id="page-loginContent">
+                <label id="labelMobileNumber">Mobile Number:</label> 
+                <br> 
+                <input id="mobileNumber" name="mobileNumber" placeholder="5035551248" type="number"> 
+                <br>
+                <div style="text-align: center;">
+                    <button data-inline="true" id="loginButton">Login</button>
+                </div>
+            </div>
+        </div>
+        <div data-role="page" data-theme="b" data-title="Disconnected" id="page-connect">
+            <div data-role="header" data-theme="b">
+                <h1>In App Messaging</h1>
+            </div>
+            <div data-role="content" style="padding: 15px; text-align: center;">
+                <button data-inline="true" id="buttonConnect">Connect</button>
+            </div>
+        </div>
+        <div data-role="page" id="page-authorization">
+            <div data-role="content">
+                <iframe height="100%" id="iframeAuthorization" seamless="" width="100%">
+                </iframe>
+			<!-- src to be filled in at runtime -->
+            </div>
+        </div>
+        <div data-role="page" id="page-messageList">
+            <div data-position="fixed" data-role="header" data-theme="b">
+                <h1 id="messageListHeader"></h1>
+                <button data-inline="true" id="buttonLogout">Log Out</button>
+			<a href="#page-sendMessage">New</a>
+            </div>
+            <div data-role="content">
+                <ul class="ui-listview" data-role="listview" id="messageList">
+                </ul>
+                <div data-role="popup" id="messageListPopup">
+                    <ul data-inset="true" data-role="listview" style="min-width: 210px;">
+                        <li data-role="divider" data-theme="b" id="popupDivider"></li>
+                        <li id="deleteThread" style="background: white;">Delete Thread</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div data-add-back-btn="true" data-role="page" data-title="Page 2" id="page-conversationList">
+            <div data-position="fixed" data-role="header" data-theme="b">
+                <h1 id="conversationHeader"></h1>
+                <a class="ui-btn-right" href="#page-sendMessage" id="newMessage-btn">New</a>
+            </div>
+            <div data-role="content">
+                <ul class="messageList unstyled" id="conversationList"></ul>
+            </div>
+        </div>
+        <div data-add-back-btn="true" data-role="page" data-theme="b" id="page-sendMessage">
+            <div data-position="fixed" data-role="header" data-theme="b">
+                <h1>Compose</h1>
+            </div>
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <input data-mini="true" data-theme="b" id="recipientInput" name="" placeholder="Enter Number/Email" type="text" value="">
+            <label><input data-mini="true" id="checkboxGroupMessage" name="checkboxGroupMessage" type="checkbox">
+               Group Message
+            </label>
+                </div>
+                <div data-role="fieldcontain">
+                    <input data-mini="true" data-theme="b" id="subjectInput" name="" placeholder="Enter Subject" type="text" value="">
+                </div>
+                <div data-role="fieldcontain" data-theme="b">
+                    <textarea data-theme="b" id="messageInput" name="" placeholder="Enter Message"></textarea>
+                </div>
+                <label data-theme="b" for="slider">Reduce Picture When Adding to %:</label><input data-theme="b" id="sliderResize" max="100" min="1" name="slider" type="range" value="20"> <a data-role="button" data-theme="b" id="buttonAddAttachment"> Add Picture </a>
+                <div id="images" style="border-color: black;"></div>
+                <a data-role="button" data-theme="b" href="#" id="buttonSendMessage" style="margin-top: 60px;"> Send </a>
+            </div>
+        </div>
+        <script src="js/inAppMessaging.js"></script>
+	<script src="js/main.js"></script>
+	<script src="js/messages.js"></script>
+	<script src="js/oAuth.js"></script>
+	<script src="js/initOptions.js"></script>
+    </body>
+</html>

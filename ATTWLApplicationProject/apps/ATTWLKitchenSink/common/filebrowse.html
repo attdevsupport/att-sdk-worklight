@@ -1,0 +1,34 @@
+
+        <script type="text/javascript" charset="utf-8" src="js/filebrowse.js"></script>
+        <script type="text/javascript">
+            function backNav(){
+                $("#pagePort").load("speech.html");
+            }
+          
+			function getFile() {
+                readLocalFileSystem();
+			}
+			
+			$(document).ready(function() {
+                              readLocalFileSystem();
+                              });
+			
+			function textforshortcode() {
+				$("#header").css("header");
+			}
+            </script>
+        
+        <div id="fileBrowser">
+        <div class="header">
+			<span class="backbutton"><span class="innerText" onclick="backNav();">Back</span></span>
+			<span class="headerTitle" style="margin-left:100px;">File Explorer</span>
+		</div>
+                <div class="body" align="center">
+                    <div id="dirContent">
+                        
+                    </div>
+                    <!--   <a id="menu" href="#menuOptions" data-rel="dialog">file details</a>-->
+                </div>
+            </div>
+            </div>
+        

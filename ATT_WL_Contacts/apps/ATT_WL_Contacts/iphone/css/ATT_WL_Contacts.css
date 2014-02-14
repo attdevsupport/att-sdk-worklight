@@ -1,0 +1,13 @@
+
+/* this CSS file extends the application CSS file found under common\css */
+
+/* body should stretch in an iPhone application */
+body {
+	height: auto;
+	overflow: auto;
+}
+
+/*Worklight container div */
+#content {
+	width: 100%;
+}

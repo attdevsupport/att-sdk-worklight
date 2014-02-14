@@ -1,0 +1,30 @@
+   <div class="header">
+      <span class="backbutton"><span class="innerText"
+         onclick="backNav();">Back</span></span> <span class="headerTitle"
+         style="margin-left: 130px;">OAuth</span>
+   </div>
+   <div class="body" align="center">
+
+	<textarea readonly id="oAuthLogs" style="height: 80%; width: 100%; resize: none; overflow-y: scroll;"></textarea>
+
+	<table class="table">
+         <tr class="trow">
+            <td class="tcol" style="padding-bottom: 10px">
+               <button type="button" class="submitextralarge" align="center"
+                  onclick="oAuthLog += '\nForce refresh'; window.localStorage.setItem('accessTokenExpiresAt', Date.now()); generateAccessToken();">Refresh</button>
+            </td>  
+            <td class="tcol" style="padding-bottom: 10px">
+               <button type="button" class="submitextralarge" align="center"
+                  onclick="oAuthLog += '\nClear token'; clearAccessToken(); generateAccessToken();">Clear</button>
+            </td>                        
+         </tr>
+      </table>
+   </div>
+   <script type="text/javascript">
+      $('#oAuthLogs').val(oAuthLog);
+      function backNav()
+      {
+         WL.App.resetBackButton();
+         $('#pagePort').load("ATTWLKitchenSink.html #pagePort", '', function() {});
+      }
+   </script>

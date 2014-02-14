@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="ATT_WL_Contacts">
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts/common"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts/ipad"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts/iphone"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts/android"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts_2/common"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts_2/ipad"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts_2/iphone"/>
+        <wb-resource deploy-path="/" source-path="/apps/ATT_WL_Contacts_2/android"/>
+        <property name="context-root" value="ATT_WL_Contacts"/>
+    </wb-module>
+</project-modules>

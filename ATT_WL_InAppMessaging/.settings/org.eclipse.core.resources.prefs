@@ -1,0 +1,24 @@
+#Tue Feb 11 15:18:47 PST 2014
+base.iphone=3577331796
+base.android=1420749232
+common.android=3995469295
+ATTWL_InAppMessaging.android.native=1420749232
+fipshttp.android=1259741140
+encoding//apps/ATTWL_InAppMessaging/android/css/main.css=UTF-8
+wl_version=6.1.0.00.20131219-1900
+eclipse.preferences.version=1
+ATTWL_InAppMessaging.ipad.native=3577331796
+IAM_Sample.iphone.native=3577331796
+jsonstore.android=2746434164
+analytics.ipad=2383137509
+IAM_Sample.android.native=1420749232
+encoding//apps/ATTWL_InAppMessaging/common/css/main.css=UTF-8
+fipshttp.iphone=4131626944
+encoding//apps/ATTWL_InAppMessaging/iphone/css/main.css=UTF-8
+fipshttp.ipad=1204642243
+wl_compatible_version=
+ATTWL_InAppMessaging.iphone.native=3577331796
+base.ipad=3577331796
+IAM_Sample.ipad.native=3577331796
+analytics.android=2408201680
+analytics.iphone=752482804

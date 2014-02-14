@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ATT_WL_Contacts</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+	<link rel="shortcut icon" href="images/favicon.png">
+	<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+	<link href="jqueryMobile/jquery.mobile-1.2.1.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/ATT_WL_Contacts.css">
+	<script>window.$ = window.jQuery = WLJQ;</script>	
+	<script src="jqueryMobile/jquery.mobile-1.2.1.js"></script>
+</head>
+<body id="content" style="display: none;">
+  <!-- Home -->
+  <div data-role="page" data-theme="b" id="page1">
+      <div data-theme="b" data-role="header">
+          <h3>
+              Contacts
+          </h3>
+      </div>
+      <div data-role="content">
+            <div><table><tr>
+			      <td><input type="submit" data-theme="a" data-icon="microphone" data-iconpos="right" value="Record" onclick="startRecording();"></td>
+			      <td></td><td></td><td></td>
+			      <td><input type="submit" data-theme="a" data-icon="search" data-iconpos="right" value="Search Contacts" 
+			           onclick="onclick=readSpeechFile(window.localStorage.speechFilePath);">
+			      </td>
+			   </tr></table>
+            </div>
+          <div id="searchLabel">
+              <p>
+                  Tap record and speak a contact's name.
+              </p>
+          </div>
+          <div id="contactsList">
+	          <ul data-role="listview" data-divider-theme="" data-inset="true">
+	          </ul>
+          </div>
+      </div>
+  </div>
+  <!-- contactDetails -->
+  <div data-role="page" data-theme="b" id="page2">
+      <div data-theme="b" data-role="header">
+          <a data-role="button" href="#page1" class="ui-btn-left">
+              Back
+          </a>
+          <h3>
+              Contact
+          </h3>
+      </div>
+      <div data-role="content">
+          <div id="contactDetails">
+          </div>
+          <input type="submit" data-theme="a" data-icon="forward" data-iconpos="right" value="Text Business Card" 
+             onclick="sendBusinessCard();">
+          <div id="sendLabel">
+          </div>             
+          <div data-role="fieldcontain">
+              <select name="toggleswitch1" id="toggleswitch1" data-theme="" data-role="slider">
+                  <option value="off">
+                      SMS
+                  </option>
+                  <option value="on">
+                      MMS
+                  </option>
+              </select>
+          </div>
+      </div>
+  </div>
+	<!--application UI goes here-->
+	<script src="js/accessToken.js"></script>
+	<script src="js/initOptions.js"></script>
+	<script src="js/ATT_WL_Contacts.js"></script>
+	<script src="js/messages.js"></script>
+	<script src="js/recording.js"></script>	  
+</body>
+</html>
