@@ -8,7 +8,7 @@ function wlCommonInit() {
    busyIndicator.show();
 }
 
-var selectedId, unreadMsgs;
+var selectedId, unreadMsgs, interval;
 
 var backbuttonConfirm = function(buttonId) {
    if(buttonId==1) {
@@ -320,6 +320,13 @@ $("#page-connect")
 $("#page-messageList").on("pageshow", function() {
    $('#messageListHeader').text(credentials.mobileNumber);
    loadMessages();
+   interval = setInterval(function () {
+	      loadMessages();
+	    }, 20000);
+});
+
+$("#page-messageList").on("pagehide", function() {
+	clearInterval(interval);
 });
 
 $("#page-conversationList").on("pagebeforeshow", function() {
@@ -331,6 +338,10 @@ $("#page-conversationList").on("pageshow", function() {
    generateConversationList(selectedId);
    updateUnread(unreadMsgs);
 });
+
+$("#page-sendMessage").on("pagehide", function() {
+	   clearComposePage();
+	});
 
 function messageListTap () {
    selectedId = $(this).attr('id');
@@ -433,30 +444,11 @@ var requestFailed = function(result) {
       busyIndicator.hide();
       return true;
    } else if (exists(result.invocationResult.isSuccessful)) {
-      //alert("request was success " + JSON.stringify(result, null, 3));
       if (result.invocationResult.isSuccessful == false
             || (result.invocationResult.isSuccessful == true && result.invocationResult.statusCode >= 300)) {
          busyIndicator.hide();
-         var errors = "";
-         var statusCode = "None";
-         var statusReason = "";
-
-         if (exists(result.errors)) {
-            errors = result.errors;
-         }
-         if (exists(result.status)) {
-            statusCode = result.status;
-         }
-         if (exists(result.invocationResult.statusCode)) {
-            statusCode = result.invocationResult.statusCode;
-         }
-         if(exists(result.invocationResult.RequestError)) {
-            statusReason = result.invocationResult.RequestError;
-         }
-
-         showAlertView("Request failed " + errors + " Status: " + statusCode
-               + " " + statusReason);
-
+         
+         showAlertView("Request failed: " + JSON.stringify(result));
          return true;
       } else {
          return false;
@@ -719,6 +711,7 @@ function generateConversationList(participants) {
             if (messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName
                   .indexOf("smil.xml") == -1 && messageStorage.messageIndex.messages[msgID].mmsContent[iContent].type != "TEXT") // SMIL not for user consumption
             {
+               // TODO: Download the attachment and get the content
                msgText = msgText
                      + "Attachment: "
                      + messageStorage.messageIndex.messages[msgID].mmsContent[iContent].contentName
@@ -735,7 +728,7 @@ function generateConversationList(participants) {
       {
          subject = messageStorage.messageIndex.messages[msgID].typeMetaData.subject;
          if(subject != "") {
-            subject = subject + "<br>";
+            subject = subject + "<br><br>";
             msgText = "Sub:" + subject + msgText;
          }
       }
@@ -772,10 +765,11 @@ function generateConversationList(participants) {
 }
 
 function getDate(timestamp) {
-   var msgTS = new Date(timestamp);
-   var msgDate = msgTS.getMonth() + "/" + msgTS.getDate() + "/" + msgTS.getFullYear();
-    return msgDate;
-}
+	   var msgTS = new Date(timestamp);
+	   var msgDate = msgTS.getMonth() + "/" + msgTS.getDate() + "/" + msgTS.getFullYear();
+	    return msgDate;
+	}
+
 function deleteMsgCallback(buttonIndex) {
    if (buttonIndex == 1) {
       console.log("Message being deleted:" + deleteId);
@@ -800,7 +794,7 @@ function sendMessage() {
             AddString.push(addArr[i]);
          } else if (addArr[i].length >= 10) {
             AddString.push('tel:' + addArr[i]);
-         } else if (addArr[i].length <= 7)
+         } else if (addArr[i].length <= 8)
             AddString.push('short:' + addArr[i]);
       }
 
@@ -814,11 +808,12 @@ function sendMessage() {
 
 $('#buttonSendMessage').on('tap', sendMessage);
 
-function sendMessageCallback(data, msgId) {
+function sendMessageCallback(data) {
+   busyIndicator.hide();
+   
    if (requestFailed(data))
       return;
 
-   busyIndicator.hide();
    //console.log(msgId);
    showAlertView("Message sent");
    clearComposePage();
