@@ -58,13 +58,8 @@ function invokeIamSendMessage(addresses, text, subject, attachments, isGroup,
    options = {
       onSuccess : function(data) {
          WL.Logger.debug("Success : Response is - " + JSON.stringify(data));
-         var iamMsgId = '';
 
-         if (data.invocationResult.messageId !== undefined) {
-            iamMsgId = data.invocationResult.messageId;
-         }
-
-         sendCallback(data, iamMsgId);
+         sendCallback(data);
       },
       onFailure : function(error) {
          // busyInd.hide();
