@@ -44,7 +44,7 @@ function getAds(options)
 		parameters : options.queryParameters,
 		headers: {
 			'Authorization': options.accessToken,
-			"Udid": WL.Server.configuration["apiKey"],
+			"Udid": WL.Server.configuration["appKey"],
 			"User-Agent" : userAgent
 		}
 	};
