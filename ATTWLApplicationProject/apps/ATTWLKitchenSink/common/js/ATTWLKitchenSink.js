@@ -32,7 +32,7 @@ var getFileSystem = function()
 		    }		
 			tempFileSystem = fileSystem;
 			console.log("fileSystem storage: " + storageDir);
-			alert("fileSystem storage: " + storageDir);
+			//alert("fileSystem storage: " + storageDir);
 		},
 		function onError(error) 
 		{
