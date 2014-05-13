@@ -14,14 +14,14 @@
     <Analytics/>
 </features>
     <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
-    <iphone bundleId="com.ATTWLKitchenSink" version="3.3">
+    <iphone bundleId="com.ATTWLKitchenSink" version="3.7">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
         </security>
     </iphone>
-    <android version="3.3">
+    <android version="3.7">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
@@ -29,7 +29,7 @@
             <publicSigningKey>Replace this text with the public key of the certificate with which you sign the APK. For details see the Worklight Developer's Reference Guide.</publicSigningKey>
         </security>
     </android>
-    <ipad bundleId="com.ATTWLKitchenSink" version="3.3">
+    <ipad bundleId="com.ATTWLKitchenSink" version="3.7">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
