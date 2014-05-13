@@ -8,17 +8,15 @@ The AT&T Adapters provide interfaces that facilitate access to the following AT&
 • Advertising
 • Device Capabilities
 • In App Messaging
-• Notary Management
 • OAuth 2.0 Authentication Management
-• Payment
 • SMS
 • Speech To Text
 • Text To Speech
 
 ===============Tested versions===============
-IBM Worklight Studio 6.1
-Xcode 5.0
-Android SDK rev. 22.3
+IBM Worklight Studio 6.1.0.1
+Xcode 5.0.2
+Android SDK Tools rev. 22.6.2
 Apple Simulator: iOS 7.1 for both iPhone
 iPhone 4s and 5 
 Android (Physical Device): 4.3, 4.4
