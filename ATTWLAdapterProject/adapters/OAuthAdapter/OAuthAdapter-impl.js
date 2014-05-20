@@ -36,6 +36,8 @@ function getAccessToken(options)
 		input['body'] = {'contentType': 'application/x-www-form-urlencoded','content':'client_id=' + WL.Server.configuration["appKey"] + '&client_secret=' + WL.Server.configuration["secretKey"] + '&grant_type=client_credentials&scope=' + WL.Server.configuration["scope"]};
 	}
 
+	input.headers = addClientSdk(input.headers);
+	
 	logInfo('Input: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	
 	var result = WL.Server.invokeHttp(input);
@@ -54,3 +56,9 @@ function logInfo(value)
 {
 	WL.Logger.debug(value);
 }
+
+/* Add client sdk header */
+var addClientSdk = function (headers) {
+    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    return headers;
+};

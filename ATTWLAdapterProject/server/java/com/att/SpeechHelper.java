@@ -61,7 +61,7 @@ public class SpeechHelper
 				conn.setRequestProperty("Accept", (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
 			}
 					
-			String clientSdk = "ClientSdk=Worklight-" + (String)args.get("platform") + "-3.7.0.0";
+			String clientSdk = "ClientSdk=att_worklight-" + (String)args.get("platform") + "-3.7.0.0";
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {
@@ -166,9 +166,16 @@ public class SpeechHelper
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG));
-			} 
+			}
+			
+			String clientSdk = "ClientSdk=att.worklight.3.7";
+			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
+				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
+			} else {
+				conn.setRequestProperty("X-Arg", clientSdk);
+			}			
 
-			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");		
+			System.out.println("********* TextToSpeech JAVA ADAPTER LOGS ***********");		
 			
 			OutputStreamWriter outStream = new OutputStreamWriter(
 					conn.getOutputStream());

@@ -1,41 +1,5 @@
 var baseEndPoint='rest/1/';
 
-/* Add client sdk header */
-var addClientSdk = function(headers)
-{
-	var agent = WL.Server.getClientRequest().getHeader("User-Agent").toLowerCase();
-	var platform;
-	if(agent.indexOf("android") > -1) 
-	{
-		platform = "android";
-	} else if (agent.indexOf("apple") > -1)
-	{
-		platform = 'ios';
-	} else {
-		platform = 'unknown';
-	}
-	var clientSdk = "ClientSdk=Worklight-"+platform+"-3.7.0";
-	if(headers["X-Arg"]==undefined) {
-		headers["X-Arg"] = clientSdk;
-	} else {
-		var iArg;
-		var iClientSdk = -1;
-		xArgValues = split(headers["X-Arg"], ",");
-		for(iArg = 0; iArg < xArgValues.length; iArg++)
-		{
-		   if(xArgValues[iArg].indexOf("ClientSdk") == 0) {
-			   xArgValues[iArg] = clientSdk;
-			   iClientSdk = iArg;
-		   }	
-		}
-		if(iClientSdk == -1) {
-			xArgValues.push(clientSdk);
-		}
-		headers["X-Arg"]=xArgValues.join();
-	}
-	return headers;
-};
-
 /**
  * The Get Ads method obtains an advertisement to display in an application
  * @param options
@@ -81,7 +45,8 @@ function getAds(options)
 		headers: {
 			'Authorization': options.accessToken,
 			"Udid": WL.Server.configuration["appKey"],
-			"User-Agent" : userAgent
+			"User-Agent" : userAgent,
+			"X-Arg" : "ClientSdk=att.worklight.3.7"
 		}
 	};
 	
@@ -91,8 +56,6 @@ function getAds(options)
 	}
 	logInfo('********* Get Advertising ***********');
 	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
-	
-	input.headers=addClientSdk(input.headers);
 	
 	var result=WL.Server.invokeHttp(input);
 	

@@ -25,8 +25,9 @@ function getDeviceCapabilities(options)
 		path : "rest/2/Devices/Info",
 		headers : {
 			"Authorization" : options.accessToken,
-			"Accept" : accept
-		},
+			"Accept" : accept,
+			"X-Arg" : "ClientSdk=att.worklight.3.7"
+		}
 	};
 	
 	logInfo('********* DEVICE CAPABILITIES ADAPTER LOGS *********');

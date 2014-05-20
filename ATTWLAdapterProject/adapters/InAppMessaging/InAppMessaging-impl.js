@@ -32,6 +32,7 @@ function sendMessage(options)
    if(options.messageRequest.isGroup == undefined) options.messageRequest.isGroup = false;
    
    input.body.content = com.worklight.common.js.util.JSObjectConverter.toFormattedString({ "messageRequest" : options.messageRequest });
+   input.headers = addClientSdk(input.headers);
    
    logInfo('>>>>InAppMessaging.sendMessage request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
@@ -71,6 +72,8 @@ function getMessageList(options)
    ifMissingSetDefault("limit", "500", input.parameters);
    ifMissingSetDefault("offset", "0", input.parameters);   
    
+   input.headers = addClientSdk(input.headers);
+   
    logInfo('>>>>InAppMessaging.getMessageList request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
    var result=WL.Server.invokeHttp(input);
@@ -101,6 +104,8 @@ function getMessage(options)
       input.path = input.path + "/" + options.messageId;  
    }  
    
+   input.headers = addClientSdk(input.headers);
+   
    logInfo('>>>>InAppMessaging.getMessage request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
    var result=WL.Server.invokeHttp(input);
@@ -121,6 +126,8 @@ function getMessageContent(options)
       options.host = options.host + options.urlPath;
     }
 	
+    input.headers = addClientSdk(input.headers);
+    
 	logInfo('********* getMessageContent ADAPTER LOGS ***********');
 	logInfo('options : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
 	
@@ -158,6 +165,8 @@ function getMessagesDelta(options)
       input.parameters.state = options.state;
    }  
    
+   input.headers = addClientSdk(input.headers);
+   
    logInfo('>>>>InAppMessaging.getMessagesDelta request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
    var result=WL.Server.invokeHttp(input);
@@ -188,6 +197,8 @@ function updateMessages(options)
    {
       input.body.content = com.worklight.common.js.util.JSObjectConverter.toFormattedString({ "messages" : options.messages });;      
    }  
+   
+   input.headers = addClientSdk(input.headers);
    
    logInfo('>>>>InAppMessaging.updateMessages request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
@@ -225,6 +236,8 @@ function updateMessage(options)
       input.body.content = com.worklight.common.js.util.JSObjectConverter.toFormattedString({ "message" : options.message });  
    }  
    
+   input.headers = addClientSdk(input.headers);
+   
    logInfo('>>>>InAppMessaging.updateMessage request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
    var result=WL.Server.invokeHttp(input);
@@ -254,6 +267,8 @@ function deleteMessage(options)
    {
       input.path = input.path + "/" + options.messageId;     
    }     
+   
+   input.headers = addClientSdk(input.headers);
    
    logInfo('>>>>InAppMessaging.deleteMessage request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
@@ -286,6 +301,8 @@ function deleteMessages(options)
       input.parameters.messageIds = options.messageIds;     
    }     
    
+   input.headers = addClientSdk(input.headers);
+   
    logInfo('>>>>InAppMessaging.deleteMessages request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
    var result=WL.Server.invokeHttp(input);
@@ -310,6 +327,8 @@ function createMessageIndex(options)
             "Accept": "application/json"
          }
    };   
+   
+   input.headers = addClientSdk(input.headers);
    
    logInfo('>>>>InAppMessaging.createMessageIndex request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
@@ -340,6 +359,8 @@ function getMessageIndexInfo(options)
    {
       input.path = input.path + "/" + messageId;     
    }     
+   
+   input.headers = addClientSdk(input.headers);
    
    logInfo('>>>>InAppMessaging.getMessageIndexInfo request: \n' + com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
@@ -372,6 +393,8 @@ function getNotificationConnectionDetails(options)
       input.parameters.queues = options.queues;     
    }     
    
+   input.headers = addClientSdk(input.headers);
+   
   logInfo('>>>>InAppMessaging.getNotificationConnectionDetails request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
    
    var result=WL.Server.invokeHttp(input);
@@ -384,3 +407,9 @@ function logInfo(value) {
 	WL.Logger.info(value);
 	//WL.Logger.error(value);
 }
+
+/* Add client sdk header */
+var addClientSdk = function (headers) {
+    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    return headers;
+};
