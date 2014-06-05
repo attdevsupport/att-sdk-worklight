@@ -14,9 +14,7 @@ AT&T Platform APIs:
 <li>Advertising</li>
 <li>Device Capabilities</li>
 <li>In App Messaging</li>
-<li>Notary</li>
 <li>OAuth</li>
-<li>Payment</li>
 <li>SMS</li>
 <li>Speech To Text</li>
 <li>Text To Speech</li>
@@ -33,9 +31,9 @@ AT&T Platform APIs:
 
 ===============Tested versions===============
 <ul>
-<li>IBM Worklight Studio 6.1</li>
-<li>Xcode 5.0</li>
-<li>Android SDK rev. 22.3</li>
+<li>IBM Worklight Studio 6.1.0.1</li>
+<li>Xcode 5.0.2</li>
+<li>Android SDK Tools rev. 22.6.2</li>
 <li>Apple Simulator: iOS 7.1 for both iPhone</li>
 <li>iPhone 4s and 5</li>
 <li>Android (Physical Device): 4.3, 4.4</li>

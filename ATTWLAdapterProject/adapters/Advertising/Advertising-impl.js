@@ -33,7 +33,7 @@ function getAds(options)
 	var clientRequest = WL.Server.getClientRequest();
 	var userAgent = clientRequest.getHeader("User-Agent");
 	
-	if(options.accessToken.indexOf("Bearer ") == -1)
+	if(options.accessToken != undefined && options.accessToken.indexOf("Bearer ") == -1)
 	{
 		options.accessToken = 'Bearer ' + options.accessToken;
 	}
@@ -45,7 +45,8 @@ function getAds(options)
 		headers: {
 			'Authorization': options.accessToken,
 			"Udid": WL.Server.configuration["appKey"],
-			"User-Agent" : userAgent
+			"User-Agent" : userAgent,
+			"X-Arg" : "ClientSdk=att.worklight.3.7"
 		}
 	};
 	

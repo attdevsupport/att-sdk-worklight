@@ -1,4 +1,5 @@
 var baseEndPoint='sms/v3/messaging/';
+
 /**
  * The Send SMS method sends an SMS message to one or more AT&T Mobile Network devices.
  * @param options
@@ -30,6 +31,8 @@ function sendSMS(options)
 	{
 		input.body.content = options.body;
 	}
+
+	input.headers = addClientSdk(input.headers);
 	
 	logInfo('********* SEND SMS LOGS ***********');
 	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
@@ -60,6 +63,9 @@ function getSMSDeliveryStatus(options)
 	{
 		input.headers.Accept=options.accept;
 	}
+	
+	input.headers = addClientSdk(input.headers);
+	   
 	logInfo('********* GET SMS DELIVERY LOGS ***********');
 	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
 	
@@ -93,6 +99,8 @@ function getSMS(options)
 		input.headers.Accept=options.accept;
 	}
 	
+	input.headers = addClientSdk(input.headers);   
+	
 	var result=WL.Server.invokeHttp(input);
 	logInfo('********* GET SMS LOGS ***********');
 	logInfo('Input : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
@@ -105,5 +113,9 @@ function logInfo(value) {
 	WL.Logger.debug(value);
 }
 
-
+/* Add client sdk header */
+var addClientSdk = function (headers) {
+    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    return headers;
+};
 
