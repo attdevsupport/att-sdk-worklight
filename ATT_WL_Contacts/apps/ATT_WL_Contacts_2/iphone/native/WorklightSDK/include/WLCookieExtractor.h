@@ -15,9 +15,11 @@
 
 #import <Foundation/Foundation.h>
 
-/*
- * A class used to share cookies between the web code and native code. The class has no API methods. 
- * An object of this class must be passed as a parameter to wlInitWithDelegate:cookieExtractor:
+/**
+ * @ingroup main
+ * This class provides access to external cookies that WLClient can use when it issues requests to the Worklight Server. You use this class to share session cookies between a web view and a natively implemented page.
+ * This class has no API methods. An object of this class must be passed as a parameter to <code>wlConnectWithDelegate:cookieExtractor</code>.
+
  */
 @interface WLCookieExtractor : NSObject {
 

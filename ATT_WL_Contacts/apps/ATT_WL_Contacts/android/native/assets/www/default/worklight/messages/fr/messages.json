@@ -29,6 +29,7 @@
 "directUpdateNotificationTitle" : "Mise à jour disponible",
 "directUpdateNotificationMessage" : "Une mise à jour de l'application est disponible (taille du fichier : {0} Mo).",
 "directUpdateErrorTitle" : "Echec de la mise à jour",
+"directUpdateErrorMessage" : "Echec de la mise à jour directe.",
 "directUpdateErrorMessageNotEnoughStorage" : "Une mise à jour de l'application est disponible mais l'espace disponible sur le terminal pas suffisant (taille requise : {0} Mo, espace disponible : {1} Mo).",
 "directUpdateErrorMessageFailedDownloadingZipFile" : "Echec du téléchargement du fichier de mise à jour de l'application.",
 "directUpdateErrorMessageFailedProcessingZipFile" : "Echec du traitement du fichier de mise à jour de l'application.",

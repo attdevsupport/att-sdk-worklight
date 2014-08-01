@@ -4,6 +4,8 @@
 <dict>
 	<key>button:click</key>
 	<integer>2</integer>
+	<key>button:load</key>
+	<integer>2</integer>
 	<key>toggleButton:click</key>
 	<integer>2</integer>
 	<key>slider:valueChange</key>

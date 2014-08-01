@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+		<!-- Licensed Materials - Property of IBM
+			 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
+			 US Government Users Restricted Rights - Use, duplication or
+             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Worklight Console</title>
+		<meta name="description" content="Worklight Console" />
+		<meta name="author" content="Worklight CORD team" />
+		<meta content="(C) Copyright IBM Corp. 2006, 2013" name="DC.Rights" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="shortcut icon" href="images/favicon.ico" />
+		<link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+		<link rel="stylesheet" href="css/style.css?v=2" />
+		<link rel="stylesheet" href="css/tab.css?v=2" />
+		<link rel="stylesheet" href="css/catalog.css?v=2" />
+		<link rel="stylesheet" href="css/pushNotifications.css?v=2" />
+		<link rel="stylesheet" href="css/licenseterms.css" />
+		<link rel="stylesheet" href="css/backgrid.min.css" />
+		<link rel="stylesheet" href="css/backgrid-paginator.min.css" />
+		<link rel="stylesheet" href="css/backgrid-subgrid-cell.css" />
+		<link rel="stylesheet" href="css/jquery-ui-1.10.3.custom.min.css" />
+		<link rel="stylesheet" href="css/devices.css" />
+	</head>
+	<body>
+		<a href="#main"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Skip to main content"/></a>
+		<!-- Start of #container -->
+		<div id="container">
+			<div class="header" role="banner">
+				<h1 id="Worklight" class="translate"></h1>
+				<div class="nav">
+					<ul id="headerNav">
+						<li><span id="welcome" class="translate"></span><span id="userName"></span></li>
+						<li><a id="logoutLink" class="translate"></a></li>
+						<li class="lastLi"><a id="aboutLink" class="translate"></a></li>
+					</ul>
+				</div>
+				<div id="about">
+					<div id="aboutBackground"></div>
+					<div id="aboutContent">
+						<h2 id="aboutWorklight" class="translate"></h2>
+						<div id="aboutDialog">
+							<p>
+								<span id="serverVersionLabel" class="translate strong"></span>
+								<span id="serverVersion"></span>
+							</p>
+							<p id="copy" class="translate"></p>
+							<button id="additionalSupportInformationButton" class="translate aboutDialogButtons" aria-label="Show Additional Support Information"></button>
+							<button id="closeAboutButton" class="translate aboutDialogButtons" aria-label="Close About"></button>
+							
+							<div id="additionalSupportInformation">
+								<textArea readonly id='additionalSupportInformationTextArea' row="10" cols="50"></textArea>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div id="licenseTerms">
+					<div id="licenseTermsBackground"></div>
+					<div id="licenseTermsContent">
+						<h1 id="licenseTermsHeading" class="translate"></h1>
+						<table id="licenseTermsSummaryTable">
+							<tr>
+								<td class="licenseTermsTableField">Number of servers in cluster:</td>
+								<td>Please check your Application Server's administrative console</td>
+							</tr>
+							<tr>
+								<td class="licenseTermsTableField">Number of applications:</td>
+								<td id="applicationsCount">*</td>
+							</tr>
+							<tr>
+								<td class="licenseTermsTableField">Number of client devices:</td>
+								<td></td>
+							</tr>
+							<tr>
+								<td class="licenseTermsTableField">*Active: </td>
+								<td id="devicesActiveCount">*</td>
+							</tr>
+							<tr>
+								<td class="licenseTermsTableField">Decommissioned: </td>
+								<td id="devicesInactiveCount">*</td>
+							</tr>
+						</table>
+						<p id="licenseTermsFootNote">*Detailed listing of number of active client devices per application are captured in the CSV file</p>
+						<table id="highestActiveDevicesTable">
+							<tr>
+								<td class="licenseTermsTableField">Highest number of active client devices in the last&nbsp;</td>
+								<td id="highestDevicesInLastDays">*</td>
+								<td class="licenseTermsTableField">&nbsp;days is&nbsp;</td>
+								<td id="maxActiveDevicesCount">*</td>
+								<td class="licenseTermsTableField">, on&nbsp;</td>
+								<td id="maxActiveDevicesReportedOn">*</td>		
+							</tr>
+						</table>
+						<table id="lastDecommissionedTimeTable">
+							<tr>
+								<td><strong>Decommissioning task last run at &nbsp;</strong></td>
+								<td id="lastDecommissionedTime">*</td>
+							</tr>
+						</table>
+						<p id="addInfo"><strong>Additional Information : </strong></p>
+						<table id="licenseTermsAdditionalInfo">
+							<tr>
+								<td>Number of days set for decommissioning a client device &nbsp;</td>
+								<td id="decommissionWhen">*</td>
+								<td>&nbsp; day(s)</td>
+							</tr>
+							<tr>
+								<td>Time interval set for running the decommissioning task &nbsp;</td>
+								<td id="decommissionProcessingInterval">*</td>
+								<td>&nbsp; seconds</td>
+							</tr>
+							<tr>
+								<td>Number of days set for archiving decommissioned client device records &nbsp;</td>
+								<td id="archiveDecommissionWhen">*</td>
+								<td>&nbsp; day(s)</td>
+							</tr>
+						</table>
+						<table id="licenseTermsDialogActions">
+							<tr>
+								<td>
+									licensetracker.csv<br/>
+									<img id="csvGenerateLi" src="images/license_terms_csv_icon.gif" alt="Generate CSV"/><br/>
+									<a id="csvGenerateLink" href="api/licenseterms/licensetracker.csv" target="_blank">
+										Download File
+									</a>
+								</td>
+								<td>
+									<button id="licenseTermsCloseButton" class="translate licenseTermsDialogButtons" aria-label="Close"></button>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div id="main" role="main">
+				<div class="nav" role="navigation">
+					<ul id="tabNavigation">
+						<li id="catalogLi"><a id="catalogLink" class="translate"></a></li>
+						<li id="devicesLi"><a id="devicesLink" class="translate"></a></li>
+						<li id="pushNotificationsLi"><a id="pushNotificationsLink" class="translate"></a></li>
+						<li id="analyticsLi"><a id="analyticsLink" class="translate"></a></li>
+					</ul>
+				</div>
+				<div id="statusMessage-container">
+					<div id="statusMessage" class="header">
+						<!--h1></h1-->
+					</div>
+				</div>
+				<div id="tab"></div>
+			</div>
+			<div id="footer">
+				<a id="licenseTermsLink"><img id="licenseTermsLi" src="images/certificate.png" alt="License Terms" class="translate"/></a>
+				<span id="footerCopy" class="translate"></span>
+			</div>
+		</div>
+		<!-- End of #container -->
+		
+		<!-- Start Yes No dialog box -->
+		<div id="confirmationContainer" role="dialog">
+			<div id="confirmationBackground"></div>
+			<div id="confirmationDialog">
+				<h1 id="confirmationDialogTitle"></h1>
+				<p id="confirmationDialogP1"></p>
+				<p id="confirmationDialogP2"></p>
+				<button id="confirmationDialogYesButton" class="translate"></button>
+				<button id="confirmationDialogNoButton" class="translate"></button>
+			</div>
+		</div>
+		<!-- End Yes No dialog box -->
+		
+		<!-- Start get URL dialog box -->
+		<div id="getURLcontainer" role="dialog">
+			<div id="getURLbackground"></div>
+			<div id="getURLdialog">
+				<h1 id="getURLdialogTitle"></h1>
+				<p><strong id="getURLdialogP1"></strong></p>
+				<p>
+					<span id="fullURL" class="translate"></span>
+					<input type="text" id="getURLdialogP2" readonly="readonly"/>
+				</p>
+				<p id="shortUrlContainer">
+					<span id="shortenedURL" class="translate"></span>
+					<input type="text" id="getShortenedURL" readonly="readonly"/>
+				</p>
+				<div id="qrcode"></div>
+				<p id="qrContainer">
+					<span id="qrInstructions1" class="translate"></span><br/>
+					<span id="qrInstructions2" class="weak translate"></span>
+					<img src="" id="qrImg" alt="" />
+				</p>
+				<button id="getURLdialogCloseButton" class="translate"></button>
+			</div>
+		</div>
+		<!-- End get URL dialog box -->
+		
+		<!-- JavaScript at the bottom for fast page loading -->
+		<script src="js/jquery-1.7.min.js"></script>
+		<script src="js/jquery.tmpl.min.js"></script>
+        <script src="js/jquery.json-2.2.min.js"></script>
+		<script src="js/jquery.qrcode.min.js"></script>
+		<script src="js/jquery.busy.js"></script>
+		<script src="js/spin.min.js"></script>
+		<script src="js/jquery.spin.js"></script>
+        <script src="js/ajaxfileupload.js"></script>
+		<script src="js/mustache.js"></script>
+		<script src="js/plugins.js"></script>
+		<script src="js/script.js"></script>
+		<script src="js/messages.js"></script>
+		<script src="js/catalog.js"></script>
+		<script src="js/pushNotifications.js"></script>
+		<script src="js/underscore-min.js"></script>
+		<script src="js/backbone-min.js"></script>
+		<script src="js/backgrid.min.js"></script>
+		<script src="js/backbone-pageable.min.js"></script>
+		<script src="js/backgrid-paginator.min.js"></script>
+		<script src="js/backgrid-subgrid-cell.js"></script>
+		<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+		<script src="js/devices.js"></script>
+		<script src="js/licenseterms.js"></script>
+		<script src="js/analytics.js"></script>
+		<!-- end scripts -->
+	</body>
+</html>

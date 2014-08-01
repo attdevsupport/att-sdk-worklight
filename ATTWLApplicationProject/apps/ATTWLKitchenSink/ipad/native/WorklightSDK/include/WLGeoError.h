@@ -16,24 +16,30 @@ typedef enum {
 
 
 /**
- * An error that occurred during Geo acquisition
+ * @ingroup geo
+ * A <code>WLGeoError</code> object is created when an error is encountered during acquisition of a geographical position.
  */
 @interface WLGeoError : AbstractAcquisitionError {
-	@private
+@private
 	WLGeoErrorCodes errorCode;
 }
 
-
-
 /**
-      * @param errorCode The error code
-      * @param message The error's message
-      */
+ * This method returns the error code and the associated message.
+ * @param errorCode The error code.
+ * @param message The message for the error.
+ **/
 - (id)initWithErrorCode:(WLGeoErrorCodes)errorCode message:(NSString*)message;
+
+
 /**
-	 * @return the error code
-	 */
+ * This method returns the error code.
+ *
+ * @param None.
+ * @return The error code
+ **/
 - (WLGeoErrorCodes) getErrorCode  ;
+
 - (NSString*) description  ;
 
 @end

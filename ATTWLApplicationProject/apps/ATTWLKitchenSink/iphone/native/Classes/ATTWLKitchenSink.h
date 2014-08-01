@@ -3,11 +3,11 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import "WLCordovaAppDelegate.h"
+#import "WLAppDelegate.h"
+#import "WL.h"
 
-@interface MyAppDelegate : WLCordovaAppDelegate {
-
+@interface MyAppDelegate : WLAppDelegate <WLInitWebFrameworkDelegate> {
+    
 }
 
 @end

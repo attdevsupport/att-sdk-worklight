@@ -18,21 +18,23 @@
 @protocol WLWifiFailureCallback;
 
 /**
- * Provides access to the device's context and to acquire location information.
+ * @ingroup geo
+ * This protocol provides access to the device’s context, which provides access to the acquired location information. This protocol also can be used to acquire location information.
  */
 @protocol WLDevice <NSObject> 
 
 /**
+     * @short getLocationServicesConfig This method returns the current location services configuration. 
+     *
+     * @param None.
 	 * @return The current location services configuration.
 	 */
 - (WLLocationServicesConfiguration*) getLocationServicesConfig  ;
+
 /**
-      * <p>
       * Starts ongoing acquisition for sensors that are provided in the newConfiguration policy.
-      * </p>
       * <p>
       * Ongoing acquisition is started for the Geo and WiFi sensors that are provided in the policy. When new sensor information is acquired, the device context is updated, and the specified triggers are evaluated for activation.
-      * </p>
       * <p>
       * After calling this method, {@link #getLocationServicesConfig()} will return <code>newConfiguration</code>
       * @see <a href="http://infocenter.francelab.fr.ibm.com:1234/help/index.jsp?topic=%2Fcom.ibm.worklight.help.doc%2Fapiref%2Fr_wl_location.html">LocationServices</a> for details of the permissions that are required for Android and iOS.
@@ -44,7 +46,9 @@
 	 */
 - (void) startAcquisition : (WLLocationServicesConfiguration*) newConfiguration ;
 /**
-      * Stops the ongoing acquisition. The stop action is delegated to all relevant sensors, and all trigger states are cleared.    
+      * Stops the ongoing acquisition. The stop action is delegated to all relevant sensors, and all trigger states are cleared.
+	  *     
+      * @param None.
       */
 - (void) stopAcquisition  ;
 /** 
@@ -87,7 +91,7 @@
       */
 - (void)getConnectedAccessPointFilteredByPolicy:(WLWifiAcquisitionPolicy*)wifiPolicy withDelegate:(id<WLWifiAcquisitionCallback>)onSuccess failureDelegate:(id<WLWifiFailureCallback>)onFailure;
 /**
-	 * Acquires the currently connected WiFi access point information.
+     * Acquires the currently connected WiFi access point information.
 	 * <p>
 	 * The device attempts to acquire the currently connected WiFi access point information. If the attempt is successful, the access point
 	 * information is passed to the <code>onSuccess</code> callback function.
@@ -97,6 +101,9 @@
 	 */
 - (void)getConnectedAccessPointWithDelegate:(id<WLWifiConnectedCallback>)onSuccess failureDelegate:(id<WLWifiFailureCallback>)onFailure;
 /**
+     * This method returns the current device context, which contains information about the acquired locations.
+     *
+     * @param None.
 	 * @return The current device context, containing information about the acquired locations.
 	 */
 - (id<WLDeviceContext>) getDeviceContext  ;

@@ -10,6 +10,7 @@
 @class WLWifiAccessPoint;
 
 /**
+ * @ingroup geo
  * A wifi location as determined by the visible access points and connected access point, filtered by a policy.
  */
 @interface WLWifiLocation : AbstractPosition {
@@ -29,6 +30,10 @@
 	 * @exclude
 	 */
 - (id)initWithAccessPoints:(NSMutableArray*)accessPoints connectedAccessPoint:(WLWifiAccessPoint*)connectedAccessPoint connectedSignalStrength:(NSNumber*)connectedSignalStrength acquisitionTime:(long long)acquisitionTime;
+
+/**
+ * This method initializes the WiFi location.
+ */
 - (id) init  ;
 /**
 	 * @return Filtered access points (a subset of all visible access points filtered according to policy).

@@ -10,6 +10,7 @@
 @class WLCoordinate;
 
 /**
+ * @ingroup geo
  * An acquisition of a {@link WLCoordinate}.
  */
 @interface WLGeoPosition : AbstractPosition {
@@ -27,6 +28,9 @@
 	 * @exclude
 	 */
 - (id)initWithCoordinate:(WLCoordinate*)coordinate acquisitionTime:(long long)acquisitionTime;
+/**
+ * This method initializes the acquired coordinate.
+ */
 - (id) init  ;
 - (NSString*) description  ;
 /**

@@ -104,12 +104,14 @@
 		<param name="ios-package" value="WLNotification"/>
 </feature>
 	<feature name="WLApp">
+        <param name="onload" value="true"/>
 		<param name="ios-package" value="WLApp"/>
 </feature>
 	<feature name="UIControls">
 		<param name="ios-package" value="UIControls"/>
 </feature>
 	<feature name="Push">
+        <param name="onload" value="true"/>
 		<param name="ios-package" value="Push"/>
 </feature>
 	<feature name="NetworkDetector">
@@ -145,9 +147,7 @@
 	<feature name="SignificantLocationChangeWatchPlugin">
 		<param name="ios-package" value="SignificantLocationChangeWatchPlugin"/>
 </feature>
-	<feature name="AnalyticsConfigurator">
-		<param name="ios-package" value="AnalyticsConfigurator"/>
-</feature>
+	
 	<feature name="LocalStorage">
 		<param name="ios-package" value="CDVLocalStorage"/>
 </feature>
@@ -166,5 +166,23 @@
 <feature name="Vibration">
 		<param name="ios-package" value="CDVVibration"/>
 </feature>
-  <access origin="*"/>
+  <feature name="WLActionSenderPlugin">
+		<param name="ios-package" value="WLActionSenderPlugin"/>
+    </feature>
+    <feature name="WLNativeXHRPlugin">
+		<param name="ios-package" value="WLNativeXHRPlugin"/>
+    </feature>
+    <feature name="WLSplashScreen">
+		<param name="ios-package" value="WLSplashPlugin"/>
+    </feature>
+    <feature name="WLDirectUpdatePlugin">
+		<param name="ios-package" value="WLDirectUpdatePlugin"/>
+    </feature>
+    <feature name="WLTrusteer">
+		<param name="ios-package" value="WLTrusteerPlugin"/>
+    </feature>
+    <access origin="*"/>
+<feature name="LoggerPlugin">
+		<param name="ios-package" value="LoggerPlugin"/>
+    </feature>
 </widget>

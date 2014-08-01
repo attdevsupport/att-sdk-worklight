@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.network-information/www/network.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.network-information/www/network.js in JS Resources */
 cordova.define("org.apache.cordova.network-information.network", function(require, exports, module) {/*
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file

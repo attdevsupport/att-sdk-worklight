@@ -11,12 +11,12 @@
   
   <!--  Settings Screen strings -->
   <string name="worklightSettingsTitle">Valores de Worklight</string>
-  <string name="summaryWLServerUrl">Cambie el URL del servidor: http[s]://dominio o la dirección del IP[:puerto][/raíz de contexto]</string>
+  <string name="summaryWLServerUrl">Cambie el URL del servidor: http[s]://domain o la dirección del IP[:port][/context root]</string>
   <string name="titleWLServerUrl">URL del servidor</string>
   <string name="networkSettingsTitleWLServerUrl">Valores de red</string>
   <string name="OKTitleWLServerUrl">Aceptar</string>
   <string name="titleInvalidWLServerUrl">URL no válido</string>
-  <string name="errorInvalidWLServerUrl">%1$s no es un URL válido. El formato válido es http[s]://dominio o dirección IP[:puerto][/raíz de contexto]</string>
+  <string name="errorInvalidWLServerUrl">%1$s no es un URL válido. El formato válido es http[s]://domain o dirección IP[:port][/context root]</string>
   <string name="serverAddress">Dirección del servidor</string>
   <string name="changeServerAddress">Cambiar URL del servidor</string>
   
@@ -28,9 +28,9 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">Descarga de la actualización de la aplicación (progreso en kilobytes)</string>
-  <string name="kb">kb</string>
+  <string name="kb">%1$d/%2$d kb</string> 
   
-  <!-- Test Resources Checksum -->
-  <string name="testResourcesChecksumErrorMessage">La aplicación ha encontrado un error interno. Desinstale la aplicación y vuelva a instalarla.</string>
-  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">La aplicación ha encontrado un error interno. Vuelva a instalar la aplicación y vuelva a intentarlo.</string>
+  <string name="worklightInitNotEnoughSpace">La instalación de la aplicación ha fallado porque no hay suficiente espacio de almacenamiento disponible. Libere un %1$s MB y vuelva a lanzar la aplicación</string>   
 </resources>

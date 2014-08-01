@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.console/www/logger.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.console/www/logger.js in JS Resources */
 cordova.define("org.apache.cordova.console.logger", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -78,6 +79,7 @@ for (var i=0; i<Levels.length; i++) {
     LevelsMap[level] = i;
     logger[level]    = level;
 }
+
 CurrentLevel = LevelsMap.WARN;
 
 /**
@@ -210,7 +212,11 @@ function formatStringForMessage(message) {
 logger.logLevel = function(level /* , ... */) {
     // format the message with the parameters
     var formatArgs = [].slice.call(arguments, 1);
-    formatArgs.unshift(formatStringForMessage(formatArgs[0])); // add formatString
+    var fmtString = formatStringForMessage(formatArgs[0]);
+    if (fmtString.length > 0){
+        formatArgs.unshift(fmtString); // add formatString
+    }
+
     var message    = logger.format.apply(logger.format, formatArgs);
 
     if (LevelsMap[level] === null) {

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="ATTWLApplicationProject">
         <wb-resource deploy-path="/" source-path="/apps/ATTWLKitchenSink/common"/>
+        <wb-resource deploy-path="/" source-path="/apps/NewWL62/common"/>
+        <wb-resource deploy-path="/" source-path="/apps/NewWL62/iphone"/>
+        <wb-resource deploy-path="/" source-path="/apps/NewWL62/android"/>
         <property name="context-root" value="ATTWLApplicationProject"/>
     </wb-module>
 </project-modules>

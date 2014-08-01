@@ -28,9 +28,9 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">Загрузка обновления приложения (загружено килобайт)</string>
-  <string name="kb">КБ</string>
+  <string name="kb">%1$d/%2$d Кб</string> 
   
-  <!-- Test Resources Checksum -->
-  <string name="testResourcesChecksumErrorMessage">Во время выполнения приложения произошла внутренняя ошибка. Удалите приложение из системы и установите заново.</string>
-  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">Во время выполнения приложения произошла внутренняя ошибка. Повторно установите приложение и повторите попытку.</string>
+  <string name="worklightInitNotEnoughSpace">Не удалось установить приложение из-за нехватки памяти. Освободите %1$s Мб и перезапустите приложение.</string>   
 </resources>

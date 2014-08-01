@@ -1,6 +1,8 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.contacts/www/ContactOrganization.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.contacts/www/ContactOrganization.js in JS Resources */
 cordova.define("org.apache.cordova.contacts.ContactOrganization", function(require, exports, module) {/*
+
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file

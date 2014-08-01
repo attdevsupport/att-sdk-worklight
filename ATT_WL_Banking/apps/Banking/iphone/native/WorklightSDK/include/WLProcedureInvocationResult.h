@@ -15,9 +15,10 @@
 
 #import <Foundation/Foundation.h>
 
-/*
- * Contains the result of invoking a backend service, including statuses and data items retrieved by the adapter 
- * function from the server.
+/**
+ * @ingroup main
+ *
+ * This class contains the result of calling a back-end service, including statuses and data items that the adapter function retrieves from the server.
  */
 @interface WLProcedureInvocationResult : NSObject {
 
@@ -32,15 +33,25 @@
 	NSNumber *success;
 }
 
-// Returns an NSDictionary which represents the JSON response returned by the Worklight Server.
+/**
+ * This property is an NSDictionary, which represents the JSON response that the Worklight Server returns.
+ *
+ **/
 @property (nonatomic, readonly) NSDictionary *response;
+
 
 -(id)initWithInvocationResultDictionary:(NSDictionary *)theResult;
 
-// Returns YES if the invocation was successful, and NO otherwise
+/**
+ * This method returns YES if the call was successful, and NO otherwise.
+ *
+ **/
 -(BOOL)isSuccessful;
 
-// Returns an NSArray of applicative error messages collected by the Server during the procedure invocation.
+/**
+ * This method returns an NSArray of applicative error messages that the server collects during the procedure call.
+ *
+ **/
 -(NSArray *)procedureInvocationErrors;
 
 -(NSArray *)warnMessages;

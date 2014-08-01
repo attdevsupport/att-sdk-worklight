@@ -11,7 +11,7 @@
       <root url="jar://$PROJECT_DIR$/libs/commons-codec.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/bcprov.jar!/" />
       <root url="jar://$PROJECT_DIR$/libs/cordova_plugins.jar!/" />
-      <root url="jar://$PROJECT_DIR$/libs/android-asyn-http.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/android-async-http.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

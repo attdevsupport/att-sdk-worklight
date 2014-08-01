@@ -2,13 +2,19 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>AddMessageTypeHeader</key>
+	<true/>
 	<key>CachedFileMaxBytesSize</key>
 	<integer>512000</integer>
 	<key>CachingLevel</key>
 	<integer>3</integer>
+	<key>CompressPostMessage</key>
+	<true/>
 	<key>DelayTimeOfTLFInitialization</key>
 	<integer>0</integer>
 	<key>DisableAutoInstrumentation</key>
+	<false/>
+	<key>DisableTLFFrameworkFlush</key>
 	<false/>
 	<key>DoPostAppComesFromBackground</key>
 	<false/>
@@ -19,11 +25,21 @@
 	<key>DoPostAppIsLaunched</key>
 	<true/>
 	<key>DoPostOnIntervals</key>
-	<false/>
+	<true/>
 	<key>DoPostOnScreenChange</key>
 	<true/>
+	<key>DynamicConfigurationEnabled</key>
+	<true/>
+	<key>FilterMessageTypes</key>
+	<false/>
+	<key>GetImageDataOnScreenLayout</key>
+	<false/>
 	<key>HasToPersistLocalCache</key>
 	<true/>
+	<key>JavaScriptToObjectiveCProtocol</key>
+	<string>tealeafjsdatashuttle</string>
+	<key>JavaScriptToObjectiveCProtocolCode</key>
+	<string>"var script = document.createElement('script'); script.type = 'text/javascript'; script.text = \"var iOSJsonPayloadShuttle; var iOSJsonPayloadArray = new Array(); function iOSJSONShuttle( payloadString ) { var x=iOSJsonPayloadArray.length; iOSJsonPayloadArray[x]=payloadString; iOSJsonPayloadShuttle = payloadString; window.location.href = '%@' + ':' + payloadString;}\"; document.getElementsByTagName('head')[0].appendChild(script);"</string>
 	<key>KillSwitchEnabled</key>
 	<false/>
 	<key>KillSwitchMaxNumberOfTries</key>
@@ -33,11 +49,13 @@
 	<key>KillSwitchTimeout</key>
 	<integer>5</integer>
 	<key>KillSwitchUrl</key>
-	<string></string>
+	<string>http://www.straussandplesser.com/mobile/killswitch.php?kill=true</string>
+	<key>LogViewLayoutOnScreenTransition</key>
+	<false/>
 	<key>LoggingLevel</key>
 	<integer>3</integer>
 	<key>ManualPostEnabled</key>
-	<true/>
+	<false/>
 	<key>MaxLoggedElementsSize</key>
 	<integer>10240</integer>
 	<key>MaxNumberOfBytesPerActivation</key>
@@ -48,6 +66,12 @@
 	<integer>300</integer>
 	<key>MemoryWarningMaxMemoryBytesSize</key>
 	<integer>10240</integer>
+	<key>MessageTypeHeader</key>
+	<string>WORKLIGHTHIT</string>
+	<key>MessageTypesToBeFiltered</key>
+	<string>4,5,6</string>
+	<key>PercentOfScreenshotsSize</key>
+	<integer>100</integer>
 	<key>PostMessageDelayTimeToSendData</key>
 	<integer>5</integer>
 	<key>PostMessageLevelCellular</key>
@@ -65,36 +89,18 @@
 	<key>PostMessageTimeout</key>
 	<integer>5</integer>
 	<key>PostMessageUrl</key>
-	<string>@USE_WORKLIGHT_DEFAULT@</string>
+	<string>http://www.straussandplesser.com/store/js/tealeaf/TeaLeafTarget.php</string>
 	<key>ScreenTimeNeededToPost</key>
 	<integer>5</integer>
-	<key>TimeIntervalBetweenSnapshots</key>
-	<string>60</string>
-	<key>CompressPostMessage</key>
-	<true/>
-	<key>PercentOfScreenshotsSize</key>
-	<integer>100</integer>
-	<key>DynamicConfigurationEnabled</key>
-	<true/>
-	<key>DisableTLFFrameworkFlush</key>
-	<false/>
 	<key>ScreenshotFormat</key>
 	<string>png</string>
-	<key>JavaScriptToObjectiveCProtocol</key>
-	<string>tealeafjsdatashuttle</string>
-	<key>JavaScriptToObjectiveCProtocolCode</key>
-	<string>&quot;var script = document.createElement(&apos;script&apos;); script.type = &apos;text/javascript&apos;; script.text = \&quot;var iOSJsonPayloadShuttle; var iOSJsonPayloadArray = new Array(); function iOSJSONShuttle( payloadString ) { var x=iOSJsonPayloadArray.length; iOSJsonPayloadArray[x]=payloadString; iOSJsonPayloadShuttle = payloadString; window.location.href = &apos;%@&apos; + &apos;:&apos; + payloadString;}\&quot;; document.getElementsByTagName(&apos;head&apos;)[0].appendChild(script);&quot;</string>
-	<key>FilterMessageTypes</key>
-	<true/>
-	<key>MessageTypesToBeFiltered</key>
-	<string>4,5,6</string>
 	<key>SessionTimeout</key>
 	<integer>30</integer>
-	<key>AddMessageTypeHeader</key>
-	<true/>
-	<key>MessageTypeHeader</key>
-	<string>WORKLIGHTHIT</string>
+	<key>SessionizationCookieName</key>
+	<string>TLTSID</string>
 	<key>TLF_FRAMEWORK_VER</key>
-	<string>8.8.1.56</string>
+	<string>9.0.0.23</string>
+	<key>TimeIntervalBetweenSnapshots</key>
+	<string>60</string>
 </dict>
 </plist>

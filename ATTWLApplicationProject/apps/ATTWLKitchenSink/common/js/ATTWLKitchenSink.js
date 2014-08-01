@@ -5,13 +5,21 @@ var busyInd;
 function wlCommonInit(){
 	// Common initialization code goes here
 	busyInd = new WL.BusyIndicator('',{text : 'Loading...'});
+	
+	WL.Client.connect({
+	   onSuccess: generateAccessToken,
+	   onFailure: function(error) {
+		   alert("Unable to connect to Worklight Server" + JSON.stringify(error));
+	   }
+	});
+	
 	WL.App.overrideBackButton(function() { backNav();});
 	getFileSystem();
 }
 
 var storageDir;
 var tempFileSystem;
-var fileScheme = "file://";
+var fileScheme = "://";
 
 // Get the file system reference
 // The file system is ready on different events in iOS simulator than 
@@ -20,32 +28,46 @@ var fileScheme = "file://";
 var getFileSystem = function()
 {
 	if(tempFileSystem != undefined) return;
-	
     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0,
 		function onSuccess(fileSystem)
 		{
-		    iScheme = fileSystem.root.fullPath.indexOf(fileScheme);
-		    if(iScheme >= 0) {
-		    	storageDir = fileSystem.root.fullPath.substring(iScheme + fileScheme.length);
-		    } else {
-		    	storageDir = fileSystem.root.fullPath;
-		    }		
 			tempFileSystem = fileSystem;
-			console.log("fileSystem storage: " + storageDir);
-			//alert("fileSystem storage: " + storageDir);
+	        tempFileSystem.root.getFile("phoneGapFileSystemPlugin1_0.hack", 
+	           {create: true}, 
+	           gotFileEntry, 
+	           onFileError);	
 		},
-		function onError(error) 
-		{
-			alert("Cannot get file system path. Error: " + error.code);
-		}
+		onFileError
 	);
 };
 
-document.addEventListener("deviceready", function()
+function gotFileEntry(fileEntry)
+{
+    storageDir = fileEntry.nativeURL;
+    var iScheme = fileEntry.nativeURL.indexOf(fileScheme);
+    if(iScheme >= 0) {
+    	storageDir = storageDir.substring(iScheme + fileScheme.length);
+    } else {
+    	storageDir = fileEntry.nativeURL();
+    }
+    storageDir = storageDir.substring(0, storageDir.lastIndexOf('/') + 1);
+    
+	console.log("fileSystem storage: " + storageDir);
+	alert("fileSystem storage: " + storageDir);
+}
+
+function onFileError(error) 
+{
+	alert("Unable to access file system via Cordova. Error: " + JSON.stringify(error, null, 3));
+}
+
+/*document.addEventListener("deviceready", function()
 {
 	console.log("entered deviceready event listener");
+	alert("entered deviceready event listener");
 	getFileSystem();
 }, false);
+*/
 
 function exists(thing) 
 {

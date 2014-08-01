@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 /**
- * A coordinate on the globe
+ * @ingroup geo
+ * This class defines a coordinate on the globe.
  */
 @interface WLCoordinate : NSObject {
 	@private
@@ -23,49 +24,81 @@
 }
 
 
+/**
+ * This method initializes the coordinate with the given values.
+ *
+ * @param latitude The coordinate's latitude value
+ * @param longitude The coordinate's longitude value
+ **/
+- (id)initWithLatitude:(double)latitude longitude:(double)longitude;
 
 /**
-	 * @param latitude The coordinate's latitude value
-	 * @param longitude The coordinate's longitude value
-	 */
-- (id)initWithLatitude:(double)latitude longitude:(double)longitude;
-/**
-	 * @param latitude The coordinate's latitude value
-	 * @param longitude The coordinate's longitude value
-	 * @param accuracy The coordinate's accuracy
-	 */
+ * This method initializes the coordinate with the given values.
+ *
+ * @param latitude The coordinate's latitude value
+ * @param longitude The coordinate's longitude value
+ * @param accuracy The coordinate's accuracy
+ **/
 - (id)initWithLatitude:(double)latitude longitude:(double)longitude accuracy:(double)accuracy;
 - (id)initWithLatitude:(double)latitude longitude:(double)longitude altitude:(NSNumber*)altitude accuracy:(double)accuracy altitudeAccuracy:(NSNumber*)altitudeAccuracy heading:(NSNumber*)heading speed:(NSNumber*)speed;
 - (NSString*) description  ;
 - (int) hash  ;
 - (BOOL) isEqual : (NSObject*) obj ;
+
 /**
-      * @return the coordinate's latitude.
-      */
+ * This method returns the latitude of the coordinate
+ *
+ * @param None
+ * @return the coordinate's latitude.
+ **/
 - (double) getLatitude  ;
+
 /**
-      * @return the coordinate's longitude.
-      */
+ * This method returns the longitude of the coordinate
+ *
+ * @param None
+ * @return the coordinate's longitude.
+ **/
 - (double) getLongitude  ;
+
 /**
-      * @return The coordinate's accuracy, in meters.
-      */
+ * This method returns the accuracy of the coordinate, in meters.
+ *
+ * @param None
+ * @return The coordinate's accuracy, in meters.
+ **/
 - (double) getAccuracy  ;
+
 /**
-      * @return The coordinate's altitude, in meters. Optional - may be null.
-      */
+ * This method returns the altitude of the coordinate, in meters, if available. If unavailable, <code>null</code> is returned.
+ *
+ * @param None
+ * @return The coordinate's altitude, in meters.
+ **/
 - (NSNumber*) getAltitude  ;
+
 /**
-      * @return The coordinate's altitude accuracy, in meters. Optional - may be null.
-      */
+ * This method returns the altitude accuracy of the coordinate,, in meters, if available. If unavailable, <code>null</code> is returned.
+ *
+ * @param None
+ * @return The coordinate's altitude accuracy, in meters.
+ **/
 - (NSNumber*) getAltitudeAccuracy  ;
+
 /**
-      * @return The coordinate's heading, in degrees [0-360). Optional - may be null.
-      */
+ * This method returns the heading of the coordinate, in degrees (0–360), if available. If unavailable, <code>null</code> is returned.
+ *
+ * @param None
+ * @return The coordinate's heading, in degrees [0-360).
+ **/
 - (NSNumber*) getHeading  ;
+
 /**
-      * @return The coordinate's speed, in meters per second. Optional - may be null.
-      */
+ * This method returns the speed of the coordinate, in meters per second, if available.If unavailable, <code>null</code> is returned.
+ *
+ * @param None
+ * @return The coordinate's speed, in meters per second.
+ **/
 - (NSNumber*) getSpeed  ;
 
 @end

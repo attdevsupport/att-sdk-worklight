@@ -10,6 +10,7 @@
 @class WLWifiAcquisitionPolicy;
 
 /**
+ * @ingroup geo
  * An abstract base class for WiFi triggers.
  */
 @interface WLWifiTrigger : AbstractTrigger {

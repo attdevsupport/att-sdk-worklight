@@ -15,29 +15,29 @@
 @interface WLUserAuthManager : NSObject
 
 /**
- * Get the alias used for client user x509 certificate.  Entity is currently not used.
+ * Get the alias used for client user x509 certificate.
  */
-+ (NSString *) getAlias:(NSString *)entity;
++ (NSString *) getAlias;
 
 /**
  * Get certififacte Label as used when saved in keychain.
  */
-+ (NSData *) getCertificateIdentifierFromEntity:(NSString *)provisioningEntity;
++ (NSData *) getCertificateIdentifier;
 
 /**
  * Get private/public key Label as used when saved in keychain.
  */
-+ (NSData *) getKeyIdentifier:(BOOL)isPublic withEntity:(NSString *)provisioningEntity;
++ (NSData *) getKeyIdentifier:(BOOL)isPublic;
 
 /**
  * Checks to see if a user auth certificate exists in the keychain and that it is a valid certificate.
  */
-+(BOOL) doesValidCertificateExist:(NSString *)provisioningEntity;
++(BOOL) doesValidCertificateExist;
 
 /**
  * Cleans User Cert Credential from KeyChain
  */
-+ (BOOL) clearUserCertCredentialsFromKeyChain:(NSString *)provisioningEntity;
++ (BOOL) clearUserCertCredentialsFromKeyChain;
 
 @end
 

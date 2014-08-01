@@ -100,6 +100,7 @@ public class SpeechHelper
 				is.close();
 				response.put("error",errorString.toString());
 			}
+			
 			theReturn.put("message", response);
 		}
 		catch (Exception e) {
@@ -113,6 +114,7 @@ public class SpeechHelper
 				code = ATTConstant.ERR_PROCESS_REQ_CODE;
 				message = e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
 			}
+			
 			theReturn.put(code, message);
 			return theReturn;
 		} finally {

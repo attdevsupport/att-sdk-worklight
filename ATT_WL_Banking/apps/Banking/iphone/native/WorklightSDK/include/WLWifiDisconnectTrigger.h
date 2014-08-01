@@ -11,6 +11,7 @@
 @protocol WLTriggerCallback;
 
 /**
+ * @ingroup geo
  * A trigger that activates when disconnecting for the first time from an access point that
  * passes the policy's filters. The trigger can re-activate only after connecting
  * to an access point which passes the policy's filters.
@@ -22,12 +23,41 @@
 @interface WLWifiDisconnectTrigger : AbstractWifiFilterTrigger {
 }
 
-
+/**
+ * This method initializes the trigger definition.
+ */
 - (id) init  ;
 - (WLWifiDisconnectTrigger*) clone  ;
+
+/**
+ * This method sets the callback, whose execute method is called when the trigger is activated.
+ * @param callbackFunction The callback the user wants to set. This parameter must conform to the WLTriggerCallback protocol. 
+ * When the trigger is activated, its execute method will be called and the current device context is passed as a parameter.
+ * @return A reference to this object.
+ */
 - (WLWifiDisconnectTrigger*) setCallback : (id<WLTriggerCallback>) callbackFunction ;
+
+/**
+ * This method sets the event for the access point.
+ * @param event The event the user wants to set.
+ * @return A reference to this object.
+ */
 - (WLWifiDisconnectTrigger*) setEvent : (NSMutableDictionary*) event ;
+
+/**
+ * This method sets the filter that the connected WiFi access point must match in order for the trigger to activate.
+ * @param connectedAccessPoint The filter for the connected access point.
+ * @return A reference to this object.
+ */
 - (WLWifiDisconnectTrigger*) setConnectedAccessPoint : (WLWifiAccessPointFilter*) connectedAccessPoint ;
+
+/**
+ * This method determines whether the event is transmitted immediately, or whether it is transmitted according to the transmission policy. 
+ * If the value is true, the event is added to the transmission buffer, and the contents of the transmission buffer are flushed to the server. 
+ * Otherwise the event is added only to the transmission buffer.
+ * @param transmitImmediately A Boolean value that determines whether the event is transmitted immediately.
+ * @return A reference to this object.
+ */
 - (WLWifiDisconnectTrigger*) setTransmitImmediately : (BOOL) transmitImmediately ;
 
 @end

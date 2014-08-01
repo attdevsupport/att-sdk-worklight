@@ -10,6 +10,7 @@
 @class WLWifiAccessPoint;
 
 /**
+ * @ingroup geo
  * Specifies which WiFi access points to detect.
  * <p>
  * The filter has an SSID name specification, and optionally a MAC specification.

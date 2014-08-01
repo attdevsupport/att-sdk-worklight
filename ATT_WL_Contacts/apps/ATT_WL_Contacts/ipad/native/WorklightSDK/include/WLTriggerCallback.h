@@ -10,6 +10,7 @@
 @protocol WLDeviceContext;
 
 /**
+ * @ingroup geo
  * A callback for when a trigger is activated.
  */
 @protocol WLTriggerCallback <NSObject> 

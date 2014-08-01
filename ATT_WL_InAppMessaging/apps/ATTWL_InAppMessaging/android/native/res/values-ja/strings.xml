@@ -28,9 +28,9 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">アプリケーション更新をダウンロード中 (進行状況 (キロバイト単位))</string>
-  <string name="kb">kb</string>
+  <string name="kb">%1$d/%2$d kb</string> 
   
-  <!-- Test Resources Checksum -->
-  <string name="testResourcesChecksumErrorMessage">アプリケーションで内部エラーが発生しました。 アプリケーションをアンインストールしてから再インストールしてください。</string>
-  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">アプリケーションで内部エラーが発生しました。アプリケーションを再インストールし、再試行してください。</string>
+  <string name="worklightInitNotEnoughSpace">アプリケーションのインストールは、使用可能なストレージ・スペースが十分ではないため失敗しました。%1$s MB を解放し、アプリケーションを再始動してください。</string>   
 </resources>

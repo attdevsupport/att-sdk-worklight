@@ -11,7 +11,9 @@
 @class WLWifiAcquisitionPolicy;
 
 /**
+ * @ingroup geo
  * The acquisition policy controls how Geo and WiFi locations will be acquired.
+ *
  * The policy should be set in an instance of {@link WLLocationServicesConfiguration} which 
  * is then passed to {@link WLDevice#startAcquisition(WLLocationServicesConfiguration)}
  * <p>
@@ -31,28 +33,39 @@
 	 * This policy can be used to stop all on-going acquisition.
 	 */
 - (id) init  ;
+
 /**
-	 * Sets the WiFi acquisition policy. When <code>null</code>, it can be used to stop WiFi acquisition.
-	 * 
-	 * @param wifiPolicy the WiFi acquisition policy to set.
-	 * @return A reference to this object.
-	 */
+ * Sets the WiFi acquisition policy. When <code>null</code>, it can be used to stop WiFi acquisition.
+ *
+ * @param wifiPolicy the WiFi acquisition policy to set.
+ * @return A reference to this object.
+ **/
 - (WLAcquisitionPolicy*) setWifiPolicy : (WLWifiAcquisitionPolicy*) wifiPolicy ;
+
 /**
-	 * @return The WiFi acquisition policy.
-	 */
+ * This method returns the WiFi acquisition policy.
+ *
+ * @param None.
+ * @return The WiFi acquisition policy.
+ **/
 - (WLWifiAcquisitionPolicy*) getWifiPolicy  ;
+
 /**
-	 * Sets the Geo acquisition policy. When <code>null</code>, it can be used to stop Geo acquisition.
-	 * 
-	 * @param geoPolicy the Geo acquisition policy to set.
-	 * @return A reference to this object.
-	 */
+ * This method sets the geolocation acquisition policy. When <code>null</code>, it can be used to stop Geo acquisition.
+ *
+ * @param geoPolicy The geolocation acquisition policy to set.
+ * @return A reference to this object.
+ **/
 - (WLAcquisitionPolicy*) setGeoPolicy : (WLGeoAcquisitionPolicy*) geoPolicy ;
+
 /**
-	 * @return The Geo acquisition policy.
-	 */
+ * This method returns the geolocation acquisition policy.
+ *
+ * @param None.
+ * @return The Geo acquisition policy.
+ **/
 - (WLGeoAcquisitionPolicy*) getGeoPolicy  ;
+
 - (WLAcquisitionPolicy*) clone  ;
 - (int) hash  ;
 - (BOOL) isEqual : (NSObject*) obj ;

@@ -1,9 +1,4 @@
  var wlInitOptions = {
-	
-	// # Should application automatically attempt to connect to Worklight Server on application start up
-	// # The default value is true, we are overriding it to false here.
-    connectOnStartup : true,
-	
 	// # The callback function to invoke in case application fails to connect to Worklight Server
 	//onConnectionFailure: function (){},
 	
@@ -18,8 +13,7 @@
 	//enableLogger: false,
 	
 	// # The options of busy indicator used during application start up
-	busyOptions: {text: "Processing..."},
-	onSuccess: generateAccessToken
+	busyOptions: {text: "Processing..."}
 };
 
 var setupOnForegroundListener = function ()

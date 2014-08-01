@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  -->
+<resources>
+  <string name="app_name">ATTWLKitchenSink</string>  
+  <string name="push_notification_title">ATTWLKitchenSink</string>
+  
+  <!-- General purpose strings -->
+  <string name="error">錯誤</string>
+  <string name="close">關閉</string>
+  <string name="cancel">取消</string>
+  
+  <!--  Settings Screen strings -->
+  <string name="worklightSettingsTitle">Worklight 設定</string>
+  <string name="summaryWLServerUrl">變更伺服器 URL：http[s]://domain 或 IP address[:port][/context root]</string>
+  <string name="titleWLServerUrl">伺服器 URL</string>
+  <string name="networkSettingsTitleWLServerUrl">網路設定</string>
+  <string name="OKTitleWLServerUrl">確定</string>
+  <string name="titleInvalidWLServerUrl">無效的 URL</string>
+  <string name="errorInvalidWLServerUrl">%1$s 不是有效的 URL。有效的格式為 http[s]://domain 或 IP address[:port][/context root]</string>
+  <string name="serverAddress">伺服器位址</string>
+  <string name="changeServerAddress">變更伺服器 URL</string>
+  
+  <!--  Settings Screen: Web Resources category -->
+  <string name="wlWebResourcesCategory">Web 資源</string>
+  <string name="wlAppIdTitle">應用程式 ID</string>
+  <string name="wlAppVersionTitle">應用程式版本</string>
+  <string name="downloadingWebResourcesMessage">正在下載應用程式資源（進度單位為 KB）</string>
+  
+  <!-- Direct Update -->
+  <string name="directUpdateDownloadingMessage">正在下載應用程式更新（進度單位為 KB）</string>
+  <string name="kb">%1$d/%2$d KB</string> 
+  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">應用程式遇到內部錯誤。請重新安裝應用程式，然後重試。</string>
+  <string name="worklightInitNotEnoughSpace">因為沒有足夠的可用儲存體空間，應用程式安裝已失敗。請釋出 %1$s MB 空間，並重新啟動應用程式</string>   
+</resources>

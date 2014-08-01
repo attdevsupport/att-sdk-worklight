@@ -94,4 +94,77 @@
     <feature name="Vibration">
         <param name="android-package" value="org.apache.cordova.vibration.Vibration" />
     </feature>                            
+    
+    <feature name="WLInitializationPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLInitializationPlugin" />
+        <param name="onload" value="true" />
+    </feature>
+    <!-- Due to bug in cordova next feature must set "onload" to false -->
+   <feature name="UserAuth">
+        <param name="android-package" value="com.worklight.androidgap.plugin.UserAuthPlugin" />
+        <param name="onload" value="false" />
+    </feature>
+    <feature name="LoggerPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.LoggerPlugin" />
+    </feature>
+    <feature name="WLApp">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLApp" />
+    </feature>
+    <feature name="NativePage">
+        <param name="android-package" value="com.worklight.androidgap.plugin.NativePage" />
+    </feature>
+    <feature name="NativeBusyIndicator">
+        <param name="android-package" value="com.worklight.androidgap.plugin.BusyIndicator" />
+    </feature>
+    <feature name="SecurityPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.SecurityPlugin" />
+    </feature>
+    <feature name="StoragePlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.StoragePlugin" />
+    </feature>
+    <feature name="Push">
+        <param name="android-package" value="com.worklight.androidgap.plugin.Push" />
+    </feature>
+    <feature name="WebResourcesDownloader">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WebResourcesDownloaderPlugin" />
+    </feature>
+    <feature name="NetworkDetector">
+        <param name="android-package" value="com.worklight.androidgap.plugin.NetworkDetector" />
+    </feature>
+    <feature name="DeviceAuth">
+        <param name="android-package" value="com.worklight.androidgap.plugin.DeviceAuthPlugin" />
+    </feature>
+    <feature name="WifiPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WifiPlugin" />
+    </feature>
+    <feature name="WLGeolocationPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLGeolocationPlugin" />
+    </feature>
+    <feature name="ForegroundBinderPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.ForegroundBinderPlugin" />
+    </feature>
+    <feature name="FIPSHttpPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.FIPSHttpPlugin" />
+    </feature>
+    <feature name="WLCustomDialog">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLCustomDialog" />
+    </feature>
+    <feature name="NetworkStatus">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLNetworkManager" />
+    </feature>
+    <feature name="WLSplashScreen">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLSplashScreenPlugin" />
+    </feature>
+    <feature name="WLDirectUpdatePlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLDirectUpdatePlugin" />
+    </feature>
+     <feature name="WLNativeXHRPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLNativeXHRPlugin" />
+    </feature>
+    <feature name="WLActionSenderPlugin">
+    	<param name="android-package" value="com.worklight.androidgap.plugin.WLActionSenderPlugin" />
+    </feature>
+    <feature name="WLTrusteer">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLTrusteerPlugin" />
+    </feature>
 </widget>

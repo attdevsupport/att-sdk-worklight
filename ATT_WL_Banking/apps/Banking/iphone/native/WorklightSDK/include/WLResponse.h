@@ -16,7 +16,9 @@
 #import <Foundation/Foundation.h>
 #import "WLProcedureInvocationResult.h"
 
-/*
+/**
+ * @ingroup main
+ *
  * This class contains the result of a procedure invocation. Worklight passes this class as an argument to the 
  * delegate methods of WLClient invokeProcedure methods.
  */
@@ -27,16 +29,31 @@
 	NSString *responseText;
 }
 
-// Retrieves the HTTP status from the response.
+/**
+ * Retrieves the HTTP status from the response.
+ */
 @property (nonatomic) int status;
-// The response data from the server.
-@property (nonatomic, retain) WLProcedureInvocationResult *invocationResult;
-// The invocation context object passed when calling invokeProcedure
-@property (nonatomic, retain) NSObject *invocationContext;
-// The original response text from the server.
-@property (nonatomic, retain) NSString *responseText;
 
+/**
+ * The response data from the server.
+ */
+@property (nonatomic, strong) WLProcedureInvocationResult *invocationResult;
+
+/**
+ * The invocation context object passed when calling invokeProcedure.
+ */
+@property (nonatomic, strong) NSObject *invocationContext;
+
+/**
+ * The original response text from the server.
+ */
+@property (nonatomic, strong) NSString *responseText;
+
+
+/**
+ * This method returns the value NSDictionary in case the response is a JSON response, otherwise it returns the value nil. NSDictionary represents the root of the JSON object.
+ *
+ **/
 -(NSDictionary *)getResponseJson;
-
 
 @end

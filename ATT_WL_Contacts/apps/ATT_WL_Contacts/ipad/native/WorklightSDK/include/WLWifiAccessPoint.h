@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @ingroup geo
  * A WiFi access point
  */
 @interface WLWifiAccessPoint : NSObject {

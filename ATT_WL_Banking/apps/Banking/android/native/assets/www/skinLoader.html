@@ -11,7 +11,7 @@
 		<script>
 			function loadSkin(){
 				document.addEventListener("deviceready", function() {
-					cordova.exec(exitOnScreenLoaderSuccess, exitOnScreenLoaderSuccess, "Utils", "readPref", ["exitOnSkinLoader"]);
+					cordova.exec(exitOnScreenLoaderSuccess, exitOnScreenLoaderSuccess, "WLApp", "readUserPref", ["exitOnSkinLoader"]);
 				}, false);
 			}
 			
@@ -26,12 +26,18 @@
 					if (typeof window.getSkinName == "function") {
 						skinName = getSkinName();
 					}
-					cordova.exec(null, null, "Utils", "writePref", ["exitOnSkinLoader", "true"]);
-					cordova.exec(null, null, "Utils", "writePref", ["wlSkinName", skinName]);
-					cordova.exec(null, null, "Utils", "loadSkin", [skinName,"Banking.html"]);
+					cordova.exec(null, null, "WLApp", "writeUserPref", ["exitOnSkinLoader", "true"]);
+					cordova.exec(null, null, "WLApp", "writeUserPref", ["wlSkinName", skinName]);
+					
+					//get skin path
+					cordova.exec(onGetSkinPathSuccess, null, "WLApp", "getSkinPath", [skinName,"Banking.html"]);
+					
+					function onGetSkinPathSuccess(skinPath){
+						document.location = skinPath;
+					}
 				}
 			};
 		</script>
 	</head>
-	<body onload="loadSkin()" style="background-color: black"></body>
+	<body onload="loadSkin()" style="background-color: transparent"></body>
 </html>

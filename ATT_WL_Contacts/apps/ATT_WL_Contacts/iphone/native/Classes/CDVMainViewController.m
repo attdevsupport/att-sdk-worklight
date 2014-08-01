@@ -13,6 +13,10 @@
 
 #import "CDVMainViewController.h"
 
+/**
+ IBM Worklight auto-generated comment:
+ To simplify usage of native code in app startup and runtime, replace deprecated classes WLCordovaAppDelegate and CDVMainViewController according to the product documentation describing how to migrate your application 
+*/
 @implementation CDVMainViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

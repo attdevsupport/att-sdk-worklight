@@ -10,6 +10,7 @@
 @protocol WLTriggerCallback;
 
 /**
+ * @ingroup geo
  * A trigger for tracking changes in the device's position. It is possible to specify
  * a minimum distance that must be moved before the trigger will activate.
  * <p>
@@ -21,11 +22,14 @@
 	double minChangeDistance;
 }
 
-
-- (id) init  ;
 /**
-	 * @return The sensitivity
-	 */
+ * This method initializes the trigger definition.
+ */
+- (id) init  ;
+
+/**
+ * @return The sensitivity
+ */
 - (double) getMinChangeDistance  ;
 /**
 	 * After the first acquisition,  this trigger will be activated only when the reported position has changed by at least <code>minChangeDistance</code> amount.
@@ -37,8 +41,29 @@
 	 */
 - (WLGeoPositionChangeTrigger*) setMinChangeDistance : (double) minChangeDistance ;
 - (WLGeoPositionChangeTrigger*) clone  ;
+
+/**
+ * This method sets the callback, whose execute method is called when the trigger is activated.
+ * @param callbackFunction The callback the user wants to set. This parameter must conform to the WLTriggerCallback protocol. 
+ * When the trigger is activated, its execute method will be called and the current device context is passed as a parameter.
+ * @return A reference to this object.
+ */
 - (WLGeoPositionChangeTrigger*) setCallback : (id<WLTriggerCallback>) callbackFunction ;
+
+/**
+ * This method sets the event to be transmitted to the server.
+ * @param event The event the user wants to set.
+ * @return A reference to this object.
+ */
 - (WLGeoPositionChangeTrigger*) setEvent : (NSMutableDictionary*) event ;
+
+/**
+ * This method determines whether the event is transmitted immediately, or whether it is transmitted according to the transmission policy.
+ * If the value is true, the event is added to the transmission buffer, and the contents of the transmission buffer are flushed to the server. 
+ * Otherwise the event is added only to the transmission buffer.
+ * @param transmitImmediately A Boolean value that determines whether the event is transmitted immediately.
+ * @return A reference to this object.
+ */
 - (WLGeoPositionChangeTrigger*) setTransmitImmediately : (BOOL) transmitImmediately ;
 
 @end

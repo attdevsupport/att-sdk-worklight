@@ -7,24 +7,39 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ Contains WLAnalytics methods that manage analytics logs.
+ */
 @interface WLAnalytics : NSObject
 
 @property (strong, nonatomic) NSMutableDictionary *config;
 
-+ (WLAnalytics *) sharedSingleton;
++ (WLAnalytics *) sharedInstance;
 
-// Methods called from the Cordova Plugin
-- (void) setHeaders:(NSDictionary*) headers;
-- (void) enableAnalytics;
-- (void) disableAnalytics;
-- (void) setPostMessageUrl:(NSString*) postMessageurl;
-- (void) resetConfig;
+/**
+ This method enables capturing of analytics log data
+ @since IBM Worklight V6.2.0
+ */
+- (void) enable;
 
-// Methods called from Worklight runtime
-- (BOOL) initAnalytics;
+/**
+ This method disables capturing of analytics log data
+ @since IBM Worklight V6.2.0
+ */
+- (void) disable;
 
-// Methods and functions exposed for unit testing
-- (NSString *) initStringWithCookieNameAndValueFrom: (NSHTTPCookie *)cookie;
-void TLFUncaughtExceptionHandler(NSException *exception);
+/**
+ This method sends the log file when the log buffer exists and is not empty.
+ @since IBM Worklight V6.2.0
+ */
+- (void) send;
+
+/**
+ This method logs analytics data
+ @param String message to be logged
+ @param metadata Dictionary containing metadata to append to the log output
+ @since Worklight V6.2.0
+ */
+- (void) log:(NSString*)message withMetadata:(NSDictionary*)metadata;
 
 @end

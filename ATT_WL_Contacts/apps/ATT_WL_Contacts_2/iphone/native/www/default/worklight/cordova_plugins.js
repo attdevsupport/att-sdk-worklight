@@ -294,15 +294,15 @@ module.exports = [
     {
         "file": "plugins/org.apache.cordova.file/www/resolveLocalFileSystemURI.js",
         "id": "org.apache.cordova.file.resolveLocalFileSystemURI",
-        "clobbers": [
-            "window.resolveLocalFileSystemURI"
+        "merges": [
+            "window"
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/ios/Entry.js",
-        "id": "org.apache.cordova.file.Entry1",
+        "file": "plugins/org.apache.cordova.file/www/ios/FileSystem.js",
+        "id": "org.apache.cordova.file.FileSystem1",
         "merges": [
-            "window.Entry"
+            "window.FileSystem"
         ]
     },
     {
@@ -362,7 +362,7 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.inappbrowser/www/InAppBrowser.js",
+        "file": "plugins/org.apache.cordova.inappbrowser/www/inappbrowser.js",
         "id": "org.apache.cordova.inappbrowser.InAppBrowser",
         "clobbers": [
             "window.open"

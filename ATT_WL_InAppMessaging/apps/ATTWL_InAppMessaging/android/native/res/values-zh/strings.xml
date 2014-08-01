@@ -29,9 +29,9 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">正在下载应用程序更新（进度以千字节计）</string>
-  <string name="kb">kb</string>
+  <string name="kb">%1$d/%2$d kb</string> 
   
-  <!-- Test Resources Checksum -->
-  <string name="testResourcesChecksumErrorMessage">该应用程序遇到内部错误。请卸载该应用程序，然后重新安装。</string>
-  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">该应用程序遇到内部错误。重新安装该应用程序，然后重试。</string>
+  <string name="worklightInitNotEnoughSpace">由于没有足够的存储空间可用，因此应用程序安装失败。请释放 %1$s MB，然后重新启动该应用程序。</string>   
 </resources>

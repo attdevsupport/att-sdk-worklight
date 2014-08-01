@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.camera/www/Camera.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.camera/www/Camera.js in JS Resources */
 cordova.define("org.apache.cordova.camera.camera", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -23,8 +24,9 @@ cordova.define("org.apache.cordova.camera.camera", function(require, exports, mo
 
 var argscheck = require('cordova/argscheck'),
     exec = require('cordova/exec'),
-    Camera = require('./Camera'),
-    CameraPopoverHandle = require('./CameraPopoverHandle');
+    Camera = require('./Camera');
+    // XXX: commented out
+    //CameraPopoverHandle = require('./CameraPopoverHandle');
 
 var cameraExport = {};
 
@@ -65,7 +67,8 @@ cameraExport.getPicture = function(successCallback, errorCallback, options) {
                 mediaType, allowEdit, correctOrientation, saveToPhotoAlbum, popoverOptions, cameraDirection];
 
     exec(successCallback, errorCallback, "Camera", "takePicture", args);
-    return new CameraPopoverHandle();
+    // XXX: commented out
+    //return new CameraPopoverHandle();
 };
 
 cameraExport.cleanup = function(successCallback, errorCallback) {

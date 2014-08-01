@@ -33,7 +33,7 @@
         <key>Key</key>
         <string>serverURL</string>
         <key>DefaultValue</key>
-        <string>http://192.168.43.44:10080/ATT_WL_Banking/</string>
+        <string>http://192.168.1.68:10080/ATT_WL_Banking/</string>
         <key>KeyboardType</key>
         <string>Alphabet</string>
       </dict>

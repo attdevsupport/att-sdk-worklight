@@ -33,7 +33,7 @@
         <key>Key</key>
         <string>serverURL</string>
         <key>DefaultValue</key>
-        <string>http://192.168.43.189:10080/ATT_WL_Contacts/</string>
+        <string>http://192.168.1.68:10080/ATT_WL_Contacts/</string>
         <key>KeyboardType</key>
         <string>Alphabet</string>
       </dict>

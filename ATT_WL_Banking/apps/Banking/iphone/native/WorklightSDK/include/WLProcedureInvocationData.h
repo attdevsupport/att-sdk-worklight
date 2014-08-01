@@ -15,7 +15,9 @@
 
 #import <Foundation/Foundation.h>
 
-/*
+/**
+ * @ingroup main
+ * 
  * This class holds all data necessary for invoking a procedure, including:
  * 1) The name of the adapter and procedure to invoke
  * 2) Parameters required by the procedure
@@ -32,13 +34,33 @@
 // Sets the procedure parameters
 // The Array should contain Objects that can be parsed via JSON. NSString and NSNumber work best.
 // For Boolean values, use [NSNumber numberWithBool:]
-@property (nonatomic, retain) NSArray *parameters;
+@property (nonatomic, strong) NSArray *parameters;
 
 
 -(NSDictionary *)toDictionary;
 
 // Initializes with the adapter name and the procedure name.
+/**
+ * This method initializes with the adapter name and the procedure name.
+ *
+ * @param adapter The name of the adapter.
+ * @param procedureName The name of the adapter procedure.
+ **/
 -(id)initWithAdapterName:(NSString *)adapter procedureName:(NSString *)procedure;
+
+/**
+ * This method initializes with the adapter name and the procedure name.
+ *
+ * @param theAdapter The name of the adapter.
+ * @param theProcedure The name of the adapter procedure.
+ * @param compressResponse Specifies whether or not the response from the server must be compressed.
+ **/
 -(id)initWithAdapterName:(NSString *)theAdapter procedureName:(NSString *)theProcedure compressResponse:(BOOL)isCompressResponse;
+
+/**
+ * This method specifies whether or not the responses from the server must be compressed. The default value is false.
+ *
+ * @param isCompressResponse Specifies whether or not the response from the server must be compressed.
+ **/
 -(void)setCompressResponse :(BOOL)isCompressResponse;
 @end

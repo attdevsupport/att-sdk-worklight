@@ -17,24 +17,29 @@
 #import "WLResponse.h"
 #import "WLFailResponse.h"
 
-/*
+/**
+ * @ingroup main
+ *
  * A protocol that defines methods that a delegate for the WLClient invokeProcedure method should implement,
  * to receive notifications about the success or failure of the method call.
  */
 @protocol WLDelegate <NSObject>
 
-/*
- * This method will be called upon a successful call to WLCLient invokeProcedure with the WLResponse containing the 
+/**
+ * 
+ * This method will be called upon a successful call to WLCLient invokeProcedure with the WLResponse containing the
  * results from the server, along with any invocation context object and status.
- */
+ *
+ * @param response contains the results from the server, along with any invocation context object and status.
+ **/
 -(void)onSuccess:(WLResponse *)response;
 
-/*
- * This method will be called if any kind of failure occurred during the execution of WLCLient invokeProcedure. 
- * The WLFailResponse instance contains the error code and error message, and optionally the results from the server, 
- * along with any invocation context object and status.
- */
+/**
+ * 
+ * This method will be called if any kind of failure occurred during the execution of WLCLient invokeProcedure.
+ *
+ * @param response contains the error code and error message, and optionally the results from the server,along with any invocation context object and status. 
+ **/
 -(void)onFailure:(WLFailResponse *)response;
-
 
 @end

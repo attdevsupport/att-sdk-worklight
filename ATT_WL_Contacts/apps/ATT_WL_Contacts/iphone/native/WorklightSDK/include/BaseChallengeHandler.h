@@ -25,9 +25,9 @@
     NSMutableArray *waitingRequestsList;
 }
 
-@property (nonatomic, retain) NSString *realm;
-@property (atomic, retain) WLRequest *activeRequest;
-@property (atomic, retain) NSMutableArray *waitingRequestsList;
+@property (nonatomic, strong) NSString *realm;
+@property (atomic, strong) WLRequest *activeRequest;
+@property (atomic, strong) NSMutableArray *waitingRequestsList;
 
 -(id) initWithRealm: (NSString *) iRealm;
 -(void) handleChallenge: (NSDictionary *)challenge;

@@ -28,9 +28,9 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">애플리케이션 업데이트 다운로드 중(KB 단위로 진행)</string>
-  <string name="kb">kb</string>
+  <string name="kb">%1$d/%2$dkb</string> 
   
-  <!-- Test Resources Checksum -->
-  <string name="testResourcesChecksumErrorMessage">애플리케이션에 내부 오류가 발생했습니다. 애플리케이션을 설치 제거한 후 다시 설치하십시오. </string>
-  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">애플리케이션에 내부 오류가 발생했습니다. 애플리케이션을 다시 설치하고 다시 시도하십시오.</string>
+  <string name="worklightInitNotEnoughSpace">사용 가능한 스토리지 공간이 충분하지 않아서 애플리케이션 설치에 실패했습니다. %1$sMB만큼 사용 가능하게 만들고 애플리케이션을 재실행하십시오.</string>   
 </resources>

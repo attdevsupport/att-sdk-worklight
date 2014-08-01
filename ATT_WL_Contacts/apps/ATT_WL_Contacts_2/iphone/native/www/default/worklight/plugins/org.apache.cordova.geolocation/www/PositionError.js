@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.geolocation/www/PositionError.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.geolocation/www/PositionError.js in JS Resources */
 cordova.define("org.apache.cordova.geolocation.PositionError", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one

@@ -21,8 +21,16 @@
 @class WLRequest;
 @class WLProcedureInvocationData;
 @class WLEventTransmissionPolicy;
+
+extern NSString * const WL_DEFAULT_ACCESS_TOKEN_SCOPE;
+
 @protocol WLDevice;
 
+
+/**
+ * @ingroup main
+ * This singleton class exposes methods that you use to communicate with the Worklight Server.
+ */
 @interface WLClient : NSObject {
     
 @private
@@ -32,102 +40,168 @@
 	NSMutableDictionary *registeredEventSourceIDs;
     
     //Challenge handlers
-    NSMutableDictionary *globalHeaders;
     NSMutableDictionary *challengeHandlers;
     
     // Location Services
     id<WLDevice> wlDevice;
+	
+	// Cached access tokens map
+	NSMutableDictionary *wlAccessTokens;
     
     BOOL isInitialized;
 }
 
 extern NSMutableDictionary *piggyBackData;
 
-/* 
+/**
  * @description
  * Sets an authentication handler that WLClient can use for authentication-related tasks. 
  * This method must be called for WLClient to be able to access protected resources in the Worklight server.
  */
-@property (nonatomic, retain) NSMutableDictionary *registeredEventSourceIDs;
+@property (nonatomic, strong) NSMutableDictionary *registeredEventSourceIDs;
 
 @property (nonatomic) BOOL isInitialized;
 
 @property (readwrite) NSInteger interval;
 
-@property (readwrite, retain) NSTimer *timer;
+@property (readwrite, strong) NSTimer *timer;
 
 @property (nonatomic) BOOL isResumed;
 
 @property (nonatomic) BOOL isRequestFailed;
 
-@property (readwrite, retain) NSMutableDictionary *userPreferenceMap;
+@property (readwrite, strong) NSMutableDictionary *userPreferenceMap;
 
 + (WLClient *) sharedInstance;
 
-/*
- * @description: 
- * Initializes communication with the Worklight Server using the connection properties and application ID 
- * taken from the worklight.plist file. At this point the Server also checks the validity of the application version.
- * This method MUST be called prior to any other WLClient method. When the Server returns a successful response, 
- * the delegate's onSuccess method is called. If an error occurs, the delegeate‚Äôs onFailure method is called.
- * 
+/**
+ * This method uses the connection properties and the application ID from the worklight.plist file to initialize communication with the Worklight Server.
+ * The server checks the validity of the application version.
+ *
+ * @note This method must be called before any other WLClient method that calls the server, such as <code>logActivity</code> and <code>invokeProcedure.</code>
+ *
+ * @par If the server returns a successful response, the <code>onSuccess</code> method is called. If an error occurs, the <code>onFailure</code> method is called.
+ *
+ * @param delegte
+ * A class that conforms to the WLDelegate protocol.
  * @param cookieExtractor
  * Optional, can be nil. Used to share the cookies between the native code and the web code in the app.
  */
 -(void) wlConnectWithDelegate:(id <WLDelegate>)delegte cookieExtractor:(WLCookieExtractor *) cookieExtractor;
+
+/**
+ * This method uses the connection properties and the application ID from the worklight.plist file to initialize communication with the Worklight Server.
+ * The server checks the validity of the application version.
+ *
+ * @note This method must be called before any other WLClient method that calls the server, such as <code>logActivity</code> and <code>invokeProcedure.</code>
+ *
+ * @par If the server returns a successful response, the <code>onSuccess</code> method is called. If an error occurs, the <code>onFailure</code> method is called.
+ *
+ * @param delegte A class that conforms to the WLDelegate protocol.
+ */
 -(void) wlConnectWithDelegate:(id <WLDelegate>)delegte;
 
-/*
- * @description
+/**
+ * This method uses the connection properties and the application ID from the worklight.plist file to initialize communication with the Worklight Server.
+ * The server checks the validity of the application version.
+ * This method accepts a "timeout" key in its options parameter -  (NSNumber) Number of milliseconds to wait for the server response before the request times out.
+ *
+ * @note This method must be called before any other WLClient method that calls the server, such as <code>logActivity</code> and <code>invokeProcedure.</code>
+ *
+ * @par If the server returns a successful response, the <code>onSuccess</code> method is called. If an error occurs, the <code>onFailure</code> method is called.
+ *
+ * @param delegate A class that conforms to the WLDelegate protocol.
+ * @param options Optional, can be nil. Used to set the timeout while connecting to the server. In this dictionary the user puts key "timeout" (milliseconds).
+ */
+-(void) wlConnectWithDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
+
+/**
  * Invokes an adapter procedure. This method is asynchronous. 
  * The response is returned to the callback functions of the provided delegate.
- * If the invocation succeeds, the delegate‚Äôs onInvokeProcedureSuccess is called. 
- * If it fails, the delegate's onInvokeProcedureFailure is called.
+ * If the call succeeds, <code>onSuccess</code> is called. If it fails, <code>onFailure</code> is called.
+ *
+ * @param invocationData The invocation data for the procedure call.
+ * @param delegate The delegate object that is used for the onSuccess and onFailure callback methods.
  */
 -(void) invokeProcedure:(WLProcedureInvocationData *)invocationData withDelegate:(id <WLDelegate>)delegate;
--(void) invokeProcedure:(WLProcedureInvocationData *)invocationData withDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
--(void) sendInvoke:(WLProcedureInvocationData *)invocationData withDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
 
-/*
- * @description
- * Subscribes the application to receive Push Notifications from the specified event source and adapter.
- * 
- * @param deviceToken
- * The token received from the method application:didRegisterForRemoteNotificationsWithDeviceToken:. 
- * The device token should be saved in case unsubscribedWithToken:adapter:eventSource:delegate: should be called.
+/**
+ * This method is similar to invokeProcedure:options, with an additional options parameter to provide more data for this procedure call.
+ *
+ * @param invocationData The invocation data for the procedure call.
+ * @param delegate The delegate object that is used for the onSuccess and onFailure callback methods.
+ * @param options A map with the following keys and values:
+ * timeout – NSNumber:
+ * The time, in milliseconds, for this invokeProcedure to wait before the request fails with WLErrorCodeRequestTimeout. The default timeout is 10 seconds. To disable the timeout, set this parameter to 0.
+ *
+ * invocationContext:
+ * An object that is returned with WLResponse to the delegate methods. You can use this object to distinguish different invokeProcedure calls.
+ */
+
+-(void) invokeProcedure:(WLProcedureInvocationData *)invocationData withDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
+
+
+-(void) sendInvoke:(WLProcedureInvocationData *)invocationData withDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options ignoreChallenges:(BOOL)ignoreChallenges;
+
+/**
+ * This method subscribes the application to receive push notifications from the specified event source and adapter.
+ *
+ * @param deviceToken The token received from the method application:didRegisterForRemoteNotificationsWithDeviceToken. Save the device token in case unsubscribedWithToken:adapter:eventSource:delegate: is called.
+ * @param adapter The name of the adapter.
+ * @param eventSource The name of the event source.
+ * @param eventSourceID An ID that you assign to the event source that is returned by the Worklight Server with each notification from this event source. You can use the ID in your notification callback function to identify the notification event source.
+ * The ID is passed on the notification payload. To save space in the notification payload, pass a short integer, otherwise it is used to pass the adapter and event source names.
+ * @param notificationType Constants that indicate the types of notifications that the application accepts. For more information, see the <a href="http://developerns.apple.com/library/ios/" \l "documentation/UIKit/Reference/UIApplication_Class/Reference/Reference.html"> link Apple documentation.</a>
+ * @param delegate A standard IBM Worklight delegate with onSuccess and onFailure methods to indicate success or failure of the subscription to the Worklight Server.
  */
 -(void) subscribeWithToken:(NSData *)deviceToken adapter:(NSString *)adapter eventSource: (NSString *)eventSource eventSourceID: (int)eventSourceID notificationType:(UIRemoteNotificationType) types delegate:(id <WLDelegate>)delegate;
+
+/**
+ * This method subscribes the application to receive push notifications from the specified event source and adapter.
+ *
+ * @param deviceToken The token received from the method application:didRegisterForRemoteNotificationsWithDeviceToken. Save the device token in case unsubscribedWithToken:adapter:eventSource:delegate: is called.
+ * @param adapter The name of the adapter.
+ * @param eventSource The name of the event source.
+ * @param eventSourceID An ID that you assign to the event source that is returned by the Worklight Server with each notification from this event source. You can use the ID in your notification callback function to identify the notification event source.
+ * The ID is passed on the notification payload. To save space in the notification payload, pass a short integer, otherwise it is used to pass the adapter and event source names.
+ * @param notificationType Constants that indicate the types of notifications that the application accepts. For more information, see the <a href="http://developerns.apple.com/library/ios/" \l "documentation/UIKit/Reference/UIApplication_Class/Reference/Reference.html"> link Apple documentation.</a>
+ * @param delegate A standard IBM Worklight delegate with onSuccess and onFailure methods to indicate success or failure of the subscription to the Worklight Server.
+ * @param options Optional. This parameter contains data that is passed to the Worklight Server, which is used by the adapter.
+ */
 -(void) subscribeWithToken:(NSData *)deviceToken adapter:(NSString *)adapter eventSource: (NSString *)eventSource eventSourceID: (int)eventSourceID notificationType:(UIRemoteNotificationType) types delegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
 
-/*
- * @description 
- * Unsubscribes to notifications from the specified event source in the specified adapter.
- */ 
+/**
+ * This method unsubscribes to notifications from the specified event source in the specified adapter.
+ *
+ * @param adapter The name of the adapter.
+ * @param eventSource TThe name of the event source.
+ * @param delegate A standard IBM Worklight delegate with the onSuccess and onFailure methods to indicate success or failure of the unsubscription to the Worklight Server.
+ */
 -(void) unsubscribeAdapter:(NSString *)adapter eventSource: (NSString *)eventSource delegate:(id <WLDelegate>)delegate;
 
-/*
- * @description 
- * Returns true if the current logged in user on the current device is already subscribed to the given adapter 
- * and event source. This method does not send a query to the server for the information; rather, 
- * it checks the information received from the server in the success response for the login request.
- * If the information has not been received form the server (or if there is no subscription), this method returns false.
+/**
+ * This method returns true if the current logged-in user on the current device is already subscribed to the adapter and event source. 
+ * The method checks the information received from the server in the success response for the login request. If the information that is sent from the server is not received, or if there is no subscription, this method returns false.
+ *
+ * @param adapter The name of the adapter.
+ * @param eventSource TThe name of the event source.
  */
 -(BOOL) isSubscribedToAdapter:(NSString *)adapter eventSource:(NSString *)eventSource;
 
-/*
- * @description
- * Compares the given deviceToken to the one registered in the Worklight Server with the current logged in 
- * user and current device. If different, sends the server the updated token.
- * The registered device token from the server is received in the success response for the login request, 
- * and thus is considered to be readily available without the need for an additional server call to retrieve. 
- * If a registered device token from the server is not readily available in the application, 
- * this method sends an update to the server with the given deviceToken. 
+/**
+ * This method compares the device token to the one registered in the Worklight Server with the current logged-in user and current device. If the device token is different, the method sends the updated token to the server.
+ *
+ * The registered device token from the server is received in the success response for the login request. It is available without the need for an additional server call to retrieve. If a registered device token from the server is not available in the application, this method sends an update to the server with the device token.
+ *
+ * @param deviceToken The token received from the method <code>application:didRegisterForRemoteNotificationsWithDeviceToken</code>. Save the device token in case <code>unsubscribedWithToken:adapter:eventSource:delegate</code> is called.
+ * @param delegate A standard IBM Worklight delegate with the onSuccess and onFailure methods to indicate success or failure of the unsubscription to the Worklight Server.
  */
 -(void) updateDeviceToken:(NSData *)deviceToken  delegate:(id <WLDelegate>)delegate;
 
-/*
- * @description
- * Returns the eventSourceID sent by the Worklight Server in the push notification.
+/**
+ * This method returns the eventSourceID that the Worklight Server sends in the push notification.
+ *
+ * @param userInfo The NSDictionary received in the application:didReceiveRemoteNotification method.
  */
 -(int) getEventSourceIDFromUserInfo:(NSDictionary *)userInfo;
 
@@ -137,45 +211,63 @@ extern NSMutableDictionary *piggyBackData;
 //-(NSString *)getUserPref :(NSString *)key;
 //-(BOOL) hasUserPref :(NSString *)key;
 
-/*
- * @description
- * Reports a user activity for auditing or reporting purposes. The activity is stored in the application statistics tables.
+/**
+ * This method reports a user activity for auditing or reporting purposes.
+ *
+ * The activity is stored in the application statistics tables (the GADGET_STAT_N tables).
+ *
+ * @param activityType A string that identifies the activity.
  */
 -(void) logActivity:(NSString *) activityType;
 
-/*
- * @description
- * Register a challenge handler.
+/**
+ * You can use this method to register a custom Challenge Handler, which is a class that inherits from ChallengeHandler. See example 1: Adding a custom Challenge Handler.
+ * You can also use this method to override the default Remote Disable / Notify Challenge Handler, by registering a class that inherits from WLChallengeHandler. See example <a href=""> link  2: Customizing the Remote Disable / Notify.</a>
+ *
+ * @param challengeHandler The Challenge Handler to register.
  */
 -(void) registerChallengeHandler: (BaseChallengeHandler *) challengeHandler;
 
-/*
- * @description
- * Add a global header
- * Each WlRequest instance will use this header as an HTTP header.
+/**
+ * You use this method to add a global header, which is sent on each request.
+ * Each WlRequest instance will use this header as an HTTP header
+ *
+ * @param headerName The header name/key.
+ * @param value The header value.
  */
 -(void) addGlobalHeader: (NSString *) headerName headerValue:(NSString *)value;
 
-/*
- * @description
- * Remove a global header.
+/**
+ * You use this method to remove a global header, which is no longer sent with each request.
+ *
+ * @param headerName The header name to be removed.
  */
 -(void) removeGlobalHeader: (NSString *) headerName;
 
-/*
- * @description
+/**
+ * get a global header.
+ */
+-(NSDictionary *) getGlobalHeaders;
+
+
+/**
  * Get challenge handler by realm key
  */
 -(BaseChallengeHandler *) getChallengeHandlerByRealm: (NSString *) realm;
 
-/*
- * @description
- * Return the global headers
- */
--(NSDictionary *) getGlobalHeaders;
 
 -(NSDictionary *) getAllChallengeHandlers;
 
+/**
+ * This method sets the interval, in seconds, at which the client (device) sends a heartbeat signal to the server. 
+ * <p>
+ * You use the heartbeat signal to prevent a session with the server from timing out because of inactivity. Typically, the heartbeat interval has a value that is less than the server session timeout.The server session timeout is defined in the worklight.properties file. By default, the value of the heartbeat interval is set to 420 seconds (7 minutes).
+ * To disable the heartbeat signal, set a value that is less than, or equal to zero.
+ *
+ * @note The client sends a heartbeat signal to the server only when the application is in the foreground. When the application is sent to the background, the client stops sending heartbeat signals. The client resumes sending heartbeat signals when the application is brought to the foreground again.
+ *
+ * @param val The interval, in seconds, at which the heartbeat signal is sent to the server.
+ */
 -(void) setHeartBeatInterval :(NSInteger)val;
 
 /**
@@ -185,7 +277,7 @@ extern NSMutableDictionary *piggyBackData;
 
 
 /**
- * Equivalent to <code>[transmitEvent: eventJson immediately: NO]
+ * Equivalent to <code>[transmitEvent: eventJson immediately: NO]</code>
  * @param event - the event to be transmitted.
  */
 - (void) transmitEvent: (NSMutableDictionary*) eventJson;
@@ -205,9 +297,10 @@ extern NSMutableDictionary *piggyBackData;
 - (void) transmitEvent: (NSMutableDictionary*) eventJson immediately: (BOOL) immediately;
 
 /**
-* Configures the transmission of events from the client to the server, according to the provided transmission policy.
-* @param policy The policy instance which will be used.
-*/
+ * Configures the transmission of events from the client to the server, according to the provided transmission policy.
+ *
+ * @param policy The policy instance which will be used.
+ */
 - (void) setEventTransmissionPolicy: (WLEventTransmissionPolicy*) policy;
 
 /**
@@ -216,4 +309,102 @@ extern NSMutableDictionary *piggyBackData;
  * The internal event transmission buffer is purged, and all events awaiting transmission are permanently lost.
  */
 - (void) purgeEventTransmissionBuffer;
+
+/**
+ * This method logs in to a specific realm. It is an asynchronous function.
+ * You must specify the realm name and a wlDelegate instance for accepting onSuccess and onFailure events.
+ * A default timeout of 60 seconds is used for waiting for the server to respond before the request times out.
+ *
+ * @param realmName - the realm name to log in to
+ * @param delegate - implements wlDelegate protocol (which has onSuccess and onFailure methods)
+**/
+- (void) login:(NSString *) realmName withDelegate:(id <WLDelegate>)delegate;
+
+/**
+ * This method logs in to a specific realm. It is an asynchronous function.
+ * You must specify the realm name and a wlDelegate instance for accepting onSuccess and onFailure events.
+ * This method accepts a "timeout" key in its options parameter -  (NSNumber) Number of milliseconds to wait for the server response
+ * before the request times out.
+ *
+ * @param realmName - the realm name to log in to
+ * @param delegate - implements wlDelegate protocol (which has onSuccess and onFailure methods)
+ * @param options - in this dictionary - the user puts the key "timeout" (milliseconds)
+**/
+- (void) login:(NSString *) realmName withDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
+
+
+/**
+ * This method logs out of a specific realm. It is an asynchronous function.
+ * You must specify the realm name and a wlDelegate instance for accepting onSuccess and onFailure events.
+ * A default timeout of 60 seconds is used for waiting for the server to respond before the request times out
+ *
+ * @param realmName - the realm name to logout from
+ * @param delegate - implements wlDelegate protocol (which has onSuccess and onFailure methods)
+**/
+- (void) logout:(NSString *) realmName withDelegate:(id <WLDelegate>)delegate;
+
+/**
+ Returns the last obtained access token (regardless of scope), or <code>null</code> if no tokens were previosly obtained.
+ */
+- (NSString*) lastAccessToken;
+
+/**
+ Returns the last obtained access token for a specific scope, or <code>null</code> if no tokens were previously obtained
+ for the given scope.
+ 
+ @param scope The scope of the requested token.
+ */
+- (NSString*) lastAccessTokenForScope:(NSString*)scope;
+
+/**
+ Obtains an oauth 2.0 access token from the Worklight server. The token is required in order to send a request
+ to an external server which uses this Worklight authentication method. 
+ This method is asynchronous; the response is returned to the supplied delegate callback functions.
+ 
+ Note that there is no need to parse the response for the access token. Instead, use <code>WL.Client.lastAccessToken</code>
+ or <code>WL.Client.lastAccessTokenForScope</code> in order to get the last obtained token.
+ 
+ @param delegate  - WLDelegate. Implements the callback methods onSuccess and onFailure.
+ 
+ @exception NSException raised if scope or delegate are nil. 
+ */
+- (void) obtainAccessTokenForScope:(NSString*)scope withDelegate:(id<WLDelegate>)delegate;
+
+/**
+ Obtains an oauth 2.0 access token from the Worklight server. The token is required in order to send a request
+ to an external server which uses this Worklight authentication method. 
+ This method is asynchronous; the response is returned to the supplied delegate callback functions.
+ 
+ Note that there is no need to parse the response for the access token. Instead, use <code>WL.Client.lastAccessToken</code>
+ or <code>WL.Client.lastAccessTokenForScope</code> in order to get the last obtained token.
+ 
+ @param delegate  - WLDelegate. Implements the callback methods onSuccess and onFailure.
+ @param options A dictionary for which the following key can contain a value:
+ "timeout" - NSNumber. time in miliseconds for this invokeProcedure to wait before failing with WLErrorCodeRequestTimeout
+ 
+ @exception NSException raised if scope or delegate are nil. 
+ */
+- (void) obtainAccessTokenForScope:(NSString*)scope withDelegate:(id<WLDelegate>)delegate options:(NSDictionary*) options;
+
+/**
+ Determines whether an access token is requested by the server, and returns the required scope, or
+ null if the response is not related to Worklight tokens.
+ 
+ @param status The status code of the response.
+ @param authenticationHeader The value of the <code>WWW-Authenticate</code> header of the response.
+ */
+- (NSString*) getRequiredAccessTokenScopeFromStatus:(int)status authenticationHeader:(NSString*)authHeader;
+
+/**
+ * This method logs out of a specific realm. It is an asynchronous function.
+ * You must specify the realm name and a wlDelegate instance for accepting onSuccess and onFailure events.
+ * This method accepts a "timeout" key in its options parameter - (NSNumber) Number of milliseconds to wait for the server response
+ * before the request times out.
+ *
+ * @param realmName - the realm name to logout from
+ * @param delegate - implements wlDelegate protocol (which has onSuccess and onFailure methods)
+ * @param options - in this dictionary - the user puts the key "timeout" (milliseconds)
+**/
+- (void) logout:(NSString *) realmName withDelegate:(id <WLDelegate>)delegate options:(NSDictionary *)options;
+
 @end

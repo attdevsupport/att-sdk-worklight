@@ -46,7 +46,14 @@
 
 //Call this initializer only
 -(WLDeviceAuthManager *) init;
+-(NSString *) createUUID;
 -(NSString *) getWLUniqueDeviceId;
+
+/**
+ * Cleans Device Provisioning Certificate from KeyChain
+ */
++ (BOOL) clearDeviceCertCredentialsFromKeyChain:(NSString *)provisioningEntity;
+
 
 @end
 

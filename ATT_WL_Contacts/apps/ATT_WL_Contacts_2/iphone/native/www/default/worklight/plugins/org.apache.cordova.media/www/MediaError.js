@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.media/www/MediaError.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.media/www/MediaError.js in JS Resources */
 cordova.define("org.apache.cordova.media.MediaError", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one

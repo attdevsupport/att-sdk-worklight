@@ -11,6 +11,7 @@
 @class WLTriggersConfiguration;
 
 /**
+ * @ingroup geo
  * The configuration for on-going acquisition, including the
  * acquisition policy, triggers, and failure callbacks for handling acquisition errors.
  * <p>
@@ -26,11 +27,14 @@
 	NSMutableArray* failureCallbacks;
 }
 
-
-- (id) init  ;
 /**
-	 * @return The failure callbacks. During on-going acquisition, the failure callbacks will be called when errors occur.
-	 */
+ * This method initializes the configuration.
+ */
+- (id) init  ;
+
+/**
+ * @return The failure callbacks. During on-going acquisition, the failure callbacks will be called when errors occur.
+ */
 - (NSMutableArray*) getFailureCallbacks  ;
 /**
 	 * @param failureCallbacks During on-going acquisition, the failure callbacks will be called when errors occur.

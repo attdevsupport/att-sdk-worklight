@@ -15,9 +15,15 @@
 
 #import <Foundation/Foundation.h>
 
-
+/**
+ * @ingroup push
+ * WLOnReadyToSubscribeListener
+ */
 @protocol WLOnReadyToSubscribeListener <NSObject>
 
+/**
+ * This method is called when the device is ready to subscribe to push notifications.
+ **/
 -(void) OnReadyToSubscribe;
 
 @end

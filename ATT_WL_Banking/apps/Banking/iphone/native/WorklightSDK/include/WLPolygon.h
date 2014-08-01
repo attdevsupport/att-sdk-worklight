@@ -12,6 +12,7 @@
 @protocol AreaVisitor;
 
 /**
+ * @ingroup geo
  * A polygon is defined by a list of coordinates.
  * This class is immutable.
  */

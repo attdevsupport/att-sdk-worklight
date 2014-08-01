@@ -2,7 +2,7 @@
 <!-- Licensed Materials - Property of IBM
 			 5725-G92 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 			 US Government Users Restricted Rights - Use, duplication or
-             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. --><!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATT_WL_Contacts" platformVersion="6.1.0.00.20131219-1900">
+             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. --><!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATT_WL_Contacts" platformVersion="6.2.0.00.20140724-2139">
     <displayName>ATT_WL_Contacts</displayName>
     <description>ATT_WL_Contacts</description>
     <author>
@@ -17,7 +17,7 @@
     <Analytics/>
 </features>
     <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
-    <iphone bundleId="com.ATTWLContacts" version="1.0">
+    <iphone applicationId="ATT_WL_Contacts" bundleId="com.ATTWLContacts" version="1.0">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
@@ -30,9 +30,10 @@
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
             <publicSigningKey>Replace this text with the public key of the certificate with which you sign the APK. For details see the Worklight Developer's Reference Guide.</publicSigningKey>
+        <packageName>com.ATT_WL_Contacts</packageName>
         </security>
     </android>
-    <ipad bundleId="com.ATTWLContacts" version="1.0">
+    <ipad applicationId="ATT_WL_Contacts" bundleId="com.ATTWLContacts" version="1.0">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>

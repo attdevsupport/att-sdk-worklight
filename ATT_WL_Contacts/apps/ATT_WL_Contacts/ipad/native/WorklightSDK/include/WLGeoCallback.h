@@ -11,15 +11,16 @@
 @class WLGeoPosition;
 
 /**
- * A callback for when a Geo position is acquired.
+ * @ingroup geo
+ * This protocol is used to define callbacks for when a geographical position is acquired.
  */
-@protocol WLGeoCallback <AcquisitionCallback> 
+@protocol WLGeoCallback <AcquisitionCallback>
 
 /**
-      * The method will be executed when a Geo position is acquired.
-      * @param pos The Geo position acquired.
-      */
+ * This method is executed when a geographical position is acquired.
+ *
+ * @param pos The acquired geographical position.
+ */
 - (void) execute : (WLGeoPosition*) pos ;
 
 @end
-

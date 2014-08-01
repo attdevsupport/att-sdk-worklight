@@ -10,7 +10,8 @@
 @protocol AreaVisitor;
 
 /**
- * Parent interface for geometric shapes.
+ * @ingroup geo
+ * This protocol provides the parent interface for geometric shapes.
  */
 @protocol WLArea <NSObject> 
 

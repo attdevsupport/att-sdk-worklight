@@ -11,10 +11,11 @@
 @protocol WLWifiFailureCallback;
 
 /**
+ * @ingroup geo
  * Configuration of the callbacks to be called when there is an acquisition failure.
  * <p>
- * This class, like most classes used for configuring location services, returns
- * a reference to this object from its setters, to enable chaining calls. 
+ * This class defines the configuration of the callbacks that are called when there is an acquisition failure.
+ * The setters of this class return a reference to this object so as to enable chaining calls.
  */
 @interface WLAcquisitionFailureCallbacksConfiguration : NSObject  <NSCopying> {
 	@private
@@ -25,27 +26,39 @@
 
 - (id) init  ;
 /**
-	 * @return The wifi failure callback. The default is <code>null</code>.
-	 */
+ * This method returns the WiFi failure callback. The default value is null.
+ *
+ * @param None.
+ * @return The wifi failure callback. The default is <code>null</code>.
+ **/
 - (id<WLWifiFailureCallback>) getWifiFailureCallback  ;
+
+
 /**
-	 * @return The geo failure callback. The default is <code>null</code>.
-	 */
+ * This method returns the geolocation failure callback. The default value is null.
+ *
+ * @param None.
+ * @return The geo failure callback. The default is <code>null</code>.
+ **/
 - (id<WLGeoFailureCallback>) getGeoFailureCallback  ;
+
 /**
-	 * Sets the wifi failure callback.
-	 * 
-	 * @param wifiFailureCallbacks the callback to set.
-	 * @return A reference to this object.
-	 */
+* Sets the WiFi failure callback.
+*
+* @param wifiFailureCallbacks A reference to an object that conforms to the WLWifiFailureCallback protocol. 
+* @return A reference to this object.
+**/
 - (WLAcquisitionFailureCallbacksConfiguration*) setWifiFailureCallback : (id<WLWifiFailureCallback>) wifiFailureCallbacks ;
+
 /**
-	 * Sets the geo failure callback.
-	 * 
-	 * @param geoFailureCallbacks the callback to set.
-	 * @return A reference to this object.
-	 */
+ * Sets the geolocation failure callback.
+ *
+ * @param geoFailureCallbacks A reference to an object that conforms to the WLGeoFailureCallback protocol.
+ * @return A reference to this object.
+ **/
 - (WLAcquisitionFailureCallbacksConfiguration*) setGeoFailureCallback : (id<WLGeoFailureCallback>) geoFailureCallbacks ;
+
+
 - (WLAcquisitionFailureCallbacksConfiguration*) clone  ;
 - (int) hash  ;
 - (BOOL) isEqual : (NSObject*) obj ;

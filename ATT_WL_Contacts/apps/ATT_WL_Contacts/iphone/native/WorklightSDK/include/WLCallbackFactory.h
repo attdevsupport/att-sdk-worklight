@@ -27,33 +27,44 @@
 
 
 /**
- A utility class that allows using blocks wherever a callback object is needed in the Worklight Location Services API.
+ * A utility class that allows using blocks wherever a callback object is needed in the Worklight Location Services API.
  */
 @interface WLCallbackFactory : NSObject
 
 /**
- Create a WLTriggerCallback that wraps the given block
- */
+* This method creates a trigger callback that wraps the given block.
+*
+* @param callbackBlock The block that will be delegated to by the returned WLGeoCallback instance.
+**/
 + (id<WLTriggerCallback>)       createTriggerCallback:       (void (^)(id<WLDeviceContext> deviceContext)) callbackBlock;
 
+
 /**
- Create a WLGeoCallback that wraps the given block
- */
+ * This method creates a geo callback that wraps the given block.
+ *
+ * @param callbackBlock The block that will be delegated to by the returned WLGeoCallback instance.
+ **/
 + (id<WLGeoCallback>)           createGeoCallback:           (void (^)(WLGeoPosition* pos))                callbackBlock;
 
 /**
- Create a WLWifiConnectedCallback that wraps the given block
- */
+ * This method creates a WiFi connected callback that wraps the given block.
+ *
+ * @param callbackBlock The block that will be delegated to by the returned WLGeoCallback instance.
+ **/
 + (id<WLWifiConnectedCallback>) createWifiConnectedCallback: (void (^)(WLWifiAccessPoint* connectedAccessPoint, NSNumber* signalStrength)) callbackBlock;
 
 /**
- Create a WLGeoFailureCallback that wraps the given block
- */
+ * This method creates a geo failure callback that wraps the given block.
+ *
+ * @param callbackBlock The block that will be delegated to by the returned WLGeoCallback instance.
+ **/
 + (id<WLGeoFailureCallback>)    createGeoFailureCallback:    (void (^)(WLGeoError* error))                 callbackBlock;
 
 /**
- Create a WLWifiFailureCallback that wraps the given block
- */
+ * This method creates a WiFi failure callback that wraps the given block.
+ *
+ * @param callbackBlock The block that will be delegated to by the returned WLGeoCallback instance.
+ **/
 + (id<WLWifiFailureCallback>)   createWifiFailureCallback:   (void (^)(WLWifiError* error))                callbackBlock;
 
 @end

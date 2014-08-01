@@ -1,6 +1,7 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.file/www/FileUploadOptions.js in JS Resources */
-cordova.define("org.apache.cordova.file.FileUploadOptions", function(require, exports, module) {/*
+/* JavaScript content from worklight/plugins/org.apache.cordova.file/www/wp/FileUploadOptions.js in JS Resources */
+cordova.define("org.apache.cordova.file.FileUploadOptions1", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file

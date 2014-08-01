@@ -16,6 +16,7 @@ typedef enum {
 
 
 /**
+ * @ingroup geo
  * An error that occurred during WiFi acquisition
  */
 @interface WLWifiError : AbstractAcquisitionError {

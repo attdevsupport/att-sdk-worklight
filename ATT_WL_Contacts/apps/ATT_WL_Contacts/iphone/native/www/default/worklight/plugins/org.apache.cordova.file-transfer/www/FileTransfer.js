@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.file-transfer/www/FileTransfer.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.file-transfer/www/FileTransfer.js in JS Resources */
 cordova.define("org.apache.cordova.file-transfer.FileTransfer", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -44,7 +45,7 @@ function getBasicAuthHeader(urlString) {
 
         var credentials = null;
         var protocol = url.protocol + "//";
-        var origin = protocol + url.host;
+        var origin = protocol + url.host.replace(":" + url.port, ""); // Windows 8 (IE10) append :80 or :443 to url.host
 
         // check whether there are the username:password credentials in the url
         if (url.href.indexOf(origin) !== 0) { // credentials found
@@ -186,6 +187,8 @@ FileTransfer.prototype.download = function(source, target, successCallback, erro
             entry.isFile = result.isFile;
             entry.name = result.name;
             entry.fullPath = result.fullPath;
+            entry.filesystem = new FileSystem(result.filesystemName || (result.filesystem == window.PERSISTENT ? 'persistent' : 'temporary'));
+            entry.nativeURL = result.nativeURL;
             successCallback(entry);
         }
     };

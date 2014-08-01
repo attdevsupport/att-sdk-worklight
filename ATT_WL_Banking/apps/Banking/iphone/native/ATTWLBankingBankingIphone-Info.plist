@@ -9,14 +9,47 @@
     <string>Banking</string>
     <key>CFBundleExecutable</key>
     <string>${EXECUTABLE_NAME}</string>
-    <key>CFBundleIconFile</key>
-    <string>icon.png</string>
     <key>CFBundleIconFiles</key>
     <array>
-      <string>icon.png</string>
-      <string>icon-72.png</string>
-      <string>Icon@2x.png</string>
-      <string>Icon-72@2x.png</string>
+      <string>Icon-29</string>
+      <string>Icon-120</string>
+      <string>Icon-57</string>
+      <string>Icon-76</string>
+      <string>Icon-40</string>
+      <string>Icon-72</string>
+    </array>
+    <key>CFBundleIconFiles~ipad</key>
+    <array>
+      <string>Icon-50</string>
+      <string>Icon-29</string>
+      <string>Icon-120</string>
+      <string>Icon-57</string>
+      <string>Icon-76</string>
+      <string>Icon-40</string>
+      <string>Icon-72</string>
+    </array>
+    <key>UILaunchImages~ipad</key>
+    <array>
+      <dict>
+        <key>UILaunchImageMinimumOSVersion</key>
+        <string>7.0</string>
+        <key>UILaunchImageName</key>
+        <string>Default-Landscape</string>
+        <key>UILaunchImageOrientation</key>
+        <string>Landscape</string>
+        <key>UILaunchImageSize</key>
+        <string>{748, 1024}</string>
+      </dict>
+      <dict>
+        <key>UILaunchImageMinimumOSVersion</key>
+        <string>7.0</string>
+        <key>UILaunchImageName</key>
+        <string>Default-Portrait</string>
+        <key>UILaunchImageOrientation</key>
+        <string>Portrait</string>
+        <key>UILaunchImageSize</key>
+        <string>{768, 1004}</string>
+      </dict>
     </array>
     <key>CFBundleIdentifier</key>
     <string>com.Banking</string>

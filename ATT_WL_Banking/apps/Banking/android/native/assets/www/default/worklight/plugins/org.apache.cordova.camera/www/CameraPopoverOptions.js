@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.camera/www/CameraPopoverOptions.js in JS Resources */
 cordova.define("org.apache.cordova.camera.CameraPopoverOptions", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one

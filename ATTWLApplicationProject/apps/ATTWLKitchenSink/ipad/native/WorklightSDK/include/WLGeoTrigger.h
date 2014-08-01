@@ -9,6 +9,7 @@
 #import "AbstractTrigger.h"
 
 /**
+ * @ingroup geo
  * An abstract base class for Geo triggers.
  */
 @interface WLGeoTrigger : AbstractTrigger {

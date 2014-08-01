@@ -25,7 +25,9 @@ typedef enum {
 	WLErrorCodeApplicationVersionNotify
 } WLErrorCode;
 
-/*
+/**
+ * @ingroup main
+ *
  * Derived from WLResponse, containing error codes and messages in addition to the status in WLResponse. 
  * Contains the original response data object from the server as well.
  */
@@ -35,14 +37,34 @@ typedef enum {
 	
 }
 
-// The possible errors are described in the WLErrorCode section.
-@property (nonatomic) WLErrorCode errorCode;
-// An error message for the developer, which is not necessarily suitable for displaying to the end user.
-@property (nonatomic, retain) NSString *errorMsg;
+/**
+ * The possible errors are described in the WLErrorCode section.
+ * The HYPERLINK <a href="_Enum_WLErrorCode" \o "http://wiki.worklight.com/index.php/IphoneSDK#WLErrorCode"> link WLErrorCode </a>section contains a description of possible error codes.
+ */
+ @property (nonatomic) WLErrorCode errorCode;
 
-//-(id)initWithRequest:(ASIHTTPRequest *) request;
+/**
+ * An error message for the developer, which is not necessarily suitable for displaying to the end user.
+ */
+@property (nonatomic, strong) NSString *errorMsg;
+
+
+/**
+ * This method returns a string message from a WLErrorCode.
+ *
+ **/
 +(NSString *) getErrorMessageFromCode: (WLErrorCode) code;
+
+/**
+ * This method returns an error message from the JSON response.
+ *
+ **/
 +(NSString *) getErrorMessageFromJSON: (NSDictionary *) jsonResponse;
+
+/**
+ * This method returns the WLErrorCode from the JSON response.
+ *
+ **/
 +(WLErrorCode) getWLErrorCodeFromJSON: (NSDictionary *) jsonResponse;
 
 

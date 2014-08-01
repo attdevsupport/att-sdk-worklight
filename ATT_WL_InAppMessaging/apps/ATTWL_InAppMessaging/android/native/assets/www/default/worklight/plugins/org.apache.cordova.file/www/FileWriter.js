@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.file/www/FileWriter.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.file/www/FileWriter.js in JS Resources */
 cordova.define("org.apache.cordova.file.FileWriter", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -40,7 +41,7 @@ var FileWriter = function(file) {
     this.fileName = "";
     this.length = 0;
     if (file) {
-        this.fileName = file.fullPath || file;
+        this.localURL = file.localURL || file;
         this.length = file.size || 0;
     }
     // default is to write at the beginning of the file
@@ -120,7 +121,11 @@ FileWriter.prototype.write = function(data) {
 
     // Mark data type for safer transport over the binary bridge
     isBinary = supportsBinary && (data instanceof ArrayBuffer);
-
+    if (isBinary && ['windowsphone', 'windows8'].indexOf(cordova.platformId) >= 0) {
+        // create a plain array, using the keys from the Uint8Array view so that we can serialize it
+        data = Array.apply(null, new Uint8Array(data));
+    }
+    
     // Throw an exception if we are already writing a file
     if (this.readyState === FileWriter.WRITING) {
         throw new FileError(FileError.INVALID_STATE_ERR);
@@ -186,7 +191,7 @@ FileWriter.prototype.write = function(data) {
             if (typeof me.onwriteend === "function") {
                 me.onwriteend(new ProgressEvent("writeend", {"target":me}));
             }
-        }, "File", "write", [this.fileName, data, this.position, isBinary]);
+        }, "File", "write", [this.localURL, data, this.position, isBinary]);
 };
 
 /**
@@ -293,7 +298,7 @@ FileWriter.prototype.truncate = function(size) {
             if (typeof me.onwriteend === "function") {
                 me.onwriteend(new ProgressEvent("writeend", {"target":me}));
             }
-        }, "File", "truncate", [this.fileName, size]);
+        }, "File", "truncate", [this.localURL, size]);
 };
 
 module.exports = FileWriter;

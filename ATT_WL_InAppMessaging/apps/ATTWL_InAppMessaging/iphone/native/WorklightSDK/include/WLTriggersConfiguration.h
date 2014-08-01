@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
+ * @ingroup geo
  * A configuration object containing the triggers.
  * The policy should be set in an instance of {@link WLLocationServicesConfiguration} which 
  * is then passed to {@link WLDevice#startAcquisition(WLLocationServicesConfiguration)}

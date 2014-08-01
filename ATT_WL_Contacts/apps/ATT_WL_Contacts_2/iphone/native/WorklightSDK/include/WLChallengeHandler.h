@@ -15,9 +15,30 @@
 #import "BaseChallengeHandler.h"
 #import "WLFailResponse.h"
 
+
+/**
+ * @ingroup main
+ * You use this base class to create a IBM Worklight Challenge Handler.
+ * You must extend this class to implement your own version of an IBM Worklight Challenge Handler, for example RemoteDisableChallengeHandler.
+ */
 @interface WLChallengeHandler : BaseChallengeHandler
--(void) submitChallengeAnswer: (NSDictionary *)answer;
+    /**
+     * Send the answer back to the request.
+     */
+    -(void) submitChallengeAnswer: (NSDictionary *)answer;
+
+	/**
+    * This method is called when the Worklight Server reports an authentication success.
+    */
     -(void) handleSuccess: (NSDictionary *)success;
+    
+    /**
+    *  This method is called when the Worklight Server reports an authentication failure.
+    */
     -(void) handleFailure: (NSDictionary *)failure;
+    
+    /**
+    * This method is called when the Worklight Server returns a challenge for the realm.
+    */
     -(void) handleChallenge: (NSDictionary *)challenge;
 @end

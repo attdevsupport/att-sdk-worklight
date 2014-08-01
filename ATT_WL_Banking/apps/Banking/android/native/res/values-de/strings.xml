@@ -15,8 +15,8 @@
   <string name="titleWLServerUrl">Server-URL</string>
   <string name="networkSettingsTitleWLServerUrl">Netzeinstellungen</string>
   <string name="OKTitleWLServerUrl">OK</string>
-  <string name="titleInvalidWLServerUrl">Ungültiger URL</string>
-  <string name="errorInvalidWLServerUrl">%1$s ist kein gültiger URL. Gültige Formate sind http[s]://Domäne und IP-Adresse[:Port][/Kontextstammverzeichnis].</string>
+  <string name="titleInvalidWLServerUrl">Ungültige URL</string>
+  <string name="errorInvalidWLServerUrl">%1$s ist keine gültige URL. Gültige Formate sind http[s]://Domäne und IP-Adresse[:Port][/Kontextstammverzeichnis].</string>
   <string name="serverAddress">Serveradresse</string>
   <string name="changeServerAddress">Server-URL ändern</string>
   
@@ -28,9 +28,9 @@
   
   <!-- Direct Update -->
   <string name="directUpdateDownloadingMessage">Download der Anwendungsaktualisierung (Fortschritt in Kilobytes)</string>
-  <string name="kb">kb</string>
+  <string name="kb">%1$d/%2$d Kilobytes</string> 
   
-  <!-- Test Resources Checksum -->
-  <string name="testResourcesChecksumErrorMessage">Bei der Anwendung ist ein interner Fehler aufgetreten. Deinstallieren Sie die Anwendung und installieren Sie sie erneut. </string>
-  
+  <!-- Worklight initialization errors -->
+  <string name="worklightInitInternalError">Bei der Anwendung ist ein interner Fehler aufgetreten. Installieren Sie die Anwendung erneut und wiederholen Sie den Vorgang. </string>
+  <string name="worklightInitNotEnoughSpace">Die Anwendungsinstallation ist fehlgeschlagen, weil nicht genug Speicherplatz verfügbar ist. Geben Sie %1$s MB frei und starten Sie die Anwendung erneut. </string>   
 </resources>

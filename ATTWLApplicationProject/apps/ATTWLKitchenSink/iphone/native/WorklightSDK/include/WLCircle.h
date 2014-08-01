@@ -12,6 +12,7 @@
 @protocol AreaVisitor;
 
 /**
+ * @ingroup geo
  * A circle, defined by its center point and a radius.
  * This class is immutable.
  */
@@ -27,14 +28,12 @@
 	WLCoordinate* center;
 }
 
-
-
 /**
-	 * Creates a new circle
-	 * 
-	 * @param center The circle's center
-	 * @param radius The circle's radius (in meters)
-	 */
+ * @short This method creates a new circle.
+ *
+ * @param center The circle's center
+ * @param radius The circle's radius (in meters)
+ **/
 - (id)initWithCenter:(WLCoordinate*)center radius:(double)radius;
 - (int) hash  ;
 - (BOOL) isEqual : (NSObject*) obj ;
@@ -42,13 +41,22 @@
 	 * @exclude
 	 */
 - (NSObject*) accept : (id<AreaVisitor>) visitor ;
+
 /**
-      * @return the circle's radius in meters.
-      */
+ * This method returns the radius of the circle, in meters.
+ *
+ * @param None.
+ * @return the circle's radius in meters.
+ **/
 - (double) getRadius  ;
+
+
 /**
-      * @return the center of the circle.
-      */
+ * This method returns the center of the circle.
+ *
+ * @param None.
+ * @return the center of the circle.
+ **/
 - (WLCoordinate*) getCenter  ;
 
 @end

@@ -1,5 +1,6 @@
 
 /* JavaScript content from worklight/plugins/org.apache.cordova.file/www/requestFileSystem.js in JS Resources */
+/* JavaScript content from worklight/plugins/org.apache.cordova.file/www/requestFileSystem.js in JS Resources */
 cordova.define("org.apache.cordova.file.requestFileSystem", function(require, exports, module) {/*
  *
  * Licensed to the Apache Software Foundation (ASF) under one
@@ -39,7 +40,7 @@ var requestFileSystem = function(type, size, successCallback, errorCallback) {
         errorCallback && errorCallback(new FileError(code));
     };
 
-    if (type < 0 || type > 3) {
+    if (type < 0) {
         fail(FileError.SYNTAX_ERR);
     } else {
         // if successful, return a FileSystem object

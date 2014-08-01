@@ -62,4 +62,5 @@ module.exports = {
         exec(win, null, "Contacts","chooseContact", [options]);
     }
 };
+
 });

@@ -2,7 +2,7 @@
 <!-- Licensed Materials - Property of IBM
 			 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 			 US Government Users Restricted Rights - Use, duplication or
-             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. --><!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATTWL_InAppMessaging" platformVersion="6.1.0.00.20131219-1900">
+             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. --><!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATTWL_InAppMessaging" platformVersion="6.2.0.00.20140724-2139">
     <displayName>ATTWL_InAppMessaging</displayName>
     <description>ATTWL_InAppMessaging</description>
     <author>
@@ -14,7 +14,7 @@
     <mainFile>index.html</mainFile>
     <features/>
     <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
-    <iphone bundleId="com.ATTWLInAppMessaging" version="1.0">
+    <iphone applicationId="ATTWL_InAppMessaging" bundleId="com.ATTWLInAppMessaging" version="1.0">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
@@ -27,6 +27,7 @@
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
             <publicSigningKey>Replace this text with the actual public signing key of the certificate used to sign the APK, available by using the 'Extract public signing key' wizard.</publicSigningKey>
+        <packageName>com.ATTWL_InAppMessaging</packageName>
         </security>
     </android>
 </application>

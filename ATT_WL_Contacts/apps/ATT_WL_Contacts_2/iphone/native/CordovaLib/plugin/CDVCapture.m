@@ -18,6 +18,7 @@
  */
 
 #import "CDVCapture.h"
+#import "CDVFile.h"
 #import <Cordova/CDVJSON.h>
 #import <Cordova/CDVAvailability.h>
 
@@ -43,6 +44,23 @@
     }
 
     return UIAccessibilityTraitNone;
+}
+
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+    
+- (UIViewController*)childViewControllerForStatusBarHidden {
+    return nil;
+}
+    
+- (void)viewWillAppear:(BOOL)animated {
+    SEL sel = NSSelectorFromString(@"setNeedsStatusBarAppearanceUpdate");
+    if ([self respondsToSelector:sel]) {
+        [self performSelector:sel withObject:nil afterDelay:0];
+    }
+    
+    [super viewWillAppear:animated];
 }
 
 @end
@@ -423,7 +441,7 @@
         // NSLog(@"getFormatData: %@", [formatData description]);
     }
     if (bError) {
-        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:errorCode];
+        result = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:(int)errorCode];
     }
     if (result) {
         [self.commandDelegate sendPluginResult:result callbackId:callbackId];
@@ -435,8 +453,20 @@
     NSFileManager* fileMgr = [[NSFileManager alloc] init];
     NSMutableDictionary* fileDict = [NSMutableDictionary dictionaryWithCapacity:5];
 
+    CDVFile *fs = [self.commandDelegate getCommandInstance:@"File"];
+
+    // Get canonical version of localPath
+    NSURL *fileURL = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@", fullPath]];
+    NSURL *resolvedFileURL = [fileURL URLByResolvingSymlinksInPath];
+    NSString *path = [resolvedFileURL path];
+
+    CDVFilesystemURL *url = [fs fileSystemURLforLocalPath:path];
+
     [fileDict setObject:[fullPath lastPathComponent] forKey:@"name"];
     [fileDict setObject:fullPath forKey:@"fullPath"];
+    if (url) {
+        [fileDict setObject:[url absoluteURL] forKey:@"localURL"];
+    }
     // determine type
     if (!type) {
         id command = [self.commandDelegate getCommandInstance:@"File"];
@@ -541,6 +571,11 @@
 
 @end
 
+@interface CDVAudioRecorderViewController () {
+    UIStatusBarStyle _previousStatusBarStyle;
+}
+@end
+
 @implementation CDVAudioRecorderViewController
 @synthesize errorCode, callbackId, duration, captureCommand, doneButton, recordingView, recordButton, recordImage, stopRecordImage, timerLabel, avRecorder, avSession, pluginResult, timer, isTimed;
 
@@ -571,6 +606,7 @@
         self.callbackId = theCallbackId;
         self.errorCode = CAPTURE_NO_MEDIA_FILES;
         self.isTimed = self.duration != nil;
+        _previousStatusBarStyle = [UIApplication sharedApplication].statusBarStyle;
 
         return self;
     }
@@ -580,6 +616,10 @@
 
 - (void)loadView
 {
+	if ([self respondsToSelector:@selector(edgesForExtendedLayout)]) {
+        self.edgesForExtendedLayout = UIRectEdgeNone;
+    }
+    
     // create view and display
     CGRect viewRect = [[UIScreen mainScreen] applicationFrame];
     UIView* tmp = [[UIView alloc] initWithFrame:viewRect];
@@ -815,7 +855,7 @@
 
     if (!self.pluginResult) {
         // return error
-        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:self.errorCode];
+        self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageToErrorObject:(int)self.errorCode];
     }
 
     self.avRecorder = nil;
@@ -825,6 +865,10 @@
     UIAccessibilityPostNotification(UIAccessibilityScreenChangedNotification, nil);
     // return result
     [self.captureCommand.commandDelegate sendPluginResult:pluginResult callbackId:callbackId];
+
+    if (IsAtLeastiOSVersion(@"7.0")) {
+        [[UIApplication sharedApplication] setStatusBarStyle:_previousStatusBarStyle];
+    }
 }
 
 - (void)updateTime
@@ -873,6 +917,20 @@
     NSLog(@"error recording audio");
     self.pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_IO_EXCEPTION messageToErrorObject:CAPTURE_INTERNAL_ERR];
     [self dismissAudioView:nil];
+}
+
+- (UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (IsAtLeastiOSVersion(@"7.0")) {
+        [[UIApplication sharedApplication] setStatusBarStyle:[self preferredStatusBarStyle]];
+    }
+
+    [super viewWillAppear:animated];
 }
 
 @end

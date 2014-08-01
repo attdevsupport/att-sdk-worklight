@@ -35,7 +35,7 @@
 #import <Cordova/CDVViewController.h>
 #import <Cordova/CDVAvailability.h>
 
-
+__attribute__((deprecated))
 @interface MainViewController : CDVViewController
 
 - (BOOL) execute:(CDVInvokedUrlCommand*)command CDV_DEPRECATED(2.2, "Use direct method calls instead, this is now a no-op");

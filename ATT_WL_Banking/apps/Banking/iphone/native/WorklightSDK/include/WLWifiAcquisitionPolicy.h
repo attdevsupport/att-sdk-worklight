@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 /**
+* @ingroup geo
 * Controls how WiFi locations will be acquired.
 * <p>
 * This class, like most classes used for configuring location services, returns
@@ -21,7 +22,9 @@
 	NSMutableArray* accessPointFilters;
 }
 
-
+/**
+ * This method initializes the WiFi acquisition policy setting.
+ */
 - (id) init  ;
 /**
 	 * @return the signal strength threshold as a percentage.

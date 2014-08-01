@@ -14,6 +14,7 @@
 @protocol WLArea;
 
 /**
+ * @ingroup geo
  * Provides access to utility functions for Geo calculations.
  */
 @interface WLGeoUtils : NSObject {
