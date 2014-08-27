@@ -125,8 +125,19 @@ function getMessageContent(options)
     if (options.urlPath !== undefined) {
       options.host = options.host + options.urlPath;
     }
-	
-    input.headers = addClientSdk(input.headers);
+
+	var agent = WL.Server.getClientRequest().getHeader("User-Agent").toLowerCase();
+	var platform;
+	if(agent.indexOf("android") > -1) 
+	{
+		platform = "android";
+	} else if (agent.indexOf("apple") > -1)
+	{
+		platform = 'ios';
+	} else {
+		platform = 'unknown';
+	}
+	options.platform = platform;    
     
 	logInfo('********* getMessageContent ADAPTER LOGS ***********');
 	logInfo('options : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(options));
@@ -410,6 +421,6 @@ function logInfo(value) {
 
 /* Add client sdk header */
 var addClientSdk = function (headers) {
-    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    headers["X-Arg"] =  "ClientSdk=att.worklight.4.0";
     return headers;
 };

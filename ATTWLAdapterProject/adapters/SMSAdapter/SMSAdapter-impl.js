@@ -115,7 +115,7 @@ function logInfo(value) {
 
 /* Add client sdk header */
 var addClientSdk = function (headers) {
-    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    headers["X-Arg"] =  "ClientSdk=att.worklight.4.0";
     return headers;
 };
 

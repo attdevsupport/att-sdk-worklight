@@ -4,12 +4,26 @@
  */
 function getAuthCode(options)
 {
+	var custom_param = [];
+	if(options!==undefined)
+	{
+		if(options.bypassOnnetworkAuth != undefined && options.bypassOnnetworkAuth)
+		{
+			custom_param.push("bypass_onnetwork_auth");
+		}
+		if(options.suppressLandingPage != undefined && options.suppressLandingPage) {
+			custom_param.push("suppress_landing_page");
+		}
+		
+	}
 	var url = {
-		"url" : "https://api.att.com/oauth/authorize"
+		"url" : "https://api.att.com/oauth/v4/authorize"
 		+ '?client_id=' + WL.Server.configuration["appKey"] 
 		+  "&scope=" + WL.Server.configuration["authCodeScope"]
 	 };
-	WL.Logger.debug('oAuthcode : url => '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(url));
+	if(custom_param.length > 0) url += "&custom_param=" + custom_param.join;
+	
+	WL.Logger.debug('getAuthCode : url => '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(url));
 	return url;
 }
 
@@ -19,7 +33,7 @@ function getAccessToken(options)
 	
 	var input = {
 			method :'post',
-			path : 'oauth/access_token',
+			path : 'oauth/v4/access_token',
 			headers: {'Content-Type' : 'application/x-www-form-urlencoded' , 'Accept':'application/json'},
 	};
 	
@@ -59,6 +73,6 @@ function logInfo(value)
 
 /* Add client sdk header */
 var addClientSdk = function (headers) {
-    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    headers["X-Arg"] =  "ClientSdk=att.worklight.4.0";
     return headers;
 };

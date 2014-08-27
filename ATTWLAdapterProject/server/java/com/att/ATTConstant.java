@@ -12,6 +12,7 @@ public class ATTConstant
 	public static final String ARG_HEADER_XSPEECH_SUBCONTEXT = "xSpeechSubContext";
 	public static final String ARG_HEADER_TRANSFER_ENCODING = "headerTransferEncoding";
 	public static final String ARG_HEADER_XARG = "xArg";
+	public static final String ARG_HEADER_XARG_VERSION = "4.0";
 	public static final String VAL_TRANSFER_ENCODING_CHUNKED = "chunked";
 	public static final String ARG_URL = "host";
 	public static final String VAL_CONTENT_TYPE_WAV = "audio/wav";

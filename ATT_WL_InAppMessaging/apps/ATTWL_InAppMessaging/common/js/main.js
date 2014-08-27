@@ -177,7 +177,7 @@ function startLogin() {
    // if mobile # field is filled in, load page and begin oath
    if (validMobileNumber()) {
       credentials.mobileNumber = '+1' + getMobileNumber();
-      getAuthorizationCode(authorizationCodeSuccess, authorizationCodeFailed);
+      getAuthorizationCode(authorizationCodeSuccess, authorizationCodeFailed, true, false);
    } else {
       showAlertView("Please enter a 10 digit mobile number");
    }
@@ -1093,6 +1093,10 @@ function downloadAttachment() {
 function getMessageContentCallback(data) {
    if (requestFailed(data))
       return;
+   var message = data.invocationResult.result.message;
+   
+   if(message == undefined) return;
+   
    var base64data = data.invocationResult.result.message.base64;
    contentData = data.invocationResult.result.message.contentType;
    var attachmentName = contentData.substring(contentData.lastIndexOf("=")+1, contentData.lastIndexOf(";")); 

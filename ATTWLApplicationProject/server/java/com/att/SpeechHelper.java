@@ -25,16 +25,20 @@ public class SpeechHelper
 		JSONObject args = (JSONObject) JSObjectConverter.scriptableToJSON((Scriptable) input);
 		JSONObject theReturn = null;
 		URL url = null;
+		
 		try
 		{
+			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
 			theReturn = new JSONObject();
 			String host = (String) args.get(ATTConstant.ARG_URL);
 			url = new URL(host);
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			//HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.setRequestMethod("POST");
+			//conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_TYPE)) {
 				conn.setRequestProperty("Content-Type",
@@ -112,7 +116,7 @@ public class SpeechHelper
 				message = ATTConstant.ERR_INV_STATUS_MSG;
 			} else {
 				code = ATTConstant.ERR_PROCESS_REQ_CODE;
-				message = e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
+				message = url.toString() + " " + e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
 			}
 			
 			theReturn.put(code, message);

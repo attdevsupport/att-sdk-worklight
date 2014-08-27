@@ -4,13 +4,26 @@
  * @param successCallback
  * @param failCallback
  */
-function getAuthorizationCode(successCallback, failCallback)
+function getAuthorizationCode(successCallback, failCallback, bypassOnnetworkAuth, suppressLandingPage)
 {   
+   var params = {};
+   
+   if(bypassOnnetworkAuth != undefined && bypassOnnetworkAuth==true)
+   {
+	   params.bypassOnnetworkAuth = true;
+   }
+
+   if(suppressLandingPage != undefined && suppressLandingPage==true)
+   {
+	   params.suppressLandingPage = true;
+   }
+   
    var invocationData = {
       adapter : 'OAuthAdapter',
       procedure : 'getAuthCode',
-      parameters : [options]
+      parameters : [params]
    };
+   
    var options = {
       onSuccess : successCallback,
       onFailure : failCallback,
