@@ -33,7 +33,7 @@ function getAccessToken(options)
 	
 	var input = {
 			method :'post',
-			path : 'oauth/v4/access_token',
+			path : 'oauth/v4/token',
 			headers: {'Content-Type' : 'application/x-www-form-urlencoded' , 'Accept':'application/json'},
 	};
 	
