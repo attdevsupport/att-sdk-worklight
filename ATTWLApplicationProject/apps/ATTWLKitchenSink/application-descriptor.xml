@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATTWLKitchenSink" platformVersion="6.2.0.00.20140818-1919">
+<!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATTWLKitchenSink" platformVersion="6.2.0.00.20140904-1709">
     <displayName>ATTWLKitchenSink</displayName>
     <description>This is the sample application for AT&amp;T Worklight Adapters</description>
     <author>
