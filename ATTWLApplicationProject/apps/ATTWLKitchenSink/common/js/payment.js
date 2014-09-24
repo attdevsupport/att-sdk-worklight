@@ -1,4 +1,4 @@
-var MerchantPaymentRedirectUrl = "http://attdemo.somee.com/ATTNotifications/PaymentSuccess.aspx";
+var MerchantPaymentRedirectUrl = "https://ldev.code-api-att.com/ATTDPSDEMO/payment_lp.html";
 var Amount = "0.99";
 var Category = 1;
 var Channel = "MOBILE_WEB";

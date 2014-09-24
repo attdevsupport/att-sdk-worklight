@@ -1,11 +1,11 @@
-	<div class="header">
+
+	<div id="paymentHeader" class="header" data-tap-toggle="false">
 		<span class="backbutton"><span class="innerText"
 			onclick="backNav();">Back</span></span> <span class="headerTitle"
 			style="margin-left: 130px;">Single Pay</span>
 	</div>
 	<div id="iframe" >
-		<iframe id="transactionFrame" frameborder="0" height="100%"
-			scrolling="yes" ></iframe>
+		<iframe id="transactionFrame" height="100%" width="100%" scrolling="yes"></iframe>
 	</div>
 	<div class="body" align="center">
 		<table class="table">
@@ -18,7 +18,7 @@
 			
 			<tr>
 				<td colspan="2" style="padding-bottom: 10px;">
-					<table cellspacing="0" cellpadding="0" class="txtable" id="txtable">
+					<table class="txtable" id="txtable">
 					</table>
 				</td>
 			</tr>
@@ -45,13 +45,14 @@
 		</table>
 	</div>
 	<script type="text/javascript" src="js/payment.js"></script>
-	<script type="text/javascript" language="javascript">
+	<script type="text/javascript">
 		page = "transactionpayment.html";
 		title = "transaction";
 		
-		function backNav(){
-		WL.Logger.debug('Back Button Clicked');
-			 $('#pagePort').load("payment.html",'',function(){});
+		function backNav()
+		{
+			WL.Logger.debug('Back Button Clicked');
+			$('#pagePort').load("payment.html",'',function() {});
 		}
 			function newTransaction() {
 			
@@ -99,7 +100,6 @@
 				$("#iframe").hide();
 				$("#btntransactionstatus").attr("disabled", true);
 				$("#refundtransaction").attr("disabled", true);
-				
 			}
 			initialize();
 		</script>

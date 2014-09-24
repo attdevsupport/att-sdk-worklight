@@ -5,7 +5,7 @@
 			style="margin-left: 130px;">Subscription</span>
 	</div>
 	<div id="iframe" class="iframe">
-			<iframe id="transactionFrame" frameborder="0" height="100%"
+			<iframe id="transactionFrame" frameborder="0" height="100%" width="100%"
 			scrolling="yes"  ></iframe>
 	</div>
 	<div class="body" align="center">
@@ -56,9 +56,10 @@
 	<script type="text/javascript" language="javascript">
 		page = "subscriptionpayment.html";
 		title = "subscription";
-	   function backNav(){
-	   WL.Logger.debug('Back Button Clicked');
-			 $('#pagePort').load("payment.html",'',function(){});
+	   function backNav()
+	   {
+	      WL.Logger.debug('Back Button Clicked');
+		  $('#pagePort').load("payment.html",'',function(){});
 		}
 			function refund() {
 			WL.Logger.debug('Refund Subscription Button Clicked');
