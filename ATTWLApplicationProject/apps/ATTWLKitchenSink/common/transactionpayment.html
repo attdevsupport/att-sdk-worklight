@@ -86,13 +86,16 @@
 			};
 			
 			function openDialog(page) {
-			WL.Logger.debug('Notification Button Clicked');
 				$('#pagePort').load(page,'',function(){});
 			}
            
 			function initialize() {
 				$("#iframe").hide();
-				$("#btntransactionstatus").attr("disabled", true);
+				if(window.localStorage.getItem("TransactionAuthCode") == null) {
+				   $("#btntransactionstatus").attr("disabled", true);
+				} else {
+					$("#btntransactionstatus").attr("disabled", false);
+				}
 				$("#refundtransaction").attr("disabled", true);
 			}
 			initialize();

@@ -53,7 +53,7 @@ function gotFileEntry(fileEntry)
     storageDir = storageDir.substring(0, storageDir.lastIndexOf('/') + 1);
     
 	console.log("fileSystem storage: " + storageDir);
-	alert("fileSystem storage: " + storageDir);
+	//alert("fileSystem storage: " + storageDir);
 }
 
 function onFileError(error) 

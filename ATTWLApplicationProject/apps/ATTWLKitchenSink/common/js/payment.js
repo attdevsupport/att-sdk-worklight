@@ -136,34 +136,33 @@ var ATT = {
 		{
 			document.getElementById("transactionFrame").src = signedData.invocationResult.url;
 			
-			$("#transactionFrame")
-					.load(
-							function() {
-								busyInd.hide();
-								$("#iframe").show();
-								var url = this.contentDocument.location.href;
-								
-								if (url.indexOf('success') !== -1) {
-									alert("Failed transaction: \n" + url);
-									$("#iframe").hide();
-								} else {
-									alert("success url " + url);
-									if (url.indexOf('TransactionAuthCode') !== -1) {
-										
-										var index = url
-												.indexOf("TransactionAuthCode");
-										window.localStorage.TransactionAuthCode = url
-												.substr(index + 20,
-														url.length + 1);
-										WL.Logger
-												.debug("TransactionAuthCode is "
-														+ window.localStorage.TransactionAuthCode);
-										$("#btntransactionstatus").attr(
-												"disabled", false);
-										$("#iframe").hide();
-									}
-								}
-							});
+			$("#transactionFrame").load(function() {
+				busyInd.hide();
+				$("#iframe").show();
+	
+				var url = this.contentDocument.location.href;
+				
+				if (url.indexOf('success') !== -1) {
+					alert("Failed transaction: \n" + url);
+					$("#iframe").hide();
+				} else {
+					if (url.indexOf('TransactionAuthCode') !== -1) {
+						
+						var index = url
+								.indexOf("TransactionAuthCode");
+						window.localStorage.TransactionAuthCode = url
+								.substr(index + 20,
+										url.length + 1);
+						WL.Logger
+								.debug("TransactionAuthCode is "
+										+ window.localStorage.TransactionAuthCode);
+						$("#btntransactionstatus").attr(
+								"disabled", false);
+						alert("Transaction successful: " + window.localStorage.TransactionAuthCode);
+						$("#iframe").hide();
+					}
+				}
+			});
 		}
 
 		function getFailure(error) {
@@ -254,8 +253,9 @@ var ATT = {
 			//"body" : "<RefundTransactionRequest><TransactionOperationStatus>Refunded</TransactionOperationStatus><RefundReasonCode>1</RefundReasonCode><RefundReasonText>Customer was unhappy</RefundReasonText></RefundTransactionRequest>",
 			"body":{
 				    "TransactionOperationStatus":"Refunded",
-				    "RefundReasonCode":1,
-				    "RefundReasonText":"Customer was not happy" 
+				    "RefundReasonCode":9,
+				    "RefundReasonText":"Refunding test payments",
+				    "Action": "refund"
 			},
 			"transactionId" : window.localStorage.TransactionId,
 			"contentType" : "application/json",
@@ -272,27 +272,28 @@ var ATT = {
 		function getSuccess(data) {
 			busyInd.hide();
 			WL.Logger.debug('RESPONSE : ' + JSON.stringify(data));
+			alert("Refund successful");
 			$("#txtable tr").each(function() {
 				if (this.id == window.localStorage.TransactionId) {
 					$(this).remove();
 					window.localStorage.removeItem("TransactionId");
+					window.localStorage.removeItem("subscriptionAuthCode");
+					window.localStorage.removeItem("TransactionAuthCode");
 					$("#refundtransaction").attr("disabled", "true");
 				}
 			});
-		}
-		;
+		};
 
 		function getFailure(error) {
 			busyInd.hide();
 			WL.Logger.debug('ERROR : ' + JSON.stringify(error));
-			alert('RefundTransaction Error :' + JSON.stringify(error));
-		}
-		;
+			alert('Refund Error :' + JSON.stringify(error));
+		};
+		
 		WL.Client.invokeProcedure(data, {
 			onSuccess : getSuccess,
 			onFailure : getFailure
 		});
-
 	},
 
 	/*
@@ -325,7 +326,6 @@ var ATT = {
 					$("#iframe").hide();
 					alert("Failed transaction: \n" + url);
 				} else {
-					alert("success url " + url);
 					if (url.indexOf('SubscriptionAuthCode') !== -1) {
 						var index = url
 								.indexOf("SubscriptionAuthCode");
@@ -333,12 +333,13 @@ var ATT = {
 								.substr(index + 21,
 										url.length + 1);
 						WL.Logger.debug("SubscriptionAuthCode is " +
-						     window.localStorage.TransactionAuthCode);
+						     window.localStorage.subscriptionAuthCode);
 						$("#btnsubscriptionstatus").attr(
 								"disabled", false);
 						$("#btnsubscriptiondetails").attr(
 								"disabled", false);
 						$("#iframe").hide();
+						alert("Subscription successful: " + window.localStorage.subscriptionAuthCode);
 					}
 				}
 			});
@@ -427,7 +428,6 @@ var ATT = {
 
 	getSubscriptionDetails : function() {
 		busyInd.show();
-		WL.Logger.debug('getSubscriptionDetails called');
 		var params = {
 			'consumerId' : window.localStorage.SubsConsumerId,
 			'merchantSubscriptionId' : window.localStorage.MerchantSubscriptionId,
@@ -442,7 +442,7 @@ var ATT = {
 		function getSuccess(data) {
 			WL.Logger.debug('RESPONSE : ' + JSON.stringify(data));
 			busyInd.hide();
-			alert("GetSubscriptionDetails Success:" + JSON.stringify(data));
+			alert("GetSubscriptionDetails Success:" + JSON.stringify(data, null, 3));
 			$("#btnsubscriptiondetails").attr("disabled", true);
 		}
 		;
@@ -458,95 +458,5 @@ var ATT = {
 			onFailure : getFailure
 		});
 
-	},
-
-	/*
-	 * GET NOTIFICATION - @param NotificationID - Get NotificationID From App
-	 * Hosted Through Tunnlr
-	 */
-
-	getNotification : function(notificationId) {
-		busyInd.show();
-		WL.Logger.debug('getNotification called');
-		var params = {
-			'notificationId' : notificationId,
-			'accessToken' : window.localStorage.accessToken
-		};
-		var data = {
-			adapter : "PaymentAdapter",
-			procedure : "getNotification",
-			parameters : [ params ]
-		};
-
-		function getSuccess(data) {
-			busyInd.hide();
-			WL.Logger.debug('RESPONSE : ' + JSON.stringify(data));
-			
-			alert('getNotification Success :' + JSON.stringify(data));
-		};
-
-		function getFailure(error) {
-			busyInd.hide();
-			WL.Logger.debug('ERROR : ' + JSON.stringify(error));
-		
-			alert('getNotification Error :' + error);
-		}
-		;
-		WL.Client.invokeProcedure(data, {
-			onSuccess : getSuccess,
-			onFailure : getFailure
-		});
-	},
-
-	/*
-	 * DELETE NOTIFICATION - @param NotificationID - Get NotificationID
-	 * From App Hosted Through Tunnlr
-	 */
-
-	deleteNotification : function(notificationId) {
-		busyInd.show();
-		WL.Logger.debug('deleteNotification called');
-		var params = {
-			'notificationId' : notificationId,
-			'accessToken' : window.localStorage.accessToken
-		};
-		var data = {
-			adapter : "PaymentAdapter",
-			procedure : "deleteNotification",
-			parameters : [ params ]
-		};
-
-		function getSuccess(data) {
-			WL.Logger.debug('RESPONSE : ' + JSON.stringify(data));
-			busyInd.hide();
-			alert("DeleteNotification Success" + JSON.stringify(data));
-			$("#notificationtable tr").each(
-					function() {
-						if (this.id == notificationId) {
-							$(this).remove();
-							$("#btngetnotification").attr("disabled", true);
-							$("#btnacknowledgeNotification").attr("disabled",
-									true);
-
-							var originalList = $("#notificationIdToBeRemoved").val();
-							if ($("#notificationIdToBeRemoved").val() != "") {
-								originalList = originalList + ",";
-							}
-							$("#notificationIdToBeRemoved").val(
-							   originalList + notificationId);
-						}
-					});
-		}
-		;
-		function getFailure(error) {
-			busyInd.hide();
-			WL.Logger.debug('ERROR : ' + JSON.stringify(error));
-			alert("AcknowleadgeNotification Error" + JSON.stringify(error));
-		}
-		;
-		WL.Client.invokeProcedure(data, {
-			onSuccess : getSuccess,
-			onFailure : getFailure
-		});
 	}
 };

@@ -44,12 +44,6 @@
 						Refund Subscription</button>
 				</td>
 			</tr>
-			<tr class="trow">
-				<td colspan="2" style="padding-bottom: 10px">
-					<button type="button" class="submitextralarge" align="center"
-						onclick="openDialog('notification.html')">Notification</button>
-				</td>
-			</tr>
 		</table>
 	</div>
 	<script type="text/javascript" src="js/payment.js"></script>
@@ -112,13 +106,17 @@
 
 		
 			function openDialog(page) {
-			WL.Logger.debug('Notification Button clicked');
 				$('#pagePort').load(page,'',function(){});
 			}
 			function initialize() {
 				$("#iframe").hide();
-				$("#btnsubscriptionstatus").attr("disabled", true);
-				$("#btnsubscriptiondetails").attr("disabled", true);
+				if(window.localStorage.getItem("subscriptionAuthCode")==null) {
+				   $("#btnsubscriptionstatus").attr("disabled", true);
+				   $("#btnsubscriptiondetails").attr("disabled", true);
+				} else {
+				   $("#btnsubscriptionstatus").attr("disabled", false);
+				   $("#btnsubscriptiondetails").attr("disabled", false);				
+				}
 				$("#refundtransaction").attr("disabled", true);
 			}
 			initialize();
