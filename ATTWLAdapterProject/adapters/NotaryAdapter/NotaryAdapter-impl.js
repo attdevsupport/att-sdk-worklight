@@ -8,7 +8,7 @@ var baseEndPoint = 'Security/Notary/Rest/1/SignedPayload';
  *            statement value that you want to show in debug.
  */
 function logInfo(value) {
-	WL.Logger.debug(value);
+	WL.Logger.info(value);
 }
 /**
  * method getSignedPayload getSignedPayload method of Notary API

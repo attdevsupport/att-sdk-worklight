@@ -14,14 +14,14 @@
     <Analytics/>
 </features>
     <thumbnailImage>common/images/thumbnail.png</thumbnailImage>
-    <iphone applicationId="ATTWLKitchenSink" bundleId="com.ATTWLKitchenSink" version="3.7">
+    <iphone applicationId="ATTWLKitchenSink" bundleId="com.ATTWLKitchenSink" version="4.0">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
             <testWebResourcesChecksum enabled="false" ignoreFileExtensions="png, jpg, jpeg, gif, mp4, mp3"/>
         </security>
     </iphone>
-    <android version="3.7">
+    <android version="4.0">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>
@@ -30,7 +30,7 @@
         <packageName>com.ATTWLKitchenSink</packageName>
         </security>
     </android>
-    <ipad applicationId="ATTWLKitchenSink" bundleId="com.ATTWLKitchenSink" version="3.7">
+    <ipad applicationId="ATTWLKitchenSink" bundleId="com.ATTWLKitchenSink" version="4.0">
         <worklightSettings include="true"/>
         <security>
             <encryptWebResources enabled="false"/>

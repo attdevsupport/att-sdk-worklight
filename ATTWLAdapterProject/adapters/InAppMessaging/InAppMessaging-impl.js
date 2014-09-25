@@ -416,7 +416,6 @@ function getNotificationConnectionDetails(options)
 
 function logInfo(value) {
 	WL.Logger.info(value);
-	//WL.Logger.error(value);
 }
 
 /* Add client sdk header */

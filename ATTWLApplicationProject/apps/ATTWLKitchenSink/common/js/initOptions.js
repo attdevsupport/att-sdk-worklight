@@ -10,7 +10,7 @@
 	
 	// # Should application produce logs
 	// # Default value is true
-	//enableLogger: false,
+	enableLogger: true,
 	
 	// # The options of busy indicator used during application start up
 	busyOptions: {text: "Processing..."}

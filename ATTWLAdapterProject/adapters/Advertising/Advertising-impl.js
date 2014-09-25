@@ -64,5 +64,5 @@ function getAds(options)
 }
 
 function logInfo(value) {
-	WL.Logger.debug(value);
+	WL.Logger.info(value);
 }

@@ -13,7 +13,7 @@ var domain = "https://api.att.com/";
  *            statement value hat you want to show in debug.
  */
 function logInfo(value) {
-	WL.Logger.debug(value);
+	WL.Logger.info(value);
 }
 /**
  * method newTransaction newTransaction method of payment API.
@@ -24,7 +24,7 @@ function logInfo(value) {
  */
 function newTransaction(options) {
 	var url = {
-		"url" : domain + "rest/3/Commerce/Payment/Transactions"
+		"url" : domain + baseEndPoint + "Transactions"
 				+ '?Signature=' + options.signature + "&SignedPaymentDetail="
 				+ options.signedDocument + "&clientid=" + WL.Server.configuration["appKey"]
 	};
@@ -44,7 +44,7 @@ function newTransaction(options) {
  */
 function getTransactionStatus(options)
 {
-	if(options.accessToken.indexOf("Bearer ") == -1)
+	if(options!==undefined && options.accessToken!==undefined && options.accessToken.indexOf("Bearer ") == -1)
 	{
 		options.accessToken = 'Bearer ' + options.accessToken;
 	}
@@ -79,19 +79,33 @@ function getTransactionStatus(options)
  */
 function refundTransaction(options)
 {
-	if(options.accessToken.indexOf("Bearer ") == -1)
+	if(options!==undefined && options.accessToken!==undefined && options.accessToken.indexOf("Bearer ") == -1)
 	{
 		options.accessToken = 'Bearer ' + options.accessToken;
 	}
-	options.host = domain+baseEndPoint + 'Transactions/' + options.transactionId+ '?Action=' + options.action;
-	WL.Logger.debug(options.host);
-	var refundHelper = new com.att.PaymentHelper();
-	var response = refundHelper.refundTransaction(options);
-	logInfo('********* REFUND ADAPTER LOGS ***********');
-	logInfo('Response : '+com.worklight.server.integration.api.JSObjectConverter.toFormattedString(response));
-	return {
-		result: response
+	
+	var input = {
+		method : 'put',
+		path : baseEndPoint + 'Transactions/' + options.transactionId+ '?Action=' + options.action,
+		headers : {
+			'Authorization' : options.accessToken,
+		},
+	    body:{"contentType": "application/json"}
 	};
+	if (options.accept !== undefined) {
+		input.headers.Accept = options.accept;
+	}
+	input.body.content = com.worklight.common.js.util.JSObjectConverter.toFormattedString(options.body); 
+	
+	logInfo('********* Refund Transaction LOGS *********');
+	logInfo('Input : '
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
+	// http call to AT&T service
+	var result = WL.Server.invokeHttp(input);
+
+	logInfo('Response : '
+			+ com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
+	return result;
 }
 
 /**

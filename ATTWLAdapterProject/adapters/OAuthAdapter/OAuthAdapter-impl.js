@@ -14,14 +14,14 @@ function getAuthCode(options)
 		if(options.suppressLandingPage != undefined && options.suppressLandingPage) {
 			custom_param.push("suppress_landing_page");
 		}
-		
 	}
+	
 	var url = {
 		"url" : "https://api.att.com/oauth/v4/authorize"
 		+ '?client_id=' + WL.Server.configuration["appKey"] 
 		+  "&scope=" + WL.Server.configuration["authCodeScope"]
 	 };
-	if(custom_param.length > 0) url += "&custom_param=" + custom_param.join;
+	if(custom_param.length > 0) url.url += "&custom_param=" + custom_param.join();
 	
 	WL.Logger.debug('getAuthCode : url => '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(url));
 	return url;
@@ -68,7 +68,7 @@ function getAccessToken(options)
 
 function logInfo(value)
 {
-	WL.Logger.debug(value);
+	WL.Logger.info(value);
 }
 
 /* Add client sdk header */

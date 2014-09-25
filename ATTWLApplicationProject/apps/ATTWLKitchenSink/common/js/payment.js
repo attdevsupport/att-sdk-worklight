@@ -147,6 +147,7 @@ var ATT = {
 									alert("Failed transaction: \n" + url);
 									$("#iframe").hide();
 								} else {
+									alert("success url " + url);
 									if (url.indexOf('TransactionAuthCode') !== -1) {
 										
 										var index = url
@@ -312,45 +313,43 @@ var ATT = {
 			procedure : "newSubscription",
 			parameters : [ params ]
 		};
+		
 		function getSuccess(data) {
 			document.getElementById("transactionFrame").src = data.invocationResult.url;
-			;
 
-			$("#transactionFrame")
-					.load(
-							function() {
-								busyInd.hide();
-								$("#iframe").show();
-								var url = this.contentDocument.location.href;
-								if (url.indexOf('success') != -1) {
-									$("#iframe").hide();
-								} else {
-									if (url.indexOf('SubscriptionAuthCode') !== -1) {
-										var index = url
-												.indexOf("SubscriptionAuthCode");
-										window.localStorage.subscriptionAuthCode = url
-												.substr(index + 21,
-														url.length + 1);
-										WL.Logger
-												.debug("SubscriptionAuthCode is "
-														+ window.localStorage.TransactionAuthCode);
-										$("#btnsubscriptionstatus").attr(
-												"disabled", false);
-										$("#btnsubscriptiondetails").attr(
-												"disabled", false);
-										$("#iframe").hide();
-									}
-								}
-							});
-
-		}
-		;
+			$("#transactionFrame").load(function() {
+				busyInd.hide();
+				$("#iframe").show();
+				var url = this.contentDocument.location.href;
+				if (url.indexOf('success') != -1) {
+					$("#iframe").hide();
+					alert("Failed transaction: \n" + url);
+				} else {
+					alert("success url " + url);
+					if (url.indexOf('SubscriptionAuthCode') !== -1) {
+						var index = url
+								.indexOf("SubscriptionAuthCode");
+						window.localStorage.subscriptionAuthCode = url
+								.substr(index + 21,
+										url.length + 1);
+						WL.Logger.debug("SubscriptionAuthCode is " +
+						     window.localStorage.TransactionAuthCode);
+						$("#btnsubscriptionstatus").attr(
+								"disabled", false);
+						$("#btnsubscriptiondetails").attr(
+								"disabled", false);
+						$("#iframe").hide();
+					}
+				}
+			});
+		};
+		
 		function getFailure(error) {
 			busyInd.hide();
 			WL.Logger.debug('ERROR : ' + JSON.stringify(error));
 			console.log(error);
-		}
-		;
+		};
+		
 		WL.Client.invokeProcedure(data, {
 			onSuccess : getSuccess,
 			onFailure : getFailure
