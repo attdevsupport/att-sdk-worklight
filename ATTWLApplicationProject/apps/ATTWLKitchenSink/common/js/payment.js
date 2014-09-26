@@ -8,16 +8,6 @@ var SubscriptionRecurrences = 99999;
 var SubscriptionPeriod = 'MONTHLY';
 var SubscriptionPeriodAmount = 1;
 
-function isDeviceiOS(){
-	if((navigator.userAgent.match(/(iPhone)/))||(navigator.userAgent.match(/(iPad)/)))
-	{
-	   $("#iframe").attr('class', 'iframeIphone');
-	}
-	else{
-	   $("#iframe").attr('class', 'iframeAndroid');
-	}
-}
-
 var ATT = {
 	/*
 	 * NOTARY SIGN PAYLOAD @param Data -notaryData - Mandatory @param clientId
@@ -105,7 +95,6 @@ var ATT = {
    
 	transaction : function(type) {
 		busyInd.show();
-		isDeviceiOS();
 		if (type === "transaction") {
 			ATT.notary(ATT.newTransaction, ATT.transactionData());
 		} else if (type === "subscription") {
@@ -133,15 +122,15 @@ var ATT = {
 		};
 		function getSuccess(signedData)
 		{
-			var windowRef = window.open(signedData.invocationResult.url, '_blank', 'location=no');
+			var consentWindow = window.open(signedData.invocationResult.url, '_blank', 'location=no');
 			
-			windowRef.addEventListener('loadstop', function(event) {
+			consentWindow.addEventListener('loadstop', function(event) {
 				busyInd.hide();
 				var url = event.url;
 				
 				if (url.indexOf('success') !== -1) {
 					alert("Failed transaction: \n" + url);
-					windowRef.close();
+					consentWindow.close();
 				} else {
 					if (url.indexOf('TransactionAuthCode') !== -1)
 					{
@@ -155,14 +144,14 @@ var ATT = {
 						$("#btntransactionstatus").attr(
 								"disabled", false);
 						alert("Transaction successful: " + window.localStorage.TransactionAuthCode);
-						windowRef.close();
+						consentWindow.close();
 					}
 				}
 			});
 			
-			windowRef.addEventListener('loaderror', function(event) {
+			consentWindow.addEventListener('loaderror', function(event) {
 				alert("Unable to load payment consent page. " + event.message);
-				windowRef.close();
+				consentWindow.close();
 			});
 		}
 
@@ -177,7 +166,6 @@ var ATT = {
 			onSuccess : getSuccess,
 			onFailure : getFailure
 		});
-
 	},
 
 	/*
@@ -316,33 +304,36 @@ var ATT = {
 			parameters : [ params ]
 		};
 		
-		function getSuccess(data) {
-			document.getElementById("transactionFrame").src = data.invocationResult.url;
-
-			$("#transactionFrame").load(function() {
+		function getSuccess(data)
+		{
+			var consentWindow = window.open(data.invocationResult.url, "_blank", "location=no");
+			
+			consentWindow.addEventListener('loadstop', function(event)
+			{
 				busyInd.hide();
-				$("#iframe").show();
-				var url = this.contentDocument.location.href;
+			
+				var url = event.url;
 				if (url.indexOf('success') != -1) {
-					$("#iframe").hide();
+					consentWindow.close();
 					alert("Failed transaction: \n" + url);
 				} else {
 					if (url.indexOf('SubscriptionAuthCode') !== -1) {
-						var index = url
-								.indexOf("SubscriptionAuthCode");
-						window.localStorage.subscriptionAuthCode = url
-								.substr(index + 21,
-										url.length + 1);
+						var index = url.indexOf("SubscriptionAuthCode");
+						window.localStorage.subscriptionAuthCode = 
+							url.substr(index + 21, url.length + 1);
 						WL.Logger.debug("SubscriptionAuthCode is " +
 						     window.localStorage.subscriptionAuthCode);
-						$("#btnsubscriptionstatus").attr(
-								"disabled", false);
-						$("#btnsubscriptiondetails").attr(
-								"disabled", false);
-						$("#iframe").hide();
+						$("#btnsubscriptionstatus").attr("disabled", false);
+						$("#btnsubscriptiondetails").attr("disabled", false);
 						alert("Subscription successful: " + window.localStorage.subscriptionAuthCode);
+						consentWindow.close();
 					}
 				}
+			});
+			
+			consentWindow.addEventListener('loaderror', function(event) {
+				alert("Unable to load payment consent page. " + event.message);
+				consentWindow.close();
 			});
 		};
 		

@@ -1746,7 +1746,7 @@ if (WL.Client.getEnvironment() === WL.Environment.IPHONE ||
           setTimeout(function () {
           for(var metaKey in ls) {
             metaIndex = metaKey.indexOf(constant.METADATA_TAG);
-            patt = new RegExp('"username":', ['g']);
+            patt = new RegExp('"' + constant.USERNAME + '":', ['g']);
             meta = ls.getItem(metaKey);
               if(meta.match(patt) !== null && metaIndex > -1) {
                 metaKeys.push(metaKey);
@@ -1766,7 +1766,7 @@ if (WL.Client.getEnvironment() === WL.Environment.IPHONE ||
           for(var j = 0; j < usernames.length; j++) {
             for(var collectionKey in ls) {
               colIndex = collectionKey.indexOf(usernames[j]);
-              patt = new RegExp('"username":' + '"' + usernames[j] + '"', ['g']);
+              patt = new RegExp('"' + constant.USERNAME + '":' + '"' + usernames[j] + '"', ['g']);
               col = ls.getItem(collectionKey);
               if(col.match(patt) !== null && colIndex > -1) {
                 if(ls.getItem(collectionKey) !== null) {
@@ -3506,6 +3506,8 @@ if (WL.Client.getEnvironment() === WL.Environment.IPHONE ||
           newJSONData = [],
           numOfReplaces = 0,
           newData = [],
+          foundPickedData = [],
+          newPickedData = [],
           foundJSONData = [],
           retData = [],
           replaceData = [],
@@ -3521,8 +3523,12 @@ if (WL.Client.getEnvironment() === WL.Environment.IPHONE ||
           setTimeout(function() {
             options.onSuccess(0);
           }, 0);
+        } else if(check.isUndefined(ctx.replaceCriteria) && !ctx.addNew) {
+        	setTimeout(function () {
+        		options.onSuccess(0);
+        	},0);
         } else {
-          _.each(data, function(value, index, list) {
+         _.each(data, function(value, index, list) {
             newJSONData[index] = {
               'json': value
             };
@@ -3532,9 +3538,21 @@ if (WL.Client.getEnvironment() === WL.Environment.IPHONE ||
             exact: true
           })
             .then(function(res) {
-              if (res.length > 0) {
+              if (res.length > 0 && !check.isUndefined(ctx.replaceCriteria)) {
                 foundJSONData = _.cloneDeep(res);
-                replaceData = _.initial(_.merge(foundJSONData, newJSONData), data.length - res.length);
+                if(foundJSONData.length > newJSONData.length) {
+                    for(var i = 0; i < foundJSONData.length; i++) {
+                      for(var j = 0; j < newJSONData.length; j++) {
+                        newPickedData = _.pick(newJSONData[j].json, ctx.replaceCriteria);
+                        foundPickedData = _.pick(foundJSONData[i].json, ctx.replaceCriteria);
+                        if(_.isEqual(newPickedData, foundPickedData)) {
+                         replaceData.push( _.merge(foundJSONData[i], newJSONData[j]));
+                        }
+                      }
+                    }
+                  }else {
+                	  replaceData = _.initial(_.merge(foundJSONData, newJSONData), data.length - res.length);
+                  }
                 return WL.JSONStore.get(col.name).replace(replaceData, {
                   markDirty: ctx.markDirty
                 });
@@ -4294,8 +4312,9 @@ WL._JSONStoreImpl = (function(jQuery, underscore) {
     },
 
     __handleOptions = function(options, searchFields, additionalSearchFields) {
-
+ 
       var opts = {};
+      var lowerCaseFilter = [];
 
       if (check.isObject(options)) {
 
@@ -4344,8 +4363,21 @@ WL._JSONStoreImpl = (function(jQuery, underscore) {
         } else if (!check.isUndefined(options.sort) && !(check.isArray(options.sort) && options.sort.length === 0)) {
           throw constant.INVALID_SORT_OBJECT;
         }
+        
+        //lowercase keys
+        if(check.isArray(options.filter)){
+          _.each(options.filter, function(value, k) {
+            var newValue = value;
+            if(check.isString(value)) {
+              newValue = value.toLowerCase();  
+            }
+            lowerCaseFilter.push(newValue);
+          });
+        } else {
+          lowerCaseFilter.push(options.filter);
+        }
 
-        if (check.isArrayOfSAFields(options.filter, searchFields, additionalSearchFields)) {
+        if (check.isArrayOfSAFields(lowerCaseFilter, searchFields, additionalSearchFields)) {
           opts.filter = options.filter;
         } else if (!check.isUndefined(options.filter)) {
           throw constant.INVALID_FILTER_ARRAY;
@@ -5453,6 +5485,7 @@ WL._JSONStoreImpl = (function(jQuery, underscore) {
     change: function(data, options) {
 
       options = options || {};
+      var lowerCaseReplaceCriteria = [];
 
       var deferred = $.Deferred(),
         callbacks = __generateCallbacks(options, 'change', this.name, this.username, deferred);
@@ -5476,9 +5509,23 @@ WL._JSONStoreImpl = (function(jQuery, underscore) {
 
         callbacks.markDirty = false;
       }
+      
+      //lowercase keys
+      if(check.isArray(options.replaceCriteria)) {
+        _.each(options.replaceCriteria, function(value, k) {
+          var newValue = value;
+          if(!check.isNumber(value) || !check.isBoolean(value)){
+            newValue = value.toLowerCase();  
+          }
+          
+          lowerCaseReplaceCriteria.push(newValue);
+        });
+      } else {
+        lowerCaseReplaceCriteria.push(options.replaceCriteria);
+      }
 
       //all fields indexed are used as the replace criteria by default
-      if (check.isArrayOfSAFields(options.replaceCriteria, this.searchFields, this.additionalSearchFields)) {
+      if (check.isArrayOfSAFields(lowerCaseReplaceCriteria, this.searchFields, this.additionalSearchFields)) {
 
         callbacks.replaceCriteria = options.replaceCriteria;
 
@@ -5486,8 +5533,6 @@ WL._JSONStoreImpl = (function(jQuery, underscore) {
         setTimeout(function() {
           callbacks.onFailure(constant.BAD_PARAMETER_WRONG_SEARCH_CRITERIA);
         }, 0);
-      } else {
-        callbacks.replaceCriteria = _.union(_.keys(this.searchFields), _.keys(this.additionalSearchFields));
       }
 
       if (check.isArrayOfObjects(data) || check.isEmptyArray(data)) {

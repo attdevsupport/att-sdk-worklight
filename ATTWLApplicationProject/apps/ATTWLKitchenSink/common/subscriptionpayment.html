@@ -4,10 +4,6 @@
 			onclick="backNav();">Back</span></span> <span class="headerTitle"
 			style="margin-left: 130px;">Subscription</span>
 	</div>
-	<div id="iframe" class="iframe">
-			<iframe id="transactionFrame" frameborder="0" height="100%" width="100%"
-			scrolling="yes"  ></iframe>
-	</div>
 	<div class="body" align="center">
 		<table class="table">
 			<tr class="trow">
@@ -109,7 +105,6 @@
 				$('#pagePort').load(page,'',function(){});
 			}
 			function initialize() {
-				$("#iframe").hide();
 				if(window.localStorage.getItem("subscriptionAuthCode")==null) {
 				   $("#btnsubscriptionstatus").attr("disabled", true);
 				   $("#btnsubscriptiondetails").attr("disabled", true);
