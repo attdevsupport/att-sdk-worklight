@@ -19,7 +19,6 @@ function isDeviceiOS(){
 }
 
 var ATT = {
-
 	/*
 	 * NOTARY SIGN PAYLOAD @param Data -notaryData - Mandatory @param clientId
 	 * Mandatory @param clientSecret Mandatory
@@ -134,22 +133,19 @@ var ATT = {
 		};
 		function getSuccess(signedData)
 		{
-			document.getElementById("transactionFrame").src = signedData.invocationResult.url;
+			var windowRef = window.open(signedData.invocationResult.url, '_blank', 'location=no');
 			
-			$("#transactionFrame").load(function() {
+			windowRef.addEventListener('loadstop', function(event) {
 				busyInd.hide();
-				$("#iframe").show();
-	
-				var url = this.contentDocument.location.href;
+				var url = event.url;
 				
 				if (url.indexOf('success') !== -1) {
 					alert("Failed transaction: \n" + url);
-					$("#iframe").hide();
+					windowRef.close();
 				} else {
-					if (url.indexOf('TransactionAuthCode') !== -1) {
-						
-						var index = url
-								.indexOf("TransactionAuthCode");
+					if (url.indexOf('TransactionAuthCode') !== -1)
+					{
+						var index = url.indexOf("TransactionAuthCode");
 						window.localStorage.TransactionAuthCode = url
 								.substr(index + 20,
 										url.length + 1);
@@ -159,9 +155,14 @@ var ATT = {
 						$("#btntransactionstatus").attr(
 								"disabled", false);
 						alert("Transaction successful: " + window.localStorage.TransactionAuthCode);
-						$("#iframe").hide();
+						windowRef.close();
 					}
 				}
+			});
+			
+			windowRef.addEventListener('loaderror', function(event) {
+				alert("Unable to load payment consent page. " + event.message);
+				windowRef.close();
 			});
 		}
 
