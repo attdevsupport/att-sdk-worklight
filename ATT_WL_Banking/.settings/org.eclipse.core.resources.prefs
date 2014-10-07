@@ -1,24 +1,24 @@
-#Wed Jul 30 18:42:56 PDT 2014
-base.iphone=569739860
-base.android=273934485
+#Tue Sep 09 17:31:30 PDT 2014
+base.iphone=1019386945
+base.android=3825151067
 encoding//apps/Banking/android/css/Banking.css=UTF-8
-jsonstore.windowsphone8=235816936
+jsonstore.windowsphone8=1803770801
 common.android=1795526790
 fipshttp.android=690177043
 encoding//apps/Banking/common/Banking.html=UTF-8
-wl_version=6.2.0.00.20140724-2139
+wl_version=6.2.0.00.20140904-1709
 eclipse.preferences.version=1
-base.windowsphone8=239794964
+base.windowsphone8=1188172710
 jsonstore.android=790094678
 analytics.ipad=3882346749
 encoding//apps/Banking/iphone/css/Banking.css=UTF-8
 Banking.iphone.warnversion=1.2
-fipshttp.iphone=2108801065
+fipshttp.iphone=933660520
 encoding//apps/Banking/common/css/Banking.css=UTF-8
 Banking.android.warnversion=1.2
-fipshttp.ipad=167156036
+fipshttp.ipad=2537779042
 Banking.iphone.native=4003800880-1580896238
-base.ipad=569739860
+base.ipad=1019386945
 Banking.android.native=154549862-2408201680-2746434164
 Banking.ipad.native=4003800880-639869681
 analytics.iphone=172702511

@@ -46,12 +46,18 @@ credentials.softLogout = function() {
    this.store();
 };
 
+credentials.relogin = function() {
+   this.state = "loggedOut";
+};
+
 credentials.setLoggedIn = function() {
    this.state = "loggedIn";
 };
 
 credentials.expired = function() {
-   return (this.expiration * 1000 <= Date.now());
+   var isExpired = (this.expiration * 1000 <= Date.now());
+   if(isExpired) console.log("Access token expired");
+   return isExpired;
 };
 
 credentials.setExpiration = function(inExpiration) {
@@ -59,7 +65,21 @@ credentials.setExpiration = function(inExpiration) {
    if (inExpiration > maxSeconds) {
       inExpiration = maxSeconds;
    }
-   this.expiration = inExpiration + Date.now() / 1000;
+   this.expiration = inExpiration + Date.now()/1000;
+};
+
+credentials.refreshAccessToken = function()
+{
+	console.log("Refreshing access token");
+	refreshAccessToken(this.refreshToken, accessTokenSuccess, accessTokenFail);
+};
+
+credentials.setupAccessTokenTimer = function()
+{
+   if(this.expiration !== undefined)
+   {
+      this.timerId = setTimeout(this.refreshAccessToken, this.expiration - 2000 - Date.now()/1000);   
+   }
 };
 
 credentials.store = function() {
@@ -92,6 +112,7 @@ credentials.clearAccess = function() {
    this.expiration = 0;
    this.refreshToken = "";
    this.authorizationCode = "";
+   if(this.timerId != undefined) clearTimeout(this.timerId);
 };
 
 credentials.initialize = function() {
@@ -104,9 +125,9 @@ credentials.getAccessToken = function() {
    if (!this.expired()) {
       return this.accessToken;
    } else {
-      // TODO use refresh token - for now just log back in
-      this.softLogout();
-      $.mobile.changePage("#page-login");
+	  this.refreshAccessToken();
+      //this.softLogout();
+      //$.mobile.changePage("#page-login");
    }
 };
 
@@ -136,10 +157,6 @@ $("#buttonLogout").on('tap', function() {
    }
 });
 
-credentials.relogin = function() {
-   this.state = "loggedOut";
-};
-
 var getMobileNumber = function() {
    var phoneNumber = $('#mobileNumber').val();
    phoneNumber = phoneNumber.replace(/\D/g, '');
@@ -157,7 +174,6 @@ messageStorage.retrieve = function() {
       this.messageIndex = storageObj.messageIndex;
       this.conversationGroups = storageObj.conversationGroups;
    }
-
 };
 
 messageStorage.save = function() {
@@ -238,8 +254,16 @@ function accessTokenSuccess(result) {
    credentials.accessToken = result.invocationResult.accessToken;
    credentials.setExpiration(result.invocationResult.expiresIn);
    credentials.refreshToken = result.invocationResult.refreshToken;
-   credentials.setLoggedIn();
+   if(!credentials.isLoggedIn()) {
+      credentials.setLoggedIn();
+      messageStorage.retrieve();
+      $.mobile.changePage("#page-messageList");
+   } else {
+	   console.log("Access token refreshed successfully");
+   }
    credentials.store();
+   credentials.setupAccessTokenTimer();
+   
    console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
    messageStorage.retrieve();
    $.mobile.changePage("#page-messageList");
@@ -250,6 +274,7 @@ function accessTokenFail(error) {
    showAlertView("Failed to acquire access. "
          + JSON.stringify(error.invocationResult));
    busyIndicator.hide();
+   this.softLogout();
    $.mobile.changePage("#page-login");
 }
 
@@ -268,9 +293,15 @@ var determineStartPage = function() {
    // Check if access token is stored and is valid. If so, load the uber
    // conversation page
    credentials.retrieve();
-   if (credentials.isLoggedIn() && !credentials.expired()) {
-      messageStorage.retrieve();
-      $.mobile.changePage("#page-messageList");
+   if (credentials.isLoggedIn()) {
+	   if(!credentials.expired()) {
+		  credentials.setupAccessTokenTimer(); 
+	      messageStorage.retrieve();
+	      $.mobile.changePage("#page-messageList");
+	   } else {
+		   credentials.relogin();
+		   credentials.refreshAccessToken();
+	   }
    } else {
       $.mobile.changePage("#page-login");
    }

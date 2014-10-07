@@ -63,6 +63,12 @@ function getAccessToken(options)
 	   "expiresIn": result.expires_in,
 	   "refreshToken": result.refresh_token
 	};
+	
+	var expiresInOverride = WL.Server.configuration["attOauthExpiresIn"];
+	if(expiresInOverride != undefined && expiresInOverride != 0) {
+		accessTokenResponse.expiresIn = expriesInOverride;
+	}
+	
 	return accessTokenResponse;
 }
 
