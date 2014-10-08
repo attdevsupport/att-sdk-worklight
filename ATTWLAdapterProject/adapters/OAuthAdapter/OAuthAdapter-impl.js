@@ -66,7 +66,7 @@ function getAccessToken(options)
 	
 	var expiresInOverride = WL.Server.configuration["attOauthExpiresIn"];
 	if(expiresInOverride != undefined && expiresInOverride != 0) {
-		accessTokenResponse.expiresIn = expriesInOverride;
+		accessTokenResponse.expiresIn = expiresInOverride;
 	}
 	
 	return accessTokenResponse;
