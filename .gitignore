@@ -1,6 +1,5 @@
 .DS_Store
 WorklightServerConfig/
 WorklightSDK/
-CordovaLib/
-native/libs/
 bin/
+native/

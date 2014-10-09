@@ -94,6 +94,8 @@ credentials.setupAccessTokenTimer = function()
 credentials.store = function() {
    window.localStorage.removeItem('credentials');
    window.localStorage.setItem('credentials', JSON.stringify(this));
+   
+   console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
 };
 
 credentials.retrieve = function() {
@@ -272,10 +274,6 @@ function accessTokenSuccess(result) {
    }
    credentials.store();
    credentials.setupAccessTokenTimer();
-   
-   console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
-   messageStorage.retrieve();
-   $.mobile.changePage("#page-messageList");
 }
 
 function accessTokenFail(error) {
