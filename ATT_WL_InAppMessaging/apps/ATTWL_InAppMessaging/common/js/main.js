@@ -55,30 +55,39 @@ credentials.setLoggedIn = function() {
 };
 
 credentials.expired = function() {
-   var isExpired = (this.expiration * 1000 <= Date.now());
+   var nowDate = new Date();
+   var isExpired = (this.expiration * 1000 <= nowDate.getTime());
    if(isExpired) console.log("Access token expired");
    return isExpired;
 };
 
 credentials.setExpiration = function(inExpiration) {
-   maxSeconds = 2592000; // 30 days
+   var maxSeconds = 2592000; // 30 days
+
    if (inExpiration > maxSeconds) {
       inExpiration = maxSeconds;
    }
-   this.expiration = inExpiration + Date.now()/1000;
+   var nowDate = new Date();
+   var nowSec = Math.round(nowDate.getTime()/1000);
+   //alert("nowSec: " + nowSec);
+   
+   this.expiration =  Number(nowSec) + Number(inExpiration);
+   //alert("this.exp: " + this.expiration);
 };
 
 credentials.refreshAccessToken = function()
 {
-	console.log("Refreshing access token");
-	refreshAccessToken(this.refreshToken, accessTokenSuccess, accessTokenFail);
+	console.log("Refreshing access token with " + credentials.refreshToken);
+	refreshAccessToken(credentials.refreshToken, accessTokenSuccess, accessTokenFail);
 };
 
 credentials.setupAccessTokenTimer = function()
 {
    if(this.expiration !== undefined)
    {
-      this.timerId = setTimeout(this.refreshAccessToken, this.expiration - 2000 - Date.now()/1000);   
+	  var nowDate = new Date();
+	  var nowTime = nowDate.getTime();
+      this.timerId = setTimeout(this.refreshAccessToken, (this.expiration - 2)*1000 - nowTime);   
    }
 };
 
@@ -272,9 +281,9 @@ function accessTokenSuccess(result) {
 function accessTokenFail(error) {
    $("#iframeAuthorization").hide();
    showAlertView("Failed to acquire access. "
-         + JSON.stringify(error.invocationResult));
+         + JSON.stringify(error));
    busyIndicator.hide();
-   this.softLogout();
+   credentials.softLogout();
    $.mobile.changePage("#page-login");
 }
 

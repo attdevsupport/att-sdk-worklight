@@ -43,11 +43,6 @@ function refreshAccessToken(refreshToken, successCallback, failCallback)
    getAccessToken(null, refreshToken, successCallback, failCallback);
 }
 
-function requestAccessToken(successCallback, failCallback)
-{
-   getAccessToken(null, null, successCallback, failCallback);   
-}
-
 function getAccessToken(authorizationCode, refreshToken, successCallback, failCallback)
 {
    var options = {
@@ -58,10 +53,12 @@ function getAccessToken(authorizationCode, refreshToken, successCallback, failCa
 
    var params = {};
    
-   if(authorizationCode !== undefined) {
+   if(authorizationCode !== undefined && authorizationCode != null) {
       params.code = authorizationCode;
-   } else if (refreshToken !== undefined) {
+   } else if (refreshToken !== undefined && refreshToken != null) {
       params.refreshToken = refreshToken;
+   } else {
+	   failCallback({'result': "No authorization code or refresh token provided"});
    }
    
    invocationData = {
