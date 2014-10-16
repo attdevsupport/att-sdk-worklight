@@ -33,30 +33,30 @@ document.addEventListener("backbutton", function(e) {
 var credentials = new Object();
 
 credentials.isLoggedIn = function() {
-   return (this.state == "loggedIn");
+   return (credentials.state == "loggedIn");
 };
 
 credentials.logOut = function() {
-   this.initialize();
-   this.store();
+   credentials.initialize();
+   credentials.store();
 };
 
 credentials.softLogout = function() {
-   this.clearAccess();
-   this.store();
+   credentials.clearAccess();
+   credentials.store();
 };
 
 credentials.relogin = function() {
-   this.state = "loggedOut";
+   credentials.state = "loggedOut";
 };
 
 credentials.setLoggedIn = function() {
-   this.state = "loggedIn";
+   credentials.state = "loggedIn";
 };
 
 credentials.expired = function() {
    var nowDate = new Date();
-   var isExpired = (this.expiration * 1000 <= nowDate.getTime());
+   var isExpired = (credentials.expiration * 1000 <= nowDate.getTime());
    if(isExpired) console.log("Access token expired");
    return isExpired;
 };
@@ -71,8 +71,8 @@ credentials.setExpiration = function(inExpiration) {
    var nowSec = Math.round(nowDate.getTime()/1000);
    //alert("nowSec: " + nowSec);
    
-   this.expiration =  Number(nowSec) + Number(inExpiration);
-   //alert("this.exp: " + this.expiration);
+   credentials.expiration =  Number(nowSec) + Number(inExpiration);
+   //alert("credentials.exp: " + credentials.expiration);
 };
 
 credentials.refreshAccessToken = function()
@@ -83,11 +83,11 @@ credentials.refreshAccessToken = function()
 
 credentials.setupAccessTokenTimer = function()
 {
-   if(this.expiration !== undefined)
+   if(credentials.expiration !== undefined)
    {
 	  var nowDate = new Date();
 	  var nowTime = nowDate.getTime();
-      this.timerId = setTimeout(this.refreshAccessToken, (this.expiration - 2)*1000 - nowTime);   
+      credentials.timerId = setTimeout(credentials.refreshAccessToken, (credentials.expiration - 5)*1000 - nowTime);   
    }
 };
 
@@ -102,43 +102,44 @@ credentials.retrieve = function() {
    try {
       var objectString = window.localStorage.getItem('credentials');
       if (!exists(objectString)) {
-         this.initialize();
+         credentials.initialize();
       } else {
          var credsObject = JSON.parse(objectString);
-         this.state = credsObject.state;
-         this.accessToken = credsObject.accessToken;
-         this.expiration = credsObject.expiration;
-         this.refreshToken = credsObject.refreshToken;
-         this.mobileNumber = credsObject.mobileNumber;
+         credentials.state = credsObject.state;
+         credentials.accessToken = credsObject.accessToken;
+         credentials.expiration = credsObject.expiration;
+         credentials.refreshToken = credsObject.refreshToken;
+         credentials.mobileNumber = credsObject.mobileNumber;
       }
    } catch (getExecption) {
       showAlertView("EXCEPTION parsing credentials");
-      this.initialize();
+      credentials.initialize();
    }
 };
 
 credentials.clearAccess = function() {
-   this.state = "loggedOut";
-   this.accessToken = "";
-   this.expiration = 0;
-   this.refreshToken = "";
-   this.authorizationCode = "";
-   if(this.timerId != undefined) clearTimeout(this.timerId);
+   credentials.state = "loggedOut";
+   credentials.accessToken = "";
+   credentials.expiration = 0;
+   credentials.refreshToken = "";
+   credentials.authorizationCode = "";
+   if(credentials.timerId != undefined) clearTimeout(credentials.timerId);
 };
 
 credentials.initialize = function() {
-   this.clearAccess();
-   this.mobileNumber = "";
+   credentials.clearAccess();
+   credentials.mobileNumber = "";
 };
 
 credentials.getAccessToken = function() {
-   //console.log("Expiration: " + this.expiration + "now: " + Date.now());
-   if (!this.expired()) {
-      return this.accessToken;
+   //console.log("Expiration: " + credentials.expiration + "now: " + Date.now());
+   if (!credentials.expired()) {
+      return credentials.accessToken;
    } else {
-	  this.refreshAccessToken();
-      //this.softLogout();
+	  credentials.refreshAccessToken();
+      //credentials.softLogout();
       //$.mobile.changePage("#page-login");
+      return null;
    }
 };
 
