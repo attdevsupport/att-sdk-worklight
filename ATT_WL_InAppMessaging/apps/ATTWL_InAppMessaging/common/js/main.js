@@ -10,6 +10,11 @@ function wlCommonInit() {
 
 var selectedId, unreadMsgs, interval;
 
+var numErrors = 0;
+setInterval(function errorTimer() { 
+	numErrors = 0;
+}, 5 * 60 * 1000);  // Dampen errors to a maximum displayed every 5 mins
+
 var backbuttonConfirm = function(buttonId) {
    if(buttonId==1) {
       messageStorage.clear();
@@ -334,7 +339,12 @@ function showAlertView(message, alertCallback, title, buttonName) {
    if (!exists(title)) {
       title = "AT&T In App Messaging";
    }
-   navigator.notification.alert(message, alertCallback, title, buttonName);
+   if(numErrors < 3) {
+	  numErrors++;
+      navigator.notification.alert(message, alertCallback, title, buttonName);
+   } else {
+	   console.log(message);
+   }
 }
 
 function showConfirmAlert(message, alertCallback, title, buttonNames) {
@@ -342,7 +352,13 @@ function showConfirmAlert(message, alertCallback, title, buttonNames) {
    if(!exists(title)) {
       title="In App Messaging";
    }
-   navigator.notification.confirm(message, alertCallback, title, buttonNames);
+   
+   if(numErrors < 3) {
+	   numErrors++;
+       navigator.notification.confirm(message, alertCallback, title, buttonNames);
+   } else {
+      console.log(message);
+   }
 }
 
 $("#buttonConnect").on('tap', iamAppConnect);
