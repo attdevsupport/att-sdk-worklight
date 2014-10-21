@@ -14,5 +14,6 @@
 
 	<procedure name="getAuthCode"/>
 	<procedure name="getAccessToken"/>
+	<procedure name="revokeToken"/>
 	
 </wl:adapter>

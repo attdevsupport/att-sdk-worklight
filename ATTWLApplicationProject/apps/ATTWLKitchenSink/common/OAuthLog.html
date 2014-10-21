@@ -5,18 +5,26 @@
    </div>
    <div class="body" align="center">
 
-	<textarea readonly id="oAuthLogs" style="height: 80%; width: 100%; resize: none; overflow-y: scroll;"></textarea>
+	<textarea readonly id="oAuthLogs" style="height: 65%; width: 100%; resize: none; overflow-y: scroll;"></textarea>
 
 	<table class="table">
          <tr class="trow">
             <td class="tcol" style="padding-bottom: 10px">
-               <button type="button" class="submitextralarge" align="center"
-                  onclick="oAuthLog += '\nForce refresh'; window.localStorage.setItem('accessTokenExpiresAt', Date.now()); generateAccessToken();">Refresh</button>
-            </td>  
+               <button type="button" class="submitextralarge" style="width: 180px;"
+                  onclick="oAuthLog += '\nRevoke access token'; revokeAccessToken(); generateAccessToken();">Revoke Access Token</button>
+            </td>
+         </tr>
+         <tr>
             <td class="tcol" style="padding-bottom: 10px">
-               <button type="button" class="submitextralarge" align="center"
-                  onclick="oAuthLog += '\nClear token'; clearAccessToken(); generateAccessToken();">Clear</button>
-            </td>                        
+               <button type="button" class="submitextralarge" style="width: 180px;"
+                  onclick="oAuthLog += '\nRevoke refresh token'; revokeRefreshToken(); clearAccessToken(); generateAccessToken();">Revoke Refresh Token</button>
+            </td>                                    
+         </tr>
+         <tr>
+            <td class="tcol" style="padding-bottom: 10px">
+               <button type="button" class="submitextralarge" style="width: 180px;"
+                  onclick="oAuthLog = ' '; $('#oAuthLogs').val(oAuthLog);">Clear Log</button>
+            </td>                                    
          </tr>
       </table>
    </div>

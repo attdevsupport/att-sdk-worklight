@@ -72,6 +72,36 @@ function getAccessToken(options)
 	return accessTokenResponse;
 }
 
+function revokeToken(options)
+{
+	logInfo('********* OAuthAdapter.revokeToken *********');
+	
+	var input = {
+			method :'post',
+			path : 'oauth/v4/revoke',
+			headers: {'Content-Type' : 'application/x-www-form-urlencoded' , 'Accept':'application/json'},
+	};
+	
+	input['body'] = {
+	   'contentType': 'application/x-www-form-urlencoded',
+	   'content':
+		   'client_id=' + WL.Server.configuration["appKey"] +
+	       '&client_secret=' + WL.Server.configuration["secretKey"] +
+	       '&token_type_hint=' + options.tokenType +
+	       '&token=' + options.token
+	};
+
+	input.headers = addClientSdk(input.headers);
+	
+	logInfo('Input: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
+	
+	var result = WL.Server.invokeHttp(input);
+
+	logInfo('Response: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
+	
+	return result;
+}
+
 function logInfo(value)
 {
 	WL.Logger.info(value);
