@@ -83,12 +83,15 @@ credentials.setExpiration = function(inExpiration) {
 credentials.refreshAccessToken = function()
 {
 	console.log("Refreshing access token with " + credentials.refreshToken);
-	refreshAccessToken(credentials.refreshToken, accessTokenSuccess, accessTokenFail);
+	if(exists(credentials) && exists(credentials.refreshToken)) {
+	   refreshAccessToken(credentials.refreshToken, accessTokenSuccess, accessTokenFail);
+	}
 };
 
 credentials.setupAccessTokenTimer = function()
 {
-   if(credentials.expiration !== undefined)
+   if(exists(credentials.expiration) &&
+      credentials.expiration != 0)
    {
 	  var nowDate = new Date();
 	  var nowTime = nowDate.getTime();
@@ -123,12 +126,13 @@ credentials.retrieve = function() {
 };
 
 credentials.clearAccess = function() {
+   if(exists(credentials.timerId)) clearTimeout(credentials.timerId);
+   revokeRefreshToken(credentials.refreshToken); // Revokes all access token as well.
    credentials.state = "loggedOut";
    credentials.accessToken = "";
    credentials.expiration = 0;
    credentials.refreshToken = "";
    credentials.authorizationCode = "";
-   if(credentials.timerId != undefined) clearTimeout(credentials.timerId);
 };
 
 credentials.initialize = function() {
@@ -172,6 +176,25 @@ $("#buttonLogout").on('tap', function() {
    } else {
       logoutApp();
    }
+});
+
+$("#buttonRevoke").on('tap', function() {
+	if(exists(credentials.timerId)) {
+	   clearTimeout(credentials.timerId);
+	   credentials.timerId = null;
+	}
+	busyIndicator.show();
+	revokeAccessToken(credentials.accessToken);
+	credentials.refreshAccessToken();
+	busyIndicator.hide();
+});
+
+$("#buttonSettings").on('tap', function() {
+	$.mobile.changePage("#page-settings");
+});
+
+$("#page-settings").on("pageshow", function() {
+   setAuthLabels();
 });
 
 var getMobileNumber = function() {
@@ -265,12 +288,16 @@ function getAuthorizationResult() {
 $("#iframeAuthorization").on('load', getAuthorizationResult);
 
 function accessTokenSuccess(result) {
-   if (result.status >= 300 || result.invocationResult.statusCode >= 300)
+   if ((exists(result.status) && result.status >= 300) || 
+	   (exists(result.invocationResult.statusCode)) >= 300)
+   {
       accessTokenFail(result);
-
+   }
+   
    credentials.accessToken = result.invocationResult.accessToken;
    credentials.setExpiration(result.invocationResult.expiresIn);
    credentials.refreshToken = result.invocationResult.refreshToken;
+   setAuthLabels();
    if(!credentials.isLoggedIn()) {
       credentials.setLoggedIn();
       messageStorage.retrieve();
@@ -410,15 +437,18 @@ $("#newMessage-btn").on('tap', function() {
    $("#recipientInput").val(selectedId);
    $.mobile.changePage("#page-sendMessage");
 });
+
 function loadMessages() {
+   if(credentials.expired()) return;
+   
    if (messageStorage.messageIndex == null
          || messageStorage.messageIndex.state == undefined) {
       messageStorage.init();
-      //console.log("initialized storage");
+      console.log("Initialized storage");
       invokeIamGetMessageIndexInfo(credentials.getAccessToken(),
             getMessageIndexInfoCallback);
    } else {
-      console.log("Storage exist.Fetching Deltas");
+      console.log("Fetching Deltas");
       var state = messageStorage.messageIndex.state;
       invokeIamGetMessageDelta(state, credentials.getAccessToken(),
             getMessageDeltaCallback);
@@ -494,22 +524,24 @@ function getMessageDeltaCallback(data) {
 }
 
 var requestFailed = function(result) {
-   if (!exists(result)) {
+    busyIndicator.hide();
+	if (!exists(result)) {
       showAlertView("Unable to process request - no result received.");
-      busyIndicator.hide();
       return true;
    } else if (exists(result.invocationResult.isSuccessful)) {
       if (result.invocationResult.isSuccessful == false
-            || (result.invocationResult.isSuccessful == true && result.invocationResult.statusCode >= 300)) {
-         busyIndicator.hide();
-         
-         showAlertView("Request failed: " + JSON.stringify(result));
-         return true;
+            || (result.invocationResult.isSuccessful == true && result.invocationResult.statusCode >= 300))
+      {
+    	 if(result.invocationResult.statusCode == 401) {
+    		 credentials.refreshAccessToken();
+    	 } else {
+            showAlertView("Request failed: " + JSON.stringify(result));
+    	 }
+    	 return true;
       } else {
          return false;
       }
    } else {
-      busyIndicator.hide();
       return false;
    }
 };
@@ -1186,4 +1218,11 @@ function dataFile(bs64data) {
       } 
    fileArr = new Uint8Array(bArray);
    file=fileArr.buffer;
+}
+
+function setAuthLabels()
+{
+   $("label[for='accessToken']").text("AccessToken: " + credentials.accessToken.substring(1, 6) + "****");
+   $("label[for='refreshToken']").text("RefreshToken: " + credentials.refreshToken.substring(1, 6) + "****");
+   $("label[for='expiresAt']").text("Expires At: " + credentials.expiration);	
 }
