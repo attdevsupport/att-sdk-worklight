@@ -80,16 +80,32 @@ credentials.setExpiration = function(inExpiration) {
    //alert("credentials.exp: " + credentials.expiration);
 };
 
+var previousRefresh = "none";
 credentials.refreshAccessToken = function()
 {
 	console.log("Refreshing access token with " + credentials.refreshToken);
-	if(exists(credentials) && exists(credentials.refreshToken)) {
+	
+	//if(previousRefresh == credentials.refreshToken) alert("Duplicate refresh");
+	
+	if(exists(credentials) && exists(credentials.refreshToken) &&
+	   previousRefresh != credentials.refreshToken)
+	{
+	   previousRefresh = credentials.refreshToken;
 	   refreshAccessToken(credentials.refreshToken, accessTokenSuccess, accessTokenFail);
 	}
 };
 
+credentials.clearTimeout = function() {
+   if(exists(credentials.timerId)) {
+	   clearTimeout(credentials.timerId);
+	   credentials.timerId = null;
+   };	
+};
+
 credentials.setupAccessTokenTimer = function()
 {
+	credentials.clearTimeout();
+   
    if(exists(credentials.expiration) &&
       credentials.expiration != 0)
    {
@@ -126,7 +142,7 @@ credentials.retrieve = function() {
 };
 
 credentials.clearAccess = function() {
-   if(exists(credentials.timerId)) clearTimeout(credentials.timerId);
+   credentials.clearTimeout();
    revokeRefreshToken(credentials.refreshToken); // Revokes all access token as well.
    credentials.state = "loggedOut";
    credentials.accessToken = "";
