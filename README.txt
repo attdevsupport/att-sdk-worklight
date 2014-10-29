@@ -14,12 +14,11 @@ The AT&T Adapters provide interfaces that facilitate access to the following AT&
 • Text To Speech
 
 ===============Tested versions===============
-IBM Worklight Studio 6.1.0.1
+IBM Worklight Studio 6.2
 Xcode 5.0.2
 Android SDK Tools rev. 22.6.2
-Apple Simulator: iOS 7.1 for both iPhone
+Apple Simulator: iOS 7.1 for both iPhone and iPad
 iPhone 4s and 5 
 Android (Physical Device): 4.3, 4.4
 Android Emulator: 4.1, 4.2
---END--
 
