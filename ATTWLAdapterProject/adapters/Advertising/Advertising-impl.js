@@ -46,7 +46,7 @@ function getAds(options)
 			'Authorization': options.accessToken,
 			"Udid": WL.Server.configuration["appKey"],
 			"User-Agent" : userAgent,
-			"X-Arg" : "ClientSdk=att.worklight.3.7"
+			"X-Arg" : "ClientSdk=att.worklight.4.2"
 		}
 	};
 	

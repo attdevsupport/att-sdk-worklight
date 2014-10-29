@@ -26,7 +26,7 @@ function getDeviceCapabilities(options)
 		headers : {
 			"Authorization" : options.accessToken,
 			"Accept" : accept,
-			"X-Arg" : "ClientSdk=att.worklight.3.7"
+			"X-Arg" : "ClientSdk=att.worklight.4.2"
 		}
 	};
 	
