@@ -348,6 +348,7 @@
  *
  * - {@link OAuthAdapter#getAccessToken}
  * - {@link OAuthAdapter#getAuthCode}
+ * - {@link OAuthAdapter#revokeToken}
  *
  */
 
@@ -388,7 +389,7 @@
  *        accept : 'application/json'
  *     }
  *     invocationData = {
- *        adapter : 'AuthCodeAdapter',
+ *        adapter : 'OAuthAdapter',
  *        procedure : 'getAccessToken',
  *        parameters : [params]
  *     };
@@ -419,6 +420,9 @@
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>OAuthAdapter</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getAuthCode</b>.
  * @param {Array}  invocationData.parameters Specifies an empty array.
+ * @param {Object} invocationData.parameters.params Contains options for authorization
+ * @param {Boolean} invocationData.parameters.params.bypassOnnetworkAuth  If this boolean is true, user consent will not the on-network consent flow.
+ * @param {Boolean} invocationData.parameters.params.suppressLandingPage  If this boolean is true, when the user has an AT&T RememberMe cookie, they will not see an AT&T landing page that allows them to change consent. 
  * @param {Object} callbacks An object containing the success and failure callbacks.
  * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
  * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
@@ -434,10 +438,12 @@
  *
  * The following example gets the end user authorization.
  *
+ *     var params = {bypassOnnetworkAuth: true, suppressLandingPage: false};
+ *
  *     invocationData= {
- *        adapter : 'AuthCodeAdapter' ,
+ *        adapter : 'OAuthAdapter' ,
  *        procedure : 'getAuthCode' ,
- *        parameters : []           
+ *        parameters : [params]           
  *     };
  *     options = {
  *        onSuccess : function(data) {} ,
@@ -446,10 +452,60 @@
  *  
  *     WL.Client.invokeProcedure(invocationData, options);
  *
- * The following example shows the response from this method, where <strong>https://myURL</strong> is the redirect URL and <strong>ABCDEF0123456789</strong> is the authorization code.
+ * The following example shows the response from this method:
+ *     https://api.att.com/oauth/v4/authorize?custom_param=bypass_onnetwork_auth
+ * 
+ * User consent for your application starts at this URL.  Show the contents of this URL to your user so they may provide API consent.  Once the consent flow is complete (allowed or dis-allowed), your user will be
+ * redirected to the below URL, where <strong>https://yourAppRedirectURL</strong> is your AT&T developer app redirect URL and <strong>ABCDEF0123456789</strong> is the authorization code.
  *
- *     https://myURL?code=ABCDEF0123456789
+ *     https://yourAppRedirectURL?code=ABCDEF0123456789
+ * or 
+ *     https://yourAppRedirectURL?error=failure_reason
  */
+ 
+ /**
+ * @method revokeToken
+ * Revokes an OAuth access token on the AT&amp;T authorization server.
+ *
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>OAuthAdapter</b>.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>revokeToken</b>.
+ * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.parameters.params.token Specifies the token token you wish to revoke
+ * @param {String} invocationData.parameters.params.tokenType Specifies the type of token.  Valid values are "access_token" or "refresh_token".  If you specify "refresh_token", the access token will also be revoked.
+ * @param {Object} callbacks An object containing the success and failure callbacks.
+ * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
+ * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ *
+ * @return {Object} A JSON object containing the results of the call. This object has the following parameters.
+ * <ul>
+ *   <li>message Specifies a success or fail message </li>
+ * </ul>
+ *
+ * <b>Examples</b>
+ *
+ * The following example gets an OAuth access token.
+ *
+ *     params = {
+ *        token: 'abcdef',
+ *		  tokenType: 'refresh_token'
+ *     }
+ *     invocationData = {
+ *        adapter : 'OAuthAdapter',
+ *        procedure : 'revokeToken',
+ *        parameters : [params]
+ *     };
+ *     options = {
+ *        onSuccess : function(data) {
+ *        },
+ *        onFailure : function(error) {} 
+ *        };
+ *  
+ *     WL.Client.invokeProcedure(invocationData, options);
+ *     
+ */
+
 
 /**
  * @class SpeechAdapter
@@ -1033,7 +1089,6 @@
  *   <li>Y
  *     <br/>
  *     The device supports assisted GPS.</li>
- *   <li>N
  *     <br/>
  *     The device does not support assisted GPS.</li>
  * </ul></li>
@@ -1139,7 +1194,7 @@
  * <p>Authorization Model: <b>client_credentials</b></p>
  *
  * @param {Object} invocationData Specifies a JSON object containing the following parameters.
- * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>Advertisement</b>.
+ * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>Advertising</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getAds</b>.
  * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
  * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
@@ -1277,7 +1332,7 @@
  *        }
  *     };
  *     invocationData= {
- *        adapter : 'Advertisement' ,
+ *        adapter : 'Advertising' ,
  *        procedure : 'getAds' ,
  *        parameters : [params]           
  *     };
@@ -1477,7 +1532,7 @@
  *       				"fileName":"Image2.jpg",
  *       				"content-type":"image/jpeg",
  *       				"content-transfer-encoding":"BASE64",
- *       				"body":"AQKfdsfsdwKFE/…"
+ *       				"body":"AQKfdsfsdwKFE/â€¦"
  *    				}
  *  			]
  *           }
@@ -1584,7 +1639,7 @@
 
 /**
  * @method getMessage
- * The Get Message operation will get a single message from a subscriber’s message inbox.
+ * The Get Message operation will get a single message from a subscriberâ€™s message inbox.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>MIM</b></p>
  * @param {Object} invocationData Specifies a JSON object containing the following parameters.
@@ -1622,7 +1677,7 @@
  * @method getMessagesDelta
  * This method provides capability to check for updates by passing in a client state.  
  * This is typically used when a client goes from being offline to becoming online. 
- * If the subscriber’s mailbox index cache does not exist an error would be returned to the client and the client would have to re-initialize the cache.
+ * If the subscriberâ€™s mailbox index cache does not exist an error would be returned to the client and the client would have to re-initialize the cache.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>MIM</b></p>
  * @param {Object} invocationData Specifies a JSON object containing the following parameters.
