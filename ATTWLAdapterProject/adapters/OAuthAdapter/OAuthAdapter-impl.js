@@ -4,12 +4,26 @@
  */
 function getAuthCode(options)
 {
+	var custom_param = [];
+	if(options!==undefined)
+	{
+		if(options.bypassOnnetworkAuth != undefined && options.bypassOnnetworkAuth)
+		{
+			custom_param.push("bypass_onnetwork_auth");
+		}
+		if(options.suppressLandingPage != undefined && options.suppressLandingPage) {
+			custom_param.push("suppress_landing_page");
+		}
+	}
+	
 	var url = {
-		"url" : "https://api.att.com/oauth/authorize"
+		"url" : "https://api.att.com/oauth/v4/authorize"
 		+ '?client_id=' + WL.Server.configuration["appKey"] 
 		+  "&scope=" + WL.Server.configuration["authCodeScope"]
 	 };
-	WL.Logger.debug('oAuthcode : url => '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(url));
+	if(custom_param.length > 0) url.url += "&custom_param=" + custom_param.join();
+	
+	WL.Logger.debug('getAuthCode : url => '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(url));
 	return url;
 }
 
@@ -19,7 +33,7 @@ function getAccessToken(options)
 	
 	var input = {
 			method :'post',
-			path : 'oauth/access_token',
+			path : 'oauth/v4/token',
 			headers: {'Content-Type' : 'application/x-www-form-urlencoded' , 'Accept':'application/json'},
 	};
 	
@@ -49,16 +63,52 @@ function getAccessToken(options)
 	   "expiresIn": result.expires_in,
 	   "refreshToken": result.refresh_token
 	};
+	
+	var expiresInOverride = WL.Server.configuration["attOauthExpiresIn"];
+	if(expiresInOverride != undefined && expiresInOverride != 0) {
+		accessTokenResponse.expiresIn = expiresInOverride;
+	}
+	
 	return accessTokenResponse;
+}
+
+function revokeToken(options)
+{
+	logInfo('********* OAuthAdapter.revokeToken *********');
+	
+	var input = {
+			method :'post',
+			path : 'oauth/v4/revoke',
+			headers: {'Content-Type' : 'application/x-www-form-urlencoded' , 'Accept':'application/json'},
+	};
+	
+	input['body'] = {
+	   'contentType': 'application/x-www-form-urlencoded',
+	   'content':
+		   'client_id=' + WL.Server.configuration["appKey"] +
+	       '&client_secret=' + WL.Server.configuration["secretKey"] +
+	       '&token_type_hint=' + options.tokenType +
+	       '&token=' + options.token
+	};
+
+	input.headers = addClientSdk(input.headers);
+	
+	logInfo('Input: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
+	
+	var result = WL.Server.invokeHttp(input);
+
+	logInfo('Response: '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
+	
+	return result;
 }
 
 function logInfo(value)
 {
-	WL.Logger.debug(value);
+	WL.Logger.info(value);
 }
 
 /* Add client sdk header */
 var addClientSdk = function (headers) {
-    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    headers["X-Arg"] =  "ClientSdk=att.worklight.4.2";
     return headers;
 };

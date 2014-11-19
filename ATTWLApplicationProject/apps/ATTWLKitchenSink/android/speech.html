@@ -84,12 +84,13 @@
 	function startRecording()
 	{
 		var args = [ {
-			filePath : storageDir + "/" + fileName,
+			//filePath : storageDir + "/" + fileName,
+			filePath : storageDir + fileName,
 			audioChannels : 1,
 			samplingRate : 8000,
 			encodingBitRate : 1220
 		} ];
-		//alert("Sending these args to Recorder.start" + JSON.stringify(args));
+		// alert("Sending these args to Recorder.start" + JSON.stringify(args));
 		Cordova.exec(null, null, "Recorder", "start", args);
 		//$('#record').text('Recording.....').button("refresh");
 		$('#record').text('Recording.....');
@@ -97,7 +98,8 @@
 
 	function stopRecording()
 	{
-		window.localStorage.speechFilePath = storageDir + "/" + fileName;
+		//window.localStorage.speechFilePath = storageDir + "/" + fileName;
+		window.localStorage.speechFilePath = storageDir + fileName;
 		Cordova.exec(null, null, "Recorder", "stop", [ {} ]);
 		//$('#record').text('Start Recording').button("refresh");
 		$('#record').text('Start Recording');
@@ -105,7 +107,8 @@
 	
 	function playRecording() {
 		// Play the audio file at url
-		var my_media = new Media(storageDir + "/" + fileName,
+		// var my_media = new Media(storageDir + "/" + fileName,
+	    var my_media = new Media(storageDir + fileName,
 		// success callback
 		function() {
 			console.log("playAudio():Audio Success");

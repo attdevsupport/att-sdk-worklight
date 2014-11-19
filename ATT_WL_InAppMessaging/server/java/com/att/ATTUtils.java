@@ -40,6 +40,14 @@ public class ATTUtils
 			
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
+
+			String clientSdk = "ClientSdk=att.worklight." + (String)args.get("platform") + "." + 
+					   ATTConstant.ARG_HEADER_XARG_VERSION;
+					if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
+						conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
+					} else {
+						conn.setRequestProperty("X-Arg", clientSdk);
+					}			
 			
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
@@ -94,6 +102,7 @@ public class ATTUtils
 					errorString.append(str);
 				}
 				is.close();
+				System.out.println("********* InAppMessaging ********" + errorString.toString()); 
 				response.put("error",errorString.toString());				
 			}
 			theReturn.put("message", response);

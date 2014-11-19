@@ -72,7 +72,11 @@ function buildAdsElement(rawData)
 	    alert(result.statusCode + " " + result.statusReason);
         $adElem="<p>" + result.statusCode + " " + result.statusReason + "</p>";
         return $adElem;
-    }
+    } else if(result.statusCode>=300) {
+	  busyInd.hide();
+	  WL.Logger.debug("Failiure : Response is - "+error);
+      cbData(rawData);    	
+   }
     
    var adsData = result.AdsResponse.Ads;
  

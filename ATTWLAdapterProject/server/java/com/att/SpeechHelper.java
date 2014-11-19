@@ -25,16 +25,20 @@ public class SpeechHelper
 		JSONObject args = (JSONObject) JSObjectConverter.scriptableToJSON((Scriptable) input);
 		JSONObject theReturn = null;
 		URL url = null;
+		
 		try
 		{
+			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
 			theReturn = new JSONObject();
 			String host = (String) args.get(ATTConstant.ARG_URL);
 			url = new URL(host);
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			//HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.setRequestMethod("POST");
+			//conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_TYPE)) {
 				conn.setRequestProperty("Content-Type",
@@ -61,7 +65,8 @@ public class SpeechHelper
 				conn.setRequestProperty("Accept", (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
 			}
 					
-			String clientSdk = "ClientSdk=att_worklight-" + (String)args.get("platform") + "-3.7.0.0";
+			String clientSdk = "ClientSdk=att_worklight-" + (String)args.get("platform") + "-" + 
+			   ATTConstant.ARG_HEADER_XARG_VERSION;
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {
@@ -100,6 +105,7 @@ public class SpeechHelper
 				is.close();
 				response.put("error",errorString.toString());
 			}
+			
 			theReturn.put("message", response);
 		}
 		catch (Exception e) {
@@ -111,8 +117,9 @@ public class SpeechHelper
 				message = ATTConstant.ERR_INV_STATUS_MSG;
 			} else {
 				code = ATTConstant.ERR_PROCESS_REQ_CODE;
-				message = e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
+				message = url.toString() + " " + e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
 			}
+			
 			theReturn.put(code, message);
 			return theReturn;
 		} finally {
@@ -168,7 +175,7 @@ public class SpeechHelper
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG));
 			}
 			
-			String clientSdk = "ClientSdk=att.worklight.3.7";
+			String clientSdk = "ClientSdk=att.worklight." + ATTConstant.ARG_HEADER_XARG_VERSION;
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {

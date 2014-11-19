@@ -38,6 +38,8 @@
 				placeholder="5035551248"> <br>
 			<div style="text-align: center;">
 				<button id="loginButton" data-inline="true">Login</button>
+				<label><input type="checkbox" id="bypassOnNetworkAuth" checked>Bypass OnNetwork Auth</label>
+				<label><input type="checkbox" id="suppressLandingPage">Suppress Landing Page</label>
 			</div>
 		</div>
 	</div>
@@ -52,9 +54,9 @@
 		</div>
 	</div>
 
-	<div data-role="page" id="page-authorization">
-		<div data-role="content">
-			<iframe id="iframeAuthorization" seamless height="100%" width="100%">
+	<div data-role="page" id="page-authorization" style="height: 100%; width: 100%">
+		<div data-role="content" style="height: 100%; width: 100%">
+			<iframe id="iframeAuthorization" seamless style="height: 100%; width: 100%">
 			</iframe>
 			<!-- src to be filled in at runtime -->
 		</div>
@@ -63,7 +65,7 @@
 	<div data-role="page" id="page-messageList">
 		<div data-role="header" data-theme="b" data-position="fixed">
 			<h1 id=messageListHeader></h1>
-			<button id="buttonLogout" data-inline="true">Log Out</button>
+			<button id="buttonSettings" data-inline="true">Settings</button>
 			<a href="#page-sendMessage">New</a>
 		</div>
 
@@ -76,6 +78,19 @@
 					<li id="deleteThread" style="background: white;">Delete Thread</li>
 				</ul>
 			</div>
+		</div>
+	</div>
+
+	<div data-role="page" id="page-settings" data-title="Settings" data-theme="b" data-add-back-btn="true">
+		<div data-role="header" data-theme="b">
+			<h1>Settings</h1>
+		</div>
+		<div data-role="content" id="page-settingsContent">
+		   <div><label for="accessToken">AccessToken:</label></div>
+		   <div><label for="refreshToken">RefreshToken:</label></div>
+		   <div><label for="expiresAt">Expires:</label></div>
+		   <div><button id="buttonLogout" data-inline="true">Log out</button></div>
+		   <div><button id="buttonRevoke" data-inline="true">Revoke Access Token</button></div>
 		</div>
 	</div>
 

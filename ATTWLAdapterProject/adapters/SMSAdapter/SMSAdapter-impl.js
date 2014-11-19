@@ -110,12 +110,12 @@ function getSMS(options)
 
 
 function logInfo(value) {
-	WL.Logger.debug(value);
+	WL.Logger.info(value);
 }
 
 /* Add client sdk header */
 var addClientSdk = function (headers) {
-    headers["X-Arg"] =  "ClientSdk=att.worklight.3.7";
+    headers["X-Arg"] =  "ClientSdk=att.worklight.4.2";
     return headers;
 };
 

@@ -13,6 +13,7 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.json.java.JSONObject;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
+//import com.worklight.server.integration.api.JSObjectConverter;
 import com.worklight.common.js.util.JSObjectConverter;
 
 import java.util.logging.Logger;
@@ -24,16 +25,20 @@ public class SpeechHelper
 		JSONObject args = (JSONObject) JSObjectConverter.scriptableToJSON((Scriptable) input);
 		JSONObject theReturn = null;
 		URL url = null;
+		
 		try
 		{
+			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
 			theReturn = new JSONObject();
 			String host = (String) args.get(ATTConstant.ARG_URL);
 			url = new URL(host);
 			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			//HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
 			conn.setDoOutput(true);
 			conn.setDoInput(true);
 			conn.setRequestMethod("POST");
+			//conn.setRequestMethod("GET");
 			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_TYPE)) {
 				conn.setRequestProperty("Content-Type",
@@ -60,7 +65,7 @@ public class SpeechHelper
 				conn.setRequestProperty("Accept", (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
 			}
 					
-			String clientSdk = "ClientSdk=Worklight-" + (String)args.get("platform") + "-3.3.0.0";
+			String clientSdk = "ClientSdk=att_worklight-" + (String)args.get("platform") + "-3.7.0.0";
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {
@@ -99,6 +104,7 @@ public class SpeechHelper
 				is.close();
 				response.put("error",errorString.toString());
 			}
+			
 			theReturn.put("message", response);
 		}
 		catch (Exception e) {
@@ -110,8 +116,9 @@ public class SpeechHelper
 				message = ATTConstant.ERR_INV_STATUS_MSG;
 			} else {
 				code = ATTConstant.ERR_PROCESS_REQ_CODE;
-				message = e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
+				message = url.toString() + " " + e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
 			}
+			
 			theReturn.put(code, message);
 			return theReturn;
 		} finally {
@@ -165,9 +172,16 @@ public class SpeechHelper
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
 				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG));
-			} 
+			}
+			
+			String clientSdk = "ClientSdk=att.worklight.3.7";
+			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
+				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
+			} else {
+				conn.setRequestProperty("X-Arg", clientSdk);
+			}			
 
-			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");		
+			System.out.println("********* TextToSpeech JAVA ADAPTER LOGS ***********");		
 			
 			OutputStreamWriter outStream = new OutputStreamWriter(
 					conn.getOutputStream());

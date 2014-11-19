@@ -10,6 +10,11 @@ function wlCommonInit() {
 
 var selectedId, unreadMsgs, interval;
 
+var numErrors = 0;
+setInterval(function errorTimer() { 
+	numErrors = 0;
+}, 5 * 60 * 1000);  // Dampen errors to a maximum displayed every 5 mins
+
 var backbuttonConfirm = function(buttonId) {
    if(buttonId==1) {
       messageStorage.clear();
@@ -33,80 +38,133 @@ document.addEventListener("backbutton", function(e) {
 var credentials = new Object();
 
 credentials.isLoggedIn = function() {
-   return (this.state == "loggedIn");
+   return (credentials.state == "loggedIn");
 };
 
 credentials.logOut = function() {
-   this.initialize();
-   this.store();
+   credentials.initialize();
+   credentials.store();
 };
 
 credentials.softLogout = function() {
-   this.clearAccess();
-   this.store();
+   credentials.clearAccess();
+   credentials.store();
+};
+
+credentials.relogin = function() {
+   credentials.state = "loggedOut";
 };
 
 credentials.setLoggedIn = function() {
-   this.state = "loggedIn";
+   credentials.state = "loggedIn";
 };
 
 credentials.expired = function() {
-   return (this.expiration * 1000 <= Date.now());
+   var nowDate = new Date();
+   var isExpired = (credentials.expiration * 1000 <= nowDate.getTime());
+   if(isExpired) console.log("Access token expired");
+   return isExpired;
 };
 
 credentials.setExpiration = function(inExpiration) {
-   maxSeconds = 2592000; // 30 days
+   var maxSeconds = 2592000; // 30 days
+
    if (inExpiration > maxSeconds) {
       inExpiration = maxSeconds;
    }
-   this.expiration = inExpiration + Date.now() / 1000;
+   var nowDate = new Date();
+   var nowSec = Math.round(nowDate.getTime()/1000);
+   //alert("nowSec: " + nowSec);
+   
+   credentials.expiration =  Number(nowSec) + Number(inExpiration);
+   //alert("credentials.exp: " + credentials.expiration);
+};
+
+var previousRefresh = "none";
+credentials.refreshAccessToken = function()
+{
+	console.log("Refreshing access token with " + credentials.refreshToken);
+	
+	//if(previousRefresh == credentials.refreshToken) alert("Duplicate refresh");
+	
+	if(exists(credentials) && exists(credentials.refreshToken) &&
+	   previousRefresh != credentials.refreshToken)
+	{
+	   previousRefresh = credentials.refreshToken;
+	   refreshAccessToken(credentials.refreshToken, accessTokenSuccess, accessTokenFail);
+	}
+};
+
+credentials.clearTimeout = function() {
+   if(exists(credentials.timerId)) {
+	   clearTimeout(credentials.timerId);
+	   credentials.timerId = null;
+   };	
+};
+
+credentials.setupAccessTokenTimer = function()
+{
+	credentials.clearTimeout();
+   
+   if(exists(credentials.expiration) &&
+      credentials.expiration != 0)
+   {
+	  var nowDate = new Date();
+	  var nowTime = nowDate.getTime();
+      credentials.timerId = setTimeout(credentials.refreshAccessToken, (credentials.expiration - 5)*1000 - nowTime);   
+   }
 };
 
 credentials.store = function() {
    window.localStorage.removeItem('credentials');
    window.localStorage.setItem('credentials', JSON.stringify(this));
+   
+   console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
 };
 
 credentials.retrieve = function() {
    try {
       var objectString = window.localStorage.getItem('credentials');
       if (!exists(objectString)) {
-         this.initialize();
+         credentials.initialize();
       } else {
          var credsObject = JSON.parse(objectString);
-         this.state = credsObject.state;
-         this.accessToken = credsObject.accessToken;
-         this.expiration = credsObject.expiration;
-         this.refreshToken = credsObject.refreshToken;
-         this.mobileNumber = credsObject.mobileNumber;
+         credentials.state = credsObject.state;
+         credentials.accessToken = credsObject.accessToken;
+         credentials.expiration = credsObject.expiration;
+         credentials.refreshToken = credsObject.refreshToken;
+         credentials.mobileNumber = credsObject.mobileNumber;
       }
    } catch (getExecption) {
       showAlertView("EXCEPTION parsing credentials");
-      this.initialize();
+      credentials.initialize();
    }
 };
 
 credentials.clearAccess = function() {
-   this.state = "loggedOut";
-   this.accessToken = "";
-   this.expiration = 0;
-   this.refreshToken = "";
-   this.authorizationCode = "";
+   credentials.clearTimeout();
+   revokeRefreshToken(credentials.refreshToken); // Revokes all access token as well.
+   credentials.state = "loggedOut";
+   credentials.accessToken = "";
+   credentials.expiration = 0;
+   credentials.refreshToken = "";
+   credentials.authorizationCode = "";
 };
 
 credentials.initialize = function() {
-   this.clearAccess();
-   this.mobileNumber = "";
+   credentials.clearAccess();
+   credentials.mobileNumber = "";
 };
 
 credentials.getAccessToken = function() {
-   //console.log("Expiration: " + this.expiration + "now: " + Date.now());
-   if (!this.expired()) {
-      return this.accessToken;
+   //console.log("Expiration: " + credentials.expiration + "now: " + Date.now());
+   if (!credentials.expired()) {
+      return credentials.accessToken;
    } else {
-      // TODO use refresh token - for now just log back in
-      this.softLogout();
-      $.mobile.changePage("#page-login");
+	  credentials.refreshAccessToken();
+      //credentials.softLogout();
+      //$.mobile.changePage("#page-login");
+      return null;
    }
 };
 
@@ -136,9 +194,24 @@ $("#buttonLogout").on('tap', function() {
    }
 });
 
-credentials.relogin = function() {
-   this.state = "loggedOut";
-};
+$("#buttonRevoke").on('tap', function() {
+	if(exists(credentials.timerId)) {
+	   clearTimeout(credentials.timerId);
+	   credentials.timerId = null;
+	}
+	busyIndicator.show();
+	revokeAccessToken(credentials.accessToken);
+	credentials.refreshAccessToken();
+	busyIndicator.hide();
+});
+
+$("#buttonSettings").on('tap', function() {
+	$.mobile.changePage("#page-settings");
+});
+
+$("#page-settings").on("pageshow", function() {
+   setAuthLabels();
+});
 
 var getMobileNumber = function() {
    var phoneNumber = $('#mobileNumber').val();
@@ -157,7 +230,6 @@ messageStorage.retrieve = function() {
       this.messageIndex = storageObj.messageIndex;
       this.conversationGroups = storageObj.conversationGroups;
    }
-
 };
 
 messageStorage.save = function() {
@@ -177,7 +249,7 @@ function startLogin() {
    // if mobile # field is filled in, load page and begin oath
    if (validMobileNumber()) {
       credentials.mobileNumber = '+1' + getMobileNumber();
-      getAuthorizationCode(authorizationCodeSuccess, authorizationCodeFailed);
+      getAuthorizationCode(authorizationCodeSuccess, authorizationCodeFailed, true, false);
    } else {
       showAlertView("Please enter a 10 digit mobile number");
    }
@@ -232,24 +304,33 @@ function getAuthorizationResult() {
 $("#iframeAuthorization").on('load', getAuthorizationResult);
 
 function accessTokenSuccess(result) {
-   if (result.status >= 300 || result.invocationResult.statusCode >= 300)
+   if ((exists(result.status) && result.status >= 300) || 
+	   (exists(result.invocationResult.statusCode)) >= 300)
+   {
       accessTokenFail(result);
-
+   }
+   
    credentials.accessToken = result.invocationResult.accessToken;
    credentials.setExpiration(result.invocationResult.expiresIn);
    credentials.refreshToken = result.invocationResult.refreshToken;
-   credentials.setLoggedIn();
+   setAuthLabels();
+   if(!credentials.isLoggedIn()) {
+      credentials.setLoggedIn();
+      messageStorage.retrieve();
+      $.mobile.changePage("#page-messageList");
+   } else {
+	   console.log("Access token refreshed successfully");
+   }
    credentials.store();
-   console.log("credentials stored: " + JSON.stringify(credentials, null, 3));
-   messageStorage.retrieve();
-   $.mobile.changePage("#page-messageList");
+   credentials.setupAccessTokenTimer();
 }
 
 function accessTokenFail(error) {
    $("#iframeAuthorization").hide();
    showAlertView("Failed to acquire access. "
-         + JSON.stringify(error.invocationResult));
+         + JSON.stringify(error));
    busyIndicator.hide();
+   credentials.softLogout();
    $.mobile.changePage("#page-login");
 }
 
@@ -268,9 +349,15 @@ var determineStartPage = function() {
    // Check if access token is stored and is valid. If so, load the uber
    // conversation page
    credentials.retrieve();
-   if (credentials.isLoggedIn() && !credentials.expired()) {
-      messageStorage.retrieve();
-      $.mobile.changePage("#page-messageList");
+   if (credentials.isLoggedIn()) {
+	   if(!credentials.expired()) {
+		  credentials.setupAccessTokenTimer(); 
+	      messageStorage.retrieve();
+	      $.mobile.changePage("#page-messageList");
+	   } else {
+		   credentials.relogin();
+		   credentials.refreshAccessToken();
+	   }
    } else {
       $.mobile.changePage("#page-login");
    }
@@ -295,7 +382,12 @@ function showAlertView(message, alertCallback, title, buttonName) {
    if (!exists(title)) {
       title = "AT&T In App Messaging";
    }
-   navigator.notification.alert(message, alertCallback, title, buttonName);
+   if(numErrors < 3) {
+	  numErrors++;
+      navigator.notification.alert(message, alertCallback, title, buttonName);
+   } else {
+	   console.log(message);
+   }
 }
 
 function showConfirmAlert(message, alertCallback, title, buttonNames) {
@@ -303,7 +395,13 @@ function showConfirmAlert(message, alertCallback, title, buttonNames) {
    if(!exists(title)) {
       title="In App Messaging";
    }
-   navigator.notification.confirm(message, alertCallback, title, buttonNames);
+   
+   if(numErrors < 3) {
+	   numErrors++;
+       navigator.notification.confirm(message, alertCallback, title, buttonNames);
+   } else {
+      console.log(message);
+   }
 }
 
 $("#buttonConnect").on('tap', iamAppConnect);
@@ -355,15 +453,18 @@ $("#newMessage-btn").on('tap', function() {
    $("#recipientInput").val(selectedId);
    $.mobile.changePage("#page-sendMessage");
 });
+
 function loadMessages() {
+   if(credentials.expired()) return;
+   
    if (messageStorage.messageIndex == null
          || messageStorage.messageIndex.state == undefined) {
       messageStorage.init();
-      //console.log("initialized storage");
+      console.log("Initialized storage");
       invokeIamGetMessageIndexInfo(credentials.getAccessToken(),
             getMessageIndexInfoCallback);
    } else {
-      console.log("Storage exist.Fetching Deltas");
+      console.log("Fetching Deltas");
       var state = messageStorage.messageIndex.state;
       invokeIamGetMessageDelta(state, credentials.getAccessToken(),
             getMessageDeltaCallback);
@@ -439,22 +540,24 @@ function getMessageDeltaCallback(data) {
 }
 
 var requestFailed = function(result) {
-   if (!exists(result)) {
+    busyIndicator.hide();
+	if (!exists(result)) {
       showAlertView("Unable to process request - no result received.");
-      busyIndicator.hide();
       return true;
    } else if (exists(result.invocationResult.isSuccessful)) {
       if (result.invocationResult.isSuccessful == false
-            || (result.invocationResult.isSuccessful == true && result.invocationResult.statusCode >= 300)) {
-         busyIndicator.hide();
-         
-         showAlertView("Request failed: " + JSON.stringify(result));
-         return true;
+            || (result.invocationResult.isSuccessful == true && result.invocationResult.statusCode >= 300))
+      {
+    	 if(result.invocationResult.statusCode == 401) {
+    		 credentials.refreshAccessToken();
+    	 } else {
+            showAlertView("Request failed: " + JSON.stringify(result));
+    	 }
+    	 return true;
       } else {
          return false;
       }
    } else {
-      busyIndicator.hide();
       return false;
    }
 };
@@ -1093,6 +1196,10 @@ function downloadAttachment() {
 function getMessageContentCallback(data) {
    if (requestFailed(data))
       return;
+   var message = data.invocationResult.result.message;
+   
+   if(message == undefined) return;
+   
    var base64data = data.invocationResult.result.message.base64;
    contentData = data.invocationResult.result.message.contentType;
    var attachmentName = contentData.substring(contentData.lastIndexOf("=")+1, contentData.lastIndexOf(";")); 
@@ -1127,4 +1234,11 @@ function dataFile(bs64data) {
       } 
    fileArr = new Uint8Array(bArray);
    file=fileArr.buffer;
+}
+
+function setAuthLabels()
+{
+   $("label[for='accessToken']").text("AccessToken: " + credentials.accessToken.substring(1, 6) + "****");
+   $("label[for='refreshToken']").text("RefreshToken: " + credentials.refreshToken.substring(1, 6) + "****");
+   $("label[for='expiresAt']").text("Expires At: " + credentials.expiration);	
 }

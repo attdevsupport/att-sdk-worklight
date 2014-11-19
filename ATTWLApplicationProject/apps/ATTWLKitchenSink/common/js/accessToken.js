@@ -23,6 +23,10 @@ var accessTokenCallback = function(data)
 	}
 };
 
+var expireAccessToken = function() {
+	window.localStorage.accessTokenExpiresAt = Date.now();
+};
+
 var setupAccessTokenTimer = function()
 {
    var expiresAt = window.localStorage.getItem("accessTokenExpiresAt");
@@ -47,6 +51,55 @@ var clearConsentAccessToken = function()
    window.localStorage.removeItem("consentAaccessTokenExpiresAt");
    window.localStorage.removeItem("consentRefreshToken");
 };
+
+/**
+ * Revoke access token
+ */
+function revokeAccessToken()
+{
+	if(window.localStorage.accessToken != undefined) {
+	   expireAccessToken();
+	   revokeToken(window.localStorage.accessToken, 'access_token');
+	}
+};
+
+/**
+ * Revoke refresh token
+ */
+function revokeRefreshToken()
+{
+	if(window.localStorage.refreshToken != undefined) {	
+	   revokeToken(window.localStorage.refreshToken, 'refresh_token');
+	}
+};
+
+/**
+ * Revoke token
+ */
+function revokeToken(tokenToRevoke, tokenType)
+{
+	options = {
+		onFailure : function(error) {
+			oAuthLog += tokenType + ' revoke failed: ' + JSON.stringify(error);
+		},
+		onSuccess : function(result) {
+			oAuthLog += tokenType + ' successfully revoked';
+		},
+		invocationContext : {}
+	};
+
+	params = {};
+	params.token = tokenToRevoke;
+	params.tokenType = tokenType;
+	
+	invocationData = {
+		adapter : 'OAuthAdapter',
+		procedure : 'revokeToken',
+		parameters : [ params ]
+	};
+
+	WL.Client.invokeProcedure(invocationData, options);	
+}
 
 /**
  * Function to authenticate the application and generate an access token which

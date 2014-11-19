@@ -60,24 +60,8 @@
     left:0px;
     z-index:0;
 }
-.iframeAndroid{
-    height:100%;
-    position:absolute;
-    top:50px;
-    width:100%;
-    left:0px;
-	z-index:1; 
-    background-color:#ffffff;
-}
-.iframeIphone{
-	position:relative;
-	z-index:1;
-	top:50px;
-	background-color:#ffffff;
-}
 
 .body .center{align:center} 
-
 
 .body .input {
     width:200px;
