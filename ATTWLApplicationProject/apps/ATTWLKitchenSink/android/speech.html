@@ -90,7 +90,7 @@
 			samplingRate : 8000,
 			encodingBitRate : 1220
 		} ];
-		alert("Sending these args to Recorder.start" + JSON.stringify(args));
+		// alert("Sending these args to Recorder.start" + JSON.stringify(args));
 		Cordova.exec(null, null, "Recorder", "start", args);
 		//$('#record').text('Recording.....').button("refresh");
 		$('#record').text('Recording.....');
