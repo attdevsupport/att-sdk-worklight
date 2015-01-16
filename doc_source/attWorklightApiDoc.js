@@ -1,6 +1,6 @@
 /**
  * @class ATT
- * The AT&#38;T API Platform Adapters for IBM&#174; Worklight&#174; provide the following APIs.
+ * The AT&#38;T API Platform Adapters for IBM&#174; Worklight&#174; provide support for the following AT&#38;T APIs:
  *
  * <ul>
  *   <li>{@link Advertising}</li>
@@ -15,7 +15,7 @@
 
 /**
  * @class SMSAdapter
- * The Short Message Service (SMS) API enables your app to reliably send and receive secure text messages to mobile devices on the AT&amp;T network.
+ * The Short Message Service (SMS) API enables your app to send SMS messages to one or more AT&amp;T Wireless mobile phones in a single request.
  * <p>Authorization Scope: <b>SMS</b></p>
  *
  * <b>The SMSAdapter API provides the following methods:</b>
@@ -31,11 +31,11 @@
  * Sends an SMS message to a recipient.
  * <p>Authorization Model: <b>client_credentials</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>SMSAdapter</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>sendSMS</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * <p>The defined values for this parameter are:</p>
  * <ul>
@@ -49,15 +49,15 @@
  *   <li><b>application/xml</b></li>
  *   <li><b>application/x-www-form-urlencoded</b></li>
  * </ul>
- * @param {Object} invocationData.parameters.params.body Specifies an object containing the following parameters.
- * @param {Object} invocationData.parameters.params.body.outBoundSMSRequest Specifies an object containing the following parameters.
+ * @param {Object} invocationData.parameters.params.body Specifies an object containing the following parameters:
+ * @param {Object} invocationData.parameters.params.body.outBoundSMSRequest Specifies an object containing the following parameters:
  * @param {String} invocationData.parameters.params.body.outBoundSMSRequest.address Specifies the MSISDN of the recipients. Use an array of strings for multiple addresses.
  * @param {String} invocationData.parameters.params.body.outBoundSMSRequest.message Specifies the text of the message to send.
  * @param {Boolean} [invocationData.parameters.params.body.outBoundSMSRequest.notifyDeliveryStatus] Indicates whether the app expects a delivery status notification. The defined values for this parameter are:
  * <ul>
  *   <li><b>true</b>
  *      <br/>
- *      Specifies that the API Gateway sends a push notification for each recipient to the enpoint URI which was specified when the app was registered. If no endpoint was specified when the app was registered, the response contains a bad request.
+ *      Specifies that the API Gateway send a push notification for each recipient to the endpoint URI specified when the app was registered. If no endpoint was specified when the app was registered, the response contains a bad request error.
  *   </li>
  *   <li><b>false</b>
  *      <br/>
@@ -74,10 +74,10 @@
  * <p>The default is <b>application/json</b>.</p>
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  * <ul>
  *   <li>Id : String
  *   <br/>
@@ -95,7 +95,7 @@
  *
  * <strong>Examples</strong>
  *
- * The following example sends the SMS message "Hello world" to the mobile number <b>1234567890</b>. For multiple phone numbers, separate the numbers by commas (,).
+ * The following example shows how to send the SMS message "Hello world" to the mobile number <b>1234567890</b>. For multiple phone numbers, separate the numbers with commas (,).
  *
  *     params = {
  *        'body' : {
@@ -140,11 +140,11 @@
  * Checks the status of a SMS messages sent by the app.
  * <p>Authorization Model: <b>client_credentials</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>SMSAdapter</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>getSMSDeliveryStatus</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getSMSDeliveryStatus</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * <p>The defined values for this parameter are:</p>
  * <ul>
@@ -161,10 +161,10 @@
  * <p>The default is <b>application/json</b>.</p>
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  * <ul>
  *   <li>DeliveryInfoList : Object
  *     <br/>
@@ -182,7 +182,7 @@
  *             The mobile number to which the message was sent.</li>
  *           <li>DeliveryStatus : String
  *             <br/>
- *             The status of the sent message. The following values are defined.
+ *             The status of the sent message. The following values are defined:
  *             <ul>
  *               <li>DeliveredToTerminal : String
  *                 <br/>
@@ -205,7 +205,7 @@
  *
  * <strong>Example:</strong>
  *
- * The following example gets the delivery status of SMS message for the mobile number <b>1234567890</b>.
+ * The following example gets the delivery status of SMS message for the mobile number <b>1234567890</b>:
  *
  *     params = {
  *        'Id' : 'tel:1234567890',
@@ -242,35 +242,35 @@
 
 /**
  * @method getSMS
- * Retrieves a list of the SMS messages that were sent to the application's short code.
+ * Retrieves a list of the SMS messages that were sent to the app's short code.
  * <p>Authorization Model: <b>client_credentials</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>SMSAdapter</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>getSMS</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getSMS</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * <p>The defined values for this parameter are:</p>
  * <ul>
  *   <li><b>application/json</b></li>
  *   <li><b>application/xml</b></li>
  * </ul>
- * @param {String} invocationData.parameters.params.registrationId Specifies the short code identifier (ID) of the application that is obtained when you register your application with AT&amp;T.
+ * @param {String} invocationData.parameters.params.registrationId Specifies the app's short code identifier (ID) obtained when you register your app with AT&amp;T.
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  * <ul>
  *   <li>InboundSmsMessageList : Object
  *     <br/>
- *     The list of messages. The list has the following parameters.
+ *     The list of messages. The list has the following parameters:
  *     <ul>
  *       <li>InboundSmsMessage : Object
  *         <br/>
- *         A specific message. Each message has the following parameters.
+ *         A specific message. Each message has the following parameters:
  *         <ul>
  *           <li>MessageId : String
  *           <br/>
@@ -298,7 +298,7 @@
  *
  * <strong>Example</strong>
  *
- * The following example gets the list of SMS messages sent to the short code <b>12345</b>
+ * The following example gets the list of SMS messages sent to the short code <b>12345</b>:
  *
  *     params = {
  *        'registrationId' : '123456',
@@ -322,7 +322,7 @@
  *          
  *     WL.Client.invokeProcedure(invocationData, options);
  *
- * The following example shows a JSON object returned by this method. The inbox contains one message, "Hello", from mobile number <code>1234567890</code>.
+ * The following example shows a JSON object returned by this method. The inbox contains one message, "Hello", from mobile number <code>1234567890</code>:
  *
  *     { 
  *        "InboundSmsMessageList": { 
@@ -341,10 +341,10 @@
 /**
  * @class OAuthAdapter
  * The AT&amp;T OAuthAdapter provides access to the AT&amp;T OAuth service.
- * The OAuth service provides a safe and secure way for AT&amp;T subscribers to access AT&amp;T network resources through a third-party application without requiring the end-user to provide credentials (such as username and password) to the third party application and without the risk of compromising security. The OAuth service ensures that secure, sensitive, and private AT&amp;T subscription details are not exposed to the third-party application.
- * <p>OAuth authorization management is an open standard recognized as providing a strong protection to clients and applications. The OAuth service provides developers with a security model that allows them to obtain an authorization code and an access token. By acquiring an authorization code, a resource owner has authorized an application to access a protected resource on their behalf. The receipt of an access token enables an application to access a protected resource on behalf of a resource owner via the AT&amp;T network.</p>
+ * The OAuth service provides a safe and secure way for AT&amp;T subscribers to access AT&amp;T network resources through a third-party app without the risk of compromising security. The OAuth service ensures that secure, sensitive, and private AT&amp;T subscription details are not exposed to the third-party application. This API enables third-party apps to access the private resources of the customer without requiring the customer to provide credentials to the third-party app, such as a user name and password.
+ * <p>OAuth authorization management is an open framework recognized as providing a strong protection to clients and applications. The OAuth service provides you with a security model that allows you to obtain an authorization code and an access token. By acquiring an OAuth authorization code, a customer authorizes an app to access a protected resource on behalf of the customer. The receipt of an OAuth access token enables an app to access a protected resource on behalf of a customer via the AT&amp;T Wireless network.</p>
  *
- * <b>The OAuthAdapter provides access to the following methods.</b>
+ * <b>The OAuthAdapter provides access to the following methods:</b>
  *
  * - {@link OAuthAdapter#getAccessToken}
  * - {@link OAuthAdapter#getAuthCode}
@@ -356,23 +356,23 @@
  * @method getAccessToken
  * Retrieves an OAuth access token from the AT&amp;T authorization server.
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>OAuthAdapter</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getAccessToken</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.contentType Specifies the format of the contents of the <b>params</b> parameter. The only defined value for this parameter is <b>application/x-www-form-urlencoded</b>.
  * @param {String} [invocationData.parameters.params.code] Specifies the authorization code. This value is returned in the response object of the {@link OAuthAdapter#getAuthCode} method. This parameter is required when using the {@link DeviceCapabilities} API and ignored by other APIs.
  * @param {String} [invocationData.parameters.params.refreshToken] Specifies the refresh token as returned in the response object to a previous call to this method.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} A JSON object containing the results of the call. This object has the following parameters.
+ * @return {Object} A JSON object containing the results of the call. This object has the following parameters:
  * <ul>
  *   <li>access_token
  *     <br/>
- *     Specifies a token that is used to request access to an API. If the value of the <i>grant_type</i> parameter in the request is <b>authorization_code</b>, use this value in an API call on the behalf of the user. If the value of the <i>grant_type</i> parameter in the request is <b>client_credentials</b>, use this value in an API method call on the behalf of the app.</li>
+ *     Specifies a token used to request access to an API. If the value of the <i>grant_type</i> parameter in the request is <b>authorization_code</b>, use this value in an API call on behalf of the user. If the value of the <i>grant_type</i> parameter in the request is <b>client_credentials</b>, use this value in an API method call on behalf of the app.</li>
  *   <li>expires_in
  *     <br/>
  *     Specifies the number of seconds before the access token expires. A value of zero (0) indicates that the access token does not expire.</li>
@@ -383,7 +383,7 @@
  *
  * <b>Examples</b>
  *
- * The following example gets an OAuth access token.
+ * The following example shows how to get an OAuth access token:
  *
  *     params = {
  *        accept : 'application/json'
@@ -401,7 +401,7 @@
  *  
  *     WL.Client.invokeProcedure(invocationData, options);
  *
- * The following example shows a JSON object returned by this method.
+ * The following example shows a JSON object returned by this method:
  *
  *     {
  *        "access_token":"a07af07a0f7ad0fa0ss7fu",
@@ -413,21 +413,21 @@
 
 /**
  * @method getAuthCode
- * Retrieves an OAuth authorization code that is required to obtain an OAuth access token. This method is the initial operation in the OAuth call flow. It is invoked by an application that requires subscriber authorization in order to obtain an OAuth access token. The application's request for an OAuth access token is forwarded by redirecting the subscriber's browser to the AT&amp;T Gateway OAuth Server.
- * This method must be used to get the user's permissionto to use the {@link DeviceCapabilities} API.
+ * Retrieves an OAuth authorization code required to obtain an OAuth access token. This method is the initial operation in the OAuth call flow. It is invoked by an application that requires subscriber authorization in order to obtain an OAuth access token. The application's request for an OAuth access token is forwarded by redirecting the subscriber's browser to the AT&amp;T Gateway OAuth Server.
+ * This method must be used to get the user's permission to use the {@link DeviceCapabilities} API.
  * 
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>OAuthAdapter</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getAuthCode</b>.
- * @param {Array}  invocationData.parameters Specifies an empty array.
+ * @param {Array} invocationData.parameters Specifies an empty array.
  * @param {Object} invocationData.parameters.params Contains options for authorization
- * @param {Boolean} invocationData.parameters.params.bypassOnnetworkAuth  If this boolean is true, user consent will not the on-network consent flow.
- * @param {Boolean} invocationData.parameters.params.suppressLandingPage  If this boolean is true, when the user has an AT&T RememberMe cookie, they will not see an AT&T landing page that allows them to change consent. 
+ * @param {Boolean} invocationData.parameters.params.bypassOnnetworkAuth If this boolean is true, user consent will bypass the on-network consent flow.
+ * @param {Boolean} invocationData.parameters.params.suppressLandingPage If this boolean is true, when the user has an AT&amp;T RememberMe cookie, they will not see an AT&amp;T landing page that allows them to change consent. 
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} Specifies a query parameter that is included with the redirect_url parameter of the authorize method in the original OAuth request.
+ * @return {Object} Specifies a query parameter included with the redirect_url parameter of the authorize method in the original OAuth request.
  * <ul>
  *   <li>code
  *     <br/>
@@ -436,7 +436,7 @@
  *
  * <b>Examples</b>
  *
- * The following example gets the end user authorization.
+ * The following example obtains user authorization:
  *
  *     var params = {bypassOnnetworkAuth: true, suppressLandingPage: false};
  *
@@ -455,8 +455,7 @@
  * The following example shows the response from this method:
  *     https://api.att.com/oauth/v4/authorize?custom_param=bypass_onnetwork_auth
  * 
- * User consent for your application starts at this URL.  Show the contents of this URL to your user so they may provide API consent.  Once the consent flow is complete (allowed or dis-allowed), your user will be
- * redirected to the below URL, where <strong>https://yourAppRedirectURL</strong> is your AT&T developer app redirect URL and <strong>ABCDEF0123456789</strong> is the authorization code.
+ * User consent for your application starts at this URL. Show the contents of this URL to your user so they may provide API consent. Once the consent flow is complete (allowed or dis-allowed), your user will be redirected to the following URL, where <strong>https://yourAppRedirectURL</strong> is your AT&amp;T developer app redirect URL and <strong>ABCDEF0123456789</strong> is the authorization code.
  *
  *     https://yourAppRedirectURL?code=ABCDEF0123456789
  * or 
@@ -467,25 +466,25 @@
  * @method revokeToken
  * Revokes an OAuth access token on the AT&amp;T authorization server.
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>OAuthAdapter</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>revokeToken</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
- * @param {String} invocationData.parameters.params.token Specifies the token token you wish to revoke
- * @param {String} invocationData.parameters.params.tokenType Specifies the type of token.  Valid values are "access_token" or "refresh_token".  If you specify "refresh_token", the access token will also be revoked.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
+ * @param {String} invocationData.parameters.params.token Specifies the token you wish to revoke.
+ * @param {String} invocationData.parameters.params.tokenType Specifies the type of token.  Valid values are "access_token" or "refresh_token". If you specify "refresh_token", the access token will also be revoked.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} A JSON object containing the results of the call. This object has the following parameters.
+ * @return {Object} A JSON object containing the results of the call. This object has the following parameters:
  * <ul>
- *   <li>message Specifies a success or fail message </li>
+ *   <li><i>message</i> Specifies a success or fail message. </li>
  * </ul>
  *
  * <b>Examples</b>
  *
- * The following example gets an OAuth access token.
+ * The following example demonstrates how to obtain an OAuth access token:
  *
  *     params = {
  *        token: 'abcdef',
@@ -509,10 +508,10 @@
 
 /**
  * @class SpeechAdapter
- * The Speech API enables your app to transcribe speech (audio) to text using different contexts.
+ * The Speech API enables your app to transcribe audio data into text based upon contexts specified in the request and uses a global dictionary for grammar.
  * <p>Authorization Scope: <b>SPEECH</b></p>
  *
- * <b>The SpeechAdapter API provides the following methods.</b>
+ * <b>The SpeechAdapter API provides the following methods:</b>
  *
  * {@link SpeechAdapter#speechToText}
  */
@@ -522,7 +521,7 @@
  * Retrieves a text translation of the specified audio file using the specified speech context.
  *
  * <b>Limitations</b>
- * <p>This method has the following limitations.</p>
+ * <p>This method has the following limitations:</p>
  * <ul>
  *   <li>It accepts only an audio data file or streaming (chunked) audio data as input.</li>
  *   <li>
@@ -539,11 +538,11 @@
  *
  * Authorization Scope: <b>client_credentials</b>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>SpeechAdapter</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>speechToText</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * <p>The defined values for this parameter are:</p>
  * <ul>
@@ -554,7 +553,7 @@
  * <p>The default is <b>application/json</b>.</p>
  * @param {String} invocationData.parameters.params.fileObject Specifies the base-64 encoded file data.
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} [invocationData.parameters.params.XSpeechContent] Specifies the speech context that is applied to the transcribed text to improve the accuracy of the results. The defined values for this parameter are:
+ * @param {String} [invocationData.parameters.params.XSpeechContent] Specifies the speech context to be applied to the transcribed text to improve the accuracy of the results. The defined values for this parameter are:
  * <ul>
  *   <li>BusinessSearch
  *     <br/>
@@ -590,17 +589,17 @@
  * 
  * @param {Number} invocationData.parameters.params.contentLength The length, in bytes, of the audio. This parameter is required for a non-streaming request on iOS.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  *
- * The following parameters are returned in the response when the <b>accept</b> value is <b>application/emma+xml</b>.
+ * The following parameters are returned in the response when the <b>accept</b> value is <b>application/emma+xml</b>:
  *
  * <ul>
  *   <li>emma:emma : Object
  *     <br/>
- *     Container for the <a href"http://www.w3.org/TR/emma/">EMMA</a> (Extensible Multimodal Annotation markup language) parameters.
+ *     Container for the <a href="http://www.w3.org/TR/emma/">EMMA</a> (Extensible Multimodal Annotation markup language) parameters.
  *     <ul>
  *       <li>version : Number
  *         <br/>
@@ -614,7 +613,7 @@
  *             Specifies the disjunction type. The only defined value for this parameter is <b>recognition</b>.</li>
  *           <li>emma:medium : String
  *             <br/>
- *             Specifies the acousting medium. The only defined value for this parameter is <b>acoustic</b>.</li>
+ *             Specifies the acoustic medium. The only defined value for this parameter is <b>acoustic</b>.</li>
  *           <li>emma:mode : String
  *             <br/>
  *             Specifies the input mode. The only defined value for this parameter is <b>voice</b>.</li>
@@ -686,7 +685,7 @@
  * <ul>
  *   <li>Recognition : Object
  *     <br/>
- *     Container for the following parameters.
+ *     Container for the following parameters:
  *     <ul>
  *       <li>Status : String
  *         <br/>
@@ -943,7 +942,7 @@
  *             Specifies the text resulting from the speech translation.</li>
  *           <li>LanguageId : String
  *             <br/>
- *             Specifies the language in which the <b>Hypothesis</b> parameter is encoded. This five-letter value consists of the two-letter ISO639 language code, followed by a hypen (<b>-</b>), and finally followed by the two-letter country code, such as <b>en-us</b>, which specifies US English.</li>
+ *             Specifies the language in which the <b>Hypothesis</b> parameter is encoded. This five-letter value consists of a two-letter ISO639 language code, followed by a hyphen (<b>-</b>) and a two-letter country code, such as <b>en-us</b> for US English.</li>
  *           <li class="optional">NluHypothesis
  *             <br/>
  *             Container for the initial interpretation of the speech. These parameters only apply when the <b>xSpeechContext</b> parameter is <b>TV</b>.
@@ -982,7 +981,7 @@
  *
  * <b>Examples</b>
  *
- * The following example translates the contents as a web search.
+ * The following example shows a request for translation of contents as a web search:
  *
  *     var params = {
  *        "fileObject" : "pad7f-9asffhnawe097y...",
@@ -1022,7 +1021,7 @@
 
 /**
  * @class DeviceCapabilities
- * The Device Capabilities API enables your app to identify the capabilities of a device on the AT&amp;T network.
+ * The Device Capabilities API retrieves device specific information for a given AT&amp;T wireless subscriber.
  * <p>Authorization Scope: <b>DC</b></p>
  * <p><b>Other Considerations</b></p>
  * <ul>
@@ -1033,7 +1032,7 @@
  *   <li>The resulting attributes contain AT&amp;T-specific, comma-delimited strings of <i>name</i>:<i>value</i> pairs.</li>
  * </ul>
  * 
- * <b>The Device Capabilities API provides the following methods.</b>
+ * <b>The Device Capabilities API provides the following methods:</b>
  *
  * - {@link DeviceCapabilities#getDeviceCapabilities}
  *
@@ -1044,11 +1043,11 @@
  * Retrieves information, such as the model and whether it accepts a WAP push, about the device. The device must be using an AT&amp;T mobile data connection.
  * <p>Authorization Model: <b>authorization_code</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>DeviceCapabilities</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getDeviceCapabilities</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * <p>The defined values for this parameter are:</p>
  * <ul>
@@ -1058,18 +1057,18 @@
  * <p>The default is <b>application/json</b>.</p>
  * @param {String} invocationData.parameters.params.oAuthToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} options An object containing the success and failure callbacks.
- * @param {Function} options.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} options.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} options.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} options.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  * <ul>
  *   <li>DeviceInfo
  *     <br/>
- *     Specifies a JSON object containing the following parameters.
+ *     Specifies a JSON object containing the following parameters:
  *     <ul>
  *       <li>DeviceId
  *         <br/>
- *         Specifies a JSON object containing the following parameters.
+ *         Specifies a JSON object containing the following parameters:
  *         <ul>
  *           <li>TypeAllocationCode
  *             <br/>
@@ -1080,11 +1079,11 @@
  *   </li>
  *   <li>Capabilities
  *     <br/>
- *     Specifies a JSON object containing the following parameters.
+ *     Specifies a JSON object containing the following parameters:
  *     <ul>
  *       <li>AssistedGps
  *         <br/>
- *         Specifies whether the device supports assisted-GPS. The defined values for this parameter are:
+ *         Specifies whether the device supports assisted GPS. The defined values for this parameter are:
  * <ul>
  *   <li>Y
  *     <br/>
@@ -1097,7 +1096,7 @@
  *         Specifies the name of the browser, such as <b>RIM</b> for Blackberry device, that is resident on the device.</li>
  *       <li>FirmwareVersion
  *         <br/>
- *         Specifies the firmware release number used by AT&amp;T for the mobile device. This value may correspond to the firmware release number provided by the device manaufacturer.</li>
+ *         Specifies the firmware release number used by AT&amp;T for the mobile device. This value may correspond to the firmware release number provided by the device manufacturer.</li>
  *       <li>LocationTechnology
  *         <br/>
  *         Specifies the location technology network that the device supports.</li>
@@ -1126,7 +1125,7 @@
  *         Specifies the abbreviated code used by AT&amp;T for the manufacturer of the mobile device. This value may correspond to the name of the device manufacturer in the User Agent Profile.</li>
  *       <li>WapPushCapable
  *         <br/>
- *         Specifies whether the device supports WAP Push.  The defined values for this parameter are:
+ *         Specifies whether the device supports WAP Push. The defined values for this parameter are:
  *       </li>
  * <ul>
  *   <li>Y
@@ -1139,7 +1138,7 @@
  *
  * <b>Examples</b>
  *
- * The following example retrieves the device capabilities for the user with the token value <b>1a2b3c4d5e6f7g8h9i0j</b>.
+ * The following example retrieves the device capabilities for the user with the token value <b>1a2b3c4d5e6f7g8h9i0j</b>:
  *
  *     params = {
  *        'oAuthToken' : '1a2b3c4d5e6f7g8h9i0j'
@@ -1157,13 +1156,13 @@
  *  
  *     WL.Client.invokeProcedure(invocationData, options);
  *
- * The following example shows a JSON object returned by this method.
+ * The following example shows a JSON object returned by this method:
  *
  *     { 
  *        "DeviceInfo": "DeviceId":{ 
  *           "TypeAllocationCode" : " 01196499" 
  *        }, 
- *        "Capablities": { 
+ *        "Capabilities": { 
  *           "Name" : "LGE CU920", 
  *           "Vendor":  "LGE", 
  *           "Model":  "CU920", 
@@ -1180,7 +1179,7 @@
  
 /**
  * @class Advertising
- * The Advertising API enables your app to support advertisements within the app. This allows the developer of the application to collect a revenue share of the advertisement. When users click the advertisement in the app, they are redirected to detailed information regarding the advertisement, such as a web page.
+ * The Advertising API enables your app to fetch advertisements to be placed within the app. This allows you to collect a revenue share from the advertisement. Users are redirected to the advertisement page when the advertisement is clicked.
  * 
  * <b>The Advertising API provides the following methods:</b>
  *
@@ -1193,11 +1192,11 @@
  * Retrieves the ads appropriate for the specified audience.
  * <p>Authorization Model: <b>client_credentials</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>Advertising</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getAds</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * <p>The defined values for this parameter are:</p>
@@ -1206,7 +1205,7 @@
  *   <li><b>application/xml</b></li>
  * </ul>
  * <p>The default is <b>application/json</b>.</p>
- * @param {Object} invocationData.parameters.params.queryParameters Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData.parameters.params.queryParameters Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.queryParameters.Category Specifies the category of the app.
  * The defined values for this parameter are:
  * <ul>
@@ -1246,17 +1245,17 @@
  *   <li>F</li>
  * </ul>
  *
- * @param {Number} [invocationData.parameters.params.queryParameters.ZipCode] Specifies the USA zip code of the app user.
- * @param {Number} [invocationData.parameters.params.queryParameters.AreaCode] Specifies the USA area code of the app user
- * @param {String} [invocationData.parameters.params.queryParameters.City] Specifies the the USA city and state of the user.
- * @param {String} [invocationData.parameters.params.queryParameters.Country] Specifies the three-letter, ISO-3166 country code of the user.
- * @param {String} [invocationData.parameters.params.queryParameters.Longitude] Specifies the current longitude, in degrees, of the geographical position for the mobile device.
- * @param {String} [invocationData.parameters.params.queryParameters.Latitude] Specifies the current latitude, in degrees, of the geographical position for the mobile device.
- * @param {Number} [invocationData.parameters.params.queryParameters.MaxHeight] Specifies the maximum height, in pixels, of the advertisement banner. The height of the content can be less than or equal to, but not greater than, this value.
- * @param {Number} [invocationData.parameters.params.queryParameters.MinHeight] Specifies the minimum height, in pixels, of the advertisement banner. The height of the content may be greater than or equal to, but not less than, this value.
- * @param {Number} [invocationData.parameters.params.queryParameters.MaxWidth] Specifies the maximum width, in pixels, of the advertisement banner. The width of the content may be less than or equal to, but not greater than, this value.
- * @param {Number} [invocationData.parameters.params.queryParameters.MinWidth] Specifies the minimum width, in pixels, of the advertisement banner. The width of the content may be greater than or equal to, but not less than this value.
- * @param {Number} [invocationData.parameters.params.queryParameters.Timeout] Specifies the timeout, in milliseconds, of this method. This is the maximum time the user is willing to wait for a response. The maximum value is 3000ms (three seconds) and the default value is 1000ms (one second).
+ * @param {Number} [invocationData.parameters.params.queryParameters.ZipCode] Specifies the user's USA zip code.
+ * @param {Number} [invocationData.parameters.params.queryParameters.AreaCode] Specifies the user's USA area code.
+ * @param {String} [invocationData.parameters.params.queryParameters.City] Specifies the user's USA city and state.
+ * @param {String} [invocationData.parameters.params.queryParameters.Country] Specifies the user's three-letter, ISO-3166 country code.
+ * @param {String} [invocationData.parameters.params.queryParameters.Longitude] Specifies the current longitude of the geographical position for the mobile device, in degrees.
+ * @param {String} [invocationData.parameters.params.queryParameters.Latitude] Specifies the current latitude of the geographical position for the mobile device, in degrees.
+ * @param {Number} [invocationData.parameters.params.queryParameters.MaxHeight] Specifies the maximum height of the advertisement banner, in pixels.
+ * @param {Number} [invocationData.parameters.params.queryParameters.MinHeight] Specifies the minimum height of the advertisement banner, in pixels.
+ * @param {Number} [invocationData.parameters.params.queryParameters.MaxWidth] Specifies the maximum width, in pixels, of the advertisement banner.
+ * @param {Number} [invocationData.parameters.params.queryParameters.MinWidth] Specifies the minimum width of the advertisement banner, in pixels. 
+ * @param {Number} [invocationData.parameters.params.queryParameters.Timeout] Specifies the timeout of this method, in milliseconds. This is the maximum time the user is willing to wait for a response. The maximum value is 3000ms (three seconds) and the default value is 1000ms (one second).
  * @param {String} [invocationData.parameters.params.queryParameters.AgeGroup] The age group of the demographic audience of the app.
  * The defined values for this parameter are:
  * <ul>
@@ -1276,7 +1275,7 @@
  *   <li>Show all ads.</li>
  * </ol>
  *
- * @param {String} [invocationData.parameters.params.queryParameters.Keywords] Specifies the keywords that are used to filter the ads. The values are not case-sensitive and multiple values must be separated by commas. For example, to filter for ads about music, tv, or games, use "music,tv,games".
+ * @param {String} [invocationData.parameters.params.queryParameters.Keywords] Specifies the keywords used to filter the ads. The values are not case-sensitive and multiple values must be separated by commas. For example, to filter for ads about music, tv, or games, use "music,tv,games".
  * @param {Number} [invocationData.parameters.params.queryParameters.Premium] Specifies whether to show premium ads.
  * The defined values for this parameter are:
  * <ol start="0">
@@ -1286,18 +1285,18 @@
  * </ol>
  *
  * @param {Object} options A JSON object containing the success and failure callbacks.
- * @param {Function} options.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} options.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} options.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} options.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  * <ul>
  *   <li>AdsResponse
  *     <br/>
- *     Specifies an object containing the following parameters.
+ *     Specifies an object containing the following parameters:
  *     <ul>
  *       <li>Ads
  *         <br/>
- *         Specifies an object containing the following parameters.
+ *         Specifies an object containing the following parameters:
  *         <ul>
  *           <li>ClickUrl
  *             <br/>
@@ -1323,7 +1322,7 @@
  *
  * <b>Examples</b>
  *
- * The following example retrieves ads related to music.
+ * The following example shows how to retrieve ads related to music:
  *
  *     params = {
  *        'accessToken' : '1a2b3c4d5e6f7g8h9i0j',
@@ -1344,7 +1343,7 @@
  *  
  *     WL.Client.invokeProcedure(invocationData, options);
  *
- * The following example shows a JSON object returned by this method.
+ * The following example shows a JSON object returned by this method:
  *
  *     {
  *        "AdsResponse": {
@@ -1366,7 +1365,7 @@
  * The TextToSpeech API enables your app to convert text to different speech audio formats.
  * <p>Authorization Scope: <b>TTS</b></p>
  *
- * <b>The TextToSpeech API provides the following methods.</b>
+ * <b>The TextToSpeech API provides the following methods:</b>
  * <ul>
  *   <li>{@link TextToSpeech#textToSpeech}</li>
  * </ul>
@@ -1377,14 +1376,14 @@
  * Gets an audio transcription of the specified text.
  * <p>Authorization Model: <b>client_credentials</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>TextToSpeech</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b> textToSpeech</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.body The text to convert into speech.
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.contentType Specifies the format of the text to convert. The following values are defined for this parameter.
+ * @param {String} invocationData.parameters.params.contentType Specifies the format of the text to convert. The following values are defined for this parameter:
  * <ul>
  *   <li>text/plain
  *     <br/>
@@ -1394,7 +1393,7 @@
  *     The content is in the Speech Synthesis Markup Language format.</li>
  * </ul>
  *
- * @param {String} [invocationData.parameters.params.accept] Specifies the format of the base64-encoded body of the response. The following values are defined for this parameter.
+ * @param {String} [invocationData.parameters.params.accept] Specifies the format of the base64-encoded body of the response. The following values are defined for this parameter:
  * <ul>
  *   <li>audio/amr
  *     <br/>
@@ -1407,7 +1406,7 @@
  *     Base64-encoded Waveform.</li>
  * </ul>
  * 
- * @param {String} invocationData.parameters.params.contentLanguage The language of the text in the <b>body</b> parameter value. The following values are defined for this parameter.
+ * @param {String} invocationData.parameters.params.contentLanguage The language of the text in the <b>body</b> parameter value. The following values are defined for this parameter:
  * <ul>
  *   <li>en-US
  *     <br/>
@@ -1418,16 +1417,16 @@
  * </ul>
  *
  * @param {Number} invocationData.parameters.params.contentLength Specifies the length, in bytes, of the text in the <b>body</b> value.
- * @param {String} invocationData.parameters.params.xArg Specifies the multipart paramaters for the X-Arg header.
+ * @param {String} invocationData.parameters.params.xArg Specifies the multipart parameters for the X-Arg header.
  * @param {Object} options An object containing the success and failure callbacks.
- * @param {Function} options.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} options.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} options.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} options.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} Binary data in the format specified by the <b>accept</b> parameter, or audio/amr-wb (Adaptive Multi-Rate Wideband), if the <b>accept</b> parameter is not specified, containing the audio transcription.
  *
  * <b>Example</b>
  *
- * The following example gets a WAV version of the text "Hello world".
+ * The following example gets a WAV version of the text "Hello world":
  *
  *     params = {
  *        'accept' : 'audio/x-wav',
@@ -1455,10 +1454,9 @@
 
 /**
  * @class InAppMessaging
- * The In App Messaging API enables 
- * your app to reliably send and receive secure SMS and MMS messages on behalf of an AT&amp;T subscriber
+ * The In-App Messaging API sends, receives, updates, and deletes MMS and SMS messages on behalf of a specific user after confirming explicit user consent.
  * <p>Authorization Scope: <b>IMMN,MIM</b></p>
- * <p>The InAppMessaging adapter only supports JSON requests and responses.  No XML or binary is supported since Worklight RPC is a JSON protocol.</p>
+ * <p>The InAppMessaging adapter only supports JSON requests and responses. No XML or binary is supported since Worklight RPC is a JSON protocol.</p>
  *
  * <b>The InAppMessaging adapter API provides the following methods:</b>
  *
@@ -1482,28 +1480,28 @@
  * Sends a message to a recipient.
  * <p>Authorization Model: <b>client_consent</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
  * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>sendMessage</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
- * @param {String} invocationData.parameters.params.accessToken Specifies access token for authorization
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
+ * @param {String} invocationData.parameters.params.accessToken Specifies access token for authorization.
  * @param {Object} invocationData.parameters.params.messageRequest Specifies a JSON object of the message, containing the following parameters:
- * @param {String} invocationData.parameters.params.messageRequest.addresses Specifies a comma seperated list of phone numbers (prefix with "tel:"), short codes (prefix with "short:"), and email addresses
- * @param {String} [invocationData.parameters.params.messageRequest.text] Specifies the text to be sent in a message 
- * @param {String} [invocationData.parameters.params.messageRequest.subject] Specifies the message subject 
- * @param {Boolean} [invocationData.parameters.params.messageRequest.isGroup] Specifies if the message is a broadcast to a group
- * @param {Array} [invocationData.parameters.params.messageRequest.messageContent] Array of file attachements
- * @param {String} [invocationData.parameters.params.messageRequest.messageContent.fileName] String for the filename of the media content 
- * @param {String} [invocationData.parameters.params.messageRequest.messageContent.content-type] Specifies the content type this media
- * @param {String} [invocationData.parameters.params.messageRequest.messageContent.content-transfer-encoding] The only accepted value when using Worklight is "BASE64" 
- * @param {String} [invocationData.parameters.params.messageRequest.messageContent.body] A string containing the BASE64 encoded attachment
+ * @param {String} invocationData.parameters.params.messageRequest.addresses Specifies a comma-separated list of phone numbers (prefix with "tel:"), short codes (prefix with "short:"), and email addresses.
+ * @param {String} [invocationData.parameters.params.messageRequest.text] Specifies the text to be sent in a message.
+ * @param {String} [invocationData.parameters.params.messageRequest.subject] Specifies the message subject. 
+ * @param {Boolean} [invocationData.parameters.params.messageRequest.isGroup] Specifies whether the message is a broadcast to a group.
+ * @param {Array} [invocationData.parameters.params.messageRequest.messageContent] Specifies any file attachments.
+ * @param {String} [invocationData.parameters.params.messageRequest.messageContent.fileName] Specifies the filename of the media content. 
+ * @param {String} [invocationData.parameters.params.messageRequest.messageContent.content-type] Specifies the content type of this media.
+ * @param {String} [invocationData.parameters.params.messageRequest.messageContent.content-transfer-encoding] The only accepted value when using Worklight is "BASE64". 
+ * @param {String} [invocationData.parameters.params.messageRequest.messageContent.body] Contains the BASE64 encoded attachment.
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. The object contains the following parameters:
  * <ul>
  *   <li>Id : String
  *   <br/>
@@ -1513,7 +1511,7 @@
  *
  * <strong>Example</strong>
  *
- * The following example sends the message "Hello world" and some attachements to the mobile number <b>1234567890</b>. For multiple phone numbers, separate the numbers by commas (,).
+ * The following example shows how to send the message "Hello world" and attachments to the mobile number <b>1234567890</b>. For multiple phone numbers, separate the numbers by commas (,).
  *
  *     params = {
  *        'body' : {
@@ -1556,7 +1554,7 @@
  *      
  *     WL.Client.invokeProcedure(invocationData, options);
  *
- * The following example shows a JSON object returned by this method.
+ * The following example shows a JSON object returned by this method:
  * 
  *     { 
  *        "id": "a01234ff987654321"
@@ -1565,130 +1563,130 @@
 
 /**
  * @method getMessageList
- * Enables applications to request meta-data for one or more Subscriber Messages from the AT&T Messages environment.
+ * Enables applications to request meta-data for one or more messages from the customer's AT&amp;T Message inbox.
  * <p>Authorization Model: <b>authorization_code</b></p>
  * <p>Authorization Scope: <b>MIM</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>getMessageList</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getMessageList</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.messageIds This parameter gets the list of messages by passing in a comma delimited list of distinct message IDs. This is an OR-based subset. If this parameter is supplied, then it will override any other parameter given. It will ignore the other parameters.
- * @param {String} invocationData.parameters.params.limit This parameter defines the upper limit of the number of returned messages.  A maximum value of 500 is supported. 
- * @param {String} invocationData.parameters.params.offset This parameter defines the offset from the beginning of the ordered set of messages.
- * @param {String} [invocationData.parameters.params.isUnread] This parameter filters by the following isUnread flag statuses: "true" or "false". 
- * @param {String} [invocationData.parameters.params.type] This parameter supports filter by message type of "SMS" or "MMS". Note: If the parameter is not passed, the type will default to "SMS, MMS"
- * @param {String} [invocationData.parameters.params.keyword] Retrieve message by passing address as a filter criteria.  Currently supports only a address is supported. Note:  For US numbers, do not pass +1.
- * @param {Boolean} invocationData.parameters.params.isIncoming] Specifies filtering by isIncoming. Can be either true or false 
- * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {String} invocationData.parameters.params.messageIds Lists the messages by passing in a comma-delimited list of distinct message IDs. This is an OR-based subset. If this parameter is supplied, it will override any other parameter given.
+ * @param {String} invocationData.parameters.params.limit Defines the upper limit of the number of returned messages. A maximum value of 500 is supported. 
+ * @param {String} invocationData.parameters.params.offset Defines the offset from the beginning of the ordered set of messages.
+ * @param {String} [invocationData.parameters.params.isUnread] Filters messages using the isUnread flag statuses "true" or "false". 
+ * @param {String} [invocationData.parameters.params.type] Filters by message type of "SMS" or "MMS". Note: If the parameter is not passed, the type will default to "SMS, MMS".
+ * @param {String} [invocationData.parameters.params.keyword] Retrieves a message by passing the address as a filter criteria. Currently supports addresses only. Note: For US numbers, do not pass +1.
+ * @param {Boolean} invocationData.parameters.params.isIncoming] Specifies filtering by isIncoming. Can be either true or false. 
+ * @param {Object} callbacks Specifies an object containing the success and failure callbacks.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
- * @return {Object} An object containing the results of the call. This object has the following parameters.
+ * @return {Object} An object containing the results of the call. This object has the following parameters:
  * <ul>
- * <li>messageList:	Object containing a list of messages object and attributes about the list</li> 
+ * <li>messageList:	An object containing a list of messages object and attributes about the list</li> 
  * <ul>
- * <li>offset: Integer specifying the offset from the beginning of the ordered set of messages.</li>
- * <li>limit: An integer number representing the number of messages requested. </li>
- * <li>total: An integer number of total messages returned based on filter criteria.</li>
- * <li>state: An opaque string that denotes the current state of the mailbox in the platform.</li>
- * <li>cacheStatus:	String indicating the status of the message index cache. The following values could be returned
+ * <li>offset: The offset from the beginning of the ordered set of messages.</li>
+ * <li>limit: The number of messages requested. </li>
+ * <li>total: The number of total messages returned based on filter criteria.</li>
+ * <li>state: An opaque string denoting the current state of the mailbox in the platform.</li>
+ * <li>cacheStatus:	The status of the message index cache. The string may return the following values:
  * <ul>
  * <li>NOT_INITIALIZED</li>
  * <li>INITIALIZING</li>
  * <li>INITIALIZED</li>
  * <li>ERROR In this case the caller should re-initialize</li>
  * </ul>
- * <li>failedMessages An array of string messageIds returned only when specific messageIds were requested.  If one or more of the messages requested does not exist on the platform while the others requested exist. This field will indicate the ids of the messages that no longer exist.</li>
- * <li>messages: Object containing an array of message object</li>
+ * <li>failedMessages Returns an array of string messageIds only when specific messageIds are requested. If one or more of the messages do not exist on the platform while other requested messages exist, this field will indicate the IDs of the messages that no longer exist.</li>
+ * <li>messages: Specifies an array of message objects, including the following:</li>
  * <ul>
- * <li>messageId String of the unique message id</li>
- * <li>from String with the message sender</li>
- * <li>recipients A list of strings containing the recpients.  If a Group Message, this will contain multiple addresses</li>
+ * <li>messageId The unique message ID.</li>
+ * <li>from String with the message sender.</li>
+ * <li>recipients A list of strings containing the recipients. If a the message is a group message, this will contain multiple addresses.</li>
  * <li>Text	Message text string if type is TEXT.</li>
- * <li>mmsContent	List of Message part descriptions if type is MMS</li>
- * <li>timeStamp DateTime when the message was stored in the cloud.</li>
- * <li>isUnread Boolean indicating if message is unread.</li>
- * <li>type	String with the type of message "TEXT" or "MMS"</li>
- * <li>typeMetaData Object This parameter is part of the message object, which encapsulates message specific data fields.</li>
- * <li>isIncoming String in Indicates if message is incoming or not. Can be either "true" or "false"</li>
+ * <li>mmsContent	Object containing a list of message part descriptions if type is MMS.</li>
+ * <li>timeStamp Date and time when the message was stored in the cloud.</li>
+ * <li>isUnread Boolean indicating whether the message is unread.</li>
+ * <li>type	String indicating the type of message, "TEXT" or "MMS".</li>
+ * <li>typeMetaData Part of the message object encapsulating message specific data fields.</li>
+ * <li>isIncoming String indicating whether the message is incoming or not. Can be either "true" or "false".</li>
  * </ul></ul></ul>
  * <li>mmsContent Object</li>
  * <ul>
- * <li>contentName A String with the name of the content</li>
- * <li>contentType A String with the content type</li>
- * <li>contentURL A String with the relative URL to content<li>
- * <li>Type A string with the generic content type:  TEXT, IMAGE, AUDIO, VIDEO</li>
+ * <li>contentName Specifies the name of the content.</li>
+ * <li>contentType Specifies the content type.</li>
+ * <li>contentURL Specifies the relative URL to the content.<li>
+ * <li>Type Specifies the generic content type: TEXT, IMAGE, AUDIO, or VIDEO.</li>
  * </ul>
  * <li>typeMetaData Object</li>
  * <ul>
- * <li>isSegmented A Boolean that indicates if this message is part of a of a segmented SMS message.</li>
- * <li>segmentationDetails An Object containing the segmentation details</li>
- * <li>subject A string containing the message subject</li>
+ * <li>isSegmented Indicates whether this message is part of a segmented SMS message.</li>
+ * <li>segmentationDetails Specifies an object containing the segmentation details.</li>
+ * <li>subject Specifies the message subject.</li>
  * </ul>
  * <li>segmentationDetails Object</li>
  * <ul>
- * <li>segmentationMsgRefNumber An Integer reference number for messages that are part of the same segmented SMS message. This parameter only mandatory if segmentationDetails exists.</li>
- * <li>totalNumberOfParts An Integer Total number of segments for this segmented SMS message. This parameter only mandatory if segmentationDetails exists.</li>
- * <li>thisPartNumber An Integer with the segmentation part number for this particular message. This parameter only mandatory if segmentationDetails exists.</li>
+ * <li>segmentationMsgRefNumber Specifies a reference number for messages that are part of the same segmented SMS message. This parameter is mandatory if segmentationDetails exists.</li>
+ * <li>totalNumberOfParts Specifies the total number of segments for this segmented SMS message. This parameter is mandatory if segmentationDetails exists.</li>
+ * <li>thisPartNumber Specifies the segmentation part number for this particular message. This parameter is mandatory if segmentationDetails exists.</li>
  * </ul>
  *
  */
 
 /**
  * @method getMessage
- * The Get Message operation will get a single message from a subscriber’s message inbox.
+ * The Get Message operation retrieves a single message from a subscriber’s message inbox.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>MIM</b></p>
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>getMessage</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getMessage</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} [invocationData.parameters.params.accept] Specifies the format of the object returned.
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.messageId A message identifier representing a Subscriber Message in the AT&T Messages environment.
+ * @param {String} invocationData.parameters.params.messageId An identifier representing a message in the customer's AT&amp;T Message inbox.
  *
- * @return {Object} A Message Object containing the results 
+ * @return {Object} A Message Object containing the results. 
  */
 
 /**
  * @method getMessageContent
- * This methodo uses information returned by getMessageList to enable applications to fetch one or more subscriber messages from the AT&T Messages environment.
+ * This method uses information returned by getMessageList to fetch one or more messages from a user's AT&amp;T Message inbox.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>MIM</b></p>
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>getMessageContent</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getMessageContent</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.messageId A message identifier representing a Subscriber Message in the AT&T Messages environment.
- * @param {String} invocationData.parameters.params.partId A content identifier representing an attachment in the referenced Subscriber Message.
+ * @param {String} invocationData.parameters.params.messageId An identifier representing a message in the user's AT&amp;T Message inbox.
+ * @param {String} invocationData.parameters.params.partId A content identifier representing an attachment in the referenced message.
  *
- * @return {Object} an object containing the message content in BASE64 encoded form 
+ * @return {Object} an object containing the message content in BASE64 encoded form. 
  * 
  * { data: "4AAQSkZJRgABAgEAYABgAAD...7Q0YUGhvdG9zaG9wIDMuMAA4QklNA" }
  */
  
 /**
  * @method getMessagesDelta
- * This method provides capability to check for updates by passing in a client state.  
+ * This method provides the capability to check for updates by passing in a client state.  
  * This is typically used when a client goes from being offline to becoming online. 
- * If the subscriber’s mailbox index cache does not exist an error would be returned to the client and the client would have to re-initialize the cache.
+ * If the subscriber’s mailbox index cache does not exist, an error would be returned to the client and the client would have to re-initialize the cache.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>MIM</b></p>
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>getMessageDelta</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>getMessageDelta</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.state The client would have this string from a either the Get Message Index request, or from the getMessageList request.
+ * @param {String} invocationData.parameters.params.state The client would have this string from either the Get Message Index request, or from the getMessageList request.
  *
- * @return {Object} an object containing the deltaResponse object 
+ * @return {Object} an object containing the deltaResponse object. 
  * 
  * {"deltaResponse": {
  * "state": "I:1291659705|H4sIAAAAAAAAAGNgYAAAEtlB_wMAAAA|:,S:1291659706|H4sIAAAAAAAAAGNkYqzhyWBgHIUYkAkIB9oNIx0yQTECMkPF4aKcjIMHsLIOtAsoBZgeAABR7gcNIgQAAA|:,t:1348690584.000019000.N.00000000:,r:1346267668.000005000.N.00000000:,u:1336148844.000009000.N.00000000:,p:1292019761.000702000.N.00000000:,",
@@ -1735,20 +1733,20 @@
 
 /**
  * @method updateMessages
- * This operation allows the developer to update the flags that are associated with a collection of messages. The developer can pass in any number of messages.
+ * Updates the flags associated with a collection of messages. Any number of messages can be passed in.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>updateMessages</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>updateMessages</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {Array} invocationData.parameters.params.messages Array of message objects containting the flags that need updating
+ * @param {Array} invocationData.parameters.params.messages Specifies the message objects containing flags that need updating.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * <strong>Example messages object</strong>
  *   "messages":
@@ -1768,21 +1766,21 @@
  
 /**
  * @method updateMessage
- * This operation allows the developer to update the flags that are associated with a message.
+ * Updates the flags that are associated with a message.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>updateMessage</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>updateMessage</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {String} invocationData.parameters.params.messageId This parameter is the message identifier. 
- * @param {String} [invocationData.parameters.params.isUnread] This parameter filters by the following isUnread flag statuses: "true" or "false". 
+ * @param {String} [invocationData.parameters.params.isUnread] This parameter filters messages using the isUnread flag statuses "true" or "false". 
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} No content is returned, only HTTP Code 204 (No Content)
  *
@@ -1790,20 +1788,20 @@
 
  /**
  * @method deleteMessage
- * This operation gives the developer the ability to delete a message
+ * Deletes the specified message.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>deleteMessages</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>deleteMessages</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {String} invocationData.parameters.params.messageId The ID of the message to delete. 
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} No content is returned, only HTTP Code 204 (No Content)
  *
@@ -1811,20 +1809,20 @@
  
 /**
  * @method deleteMessages
- * This operation gives the developer the ability to delete messages in an inbox
+ * Deletes messages from a user's inbox.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>deleteMessages</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>deleteMessages</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.messageIds Comma delimited message ids list. 
+ * @param {String} invocationData.parameters.params.messageIds Comma-delimited message ID list. 
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} No content is returned, only HTTP Code 204 (No Content)
  *
@@ -1832,19 +1830,19 @@
 
 /**
  * @method createMessageIndex
- * This operation gives the developer the ability to delete a messages in an inbox.
+ * Creates an index cache for the user's AT&T Message inbox with prior user consent.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>createMessageIndex</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>createMessageIndex</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} No content is returned, only HTTP Code 202 (Accepted)
  *
@@ -1852,22 +1850,22 @@
 
 /**
  * @method getMessageIndexInfo
- * This operation gives the developer the ability to delete a messages in an inbox.
+ * Retrieves the state, status, and message count of the index cache for the user's inbox. For SMS messages, the text of the message is retrieved as well.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>createMessageIndex</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>createMessageIndex</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} A messageIndexInfo object is returned with the following parameters:
- * @param {String} status This parameters indicates the status of the message index cache. The following values could be returned
+ * @param {String} status This parameters indicates the status of the message index cache. The following values could be returned:
  *    <ul>
  *    <li>NOT_INITIALIZED</li>
  *    <li>INITIALIZING</li>
@@ -1881,20 +1879,20 @@
 
 /**
  * @method getNotificationConnectionDetails
- * This API provides capability to retrieve details about the credentials, endpoint and resource information to setup a notification connection.
+ * This method retrieves details about the credentials, endpoint and resource information for setting up a notification connection.
  * <p>Authorization Model: <b>client_authorization</b></p>
  * <p>Authorization Scope: <b>IMMN</b></p>
  *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
+ * @param {Object} invocationData Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>createMessageIndex</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
+ * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this parameter is <b>createMessageIndex</b>.
+ * @param {Array} invocationData.parameters Specifies an array that contains a JSON object.
+ * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters:
  * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.queues The name of the resource the client is interested in subscribing for notifications.  Currently supported resource is "TEXT", "MMS", or "TEXT,MMS". 
+ * @param {String} invocationData.parameters.params.queues The name of the resource the client is interested in subscribing for notifications. Currently supported resource is "TEXT", "MMS", or "TEXT,MMS". 
  * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
+ * @param {Function} callbacks.onSuccess Specifies the function called if the method returns success.
+ * @param {Function} callbacks.onFailure Specifies the function called if the method fails.
  *
  * @return {Object} A notificationConnectionDetails object is returned with the following parameters:
  * 
