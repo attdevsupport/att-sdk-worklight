@@ -23,6 +23,5 @@
    <procedure name="sendMessage"/>
    <procedure name="updateMessage"/>      
    <procedure name="updateMessages"/>
-   <procedure name="getNotificationConnectionDetails"/>      
  
 </wl:adapter>

@@ -163,34 +163,6 @@ function invokeIamGetMessageIndexInfo(accessToken, invokeCallback) {
    WL.Client.invokeProcedure(invocationData, options);
 }
 
-function invokeIamGetNotificationConnectionDetails(accessToken, invokeCallback) {
-   params = {
-      // 'accessToken': window.localStorage.oAuthToken
-      'accessToken' : accessToken
-   };
-
-   invocationData = {
-      adapter : 'InAppMessaging',
-      procedure : 'getNotificationConnectionDetails',
-      parameters : [ params ]
-   };
-
-   options = {
-      onSuccess : function(data) {
-         WL.Logger.debug("Success : Response is - " + JSON.stringify(data));
-         invokeCallback(data);
-      },
-      onFailure : function(error) {
-         WL.Logger.debug("Failure : Response is - " + error);
-         console.log(error);
-         invokeCallback(error);
-      },
-      invocationContext : {}
-   };
-
-   WL.Client.invokeProcedure(invocationData, options);
-}
-
 function invokeIamGetMessage(messageId, accessToken, invokeCallback) {
    params = {
       // 'accessToken': window.localStorage.oAuthToken

@@ -1471,7 +1471,6 @@
  * - {@link InAppMessaging#getMessageIndexInfo}
  * - {@link InAppMessaging#getMessageList}
  * - {@link InAppMessaging#sendMessage}
- * - {@link InAppMessaging#getNotificationConnectionDetails}
  * - {@link InAppMessaging#updateMessage}
  * - {@link InAppMessaging#updateMessages}
  *
@@ -1877,36 +1876,4 @@
  * @param {String} state This is an opaque string that denotes the current state of the mailbox in the platform.
  * @param {Number} messageCount Number of message indexes cached for the subscriber
  * 
- **/
-
-/**
- * @method getNotificationConnectionDetails
- * This API provides capability to retrieve details about the credentials, endpoint and resource information to setup a notification connection.
- * <p>Authorization Model: <b>client_authorization</b></p>
- * <p>Authorization Scope: <b>IMMN</b></p>
- *
- * @param {Object} invocationData Specifies a JSON object containing the following parameters.
- * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>InAppMessaging</b>.
- * @param {String} invocationData.procedure Specifies the name of the procedure. The only defined value for this paramter is <b>createMessageIndex</b>.
- * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
- * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
- * @param {String} invocationData.parameters.params.accessToken Specifies the access token, which is the value of the <b>access_token</b> parameter returned in the {@link OAuthAdapter#getAccessToken} method response.
- * @param {String} invocationData.parameters.params.queues The name of the resource the client is interested in subscribing for notifications.  Currently supported resource is "TEXT", "MMS", or "TEXT,MMS". 
- * @param {Object} callbacks An object containing the success and failure callbacks.
- * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
- * @param {Function} callbacks.onFailure Specifies the function that is called if the method fails.
- *
- * @return {Object} A notificationConnectionDetails object is returned with the following parameters:
- * 
- * {"notificationConnectionDetails": {
- *    "username":"fa26fb5c-e577-41c5-b024-150e8ed671bf",
- *    "password":"b9c1a24e-b235-4d69-95bb-81271939e017",
- *    "httpsUrl":"https://sockjs.messages.att.net/stomp",
- *    "wssUrl":"wss://sockjs.messages.att.net/stomp/websocket",
- *    "queues":
- *    {
- *        "text":"/queue/afb193a9-c427-43c2-84d2-e4771800b6fe"
- *    }
- * }
- *
  **/
