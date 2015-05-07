@@ -33,7 +33,7 @@ AT&T Platform APIs:
 <ul>
 <li>IBM MobileFirst Studio 7.0</li>
 <li>Xcode 6.3.1</li>
-<li>Android SDK Tools rev. 22.6.2</li>
+<li>Android SDK Tools rev. 24.2</li>
 <li>Apple Simulator: iOS 7.1 for both iPhone and iPad</li>
 <li>iPhone 4s and 5</li>
 <li>Android (Physical Device): 4.3, 4.4</li>
