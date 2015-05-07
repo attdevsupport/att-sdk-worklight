@@ -31,7 +31,7 @@ AT&T Platform APIs:
 
 ===============Tested versions===============
 <ul>
-<li>IBM Worklight Studio 6.2</li>
+<li>IBM MobileFirst Studio 7.0</li>
 <li>Xcode 5.0.2</li>
 <li>Android SDK Tools rev. 22.6.2</li>
 <li>Apple Simulator: iOS 7.1 for both iPhone and iPad</li>
