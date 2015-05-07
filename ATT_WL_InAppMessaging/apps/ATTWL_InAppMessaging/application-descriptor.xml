@@ -2,7 +2,9 @@
 <!-- Licensed Materials - Property of IBM
 			 5725-I43 (C) Copyright IBM Corp. 2006, 2013. All Rights Reserved.
 			 US Government Users Restricted Rights - Use, duplication or
-             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. --><!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="ATTWL_InAppMessaging" platformVersion="6.2.0.00.20140904-1709">
+             disclosure restricted by GSA ADP Schedule Contract with IBM Corp. -->
+<!-- Attribute "id" must be identical to application folder name -->
+<application xmlns="http://www.worklight.com/application-descriptor" id="ATTWL_InAppMessaging" platformVersion="7.0.0.00.20150430-1556">
     <displayName>ATTWL_InAppMessaging</displayName>
     <description>ATTWL_InAppMessaging</description>
     <author>

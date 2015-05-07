@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<wl:adapter xmlns:wl="http://www.worklight.com/integration" xmlns:http="http://www.worklight.com/integration/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="SMSAdapter">
-
-	<displayName>SMSAdapter</displayName>
+<wl:adapter xmlns:wl="http://www.ibm.com/mfp/integration" xmlns:http="http://www.ibm.com/mfp/integration/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="SMSAdapter">
+    <!--This adapter has been upgraded, For more information about the changes, see the "Adapter timeout and concurrency" topic in the product Knowledge Center.-->
+    <displayName>SMSAdapter</displayName>
 	<description>SMSAdapter</description>
 	<connectivity>
 		<connectionPolicy xsi:type="http:HTTPConnectionPolicyType">
 			<protocol>https</protocol>
             <domain>api.att.com</domain> 			
-			<port>443</port>			
-		</connectionPolicy>
-		<loadConstraints maxConcurrentConnectionsPerNode="2"/>
+			<port>443</port>
+            <connectionTimeoutInMilliseconds>30000</connectionTimeoutInMilliseconds>
+            <socketTimeoutInMilliseconds>30000</socketTimeoutInMilliseconds>
+            <!--The previous elements: <connectionTimeoutInMilliseconds> and <socketTimeoutInMilliseconds>, were added to <connectionPolicy> element. These elements correspond to TCP connection and socket timeouts when connecting to the back-end. For more details, see HTTP protocol specifications and "Adapter timeout and concurrency" topic in the product Knowledge Center.-->			
+		<maxConcurrentConnectionsPerNode>2</maxConcurrentConnectionsPerNode>
+            <!--The <maxConcurrentConnectionsPerNode> element has been moved from <loadConstraint> element (and loadConstraint has been commented out). This element sets the maximum number of concurrent requests to the backend. For more information, see the "Adapter timeout and concurrency" topic in the product Knowledge Center.-->
+        </connectionPolicy>
+		<!--<loadConstraints maxConcurrentConnectionsPerNode="2" />-->
 	</connectivity>
 	
 	<procedure name="sendSMS"/>
