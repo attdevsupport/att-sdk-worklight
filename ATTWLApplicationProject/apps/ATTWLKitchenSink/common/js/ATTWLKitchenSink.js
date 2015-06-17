@@ -69,14 +69,6 @@ function onFileError(error)
 	alert("Unable to access file system via Cordova. Error: " + JSON.stringify(error, null, 3));
 }
 
-/*document.addEventListener("deviceready", function()
-{
-	console.log("entered deviceready event listener");
-	alert("entered deviceready event listener");
-	getFileSystem();
-}, false);
-*/
-
 function exists(thing) 
 {
    return (typeof (thing) !== 'undefined');	
