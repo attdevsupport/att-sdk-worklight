@@ -8,7 +8,8 @@ var accessTokenCallback = function(data)
 	var accessToken = data.invocationResult.accessToken;
 
 	oAuthLog = oAuthLog + "\n" + Date.now() + " New tokens: \n" + JSON.stringify(data, null, 3);
-   $('#oAuthLogs').val(oAuthLog);
+    $('#oAuthLogs').val(oAuthLog);
+    
 	window.localStorage.accessToken = accessToken;
 	
 	// Storing time as Unix time stamp
