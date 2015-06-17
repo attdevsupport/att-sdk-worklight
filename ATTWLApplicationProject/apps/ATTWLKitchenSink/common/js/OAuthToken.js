@@ -7,12 +7,12 @@ var params = {}, invocationData = {}, options = {};
 function invokeOAuthToken(successCallback) {
 	   var params = {};
 	   
-	   if(bypassOnnetworkAuth != undefined && bypassOnnetworkAuth==true)
+	   if((window.bypassOnnetworkAuth != undefined) && (window.bypassOnnetworkAuth == true))
 	   {
 		   params.bypassOnnetworkAuth = true;
 	   }
 
-	   if(suppressLandingPage != undefined && suppressLandingPage==true)
+	   if((window.suppressLandingPage != undefined) && (window.suppressLandingPage == true))
 	   {
 		   params.suppressLandingPage = true;
 	   }
