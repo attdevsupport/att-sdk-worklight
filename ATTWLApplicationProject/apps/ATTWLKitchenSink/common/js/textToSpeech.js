@@ -53,6 +53,7 @@ playTextToSpeechResult = function(speechResult)
 { 
 	if(speechResult.status < 300 &&
 	   speechResult.invocationResult.isSuccessful &&
+	   speechResult.invocationResult.result.message &&
 	   parseInt(speechResult.invocationResult.result.message.code) < 300)
 	{
 		writeBase64ToBinaryFile(function (params)
