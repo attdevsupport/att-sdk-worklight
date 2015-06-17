@@ -5,9 +5,9 @@ var busyInd;
 function wlCommonInit(){
 	// Common initialization code goes here
 	busyInd = new WL.BusyIndicator('',{text : 'Loading...'});
-	
+
 	WL.Client.connect({
-	   onSuccess: generateAccessToken,
+	   onSuccess: function (transport) {generateAccessToken(WLJSX.emptyFunction);}, // ignore any success details
 	   onFailure: function(error) {
 		   alert("Unable to connect to Worklight Server" + JSON.stringify(error));
 	   }
