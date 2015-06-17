@@ -27,7 +27,15 @@ var fileScheme = "://";
 // but check for file system being defined already
 var getFileSystem = function()
 {
-	if(tempFileSystem != undefined) return;
+	// if we've already got the file system, return immediately
+	if (tempFileSystem != undefined) return;
+	
+	// if the file system isn't available yet, return immediately
+	if (!window.LocalFileSystem) {
+		WL.Logger.warn("LocalFileSystem global variable not defined");
+		return;
+	}
+	
     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0,
 		function onSuccess(fileSystem)
 		{
