@@ -8,10 +8,6 @@
 	// # How often heartbeat request will be sent to Worklight Server
 	//heartBeatIntervalInSecs: 20 * 60,
 	
-	// # Should application produce logs
-	// # Default value is true
-	enableLogger: true,
-	
 	// # The options of busy indicator used during application start up
 	busyOptions: {text: "Processing..."}
 };
