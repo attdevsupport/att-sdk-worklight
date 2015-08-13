@@ -381,39 +381,6 @@ function getMessageIndexInfo(options)
    return result; 
 }
 
-function getNotificationConnectionDetails(options)
-{
-   if(options !== undefined && options.accessToken !== undefined && options.accessToken.indexOf("Bearer ") == -1)
-   {
-      options.accessToken = 'Bearer ' + options.accessToken;
-   }
-   
-   var input = {
-         method :"get",
-         path : baseEndPoint+"notificationConnectionDetails",
-         headers: {
-            "Authorization": options.accessToken, 
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-         }
-   };
-
-   if(options !== undefined && options.queues !== undefined)
-   {
-      input.parameters = {};
-      input.parameters.queues = options.queues;     
-   }     
-   
-   input.headers = addClientSdk(input.headers);
-   
-  logInfo('>>>>InAppMessaging.getNotificationConnectionDetails request: \n'+com.worklight.common.js.util.JSObjectConverter.toFormattedString(input));
-   
-   var result=WL.Server.invokeHttp(input);
-   
-   logInfo('>>>>InAppMessaging.getNotificationConnectionDetails response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(result));
-   return result; 
-}
-
 function logInfo(value) {
 	WL.Logger.info(value);
 }

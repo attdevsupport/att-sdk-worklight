@@ -5,9 +5,9 @@ var busyInd;
 function wlCommonInit(){
 	// Common initialization code goes here
 	busyInd = new WL.BusyIndicator('',{text : 'Loading...'});
-	
+
 	WL.Client.connect({
-	   onSuccess: generateAccessToken,
+	   onSuccess: function (transport) {generateAccessToken(WLJSX.emptyFunction);}, // ignore any success details
 	   onFailure: function(error) {
 		   alert("Unable to connect to Worklight Server" + JSON.stringify(error));
 	   }
@@ -27,7 +27,15 @@ var fileScheme = "://";
 // but check for file system being defined already
 var getFileSystem = function()
 {
-	if(tempFileSystem != undefined) return;
+	// if we've already got the file system, return immediately
+	if (tempFileSystem != undefined) return;
+	
+	// if the file system isn't available yet, return immediately
+	if (!window.LocalFileSystem) {
+		WL.Logger.warn("LocalFileSystem global variable not defined");
+		return;
+	}
+	
     window.requestFileSystem(LocalFileSystem.TEMPORARY, 0,
 		function onSuccess(fileSystem)
 		{
@@ -60,14 +68,6 @@ function onFileError(error)
 {
 	alert("Unable to access file system via Cordova. Error: " + JSON.stringify(error, null, 3));
 }
-
-/*document.addEventListener("deviceready", function()
-{
-	console.log("entered deviceready event listener");
-	alert("entered deviceready event listener");
-	getFileSystem();
-}, false);
-*/
 
 function exists(thing) 
 {

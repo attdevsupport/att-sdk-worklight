@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Attribute "id" must be identical to application folder name --><application xmlns="http://www.worklight.com/application-descriptor" id="Banking" platformVersion="6.2.0.00.20140904-1709">
+<!-- Attribute "id" must be identical to application folder name -->
+<application xmlns="http://www.worklight.com/application-descriptor" id="Banking" platformVersion="7.0.0.00.20150430-1556">
     <displayName>Banking</displayName>
     <description>Banking</description>
     <author>

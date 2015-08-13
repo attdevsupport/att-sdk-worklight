@@ -160,6 +160,9 @@
     <feature name="WLTrusteer">
         <param name="android-package" value="com.worklight.androidgap.plugin.WLTrusteerPlugin" />
     </feature>
+    <feature name="WLAuthorizationManagerPlugin">
+        <param name="android-package" value="com.worklight.androidgap.plugin.WLAuthorizationManagerPlugin" />
+    </feature>
 
 <feature name="Recorder">
 		<param name="android-package" value="com.ATTWLKitchenSink.Recorder"/>

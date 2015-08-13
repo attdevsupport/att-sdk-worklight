@@ -1,21 +1,29 @@
 package com.att;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
+import java.net.URI;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.protocol.HTTP;
 import org.mozilla.javascript.Scriptable;
 
 import com.ibm.json.java.JSONObject;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
-//import com.worklight.server.integration.api.JSObjectConverter;
+import com.worklight.adapters.http.ssl.DelegatingTrustManager;
 import com.worklight.common.js.util.JSObjectConverter;
+import com.worklight.common.util.HttpUtil;
 
+import java.security.KeyStore;
 import java.util.logging.Logger;
 
 public class SpeechHelper
@@ -29,84 +37,72 @@ public class SpeechHelper
 		try
 		{
 			System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
-			theReturn = new JSONObject();
-			String host = (String) args.get(ATTConstant.ARG_URL);
-			url = new URL(host);
-			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
-			//HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
-			conn.setRequestMethod("POST");
-			//conn.setRequestMethod("GET");
-			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
+			theReturn = new JSONObject();
+			//most of the code here is Apache HTTP Client v4.1 except the class HttpUtil
+			HttpClient httpClient =  HttpUtil.createHttpClient(1);
+			TrustManager tm = new DelegatingTrustManager((KeyStore) null);
+			SSLContext sslContext = SSLContext.getInstance("TLS");
+			sslContext.init(null, new TrustManager[] { tm }, null);
+			SSLSocketFactory sslSocketFactory = new SSLSocketFactory(sslContext);
+
+			// register SSL socket factory for HTTPS
+			Scheme https = new Scheme("https", 443, sslSocketFactory);
+		
+			httpClient.getConnectionManager().getSchemeRegistry().register(https);
+
+			url = new URL((String) args.get(ATTConstant.ARG_URL));
+			URI uri = url.toURI();
+
+	        HttpPost request = new HttpPost(uri);
+
+	        request.addHeader("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_TYPE)) {
-				conn.setRequestProperty("Content-Type",
+				request.addHeader("Content-Type",
 						(String)args.get(ATTConstant.ARG_HEADER_CONTENT_TYPE));
 			}
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_LANGUAGE)) {
-				conn.setRequestProperty("Content-Language", (String)args.get(ATTConstant.ARG_HEADER_CONTENT_LANGUAGE));
+				request.addHeader("Content-Language", (String)args.get(ATTConstant.ARG_HEADER_CONTENT_LANGUAGE));
 			} else {
-				conn.setRequestProperty("Content-Language", ATTConstant.VAL_EN_US);
+				request.addHeader("Content-Language", ATTConstant.VAL_EN_US);
 			}			
 
 			if (args.containsKey(ATTConstant.ARG_HEADER_XSPEECH_CONTEXT)) {
-				conn.setRequestProperty("X-SpeechContext",
+				request.addHeader("X-SpeechContext",
 						(String)args.get(ATTConstant.ARG_HEADER_XSPEECH_CONTEXT));
 			}
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_XSPEECH_SUBCONTEXT)) {
-				conn.setRequestProperty("X-SpeechSubContext",
+				request.addHeader("X-SpeechSubContext",
 						(String)args.get(ATTConstant.ARG_HEADER_XSPEECH_SUBCONTEXT));
 			}
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_ACCEPT)) {
-				conn.setRequestProperty("Accept", (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
+				request.addHeader("Accept", (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
 			}
 					
 			String clientSdk = "ClientSdk=att_worklight-" + (String)args.get("platform") + "-" + 
 			   ATTConstant.ARG_HEADER_XARG_VERSION;
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
-				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
+				request.addHeader("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {
-				conn.setRequestProperty("X-Arg", clientSdk);
+				request.addHeader("X-Arg", clientSdk);
 			}
 			
 			String base64AudioString = (String)args.get(ATTConstant.ARG_FILEOBJECT);
 			Logger logger = Logger.getLogger("Speech Adapter");
-            logger.info("The received string is: " + base64AudioString);
+            logger.info("Base64 audio string starts with: " + base64AudioString.substring(0, 
+            	Math.min(15, Math.max(0, base64AudioString.length()-1))) + "...");
             
 			byte[] decoded = Base64.decode(base64AudioString);
 			
-			OutputStream wr = conn.getOutputStream();			
+			ByteArrayEntity entity=new ByteArrayEntity(decoded);
+			request.setEntity(entity);		
 			
-			wr.write(decoded);
-			wr.flush();
-			wr.close();
-			//System.out.println("********* Speech JAVA ADAPTER LOGS ***********");
-			//System.out.println("Headers***********");
-			//@SuppressWarnings("unchecked")
-			//Map<String,List<String>> header = conn.getHeaderFields();
-			//for (String key: header.keySet ())
-			//   System.out.println (key+": "+conn.getHeaderField (key));
+			HttpResponse httpResponse = httpClient.execute(request);
 			
-			JSONObject response = new JSONObject();
-			if (conn.getResponseCode() < 400) {
-				response = JSONObject.parse(conn.getInputStream());
-			} else {
-				StringBuffer errorString = new StringBuffer();
-				BufferedReader is = new BufferedReader(new InputStreamReader(
-						conn.getErrorStream()));
-				String str;
-				while (null != ((str = is.readLine()))) {
-					errorString.append(str);
-				}
-				is.close();
-				response.put("error",errorString.toString());
-			}
-			
-			theReturn.put("message", response);
+			theReturn.put("message", JSONObject.parse(httpResponse.getEntity().getContent()));
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -128,85 +124,85 @@ public class SpeechHelper
 		}
 		return theReturn;
 	}
-	
+
 	public JSONObject textToSpeech(Object input)
 	{
 		JSONObject args = (JSONObject) JSObjectConverter.scriptableToJSON((Scriptable) input);
 		JSONObject theReturn = null;
 		URL url = null;
+//		Logger logger = Logger.getLogger("Speech Adapter");
+		
 		try
 		{
 			theReturn = new JSONObject();
-			String host = (String) args.get(ATTConstant.ARG_URL);
-			url = new URL(host);
 			
-			HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+			HttpClient httpClient =  HttpUtil.createHttpClient(1);
+			TrustManager tm = new DelegatingTrustManager((KeyStore) null);
+			SSLContext sslContext = SSLContext.getInstance("TLS");
+			sslContext.init(null, new TrustManager[] { tm }, null);
+			SSLSocketFactory sslSocketFactory = new SSLSocketFactory(sslContext);
+
+			// register SSL socket factory for HTTPS
+			Scheme https = new Scheme("https", 443, sslSocketFactory);
+		
+			httpClient.getConnectionManager().getSchemeRegistry().register(https);
 			
-			conn.setDoOutput(true);
-			conn.setDoInput(true);
+			url = new URL((String) args.get(ATTConstant.ARG_URL));
+			URI uri = url.toURI();
+	        
+			HttpPost request = new HttpPost(uri);			
 			
-			conn.setRequestMethod("POST");
-			conn.setRequestProperty("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
+			request.addHeader("Authorization", (String) args.get(ATTConstant.ARG_TOKEN));
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_TYPE))
 			{
-				conn.setRequestProperty("Content-Type",
+				request.addHeader("Content-Type",
 					(String)args.get(ATTConstant.ARG_HEADER_CONTENT_TYPE));
 			} else {
-				conn.setRequestProperty("Content-Type", "text/plain");				
+				request.addHeader("Content-Type", "text/plain");				
 			}
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_ACCEPT)) {
-				conn.setRequestProperty(ATTConstant.ARG_HEADER_ACCEPT, (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
+				request.addHeader(ATTConstant.ARG_HEADER_ACCEPT, (String)args.get(ATTConstant.ARG_HEADER_ACCEPT));
 			} else {
-				conn.setRequestProperty(ATTConstant.ARG_HEADER_ACCEPT, ATTConstant.VAL_CONTENT_TYPE_AMRWB);
+				request.addHeader(ATTConstant.ARG_HEADER_ACCEPT, ATTConstant.VAL_CONTENT_TYPE_AMRWB);
 			}
 						
 			if (args.containsKey(ATTConstant.ARG_HEADER_CONTENT_LANGUAGE)) {
-				conn.setRequestProperty("Content-Language", (String)args.get(ATTConstant.ARG_HEADER_CONTENT_LANGUAGE));
+				request.addHeader("Content-Language", (String)args.get(ATTConstant.ARG_HEADER_CONTENT_LANGUAGE));
 			} else {
-				conn.setRequestProperty("Content-Language", ATTConstant.VAL_EN_US);
+				request.addHeader("Content-Language", ATTConstant.VAL_EN_US);
 			}
 			
 			String body = (String)args.get(ATTConstant.ARG_BODY);
-			conn.setRequestProperty("Content-Length", Integer.toString(body.length()));
 			
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
-				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG));
+				request.addHeader("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG));
 			}
 			
 			String clientSdk = "ClientSdk=att.worklight." + ATTConstant.ARG_HEADER_XARG_VERSION;
 			if (args.containsKey(ATTConstant.ARG_HEADER_XARG)) {
-				conn.setRequestProperty("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
+				request.addHeader("X-Arg", (String)args.get(ATTConstant.ARG_HEADER_XARG)+ "," + clientSdk);
 			} else {
-				conn.setRequestProperty("X-Arg", clientSdk);
+				request.addHeader("X-Arg", clientSdk);
 			}			
-
-			System.out.println("********* TextToSpeech JAVA ADAPTER LOGS ***********");		
 			
-			OutputStreamWriter outStream = new OutputStreamWriter(
-					conn.getOutputStream());
-			outStream.write(body);
-			outStream.flush();
-			outStream.close();
+			StringEntity entity = new StringEntity(body, HTTP.UTF_8);
+			request.setEntity(entity);
 			
-			/*@SuppressWarnings("unchecked")
-			Map<String,List<String>> header = conn.getHeaderFields();
-			for (String key: header.keySet ())
-			   System.out.println (key+": "+conn.getHeaderField (key));	
-		    */
+			HttpResponse httpResponse = httpClient.execute(request);
 			
-			int responseCode = conn.getResponseCode();
+			int responseCode = httpResponse.getStatusLine().getStatusCode();
 			String responseCodeString = Integer.toString(responseCode);
 			JSONObject response = new JSONObject();
 			response.put("code", responseCodeString);
 			
-			if (responseCode < 400) { // Handle binary response
+			if (responseCode < 400 && httpResponse.containsHeader("Content-Length")) { // Handle binary response
 				// Get all the headers to pass through
 				// Read the response and convert to base64
-				BufferedInputStream inputStream = new BufferedInputStream(conn.getInputStream());
+				BufferedInputStream inputStream = new BufferedInputStream(httpResponse.getEntity().getContent());
 				
-				int iContentLength = conn.getHeaderFieldInt("Content-Length", 0);
+				int iContentLength = Integer.parseInt(httpResponse.getHeaders("Content-Length")[0].getValue());
 				int totalRead = 0;
 				int currentRead = 0;
                 byte[] binaryBody = new byte[iContentLength];
@@ -217,18 +213,10 @@ public class SpeechHelper
                 
                 String encodedBody = Base64.encode(binaryBody); Base64.encode(binaryBody, iContentLength);
 				response.put("content", encodedBody.toString());
-				response.put("contentType", conn.getHeaderField("Content-Type") + ";base64");
-				response.put("contentLength", conn.getHeaderField("Content-Length"));
+				response.put("contentType", httpResponse.getHeaders("Content-Type")[0] + ";base64");
+				response.put("contentLength", encodedBody.length());
 			} else { // handle html response
-				StringBuffer errorString = new StringBuffer();
-				BufferedReader is = new BufferedReader(new InputStreamReader(
-						conn.getErrorStream()));
-				String str;
-				while (null != ((str = is.readLine()))) {
-					errorString.append(str);
-				}
-				is.close();
-				response.put("error",errorString.toString());				
+				response.put("error", JSONObject.parse(httpResponse.getEntity().getContent()));				
 			}
 			theReturn.put("message", response);
 		}
@@ -241,7 +229,7 @@ public class SpeechHelper
 				message = ATTConstant.ERR_INV_STATUS_MSG;
 			} else {
 				code = ATTConstant.ERR_PROCESS_REQ_CODE;
-				message = e.getLocalizedMessage();//ATTConstant.ERR_PROCESS_REQ_MSG;
+				message = e.toString(); //ATTConstant.ERR_PROCESS_REQ_MSG;
 			}
 			theReturn.put(code, message);
 			return theReturn;
@@ -250,5 +238,5 @@ public class SpeechHelper
 			args = null;
 		}
 		return theReturn;
-	}	
+	}
 }

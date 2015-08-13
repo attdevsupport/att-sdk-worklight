@@ -9,22 +9,24 @@
  */
 function textToSpeech(options)
 {
-	if(options.accessToken.indexOf("Bearer ") == -1)
+	if(options !== undefined && options.accessToken !== undefined &&
+	   options.accessToken !== "" && options.accessToken.indexOf("Bearer ") == -1)
 	{
 		options.accessToken = 'Bearer ' + options.accessToken;
 	}
-	
-	options.host = "https://api.att.com/speech/v3/textToSpeech";
+	var host = 'https://api.att.com/speech/v3/textToSpeech';
+	options.host = host;
 	
 	logInfo('********* textToSpeech ADAPTER LOGS ***********');
+
+	logInfo("Text: " + options.body);
 	
 	var speechHelper = new com.att.SpeechHelper();
 	
 	var response = speechHelper.textToSpeech(options); 
 
 	logInfo('Response : '+com.worklight.common.js.util.JSObjectConverter.toFormattedString(response));
-	
-	logInfo("Text: " + options.body);
+
 	return {
 		result: response
 	};	
