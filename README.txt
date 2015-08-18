@@ -6,7 +6,6 @@ The AT&T API Platform Adapters for IBM Worklight provide a simplified way for IB
 The AT&T Adapters provide interfaces that facilitate access to the following AT&T Platform APIs:
 
 • Advertising
-• Device Capabilities
 • In App Messaging
 • OAuth 2.0 Authentication Management
 • SMS

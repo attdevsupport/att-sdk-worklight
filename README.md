@@ -12,7 +12,6 @@ AT&T Platform APIs:
 
 <ul>
 <li>Advertising</li>
-<li>Device Capabilities</li>
 <li>In App Messaging</li>
 <li>OAuth</li>
 <li>SMS</li>
