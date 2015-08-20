@@ -361,7 +361,7 @@
  * @param {Array}  invocationData.parameters Specifies an array that contains a JSON object.
  * @param {Object} invocationData.parameters.params Specifies a JSON object containing the following parameters.
  * @param {String} invocationData.parameters.params.contentType Specifies the format of the contents of the <b>params</b> parameter. The only defined value for this parameter is <b>application/x-www-form-urlencoded</b>.
- * @param {String} [invocationData.parameters.params.code] Specifies the authorization code. This value is returned in the response object of the {@link OAuthAdapter#getAuthCode} method. This parameter is required when using the {@link DeviceCapabilities} API and ignored by other APIs.
+ * @param {String} [invocationData.parameters.params.code] Specifies the authorization code. This value is returned in the response object of the {@link OAuthAdapter#getAuthCode} method.
  * @param {String} [invocationData.parameters.params.refreshToken] Specifies the refresh token as returned in the response object to a previous call to this method.
  * @param {Object} callbacks An object containing the success and failure callbacks.
  * @param {Function} callbacks.onSuccess Specifies the function that is called if the method returns succeeds.
@@ -413,7 +413,6 @@
 /**
  * @method getAuthCode
  * Retrieves an OAuth authorization code that is required to obtain an OAuth access token. This method is the initial operation in the OAuth call flow. It is invoked by an application that requires subscriber authorization in order to obtain an OAuth access token. The application's request for an OAuth access token is forwarded by redirecting the subscriber's browser to the AT&amp;T Gateway OAuth Server.
- * This method must be used to get the user's permissionto to use the {@link DeviceCapabilities} API.
  * 
  * @param {Object} invocationData Specifies a JSON object containing the following parameters.
  * @param {String} invocationData.adapter Specifies the name of the adapter. The only defined value for this parameter is <b>OAuthAdapter</b>.

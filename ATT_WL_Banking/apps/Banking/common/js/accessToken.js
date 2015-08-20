@@ -22,7 +22,6 @@ function generateAccessToken(successCallback) {
 	};
 	if(successCallback!==undefined)
 	{
-		// Token for Device Capability
 		if (window.localStorage.oAuthToken != null
 				&& window.localStorage.oAuthToken != undefined && window.localStorage.oAuthToken != 'null') {
 			options['onSuccess'] = successCallback;

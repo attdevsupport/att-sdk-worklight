@@ -126,7 +126,7 @@ function generateAccessToken(successCallback)
 	
 	if(successCallback!==undefined)
 	{
-		// End-user authorized access token for Device Capability & IMMN
+		// End-user authorized access token for IMMN
 		if (window.localStorage.oAuthToken != null
 				&& window.localStorage.oAuthToken != undefined && window.localStorage.oAuthToken != 'null') {
 			options['onSuccess'] = successCallback;
